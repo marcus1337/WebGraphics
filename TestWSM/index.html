@@ -24,14 +24,30 @@
     document.getElementsByTagName("body")[0].onresize = CanvasResize;
 
     var Module = {
-      canvas: demo_canvas
-      };
+      canvas: demo_canvas,
+      setStatus: function(text) {
+        if(text == '') {
+          OnSampleSuccess();
+        } else {
+          console.log(text);
+        }
+      }
+    };
 
     function CanvasResize() {
       const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       const height = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
-      Module.resizeWindow(width,height);
+      Module.resizeWindow(width-1,height);
     }
+
+    function OnSampleSuccess() {
+      CanvasResize();
+    }
+
+    document.addEventListener("fullscreenchange", function() {
+      CanvasResize();
+    });
+  
   </script>
 
   <script type="text/javascript" src="AniLib.js"></script>  
