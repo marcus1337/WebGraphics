@@ -6,10 +6,10 @@
 #include <glm/ext.hpp>
 #include <iostream>
 
-//#ifdef EMSCRIPTEM
+#ifdef EMSCRIPTEN
     #include <emscripten.h>
     #include <emscripten/html5.h>
-//#endif
+#endif
 
 #include "App.h"
 
@@ -21,10 +21,10 @@ void oneLoop(){
 
 int main(int argc, char *argv[]){
 
-    //#ifdef EMSCRIPTEN
+    #ifdef EMSCRIPTEN
         emscripten_set_main_loop(oneLoop, 0, 1);
-    //#else
-      //  app.run();
-    //#endif
+    #else
+        app.run();
+    #endif
     return 0;
 }
