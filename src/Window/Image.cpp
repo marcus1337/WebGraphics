@@ -1,4 +1,4 @@
-#include "Image.h"
+#include "Window/Image.h"
 
 #include <iostream>
 #include <glm/gtx/quaternion.hpp>
@@ -41,8 +41,9 @@ void Image::setNormalOnOff(bool _on) {
 
 void Image::init(GLData& _gldata) {
     glData = &_gldata;
-   // programID = _gldata.getProgram(GLData::Program::);
-   // textureID = _gldata.getTexture(GLData::Texture::);
+    programID = _gldata.getProgram(GLData::Program::IMAGE);
+    textureID = _gldata.getTexture(GLData::Texture::STALL);
+    std::cout << programID << "\n\n\n";
     initVBO();
 }
 
@@ -119,10 +120,14 @@ void Image::draw() {
     float usingNormal = isNormalUsed ? 1.0f : 0.0f;
     glUniform1f(glGetUniformLocation(programID, "usingNormalMap"), usingNormal);
 
+    GLuint mTex1Handle0  = glGetUniformLocation( programID, "tex");
+    glUniform1i(mTex1Handle0, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
     if (isNormalUsed) {
+        GLuint mTex1Handle1  = glGetUniformLocation( programID, "normalMap");
+        glUniform1i(mTex1Handle1, 1);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalID);
     }

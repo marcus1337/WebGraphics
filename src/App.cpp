@@ -33,10 +33,11 @@ bool App::isGameUpdate() {
 void App::drawStep() { 
     beginDraw();
 
-    modelManager.arrowModel.useTexture = false;
-    modelManager.arrowModel.setScale(0.2f, 0.2f, 0.2f);
-    modelManager.arrowModel.setRotation(0.f, 0.f, 90.f);
-    modelManager.arrowModel.draw(io, matrixdata);
+    image.setProgram(GLData::Program::IMAGE);
+    image.setTexture(GLData::Texture::STALL);
+    image.scale = glm::vec3(1.0, 1.0, 1.0f);
+    image.setTextureArea(glm::vec2(1.f, 1.f), glm::vec2(0, 0));
+    image.draw();
     
     endDraw();
 }

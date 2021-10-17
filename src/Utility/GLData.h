@@ -13,7 +13,7 @@
 
 class GLData {
 public:
-    enum class Program{MODEL = 0};
+    enum class Program{MODEL = 0, IMAGE, TEXT};
     enum class Texture{STALL = 0};
 
 private:

@@ -13,7 +13,7 @@
 #define FLOOR_H
 
 class Image {
-
+    
     void initVBO();
     glm::mat4 getMVP();
     glm::mat4 getModel();

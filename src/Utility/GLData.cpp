@@ -20,6 +20,9 @@ GLuint GLData::makeProgram(Program program) {
     if (program == Program::MODEL){
         programID = GLUtils::loadShaderProgram("model.vert", "model.frag", shaderFilePath);
     }
+    if (program == Program::IMAGE){
+        programID = GLUtils::loadShaderProgram("image.vert", "image.frag", shaderFilePath);
+    }
 
     if (programID != -1)
         programs[program] = programID;

@@ -26,7 +26,6 @@ void Model::draw(IO& io, MatrixData& matrixData)
 
     GLuint mTex1Handle  = glGetUniformLocation( programID, "tex");
     glUniform1i(mTex1Handle, 0);
-    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
