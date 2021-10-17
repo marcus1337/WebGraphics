@@ -184,7 +184,16 @@ bool MyWindow::initWindow() {
     return EXIT_SUCCESS;
 }
 
+void MyWindow::resizeWindow(int _width, int _height){
+    glfwSetWindowSize(window, _width, _height);
+    glViewport(0, 0, _width, _height);
+    SCR_WIDTH = _width;
+    SCR_HEIGHT = _height;
 
+    P11 = 1.f / tanf(glm::radians(camera.Zoom) / 2.f);
+    projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+    view = camera.GetViewMatrix();
+}
 
 
 bool MyWindow::initGLFW()

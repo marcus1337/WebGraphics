@@ -63,6 +63,8 @@ public:
     void handleFrame();
     float P11 = 1.f;
 
+    void resizeWindow(int width, int height);
+
 };
 
 #endif

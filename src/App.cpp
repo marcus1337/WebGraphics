@@ -110,3 +110,6 @@ void App::updatePage()
 
 }
 
+void App::resizeWindow(int _width, int _height){
+    mywindow.resizeWindow(_width, _height);
+}

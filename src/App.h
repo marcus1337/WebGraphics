@@ -29,8 +29,6 @@ class App {
     MyWindow mywindow;
     ModelManager modelManager;
 
-    const int screenWidth = 800;
-    const int screenHeight = 450;
     uint64_t gameTicks = 0;
     long long MS_FRAME;
     long long MS_PASSED;
@@ -56,6 +54,8 @@ public:
     void beginImGuiDraw();
     void beginDraw();
     void run();
+
+    void resizeWindow(int _width, int _height);
 
 };
 

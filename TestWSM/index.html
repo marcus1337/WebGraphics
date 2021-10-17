@@ -6,21 +6,32 @@
       body{
         background-color:rgb(49, 30, 30);
       }
+      html, body, div, canvas {
+        margin: 0;
+        padding: 0;
+      }
     </style>
   
   </head>
   
   <body>
 
-  <canvas id="canvas"></canvas>
+  <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
   
   <script>
   	var demo_canvas = document.getElementById("canvas");
-    //demo_canvas.width = 500;
-    //demo_canvas.height = 500;
+
+    document.getElementsByTagName("body")[0].onresize = CanvasResize;
+
     var Module = {
       canvas: demo_canvas
       };
+
+    function CanvasResize() {
+      const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      const height = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+      Module.resizeWindow(width,height);
+    }
   </script>
 
   <script type="text/javascript" src="AniLib.js"></script>  
