@@ -36,7 +36,6 @@ void App::drawStep() {
     image.setProgram(GLData::Program::IMAGE);
     image.setTexture(GLData::Texture::STALL);
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
-    image.setTextureArea(glm::vec2(1.f, 1.f), glm::vec2(0, 0));
     image.draw();
     
     endDraw();
