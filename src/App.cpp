@@ -1,18 +1,18 @@
 
 #include "App.h"
 
-
 #include "glm/glm.hpp"
 #include <filesystem>
 
 bool App::keepRunning = true;
 
-uint64_t App::getTicks() {
+uint64_t App::getTicks()
+{
     return gameTicks;
 }
 
-
-void App::init() {
+void App::init()
+{
     mywindow.initWindow();
     MS_PASSED = 0;
     MS_FRAME = 16600;
@@ -21,8 +21,8 @@ void App::init() {
     modelManager.init(io);
 }
 
-
-bool App::isGameUpdate() {
+bool App::isGameUpdate()
+{
     using namespace std::chrono;
     steady_clock::time_point timeGameUpdate = steady_clock::now();
     MS_PASSED += duration_cast<microseconds>(timeGameUpdate - timeSinceGameUpdate).count();
@@ -30,14 +30,15 @@ bool App::isGameUpdate() {
     return MS_PASSED >= MS_FRAME;
 }
 
-void App::drawStep() { 
+void App::drawStep()
+{
     beginDraw();
 
     image.setProgram(GLData::Program::IMAGE);
     image.setTexture(GLData::Texture::STALL);
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
     image.draw();
-    
+
     endDraw();
 }
 
@@ -47,7 +48,6 @@ void App::endDraw()
     glfwSwapBuffers(mywindow.window);
 }
 
-
 void App::beginDraw()
 {
     glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
@@ -56,49 +56,53 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    matrixdata = MatrixData(camera.GetViewMatrix(), camera.GetPerspectiveMatrix(mywindow.SCR_WIDTH,mywindow.SCR_HEIGHT));
+    matrixdata = MatrixData(camera.GetViewMatrix(), camera.GetPerspectiveMatrix(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT));
     image.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
-void App::run() {
-    while (keepRunning && !glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram) {
+void App::run()
+{
+    while (keepRunning && !glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram)
+    {
         gameStep();
     }
 }
 
-App::App() : camera(glm::vec3(0.0f, 0.0f, 4.0f)) {
+App::App() : camera(glm::vec3(0.0f, 0.0f, 4.0f))
+{
     init();
 }
 
-App::~App() {
-
+App::~App()
+{
 }
 
-void App::gameStep() {
-    if (isGameUpdate()) {
-        glfwPollEvents();
-
-        mywindow.mouse.beginFrame();
-
-        camera.move(mywindow.mouse, mywindow.keyboard);
+void App::gameStep()
+{
+    if (isGameUpdate())
+    {
         gameTicks++;
         MS_PASSED = 0;
-        updatePage();
+        glfwPollEvents();
+        mywindow.mouse.beginFrame();
+
+        update();
         drawStep();
 
         mywindow.mouse.endFrame();
     }
 
-    #ifndef EMSCRIPTEN
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    #endif
+#ifndef EMSCRIPTEN
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+#endif
 }
 
-void App::updatePage()
+void App::update()
 {
-
+    camera.move(mywindow.mouse, mywindow.keyboard);
 }
 
-void App::resizeWindow(int _width, int _height){
+void App::resizeWindow(int _width, int _height)
+{
     mywindow.resizeWindow(_width, _height);
 }

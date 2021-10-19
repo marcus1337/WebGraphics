@@ -88,7 +88,7 @@ bool MyWindow::initGLFW()
     setWindowHints();
     glfwSwapInterval(1);
 
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Mototrica", nullptr, nullptr);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "WebGL_UI", nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
