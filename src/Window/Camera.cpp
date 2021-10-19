@@ -25,6 +25,8 @@ glm::mat4 Camera::GetViewMatrix()
 }
 
 glm::mat4 Camera::GetPerspectiveMatrix(int windowWidth, int windowHeight){
+    if(windowHeight == 0)
+        return glm::mat4{};
     return glm::perspective(glm::radians(Zoom), (float)windowWidth / (float)windowHeight, 0.01f, 500.0f);
 }
 

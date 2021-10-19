@@ -23,6 +23,8 @@
 
 class App {
 
+    Camera camera;
+
     IO io;
     MatrixData matrixdata;
     Image image;

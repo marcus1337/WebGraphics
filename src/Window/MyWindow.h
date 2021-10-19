@@ -43,7 +43,6 @@ public:
     int SCR_WIDTH = 800;
     int SCR_HEIGHT = 600;
 
-    Camera winCamera;
     float deltaMouseX = 0;
     float deltaMouseY = 0;
     float lastX = 0.0f;
@@ -58,7 +57,6 @@ public:
     void moveCamera(Camera& camera);
     bool initWindow();
     bool initGLFW();
-    void handleFrame();
 
     MyWindow();
     ~MyWindow();

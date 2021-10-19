@@ -130,8 +130,6 @@ glm::vec2 MyWindow::getRelativeMousePosition(float _fromX, float _fromY, float _
 auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-    //mw->winCamera.ProcessMouseScroll(yoffset);
-
 }
 
 bool MyWindow::initWindow() {
@@ -217,18 +215,9 @@ bool MyWindow::initGLFW()
 }
 
 
-MyWindow::MyWindow() :winCamera(glm::vec3(0.0f, 0.0f, 4.0f)) {}
-
-
-
+MyWindow::MyWindow() {}
 MyWindow::~MyWindow() {
     glfwTerminate();
-}
-
-void MyWindow::handleFrame() {
-    if (SCR_HEIGHT == 0)
-        SCR_HEIGHT = 1;
-    projection = glm::perspective(glm::radians(winCamera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 500.0f);
 }
 
 void MyWindow::moveCamera(Camera& camera) {
