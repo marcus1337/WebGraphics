@@ -7,12 +7,12 @@ auto MyWindow::mouse_button_callback(GLFWwindow* window, int button, int action,
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
-        mw->isLeftMousePressed = true;
+        mw->mouse.isLeftMousePressed = true;
     }
 
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
     {
-        mw->isLeftMousePressed = false;
+        mw->mouse.isLeftMousePressed = false;
     }
 
 }
@@ -100,30 +100,7 @@ auto MyWindow::window_size_callback(GLFWwindow* window, int width, int height)
 auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-    if (mw->firstMouse)
-    {
-        mw->lastX = xpos;
-        mw->lastY = ypos;
-        mw->firstMouse = false;
-    }
-
-    mw->deltaMouseX += xpos - mw->lastX;
-    mw->deltaMouseY += mw->lastY - ypos; // reversed since y-coordinates go from bottom to top
-    mw->lastX = xpos;
-    mw->lastY = ypos;
-}
-
-glm::vec2 MyWindow::getRelativeMousePosition(float _fromX, float _fromY, float _toX, float _toY)
-{
-    if (SCR_WIDTH == 0.0f || SCR_HEIGHT == 0.0f)
-        return glm::vec2(0, 0);
-
-    glm::vec2 relativeMousePosition = glm::vec2(lastX / (float)SCR_WIDTH, lastY / (float)SCR_HEIGHT);
-    relativeMousePosition.x -= _fromX;
-    relativeMousePosition.y -= _fromY;
-    relativeMousePosition.x /= (_toX - _fromX);
-    relativeMousePosition.y /= (_toY - _fromY);
-    return relativeMousePosition;
+    mw->mouse.drag(xpos,ypos);
 }
 
 
@@ -221,8 +198,7 @@ MyWindow::~MyWindow() {
 }
 
 void MyWindow::moveCamera(Camera& camera) {
-    camera.ProcessMouseMovement(deltaMouseX, deltaMouseY);
-    deltaMouseX = deltaMouseY = 0;
+    camera.ProcessMouseMovement(mouse.deltaMouseX, mouse.deltaMouseY);
 
     if (goForward)
         camera.ProcessKeyboard(FORWARD, 0);

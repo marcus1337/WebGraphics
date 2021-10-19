@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include <map>
 #include <string>
+#include "Mouse.h"
 
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
@@ -27,10 +28,6 @@ class MyWindow {
 public:
     void resizeWindow(int width, int height);
 
-    bool isLeftMousePressed = false;
-    bool wasLeftMousePressed = false;
-    bool wasLeftMouseReleased = false;
-
     bool quitProgram = false;
     bool goForward = false;
     bool goBack = false;
@@ -43,15 +40,8 @@ public:
     int SCR_WIDTH = 800;
     int SCR_HEIGHT = 600;
 
-    float deltaMouseX = 0;
-    float deltaMouseY = 0;
-    float lastX = 0.0f;
-    float lastY = 0.0f;
-    bool firstMouse = true;
+    Mouse mouse;
 
-    glm::mat4 projection, view;
-
-    glm::vec2 getRelativeMousePosition(float _fromX = 0.f, float _fromY = 0.f, float _toX = 1.f, float _toY = 1.f);
     static void debugKeys(MyWindow* mywindow, GLFWwindow* window);
 
     void moveCamera(Camera& camera);

@@ -78,12 +78,7 @@ void App::gameStep() {
     if (isGameUpdate()) {
         glfwPollEvents();
 
-        if (!mywindow.wasLeftMousePressed && mywindow.isLeftMousePressed)
-            mywindow.wasLeftMousePressed = true;
-        if (mywindow.wasLeftMousePressed && !mywindow.isLeftMousePressed) {
-            mywindow.wasLeftMousePressed = false;
-            mywindow.wasLeftMouseReleased = true;
-        }
+        mywindow.mouse.beginFrame();
 
         mywindow.moveCamera(camera);
         gameTicks++;
@@ -91,10 +86,7 @@ void App::gameStep() {
         updatePage();
         drawStep();
 
-        if (mywindow.wasLeftMouseReleased ){
-            mywindow.wasLeftMouseReleased = false;
-        }
-
+        mywindow.mouse.endFrame();
     }
 
     #ifndef EMSCRIPTEN
