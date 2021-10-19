@@ -17,74 +17,10 @@ auto MyWindow::mouse_button_callback(GLFWwindow* window, int button, int action,
 
 }
 
-void MyWindow::debugKeys(MyWindow* mywindow, GLFWwindow* window) {
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        mywindow->goForward = true;
-    }
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE) {
-        mywindow->goForward = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        mywindow->goBack = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE) {
-        mywindow->goBack = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        mywindow->goLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE) {
-        mywindow->goLeft = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        mywindow->goRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE) {
-        mywindow->goRight = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-        mywindow->rotateRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-        mywindow->rotateLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-        mywindow->rotateRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-        mywindow->rotateLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE) {
-        mywindow->rotateRight = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE) {
-        mywindow->rotateLeft = false;
-    }
-}
-
 auto MyWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    MyWindow* mywindow = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-        mywindow->quitProgram = true;
-    }
-
-    debugKeys(mywindow, window);
+    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    mw->keyboard.setKeys(window, key, scancode, action, mods);
 
 }
 
@@ -200,18 +136,18 @@ MyWindow::~MyWindow() {
 void MyWindow::moveCamera(Camera& camera) {
     camera.ProcessMouseMovement(mouse.deltaMouseX, mouse.deltaMouseY);
 
-    if (goForward)
+    if (keyboard.goForward)
         camera.ProcessKeyboard(FORWARD, 0);
-    if (goBack)
+    if (keyboard.goBack)
         camera.ProcessKeyboard(BACKWARD, 0);
-    if (goLeft)
+    if (keyboard.goLeft)
         camera.ProcessKeyboard(LEFT, 0);
-    if (goRight)
+    if (keyboard.goRight)
         camera.ProcessKeyboard(RIGHT, 0);
-    if (rotateLeft) {
+    if (keyboard.rotateLeft) {
         camera.ProcessKeyboard(ROTATELEFT, 0);
     }
-    if (rotateRight) {
+    if (keyboard.rotateRight) {
         camera.ProcessKeyboard(ROTATERIGHT, 0);
     }
 

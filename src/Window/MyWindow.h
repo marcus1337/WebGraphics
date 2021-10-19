@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include "Mouse.h"
+#include "Keyboard.h"
 
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
@@ -28,23 +29,15 @@ class MyWindow {
 public:
     void resizeWindow(int width, int height);
 
-    bool quitProgram = false;
-    bool goForward = false;
-    bool goBack = false;
-    bool goLeft = false;
-    bool goRight = false;
-    bool rotateRight = false;
-    bool rotateLeft = false;
-
     GLFWwindow* window;
     int SCR_WIDTH = 800;
     int SCR_HEIGHT = 600;
 
     Mouse mouse;
-
-    static void debugKeys(MyWindow* mywindow, GLFWwindow* window);
+    Keyboard keyboard;
 
     void moveCamera(Camera& camera);
+
     bool initWindow();
     bool initGLFW();
 

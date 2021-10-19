@@ -61,7 +61,7 @@ void App::beginDraw()
 }
 
 void App::run() {
-    while (keepRunning && !glfwWindowShouldClose(mywindow.window)) {
+    while (keepRunning && !glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram) {
         gameStep();
     }
 }
