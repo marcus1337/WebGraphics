@@ -19,12 +19,14 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
     updateCameraVectors();
 }
 
-
 glm::mat4 Camera::GetViewMatrix()
 {
     return glm::lookAt(Position, Position + Front, Up);
 }
 
+glm::mat4 Camera::GetPerspectiveMatrix(int windowWidth, int windowHeight){
+    return glm::perspective(glm::radians(Zoom), (float)windowWidth / (float)windowHeight, 0.01f, 500.0f);
+}
 
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
@@ -66,17 +68,6 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPi
     }
 
     updateCameraVectors();
-}
-
-
-void Camera::ProcessMouseScroll(float yoffset)
-{
-    if (Zoom >= 1.0f && Zoom <= 45.0f)
-        Zoom -= yoffset;
-    if (Zoom <= 1.0f)
-        Zoom = 1.0f;
-    if (Zoom >= 45.0f)
-        Zoom = 45.0f;
 }
 
 

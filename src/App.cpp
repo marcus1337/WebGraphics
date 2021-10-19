@@ -55,11 +55,9 @@ void App::beginDraw()
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
-    glm::mat4 VP = mywindow.projection * mywindow.view;
-    matrixdata.VP = VP;
-    matrixdata.P = mywindow.projection;
-    matrixdata.V = mywindow.view;
-    image.setViewProjectionMatrix(VP, mywindow.view, mywindow.projection);
+
+    matrixdata = MatrixData(mywindow.winCamera.GetViewMatrix(), mywindow.winCamera.GetPerspectiveMatrix(mywindow.SCR_WIDTH,mywindow.SCR_HEIGHT));
+    image.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
 void App::run() {
@@ -87,7 +85,7 @@ void App::gameStep() {
             mywindow.wasLeftMouseReleased = true;
         }
 
-        mywindow.processActions();
+        mywindow.moveCamera(mywindow.winCamera);
         gameTicks++;
         MS_PASSED = 0;
         mywindow.handleFrame();

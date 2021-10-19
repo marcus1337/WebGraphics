@@ -15,11 +15,17 @@
 class MyWindow {
 
     inline static auto mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    inline static auto mouse_callback(GLFWwindow* window, double xpos, double ypos);
+    inline static auto scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    inline static auto key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    inline static auto window_size_callback(GLFWwindow* window, int width, int height);
+
+    void SetVSync(bool sync);
+    void setWindowHints();
+    void setWindowCallbacks(GLFWwindow* window);
 
 public:
-
-    bool increaseZoom = false;
-    bool decreaseZoom = false;
+    void resizeWindow(int width, int height);
 
     bool isLeftMousePressed = false;
     bool wasLeftMousePressed = false;
@@ -37,34 +43,25 @@ public:
     int SCR_WIDTH = 800;
     int SCR_HEIGHT = 600;
 
-    Camera camera;
+    Camera winCamera;
+    float deltaMouseX = 0;
+    float deltaMouseY = 0;
     float lastX = 0.0f;
     float lastY = 0.0f;
-    float relativeMouseX = 0.0f;
-    float relativeMouseY = 0.0f;
     bool firstMouse = true;
 
-    glm::vec2 getRelativeMousePosition();
+    glm::mat4 projection, view;
+
+    glm::vec2 getRelativeMousePosition(float _fromX = 0.f, float _fromY = 0.f, float _toX = 1.f, float _toY = 1.f);
+    static void debugKeys(MyWindow* mywindow, GLFWwindow* window);
+
+    void moveCamera(Camera& camera);
+    bool initWindow();
+    bool initGLFW();
+    void handleFrame();
 
     MyWindow();
     ~MyWindow();
-    inline static auto mouse_callback(GLFWwindow* window, double xpos, double ypos);
-    void setRelMousePos(float _fromX = 0.f, float _fromY = 0.f, float _toX = 1.f, float _toY = 1.f);
-    inline static auto scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-    inline static auto key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    inline static auto window_size_callback(GLFWwindow* window, int width, int height);
-    static void debugKeys(MyWindow* mywindow, GLFWwindow* window);
-
-    void processActions();
-    bool initWindow();
-    bool initGLFW();
-
-    glm::mat4 projection, view;
-    void handleFrame();
-    float P11 = 1.f;
-
-    void resizeWindow(int width, int height);
-
 };
 
 #endif
