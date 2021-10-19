@@ -80,7 +80,7 @@ void App::gameStep() {
 
         mywindow.mouse.beginFrame();
 
-        mywindow.moveCamera(camera);
+        camera.move(mywindow.mouse, mywindow.keyboard);
         gameTicks++;
         MS_PASSED = 0;
         updatePage();

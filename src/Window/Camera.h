@@ -1,6 +1,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
+#include "Keyboard.h"
+#include "Mouse.h"
 
 #ifndef CAMERA_H
 #define CAMERA_H
@@ -44,6 +46,8 @@ public:
     glm::mat4 GetPerspectiveMatrix(int windowWidth, int windowHeight);
     void ProcessKeyboard(Camera_Movement direction, float deltaTime);
     void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+
+    void move(Mouse& mouse, Keyboard& keyboard);
 
 private:
 

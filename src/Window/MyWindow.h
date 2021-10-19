@@ -36,8 +36,6 @@ public:
     Mouse mouse;
     Keyboard keyboard;
 
-    void moveCamera(Camera& camera);
-
     bool initWindow();
     bool initGLFW();
 

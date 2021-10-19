@@ -52,6 +52,25 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 
 }
 
+void Camera::move(Mouse& mouse, Keyboard& keyboard){
+    ProcessMouseMovement(mouse.deltaMouseX, mouse.deltaMouseY);
+
+    if (keyboard.goForward)
+        ProcessKeyboard(FORWARD, 0);
+    if (keyboard.goBack)
+        ProcessKeyboard(BACKWARD, 0);
+    if (keyboard.goLeft)
+        ProcessKeyboard(LEFT, 0);
+    if (keyboard.goRight)
+        ProcessKeyboard(RIGHT, 0);
+    if (keyboard.rotateLeft) {
+        ProcessKeyboard(ROTATELEFT, 0);
+    }
+    if (keyboard.rotateRight) {
+        ProcessKeyboard(ROTATERIGHT, 0);
+    }
+}
+
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
 {

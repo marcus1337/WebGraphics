@@ -1,6 +1,9 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#ifndef MOUSE_H
+#define MOUSE_H
+
 class Mouse
 {
 
@@ -25,3 +28,5 @@ public:
     void endFrame();
 
 };
+
+#endif

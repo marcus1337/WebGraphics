@@ -1,6 +1,13 @@
 #include "MyWindow.h"
 #include <iostream>
 
+#if defined(_MSC_VER)
+    #include "GL/wglew.h"
+#elif defined(EMSCRIPTEN)
+#elif defined(__GNUG__) 
+    #include <GL/glxew.h>
+    #include <GL/glx.h>
+#endif
 
 
 auto MyWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
@@ -117,34 +124,6 @@ MyWindow::MyWindow() {}
 MyWindow::~MyWindow() {
     glfwTerminate();
 }
-
-void MyWindow::moveCamera(Camera& camera) {
-    camera.ProcessMouseMovement(mouse.deltaMouseX, mouse.deltaMouseY);
-
-    if (keyboard.goForward)
-        camera.ProcessKeyboard(FORWARD, 0);
-    if (keyboard.goBack)
-        camera.ProcessKeyboard(BACKWARD, 0);
-    if (keyboard.goLeft)
-        camera.ProcessKeyboard(LEFT, 0);
-    if (keyboard.goRight)
-        camera.ProcessKeyboard(RIGHT, 0);
-    if (keyboard.rotateLeft) {
-        camera.ProcessKeyboard(ROTATELEFT, 0);
-    }
-    if (keyboard.rotateRight) {
-        camera.ProcessKeyboard(ROTATERIGHT, 0);
-    }
-}
-
-
-#if defined(_MSC_VER)
-    #include "GL/wglew.h"
-#elif defined(EMSCRIPTEN)
-#elif defined(__GNUG__) 
-    #include <GL/glxew.h>
-    #include <GL/glx.h>
-#endif
 
 void MyWindow::SetVSync(bool sync)
 {

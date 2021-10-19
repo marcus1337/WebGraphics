@@ -1,5 +1,7 @@
 #include <GLFW/glfw3.h>
-#include "Camera.h"
+
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 class Keyboard
 {
@@ -15,3 +17,5 @@ public:
     bool rotateRight = false;
     bool rotateLeft = false;
 };
+
+#endif
