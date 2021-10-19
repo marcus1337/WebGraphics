@@ -16,8 +16,9 @@ public:
     double mouseY = 0.0f;
     bool hasInitMousePos = false;
     glm::vec2 getRelativeMousePosition(int windowWidth, int windowHeight, double _fromX = 0.f, double _fromY = 0.f, double _toX = 1.f, double _toY = 1.f);
+    
     void drag(int toPosX, int toPosY);
-
+    void click(int button, int action, int mods);
 
     void clearDeltas();
     void beginFrame();

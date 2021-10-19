@@ -5,23 +5,13 @@
 
 auto MyWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-    {
-        mw->mouse.isLeftMousePressed = true;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
-    {
-        mw->mouse.isLeftMousePressed = false;
-    }
-
+    mw->mouse.click(button, action, mods);
 }
 
 auto MyWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
     mw->keyboard.setKeys(window, key, scancode, action, mods);
-
 }
 
 auto MyWindow::window_size_callback(GLFWwindow* window, int width, int height)
@@ -32,13 +22,11 @@ auto MyWindow::window_size_callback(GLFWwindow* window, int width, int height)
     mywindow->SCR_HEIGHT = height;
 }
 
-
 auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag(xpos,ypos);
 }
-
 
 auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
@@ -49,7 +37,6 @@ bool MyWindow::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
-
     SetVSync(true);
     return EXIT_SUCCESS;
 }
@@ -83,7 +70,6 @@ void MyWindow::setWindowCallbacks(GLFWwindow* window){
     glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_WIDTH);
     glfwSetWindowSizeCallback(window, window_size_callback);
 }
-
 
 bool MyWindow::initGLFW()
 {
@@ -119,7 +105,6 @@ bool MyWindow::initGLFW()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-
     #ifdef EMSCRIPTEN
         std::clog << "version: " << glGetString(GL_VERSION)<< std::endl;
     #endif
@@ -150,7 +135,6 @@ void MyWindow::moveCamera(Camera& camera) {
     if (keyboard.rotateRight) {
         camera.ProcessKeyboard(ROTATERIGHT, 0);
     }
-
 }
 
 

@@ -1,4 +1,5 @@
 #include "Mouse.h"
+#include <GLFW/glfw3.h>
 
 glm::vec2 Mouse::getRelativeMousePosition(int windowWidth, int windowHeight, double _fromX, double _fromY, double _toX, double _toY)
 {
@@ -25,6 +26,19 @@ void Mouse::drag(int toPosX, int toPosY)
     deltaMouseY += mouseY - toPosY; // reversed since y-coordinates go from bottom to top
     mouseX = toPosX;
     mouseY = toPosY;
+}
+
+void Mouse::click(int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        isLeftMousePressed = true;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+    {
+        isLeftMousePressed = false;
+    }
 }
 
 void Mouse::clearDeltas()
