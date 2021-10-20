@@ -4,13 +4,6 @@
 #include "glm/glm.hpp"
 #include <filesystem>
 
-bool App::keepRunning = true;
-
-uint64_t App::getTicks()
-{
-    return gameTicks;
-}
-
 void App::init()
 {
     mywindow.initWindow();
@@ -60,7 +53,7 @@ void App::beginDraw()
 
 void App::run()
 {
-    while (keepRunning && !glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram)
+    while (!glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram)
     {
         gameStep();
     }

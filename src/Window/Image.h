@@ -24,6 +24,15 @@ class Image
     void setProgram(GLData::Program program);
     void setTexture(GLData::Texture texture);
     void setNormal(GLData::Texture texture);
+    GLuint programID = -1;
+    GLuint textureID = -1;
+    GLuint normalID = -1;
+
+    void setTextureUniforms();
+    void setMatrixUniforms();
+    void setColorUniforms();
+    void setClippingUniforms();
+    void setUniforms();
 
 public:
     glm::vec3 cameraPosition;
@@ -31,10 +40,6 @@ public:
     glm::vec3 rotationAxis;
     float rotation;
     float alpha = 1.0f;
-
-    GLuint programID = -1;
-    GLuint textureID = -1;
-    GLuint normalID = -1;
     bool isNormalUsed = false;
     GLuint vbo;
 

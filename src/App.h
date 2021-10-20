@@ -41,11 +41,6 @@ class App {
     void init();
     bool isGameUpdate();
 
-    int monitorRefreshRate;
-    static bool keepRunning;
-    void onWindowResize();
-    uint64_t getTicks();
-
 public:
 
     void gameStep();
