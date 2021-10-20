@@ -36,6 +36,7 @@ class App {
     long long MS_PASSED;
     std::chrono::steady_clock::time_point timeSinceGameUpdate;
 
+    void prepareUpdate();
     void update();
     void init();
     bool isGameUpdate();

@@ -107,7 +107,11 @@ glm::mat4 Image::getMVP() {
     return MVP;
 }
 
-void Image::draw() {
+void Image::draw(GLData::Program _program, GLData::Texture _texture, GLData::Texture _normal) {
+    setProgram(_program);
+    setTexture(_texture);
+    setNormal(_normal);
+
     glm::mat4 M = getModel();
     glm::mat4 MVP = VP * M;
     glm::mat4 MV = V * M;

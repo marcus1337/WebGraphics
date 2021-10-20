@@ -12,17 +12,20 @@
 #ifndef FLOOR_H
 #define FLOOR_H
 
-class Image {
-    
+class Image
+{
     void initVBO();
     glm::mat4 getMVP();
     glm::mat4 getModel();
 
     glm::mat4 VP, V, P;
-    GLData* glData;
+    GLData *glData;
+
+    void setProgram(GLData::Program program);
+    void setTexture(GLData::Texture texture);
+    void setNormal(GLData::Texture texture);
 
 public:
-
     glm::vec3 cameraPosition;
     glm::vec3 position, scale;
     glm::vec3 rotationAxis;
@@ -43,17 +46,12 @@ public:
     void setPosition(glm::vec3 _position);
     void setMidPosition(glm::vec3 _midPosition);
 
-    void init(GLData& _gldata);
-    void setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P);
+    void init(GLData &_gldata);
+    void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
     void cleanup();
-    void draw();
-
-    void setProgram(GLData::Program program);
-    void setTexture(GLData::Texture texture);
-    void setNormal(GLData::Texture texture);
+    void draw(GLData::Program _program, GLData::Texture _texture, GLData::Texture _normal = (GLData::Texture) -1);
     void setNormalOnOff(bool _on);
 };
-
 
 #endif

@@ -34,10 +34,8 @@ void App::drawStep()
 {
     beginDraw();
 
-    image.setProgram(GLData::Program::IMAGE);
-    image.setTexture(GLData::Texture::STALL);
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
-    image.draw();
+    image.draw(GLData::Program::IMAGE, GLData::Texture::STALL);
 
     endDraw();
 }
@@ -77,18 +75,21 @@ App::~App()
 {
 }
 
+void App::prepareUpdate()
+{
+    gameTicks++;
+    MS_PASSED = 0;
+    glfwPollEvents();
+    mywindow.mouse.beginFrame();
+}
+
 void App::gameStep()
 {
     if (isGameUpdate())
     {
-        gameTicks++;
-        MS_PASSED = 0;
-        glfwPollEvents();
-        mywindow.mouse.beginFrame();
-
+        prepareUpdate();
         update();
         drawStep();
-
         mywindow.mouse.endFrame();
     }
 
