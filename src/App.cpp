@@ -47,7 +47,8 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    matrixdata = MatrixData(camera.GetViewMatrix(), camera.GetPerspectiveMatrix(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT));
+    camera.setOrthographic(true);
+    matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     image.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 

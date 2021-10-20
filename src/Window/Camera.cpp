@@ -1,8 +1,19 @@
 
 #include "Camera.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+
+#include <iostream>
+
+void Camera::setOrthographic(bool _isOrthographic){
+    isOrthographic = _isOrthographic;
+}
+
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
+    isOrthographic = false;
     Position = position;
     WorldUp = up;
     Yaw = yaw;
@@ -12,6 +23,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front
 
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
+    isOrthographic = false;
     Position = glm::vec3(posX, posY, posZ);
     WorldUp = glm::vec3(upX, upY, upZ);
     Yaw = yaw;
@@ -24,15 +36,18 @@ glm::mat4 Camera::GetViewMatrix()
     return glm::lookAt(Position, Position + Front, Up);
 }
 
-glm::mat4 Camera::GetPerspectiveMatrix(int windowWidth, int windowHeight){
-    if(windowHeight == 0)
+glm::mat4 Camera::GetPerspectiveMatrix(int windowWidth, int windowHeight)
+{
+    if (windowHeight == 0)
         return glm::mat4{};
-    return glm::perspective(glm::radians(Zoom), (float)windowWidth / (float)windowHeight, 0.01f, 500.0f);
+    if(!isOrthographic)
+        return glm::perspective(glm::radians(Zoom), (float)windowWidth / (float)windowHeight, 0.01f, 500.0f);
+    return glm::ortho(-1.0f,(float)1.0f, (float)-1.0f, 1.0f, 0.01f, 500.0f);
 }
 
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
-    float velocity = 0.03f; 
+    float velocity = 0.03f;
     if (direction == FORWARD)
         Position += Front * velocity;
     if (direction == BACKWARD)
@@ -41,18 +56,20 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
         Position -= Right * velocity;
     if (direction == RIGHT)
         Position += Right * velocity;
-    if (direction == ROTATELEFT) {
+    if (direction == ROTATELEFT)
+    {
         Yaw -= 1;
         updateCameraVectors();
     }
-    if (direction == ROTATERIGHT) {
+    if (direction == ROTATERIGHT)
+    {
         Yaw += 1;
         updateCameraVectors();
     }
-
 }
 
-void Camera::move(Mouse& mouse, Keyboard& keyboard){
+void Camera::move(Mouse &mouse, Keyboard &keyboard)
+{
     ProcessMouseMovement(mouse.deltaMouseX, mouse.deltaMouseY);
 
     if (keyboard.goForward)
@@ -63,14 +80,15 @@ void Camera::move(Mouse& mouse, Keyboard& keyboard){
         ProcessKeyboard(LEFT, 0);
     if (keyboard.goRight)
         ProcessKeyboard(RIGHT, 0);
-    if (keyboard.rotateLeft) {
+    if (keyboard.rotateLeft)
+    {
         ProcessKeyboard(ROTATELEFT, 0);
     }
-    if (keyboard.rotateRight) {
+    if (keyboard.rotateRight)
+    {
         ProcessKeyboard(ROTATERIGHT, 0);
     }
 }
-
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
 {
@@ -91,7 +109,6 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPi
     updateCameraVectors();
 }
 
-
 void Camera::updateCameraVectors()
 {
     glm::vec3 front;
@@ -102,4 +119,9 @@ void Camera::updateCameraVectors()
 
     Right = glm::normalize(glm::cross(Front, WorldUp));
     Up = glm::normalize(glm::cross(Right, Front));
+}
+
+MatrixData Camera::getMatrixData(int windowWidth, int windowHeight)
+{
+    return MatrixData(GetViewMatrix(), GetPerspectiveMatrix(windowWidth, windowHeight));
 }

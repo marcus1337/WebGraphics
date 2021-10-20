@@ -3,6 +3,7 @@
 #include <vector>
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Model/MatrixData.h"
 
 #ifndef CAMERA_H
 #define CAMERA_H
@@ -25,7 +26,10 @@ const float ZOOM = 45.0f;
 class Camera
 {
 
+    bool isOrthographic;
 public:
+    void setOrthographic(bool _isOrthographic);
+
     // Camera Attributes
     glm::vec3 Position;
     glm::vec3 Front;
@@ -48,6 +52,8 @@ public:
     void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
     void move(Mouse& mouse, Keyboard& keyboard);
+
+    MatrixData getMatrixData(int windowWidth, int windowHeight);
 
 private:
 
