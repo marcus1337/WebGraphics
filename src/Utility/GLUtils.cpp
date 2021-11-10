@@ -72,7 +72,8 @@ GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
     return program;
 }
 
-GLuint GLUtils::compileShader(const std::string &shaderFilename, std::string &shaderFilePath, uint32_t shaderType){
+GLuint GLUtils::compileShader(const std::string &shaderFilename, const std::string &shaderFilePath, uint32_t shaderType)
+{
     GLuint shader = glCreateShader(shaderType);
     std::string vertexShaderSource = GLUtils::readShaderSource(shaderFilePath + shaderFilename);
     const char *shaderSourcePtr = vertexShaderSource.c_str();
@@ -81,27 +82,38 @@ GLuint GLUtils::compileShader(const std::string &shaderFilename, std::string &sh
     return shader;
 }
 
-GLuint GLUtils::loadShaderProgram(const std::string &vertexShaderFilename,
-                                  const std::string &fragmentShaderFilename, std::string &shaderFilePath)
+std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, std::string, uint32_t>> shaderInfos)
 {
-    GLuint vertexShader = compileShader(vertexShaderFilename, shaderFilePath, GL_VERTEX_SHADER);
-
-    if (!wasShaderCompiled(vertexShader))
+    std::vector<GLuint> shaders;
+    shaders.reserve(shaderInfos.size());
+    for (std::size_t i = 0; i < shaderInfos.size(); i++)
     {
-        glDeleteShader(vertexShader);
-        return 0;
+        const std::string& shaderFileName = std::get<0>(shaderInfos[i]);
+        const std::string& shaderFilePath = std::get<1>(shaderInfos[i]);
+        uint32_t shaderType = std::get<2>(shaderInfos[i]);
+        GLuint shader = compileShader(shaderFileName, shaderFilePath, shaderType);
+        shaders.push_back(shader);
+
+        if (!wasShaderCompiled(shader))
+        {
+            for(GLuint tmpShader : shaders)
+                glDeleteShader(shader);
+            return std::vector<GLuint>();
+        }
     }
+    return shaders;
+}
 
-    GLuint fragmentShader = compileShader(fragmentShaderFilename, shaderFilePath, GL_FRAGMENT_SHADER);
-
-    if (!wasShaderCompiled(fragmentShader))
-    {
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+GLuint GLUtils::loadShaderProgram(const std::string &vertexShaderFilename,
+                                  const std::string &fragmentShaderFilename, const std::string &shaderFilePath)
+{
+    std::tuple<std::string, std::string, uint32_t> vertexShaderInfo = std::make_tuple(vertexShaderFilename, shaderFilePath, GL_VERTEX_SHADER);
+    std::tuple<std::string, std::string, uint32_t> fragmentShaderInfo = std::make_tuple(fragmentShaderFilename, shaderFilePath, GL_FRAGMENT_SHADER);
+    std::vector<std::tuple<std::string, std::string, uint32_t>> shaderInfos{vertexShaderInfo, fragmentShaderInfo};
+    std::vector<GLuint> shaders = compileShaders(shaderInfos);
+    if(shaders.empty())
         return 0;
-    }
-
-    return linkProgram({vertexShader, fragmentShader});
+    return linkProgram(shaders);
 }
 
 GLFWimage GLUtils::loadIconImage(std::string &imagePath)
