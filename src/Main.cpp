@@ -33,7 +33,7 @@
 int main(int argc, char *argv[]){
 
     #ifdef EMSCRIPTEN
-        emscripten_set_main_loop(oneLoop, 0, 1);
+        emscripten_set_main_loop(oneLoop, 5, 1);
     #else
         App app;
         app.run();

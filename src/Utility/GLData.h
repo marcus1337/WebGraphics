@@ -18,8 +18,8 @@ public:
 
 private:
 
-    std::map<Program, GLuint> programs;
-    std::map<Texture, GLuint> textures;
+    std::map<GLuint, GLuint> programs;
+    std::map<GLuint, GLuint> textures;
 
     GLuint makeTexture(Texture texture);
     GLuint makeProgram(Program program);
@@ -28,12 +28,11 @@ public:
 
     std::string shaderFilePath, textureFilePath, normalTextureFilePath;
 
-    GLuint vao1 = 0, vao2 = 0;
     GLData() = default;
     void init(std::string _shaderFilePath, std::string _textureFilePath, std::string _normalTextureFilePath);
 
-    GLuint getTexture(Texture texture);
-    GLuint getProgram(Program program);
+    GLuint getTexture(GLuint texture);
+    GLuint getProgram(GLuint program);
 
     ~GLData();
 

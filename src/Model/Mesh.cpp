@@ -56,7 +56,5 @@ void Mesh::init(std::vector<glm::vec3> _vertices, std::vector<glm::vec3> _normal
 Mesh::~Mesh(){
     if(wasInitialized){
         glDeleteBuffers(1, &vao);
-
-
     }
 }

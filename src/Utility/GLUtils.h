@@ -24,6 +24,9 @@ namespace GLUtils {
     void showShaderInfoLog(GLuint shader);
 
     void showProgramInfoLog(GLuint program);
+    bool wasShaderCompiled(GLuint shader);
+    GLuint linkProgram(std::vector<GLuint> shaders);
+    GLuint compileShader(const std::string &shaderFilename, std::string &shaderFilePath, uint32_t shaderType);
 
     GLuint loadShaderProgram(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename, std::string& shaderFilePath);
 

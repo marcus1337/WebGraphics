@@ -11,7 +11,7 @@ GLuint GLData::makeTexture(Texture texture) {
     }
 
     if (textID != -1)
-        textures[texture] = textID;
+        textures[(GLuint)texture] = textID;
     return textID;
 }
 GLuint GLData::makeProgram(Program program) {
@@ -25,7 +25,7 @@ GLuint GLData::makeProgram(Program program) {
     }
 
     if (programID != -1)
-        programs[program] = programID;
+        programs[(GLuint)program] = programID;
     return programID;
 }
 
@@ -33,21 +33,18 @@ void GLData::init(std::string _shaderFilePath, std::string _textureFilePath, std
     shaderFilePath = _shaderFilePath;
     textureFilePath = _textureFilePath;
     normalTextureFilePath = _normalTextureFilePath;
-    glGenVertexArrays(1, &vao1);
-    glGenVertexArrays(1, &vao2);
-
 }
 
-GLuint GLData::getTexture(Texture texture) {
+GLuint GLData::getTexture(GLuint texture) {
     if (textures.contains(texture))
         return textures[texture];
-    return makeTexture(texture);
+    return makeTexture(static_cast<GLData::Texture>(texture));
 }
 
-GLuint GLData::getProgram(Program program) {
+GLuint GLData::getProgram(GLuint program) {
     if (programs.contains(program))
         return programs[program];
-    return makeProgram(program);
+    return makeProgram(static_cast<GLData::Program>(program));
 }
 
 GLData::~GLData() {
@@ -55,6 +52,4 @@ GLData::~GLData() {
         glDeleteProgram(std::get<1>(programObj));
     for (auto& textureObj : textures)
         glDeleteTextures(1, &std::get<1>(textureObj));
-    glDeleteVertexArrays(1, &vao1);
-    glDeleteVertexArrays(1, &vao2);
 }

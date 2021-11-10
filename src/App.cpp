@@ -28,7 +28,7 @@ void App::drawStep()
     beginDraw();
 
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
-    image.draw(GLData::Program::IMAGE, GLData::Texture::STALL);
+    image.draw((GLuint)GLData::Program::IMAGE, (GLuint) GLData::Texture::STALL);
 
     endDraw();
 }

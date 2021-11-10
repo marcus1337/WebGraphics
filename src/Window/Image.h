@@ -21,9 +21,9 @@ class Image
     glm::mat4 VP, V, P;
     GLData *glData;
 
-    void setProgram(GLData::Program program);
-    void setTexture(GLData::Texture texture);
-    void setNormal(GLData::Texture texture);
+    void setProgram(GLuint program);
+    void setTexture(GLuint texture);
+    void setNormal(GLuint texture);
     GLuint programID = -1;
     GLuint textureID = -1;
     GLuint normalID = -1;
@@ -34,6 +34,9 @@ class Image
     void setClippingUniforms();
     void setUniforms();
 
+    GLuint vao;
+    GLuint vbo;
+
 public:
     glm::vec3 cameraPosition;
     glm::vec3 position, scale;
@@ -41,7 +44,6 @@ public:
     float rotation;
     float alpha = 1.0f;
     bool isNormalUsed = false;
-    GLuint vbo;
 
     glm::vec2 textureSize, textureCorner;
     void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
@@ -54,8 +56,7 @@ public:
     void init(GLData &_gldata);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
-    void cleanup();
-    void draw(GLData::Program _program, GLData::Texture _texture, GLData::Texture _normal = (GLData::Texture) -1);
+    void draw(GLuint _program, GLuint _texture, GLuint _normal = 0);
     void setNormalOnOff(bool _on);
 };
 

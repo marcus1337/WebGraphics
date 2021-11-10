@@ -25,18 +25,18 @@ void Image::setMidPosition(glm::vec3 _position)
     position = _position;
 }
 
-void Image::setProgram(GLData::Program program)
+void Image::setProgram(GLuint program)
 {
     programID = glData->getProgram(program);
-    glBindVertexArray(glData->vao1);
+    glBindVertexArray(vao);
     glUseProgram(programID);
 }
-void Image::setTexture(GLData::Texture texture)
+void Image::setTexture(GLuint texture)
 {
     textureID = glData->getTexture(texture);
 }
 
-void Image::setNormal(GLData::Texture texture)
+void Image::setNormal(GLuint texture)
 {
     normalID = glData->getTexture(texture);
 }
@@ -49,9 +49,6 @@ void Image::setNormalOnOff(bool _on)
 void Image::init(GLData &_gldata)
 {
     glData = &_gldata;
-    programID = _gldata.getProgram(GLData::Program::IMAGE);
-    textureID = _gldata.getTexture(GLData::Texture::STALL);
-    std::cout << programID << "\n\n\n";
     initVBO();
 }
 
@@ -71,10 +68,13 @@ void Image::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner)
 Image::~Image()
 {
     glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &vao);
 }
 
 void Image::initVBO()
 {
+    glGenVertexArrays(1, &vao);
+
     const float numReps = 1.0f;
     const float width = 0.5f;
     const float height = 0.5f;
@@ -82,7 +82,7 @@ void Image::initVBO()
                           -width, height, 0.0f, 0.0f, numReps, width, height, 0.0f, numReps, numReps,
                           width, -height, 0.0f, numReps, 0.0f, -width, -height, 0.0f, 0.0f, 0.0f};
 
-    glBindVertexArray(glData->vao1);
+    glBindVertexArray(vao);
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -91,11 +91,6 @@ void Image::initVBO()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
-}
-
-void Image::cleanup()
-{
-    glDeleteBuffers(1, &vbo);
 }
 
 glm::mat4 Image::getModel()
@@ -119,7 +114,7 @@ glm::mat4 Image::getMVP()
     return MVP;
 }
 
-void Image::draw(GLData::Program _program, GLData::Texture _texture, GLData::Texture _normal)
+void Image::draw(GLuint _program, GLuint _texture, GLuint _normal)
 {
     setProgram(_program);
     setTexture(_texture);

@@ -29,74 +29,79 @@ void GLUtils::showProgramInfoLog(GLuint program)
     std::cerr << infoLogStr << std::endl;
 }
 
-GLuint GLUtils::loadShaderProgram(const std::string &vertexShaderFilename,
-                                  const std::string &fragmentShaderFilename, std::string &shaderFilePath)
+bool GLUtils::wasShaderCompiled(GLuint shader)
 {
-    // Load and compile vertex shader
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    std::string vertexShaderSource = GLUtils::readShaderSource(shaderFilePath + vertexShaderFilename);
-    const char *vertexShaderSourcePtr = vertexShaderSource.c_str();
-    glShaderSource(vertexShader, 1, &vertexShaderSourcePtr, nullptr);
-
-    glCompileShader(vertexShader);
     GLint compiled = 0;
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &compiled);
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
     if (!compiled)
     {
-        std::clog << "Vertex shader compilation failed:" << std::endl;
-        showShaderInfoLog(vertexShader);
-        glDeleteShader(vertexShader);
-        return 0;
+        std::clog << "Shader compilation failed, " << shader << std::endl;
+        showShaderInfoLog(shader);
     }
+    return compiled != 0;
+}
 
-    // Load and compile fragment shader
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderSource = readShaderSource(shaderFilePath + fragmentShaderFilename);
-    const char *fragmentShaderSourcePtr = fragmentShaderSource.c_str();
-    glShaderSource(fragmentShader, 1, &fragmentShaderSourcePtr, nullptr);
-
-    glCompileShader(fragmentShader);
-    compiled = 0;
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &compiled);
-    if (!compiled)
-    {
-        std::clog << "Fragment shader compilation failed:" << std::endl;
-        showShaderInfoLog(fragmentShader);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return 0;
-    }
-
-    // Create program object
+GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
+{
     GLuint program = glCreateProgram();
 
-    // Attach shaders to the program
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-
-    // Link program
+    for (GLuint shader : shaders)
+    {
+        glAttachShader(program, shader);
+    }
     glLinkProgram(program);
 
-    // Check linking status
     GLint linked = 0;
     glGetProgramiv(program, GL_LINK_STATUS, &linked);
     if (!linked)
     {
-        std::cerr << "Linking failed:" << std::endl;
+        std::cerr << "Program linking failed, " << program << std::endl;
         showProgramInfoLog(program);
         glDeleteProgram(program);
+    }
+
+    for (GLuint shader : shaders)
+    {
+        glDetachShader(program, shader);
+        glDeleteShader(shader);
+    }
+
+    if (!linked)
+        return 0;
+
+    return program;
+}
+
+GLuint GLUtils::compileShader(const std::string &shaderFilename, std::string &shaderFilePath, uint32_t shaderType){
+    GLuint shader = glCreateShader(shaderType);
+    std::string vertexShaderSource = GLUtils::readShaderSource(shaderFilePath + shaderFilename);
+    const char *shaderSourcePtr = vertexShaderSource.c_str();
+    glShaderSource(shader, 1, &shaderSourcePtr, nullptr);
+    glCompileShader(shader);
+    return shader;
+}
+
+GLuint GLUtils::loadShaderProgram(const std::string &vertexShaderFilename,
+                                  const std::string &fragmentShaderFilename, std::string &shaderFilePath)
+{
+    GLuint vertexShader = compileShader(vertexShaderFilename, shaderFilePath, GL_VERTEX_SHADER);
+
+    if (!wasShaderCompiled(vertexShader))
+    {
+        glDeleteShader(vertexShader);
+        return 0;
+    }
+
+    GLuint fragmentShader = compileShader(fragmentShaderFilename, shaderFilePath, GL_FRAGMENT_SHADER);
+
+    if (!wasShaderCompiled(fragmentShader))
+    {
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         return 0;
     }
 
-    // Clean up
-    glDetachShader(program, vertexShader);
-    glDetachShader(program, fragmentShader);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return program;
+    return linkProgram({vertexShader, fragmentShader});
 }
 
 GLFWimage GLUtils::loadIconImage(std::string &imagePath)
