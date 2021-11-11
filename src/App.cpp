@@ -9,8 +9,7 @@ void App::init()
     mywindow.initWindow();
     MS_PASSED = 0;
     MS_FRAME = 16600;
-    io.gldata.init(io.iostuff.shaderPath, io.iostuff.texturePath, io.iostuff.normalTexturePath);
-    image.init(io.gldata);
+    image.init();
     modelManager.init(io);
 }
 
@@ -28,7 +27,13 @@ void App::drawStep()
     beginDraw();
 
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
-    image.draw((GLuint)GLData::Program::IMAGE, (GLuint) GLData::Texture::STALL);
+
+    std::tuple<std::string, uint32_t> imageVertexShaderInfo = std::make_tuple("image.vert", GL_VERTEX_SHADER);
+    std::tuple<std::string, uint32_t> imageFragmentShaderInfo = std::make_tuple("image.frag", GL_FRAGMENT_SHADER);
+    GLuint textureID = glData.getTexture("stallTexture.png", io.iostuff.texturePath);
+    GLuint programID = glData.getProgram({imageVertexShaderInfo, imageFragmentShaderInfo}, io.iostuff.shaderPath);
+
+    image.draw(programID, textureID);
 
     endDraw();
 }

@@ -19,7 +19,6 @@ class Image
     glm::mat4 getModel();
 
     glm::mat4 VP, V, P;
-    GLData *glData;
 
     void setProgram(GLuint program);
     void setTexture(GLuint texture);
@@ -53,7 +52,7 @@ public:
     void setPosition(glm::vec3 _position);
     void setMidPosition(glm::vec3 _midPosition);
 
-    void init(GLData &_gldata);
+    void init();
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
     void draw(GLuint _program, GLuint _texture, GLuint _normal = 0);

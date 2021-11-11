@@ -17,8 +17,10 @@ void Model::draw(IO& io, MatrixData& matrixData)
     glm::mat4 modModel = scaleMat * translateMat * rotateMat;
     glm::mat4 MVP = matrixData.VP * modModel;
 
-    GLuint programID = io.gldata.getProgram((GLuint)program);
-    GLuint textureID = io.gldata.getTexture((GLuint)texture);
+    GLuint programID, textureID;
+
+    //GLuint programID = io.gldata.getProgram((GLuint)program);
+    //GLuint textureID = io.gldata.getTexture((GLuint)texture);
 
     glUseProgram(programID);
     glUniformMatrix4fv(glGetUniformLocation(programID, "MVP"), 1, GL_FALSE, &MVP[0][0]);

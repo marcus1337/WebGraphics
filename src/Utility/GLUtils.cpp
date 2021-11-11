@@ -82,15 +82,14 @@ GLuint GLUtils::compileShader(const std::string &shaderFilename, const std::stri
     return shader;
 }
 
-std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, std::string, uint32_t>> shaderInfos)
+std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath)
 {
     std::vector<GLuint> shaders;
     shaders.reserve(shaderInfos.size());
     for (std::size_t i = 0; i < shaderInfos.size(); i++)
     {
         const std::string& shaderFileName = std::get<0>(shaderInfos[i]);
-        const std::string& shaderFilePath = std::get<1>(shaderInfos[i]);
-        uint32_t shaderType = std::get<2>(shaderInfos[i]);
+        uint32_t shaderType = std::get<1>(shaderInfos[i]);
         GLuint shader = compileShader(shaderFileName, shaderFilePath, shaderType);
         shaders.push_back(shader);
 
@@ -104,13 +103,9 @@ std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, 
     return shaders;
 }
 
-GLuint GLUtils::loadShaderProgram(const std::string &vertexShaderFilename,
-                                  const std::string &fragmentShaderFilename, const std::string &shaderFilePath)
+GLuint GLUtils::loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaderInfos, const std::string &shaderFilePath)
 {
-    std::tuple<std::string, std::string, uint32_t> vertexShaderInfo = std::make_tuple(vertexShaderFilename, shaderFilePath, GL_VERTEX_SHADER);
-    std::tuple<std::string, std::string, uint32_t> fragmentShaderInfo = std::make_tuple(fragmentShaderFilename, shaderFilePath, GL_FRAGMENT_SHADER);
-    std::vector<std::tuple<std::string, std::string, uint32_t>> shaderInfos{vertexShaderInfo, fragmentShaderInfo};
-    std::vector<GLuint> shaders = compileShaders(shaderInfos);
+    std::vector<GLuint> shaders = compileShaders(shaderInfos, shaderFilePath);
     if(shaders.empty())
         return 0;
     return linkProgram(shaders);

@@ -14,8 +14,8 @@
 
 class Model{
 
-    GLData::Program program = (GLData::Program)0;
-    GLData::Texture texture = (GLData::Texture)0;
+    //GLData::Program program = (GLData::Program)0;
+    //GLData::Texture texture = (GLData::Texture)0;
     Mesh mesh;
     glm::vec3 angles;
 

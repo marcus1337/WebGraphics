@@ -25,6 +25,7 @@ class App {
 
     Camera camera;
 
+    GLData glData;
     IO io;
     MatrixData matrixdata;
     Image image;

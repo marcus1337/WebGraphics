@@ -13,28 +13,22 @@
 
 class GLData {
 public:
-    enum class Program{MODEL = 0, IMAGE, TEXT};
-    enum class Texture{STALL = 0};
 
 private:
 
-    std::map<GLuint, GLuint> programs;
-    std::map<GLuint, GLuint> textures;
+    std::map<std::string, GLuint> programs;
+    std::map<std::string, GLuint> textures;
 
-    GLuint makeTexture(Texture texture);
-    GLuint makeProgram(Program program);
+    GLuint makeTexture(std::string texture, std::string textureFilePath);
+    GLuint makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath);
+    std::string getProgramName(std::vector<std::tuple<std::string, uint32_t>> shaders);
 
 public:
 
-    std::string shaderFilePath, textureFilePath, normalTextureFilePath;
-
     GLData() = default;
-    void init(std::string _shaderFilePath, std::string _textureFilePath, std::string _normalTextureFilePath);
-
-    GLuint getTexture(GLuint texture);
-    GLuint getProgram(GLuint program);
-
     ~GLData();
+    GLuint getTexture(std::string textureFile, std::string textureFilePath);
+    GLuint getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath);
 
 };
 

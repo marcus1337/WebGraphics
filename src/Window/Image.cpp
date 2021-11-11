@@ -10,7 +10,6 @@ using namespace std;
 Image::Image() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
                  rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
 {
-    glData = nullptr;
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
 }
@@ -27,18 +26,18 @@ void Image::setMidPosition(glm::vec3 _position)
 
 void Image::setProgram(GLuint program)
 {
-    programID = glData->getProgram(program);
+    programID = program;
     glBindVertexArray(vao);
     glUseProgram(programID);
 }
 void Image::setTexture(GLuint texture)
 {
-    textureID = glData->getTexture(texture);
+    textureID = texture;
 }
 
 void Image::setNormal(GLuint texture)
 {
-    normalID = glData->getTexture(texture);
+   normalID = texture;
 }
 
 void Image::setNormalOnOff(bool _on)
@@ -46,9 +45,8 @@ void Image::setNormalOnOff(bool _on)
     isNormalUsed = _on;
 }
 
-void Image::init(GLData &_gldata)
+void Image::init()
 {
-    glData = &_gldata;
     initVBO();
 }
 

@@ -28,9 +28,9 @@ namespace GLUtils {
     bool wasShaderCompiled(GLuint shader);
     GLuint linkProgram(std::vector<GLuint> shaders);
     GLuint compileShader(const std::string &shaderFilename, const std::string &shaderFilePath, uint32_t shaderType);
-    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, std::string, uint32_t>> shaderInfos);
+    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath);
 
-    GLuint loadShaderProgram(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename, const std::string& shaderFilePath);
+    GLuint loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaders, const std::string& shaderFilePath);
 
     GLuint load2DTexture(const std::string& filename_, std::string& textureFilePath);
 

@@ -3,48 +3,33 @@
 #include "GLUtils.h"
 
 
-GLuint GLData::makeTexture(Texture texture) {
-    GLuint textID = -1;
-
-    if (texture == Texture::STALL){
-        textID = GLUtils::load2DTexture("stallTexture.png", textureFilePath);
-    }
-
-    if (textID != -1)
-        textures[(GLuint)texture] = textID;
+GLuint GLData::makeTexture(std::string textureFile, std::string textureFilePath) {
+    GLuint textID = 0;
+    textID = GLUtils::load2DTexture(textureFile, textureFilePath);
+    if (textID != 0)
+        textures[textureFile] = textID;
     return textID;
 }
-GLuint GLData::makeProgram(Program program) {
-    GLuint programID = -1;
-
-    if (program == Program::MODEL){
-        programID = GLUtils::loadShaderProgram("model.vert", "model.frag", shaderFilePath);
-    }
-    if (program == Program::IMAGE){
-        programID = GLUtils::loadShaderProgram("image.vert", "image.frag", shaderFilePath);
-    }
-
-    if (programID != -1)
-        programs[(GLuint)program] = programID;
+GLuint GLData::makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {
+    GLuint programID = 0;
+    std::string programName = getProgramName(shaders);
+    programID = GLUtils::loadShaderProgram(shaders, shaderFilePath);
+    if (programID != 0)
+        programs[programName] = programID;
     return programID;
 }
 
-void GLData::init(std::string _shaderFilePath, std::string _textureFilePath, std::string _normalTextureFilePath) {
-    shaderFilePath = _shaderFilePath;
-    textureFilePath = _textureFilePath;
-    normalTextureFilePath = _normalTextureFilePath;
+GLuint GLData::getTexture(std::string textureFile, std::string textureFilePath) {
+    if (textures.contains(textureFile))
+        return textures[textureFile];
+    return makeTexture(textureFile, textureFilePath);
 }
 
-GLuint GLData::getTexture(GLuint texture) {
-    if (textures.contains(texture))
-        return textures[texture];
-    return makeTexture(static_cast<GLData::Texture>(texture));
-}
-
-GLuint GLData::getProgram(GLuint program) {
-    if (programs.contains(program))
-        return programs[program];
-    return makeProgram(static_cast<GLData::Program>(program));
+GLuint GLData::getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {
+    std::string programName = getProgramName(shaders);
+    if (programs.contains(programName))
+        return programs[programName];
+    return makeProgram(shaders, shaderFilePath);
 }
 
 GLData::~GLData() {
@@ -52,4 +37,12 @@ GLData::~GLData() {
         glDeleteProgram(std::get<1>(programObj));
     for (auto& textureObj : textures)
         glDeleteTextures(1, &std::get<1>(textureObj));
+}
+
+std::string GLData::getProgramName(std::vector<std::tuple<std::string, uint32_t>> shaders){
+    std::string result;
+    for(std::tuple<std::string, uint32_t> shaderInfo : shaders){
+        result += std::get<0>(shaderInfo);
+    }
+    return result;
 }
