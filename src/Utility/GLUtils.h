@@ -18,6 +18,7 @@
 #include<glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "IO/TextureData.h"
+#include "IO/ShaderData.h"
 
 namespace GLUtils {
 
@@ -27,9 +28,9 @@ namespace GLUtils {
     bool wasShaderCompiled(GLuint shader);
     GLuint linkProgram(std::vector<GLuint> shaders);
 
-    GLuint compileShader(const std::tuple<std::string, uint32_t>& shaderInfo);
-    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos);
-    GLuint loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaders);
+    GLuint compileShader(const ShaderCode& shaderInfo);
+    std::vector<GLuint> compileShaders(std::vector<ShaderCode>& shaderInfos);
+    GLuint loadShaderProgram(std::vector<ShaderCode>& shaders);
 
     GLuint load2DTexture(const TextureData& textureData);
 

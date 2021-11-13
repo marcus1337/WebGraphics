@@ -57,14 +57,12 @@ std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
     std::vector<std::string> names;
     for (const auto &entry : std::filesystem::directory_iterator(shaderPath))
     {
-        std::string filename = entry.path().filename();
+        const std::string filename = entry.path().filename();
         if (isShaderFile(filename))
         {
             std::string name = entry.path().stem().string();
             if (!shaderGroups.contains(name))
-            {
                 shaderGroups[name] = std::vector<std::string>();
-            }
             shaderGroups[name].push_back(filename);
         }
     }
@@ -77,12 +75,13 @@ std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
     return result;
 }
 
-std::tuple<std::string, uint32_t> IOShader::getShaderInfo(const std::string &fileName)
+ShaderCode IOShader::getShaderCode(const std::string &fileName)
 {
+    ShaderCode shaderCode;
     std::string fileExtension = getFileExtension(fileName);
-    std::string shaderCode = readShaderSource(fileName);
-    uint32_t shaderType = getShaderValue(fileExtension);
-    return std::make_tuple(shaderCode, shaderType);
+    shaderCode.glslCode = readShaderSource(fileName);
+    shaderCode.shaderType = getShaderValue(fileExtension);
+    return shaderCode;
 }
 
 std::string IOShader::readShaderSource(const std::string &fileName)
@@ -94,15 +93,27 @@ std::string IOShader::readShaderSource(const std::string &fileName)
     return stream.str();
 }
 
-std::vector<std::vector<std::tuple<std::string, uint32_t>>> IOShader::getShaderInfos(){
-    std::vector<std::vector<std::tuple<std::string, uint32_t>>> infos;
+void IOShader::removeExtension(std::string &fileName)
+{
+    std::string tmpExtension = getFileExtension(fileName);
+    fileName.erase(fileName.find(tmpExtension), tmpExtension.size());
+}
+
+std::vector<ShaderData> IOShader::getShaderData()
+{
+    std::vector<ShaderData> infos;
     std::vector<std::vector<std::string>> shaderGroups = getShaderFilenames();
-    for(const auto& group : shaderGroups){
-        std::vector<std::tuple<std::string, uint32_t>> info;
-        for(const std::string& fileName : group){
-            info.push_back(getShaderInfo(fileName));
+    for (const auto &group : shaderGroups)
+    {
+        ShaderData shaderData;
+        shaderData.name = group[0];
+        removeExtension(shaderData.name);
+
+        for (const std::string &fileName : group)
+        {
+            shaderData.shaders.push_back(getShaderCode(fileName));
         }
-        infos.push_back(info);
+        infos.push_back(shaderData);
     }
     return infos;
 }

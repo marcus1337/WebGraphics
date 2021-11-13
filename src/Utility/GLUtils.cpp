@@ -65,17 +65,16 @@ GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
     return program;
 }
 
-GLuint GLUtils::compileShader(const std::tuple<std::string, uint32_t>& shaderInfo)
+GLuint GLUtils::compileShader(const ShaderCode& shaderInfo)
 {
-    const char* shaderCode = std::get<0>(shaderInfo).c_str();
-    uint32_t shaderType = std::get<1>(shaderInfo);
-    GLuint shader = glCreateShader(shaderType);
+    const char* shaderCode = shaderInfo.glslCode.c_str();
+    GLuint shader = glCreateShader(shaderInfo.shaderType);
     glShaderSource(shader, 1, &shaderCode, nullptr);
     glCompileShader(shader);
     return shader;
 }
 
-std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos)
+std::vector<GLuint> GLUtils::compileShaders(std::vector<ShaderCode>& shaderInfos)
 {
     std::vector<GLuint> shaders;
     shaders.reserve(shaderInfos.size());
@@ -94,7 +93,7 @@ std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, 
     return shaders;
 }
 
-GLuint GLUtils::loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaderInfos)
+GLuint GLUtils::loadShaderProgram(std::vector<ShaderCode>& shaderInfos)
 {
     std::vector<GLuint> shaders = compileShaders(shaderInfos);
     if(shaders.empty())

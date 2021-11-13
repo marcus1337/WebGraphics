@@ -8,6 +8,7 @@
 #include "glm/ext.hpp"
 #include <map>
 #include "IO/TextureData.h"
+#include "IO/ShaderData.h"
 
 #ifndef GLDATA_H
 #define GLDATA_H
@@ -21,15 +22,14 @@ private:
     std::map<std::string, GLuint> textures;
 
     GLuint makeTexture(TextureData& textureData);
-    GLuint makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders);
-    std::string getProgramName(std::vector<std::tuple<std::string, uint32_t>> shaders);
+    GLuint makeProgram(ShaderData& shaders);
 
 public:
 
     GLData() = default;
     ~GLData();
     GLuint getTexture(TextureData& textureData);
-    GLuint getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders);
+    GLuint getProgram(ShaderData& shaders);
 
 };
 

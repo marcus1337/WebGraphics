@@ -28,7 +28,7 @@ void App::drawStep()
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
 
     GLuint textureID = glData.getTexture(textureData);
-    GLuint programID = glData.getProgram(ioshader.getShaderInfos()[0]);
+    GLuint programID = glData.getProgram(ioshader.getShaderData()[0]);
 
     image.draw(programID, textureID);
 
