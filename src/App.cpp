@@ -29,8 +29,8 @@ void App::drawStep()
 
     std::tuple<std::string, uint32_t> imageVertexShaderInfo = std::make_tuple("image.vert", GL_VERTEX_SHADER);
     std::tuple<std::string, uint32_t> imageFragmentShaderInfo = std::make_tuple("image.frag", GL_FRAGMENT_SHADER);
-    GLuint textureID = glData.getTexture("stallTexture.png", io.iostuff.texturePath);
-    GLuint programID = glData.getProgram({imageVertexShaderInfo, imageFragmentShaderInfo}, io.iostuff.shaderPath);
+    GLuint textureID = glData.getTexture("stallTexture.png", iostuff.texturePath);
+    GLuint programID = glData.getProgram({imageFragmentShaderInfo, imageVertexShaderInfo}, ioshader.shaderPath);
 
     image.draw(programID, textureID);
 

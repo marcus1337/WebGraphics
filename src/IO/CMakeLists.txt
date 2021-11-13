@@ -1,4 +1,4 @@
 
-add_library(io IOStuff.cpp IO.cpp IOStuff.h IO.h)
+add_library(io IOStuff.cpp IOStuff.h IOShader.cpp IOShader.h)
 
 target_link_libraries(io utility)

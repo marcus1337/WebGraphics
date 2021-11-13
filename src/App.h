@@ -1,5 +1,3 @@
-
-#include "IO/IO.h"
 #include "Utility/GLData.h"
 #include "IO/IOStuff.h"
 #include "Window/MyWindow.h"
@@ -14,6 +12,8 @@
 #include <iostream>
 
 #include "Utility/MatrixData.h"
+#include "IO/IOStuff.h"
+#include "IO/IOShader.h"
 
 
 #ifndef APP_H
@@ -24,10 +24,11 @@ class App {
     Camera camera;
 
     GLData glData;
-    IO io;
     MatrixData matrixdata;
     Image image;
     MyWindow mywindow;
+    IOStuff iostuff;
+    IOShader ioshader;
 
     uint64_t gameTicks = 0;
     long long MS_FRAME;
