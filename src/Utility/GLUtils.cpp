@@ -111,28 +111,8 @@ GLuint GLUtils::loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> 
     return linkProgram(shaders);
 }
 
-GLFWimage GLUtils::loadIconImage(std::string &imagePath)
+GLuint GLUtils::load2DTexture(const TextureData& textureData)
 {
-    unsigned error;
-    GLFWimage image;
-    error = lodepng_decode32_file(&(image.pixels), (unsigned int *)&(image.width), (unsigned int *)&(image.height), imagePath.c_str());
-    if (error)
-        printf("error %u: %s\n", error, lodepng_error_text(error));
-    return image;
-}
-
-GLuint GLUtils::load2DTexture(const std::string &filename_, std::string &textureFilePath)
-{
-    std::string filename = textureFilePath + filename_;
-    std::vector<unsigned char> data;
-    unsigned width, height;
-    unsigned error = lodepng::decode(data, width, height, filename);
-    if (error != 0)
-    {
-        std::clog << "Error: " << lodepng_error_text(error) << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-
     GLuint texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -141,10 +121,8 @@ GLuint GLUtils::load2DTexture(const std::string &filename_, std::string &texture
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, &(data[0]));
-
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureData.width, textureData.height, 0, GL_RGBA,
+                 GL_UNSIGNED_BYTE, &(textureData.data[0]));
     glBindTexture(GL_TEXTURE_2D, 0);
-
     return texture;
 }

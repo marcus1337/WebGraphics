@@ -14,6 +14,7 @@
 #include "Utility/MatrixData.h"
 #include "IO/IOStuff.h"
 #include "IO/IOShader.h"
+#include "IO/IOTexture.h"
 
 
 #ifndef APP_H
@@ -29,6 +30,7 @@ class App {
     MyWindow mywindow;
     IOStuff iostuff;
     IOShader ioshader;
+    IOTexture iotexture;
 
     uint64_t gameTicks = 0;
     long long MS_FRAME;
@@ -39,6 +41,8 @@ class App {
     void update();
     void init();
     bool isGameUpdate();
+
+    TextureData textureData;
 
 public:
 

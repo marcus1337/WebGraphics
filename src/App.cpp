@@ -29,7 +29,7 @@ void App::drawStep()
 
     std::tuple<std::string, uint32_t> imageVertexShaderInfo = std::make_tuple("image.vert", GL_VERTEX_SHADER);
     std::tuple<std::string, uint32_t> imageFragmentShaderInfo = std::make_tuple("image.frag", GL_FRAGMENT_SHADER);
-    GLuint textureID = glData.getTexture("stallTexture.png", iostuff.texturePath);
+    GLuint textureID = glData.getTexture(textureData);
     GLuint programID = glData.getProgram({imageFragmentShaderInfo, imageVertexShaderInfo}, ioshader.shaderPath);
 
     image.draw(programID, textureID);
@@ -66,6 +66,8 @@ void App::run()
 
 App::App() : camera(glm::vec3(0.0f, 0.0f, 4.0f))
 {
+    std::string textureFile = "stallTexture.png";
+    textureData = iotexture.getTextureData(textureFile);
     init();
 }
 

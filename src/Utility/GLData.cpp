@@ -3,11 +3,11 @@
 #include "GLUtils.h"
 
 
-GLuint GLData::makeTexture(std::string textureFile, std::string textureFilePath) {
+GLuint GLData::makeTexture(TextureData& textureData) {
     GLuint textID = 0;
-    textID = GLUtils::load2DTexture(textureFile, textureFilePath);
+    textID = GLUtils::load2DTexture(textureData);
     if (textID != 0)
-        textures[textureFile] = textID;
+        textures[textureData.fileName] = textID;
     return textID;
 }
 GLuint GLData::makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {
@@ -19,10 +19,10 @@ GLuint GLData::makeProgram(std::vector<std::tuple<std::string, uint32_t>> shader
     return programID;
 }
 
-GLuint GLData::getTexture(std::string textureFile, std::string textureFilePath) {
-    if (textures.contains(textureFile))
-        return textures[textureFile];
-    return makeTexture(textureFile, textureFilePath);
+GLuint GLData::getTexture(TextureData& textureData) {
+    if (textures.contains(textureData.fileName))
+        return textures[textureData.fileName];
+    return makeTexture(textureData);
 }
 
 GLuint GLData::getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {

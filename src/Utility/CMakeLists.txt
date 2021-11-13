@@ -1,5 +1,5 @@
 
-add_library(utility lodepng.cpp GLData.cpp GLUtils.cpp lodepng.h GLData.h GLUtils.h MatrixData.h)
+add_library(utility GLData.cpp GLUtils.cpp GLData.h GLUtils.h MatrixData.h)
 
 target_link_libraries(utility glm)
 

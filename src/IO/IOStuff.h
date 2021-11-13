@@ -15,8 +15,6 @@ private:
 
 public:
     std::string binFolderPath;
-    std::string texturePath;
-    std::string normalTexturePath;
     std::string modelsPath;
 
     IOStuff();

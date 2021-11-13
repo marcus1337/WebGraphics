@@ -3,7 +3,7 @@
 #define GLUTILS_H
 
 #include <GL/glew.h>
-#include "lodepng.h"
+#include "IO/lodepng.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -17,6 +17,7 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include "IO/TextureData.h"
 
 namespace GLUtils {
 
@@ -27,14 +28,12 @@ namespace GLUtils {
     void showProgramInfoLog(GLuint program);
     bool wasShaderCompiled(GLuint shader);
     GLuint linkProgram(std::vector<GLuint> shaders);
-    GLuint compileShader(const std::string &shaderFilename, const std::string &shaderFilePath, uint32_t shaderType);
-    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath);
 
+    GLuint compileShader(const std::string &shaderCode, const std::string &shaderFilePath, uint32_t shaderType);
+    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath);
     GLuint loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaders, const std::string& shaderFilePath);
 
-    GLuint load2DTexture(const std::string& filename_, std::string& textureFilePath);
-
-    GLFWimage loadIconImage(std::string& imagePath);
+    GLuint load2DTexture(const TextureData& textureData);
 
 
 }

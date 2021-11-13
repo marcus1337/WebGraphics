@@ -14,13 +14,9 @@ IOStuff::IOStuff()
 {
 #ifdef EMSCRIPTEN
     binFolderPath = "./res/";
-    texturePath = binFolderPath + "textures/";
-    normalTexturePath = texturePath + "normals/";
     modelsPath = binFolderPath + "models/";
 #else
     binFolderPath = std::filesystem::current_path().string() + "//res//";
-    texturePath = binFolderPath + "textures//";
-    normalTexturePath = texturePath + "normals//";
     modelsPath = binFolderPath + "models//";
 #endif
 }
