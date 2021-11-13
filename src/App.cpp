@@ -10,7 +10,6 @@ void App::init()
     MS_PASSED = 0;
     MS_FRAME = 16600;
     image.init();
-    modelManager.init(io);
 }
 
 bool App::isGameUpdate()

@@ -13,9 +13,7 @@
 #include <string>
 #include <iostream>
 
-#include "Model/Model.h"
-#include "Model/MatrixData.h"
-#include "Model/ModelManager.h"
+#include "Utility/MatrixData.h"
 
 
 #ifndef APP_H
@@ -30,7 +28,6 @@ class App {
     MatrixData matrixdata;
     Image image;
     MyWindow mywindow;
-    ModelManager modelManager;
 
     uint64_t gameTicks = 0;
     long long MS_FRAME;

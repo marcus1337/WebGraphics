@@ -3,7 +3,7 @@
 #include <vector>
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Model/MatrixData.h"
+#include "Utility/MatrixData.h"
 
 #ifndef CAMERA_H
 #define CAMERA_H
