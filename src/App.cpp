@@ -27,10 +27,8 @@ void App::drawStep()
 
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
 
-    std::tuple<std::string, uint32_t> imageVertexShaderInfo = std::make_tuple("image.vert", GL_VERTEX_SHADER);
-    std::tuple<std::string, uint32_t> imageFragmentShaderInfo = std::make_tuple("image.frag", GL_FRAGMENT_SHADER);
     GLuint textureID = glData.getTexture(textureData);
-    GLuint programID = glData.getProgram({imageFragmentShaderInfo, imageVertexShaderInfo}, ioshader.shaderPath);
+    GLuint programID = glData.getProgram(ioshader.getShaderInfos()[0]);
 
     image.draw(programID, textureID);
 

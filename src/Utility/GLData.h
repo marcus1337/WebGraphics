@@ -21,7 +21,7 @@ private:
     std::map<std::string, GLuint> textures;
 
     GLuint makeTexture(TextureData& textureData);
-    GLuint makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath);
+    GLuint makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders);
     std::string getProgramName(std::vector<std::tuple<std::string, uint32_t>> shaders);
 
 public:
@@ -29,7 +29,7 @@ public:
     GLData() = default;
     ~GLData();
     GLuint getTexture(TextureData& textureData);
-    GLuint getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath);
+    GLuint getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders);
 
 };
 

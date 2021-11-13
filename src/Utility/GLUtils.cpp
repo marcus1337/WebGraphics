@@ -1,13 +1,6 @@
 
 #include "GLUtils.h"
 
-std::string GLUtils::readShaderSource(const std::string &filename)
-{
-    std::ifstream file(filename);
-    std::stringstream stream;
-    stream << file.rdbuf();
-    return stream.str();
-}
 
 void GLUtils::showShaderInfoLog(GLuint shader)
 {
@@ -72,25 +65,23 @@ GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
     return program;
 }
 
-GLuint GLUtils::compileShader(const std::string &shaderFilename, const std::string &shaderFilePath, uint32_t shaderType)
+GLuint GLUtils::compileShader(const std::tuple<std::string, uint32_t>& shaderInfo)
 {
+    const char* shaderCode = std::get<0>(shaderInfo).c_str();
+    uint32_t shaderType = std::get<1>(shaderInfo);
     GLuint shader = glCreateShader(shaderType);
-    std::string vertexShaderSource = GLUtils::readShaderSource(shaderFilePath + shaderFilename);
-    const char *shaderSourcePtr = vertexShaderSource.c_str();
-    glShaderSource(shader, 1, &shaderSourcePtr, nullptr);
+    glShaderSource(shader, 1, &shaderCode, nullptr);
     glCompileShader(shader);
     return shader;
 }
 
-std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath)
+std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos)
 {
     std::vector<GLuint> shaders;
     shaders.reserve(shaderInfos.size());
     for (std::size_t i = 0; i < shaderInfos.size(); i++)
     {
-        const std::string& shaderFileName = std::get<0>(shaderInfos[i]);
-        uint32_t shaderType = std::get<1>(shaderInfos[i]);
-        GLuint shader = compileShader(shaderFileName, shaderFilePath, shaderType);
+        GLuint shader = compileShader(shaderInfos[i]);
         shaders.push_back(shader);
 
         if (!wasShaderCompiled(shader))
@@ -103,9 +94,9 @@ std::vector<GLuint> GLUtils::compileShaders(std::vector<std::tuple<std::string, 
     return shaders;
 }
 
-GLuint GLUtils::loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaderInfos, const std::string &shaderFilePath)
+GLuint GLUtils::loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaderInfos)
 {
-    std::vector<GLuint> shaders = compileShaders(shaderInfos, shaderFilePath);
+    std::vector<GLuint> shaders = compileShaders(shaderInfos);
     if(shaders.empty())
         return 0;
     return linkProgram(shaders);

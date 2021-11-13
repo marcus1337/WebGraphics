@@ -10,10 +10,10 @@ GLuint GLData::makeTexture(TextureData& textureData) {
         textures[textureData.fileName] = textID;
     return textID;
 }
-GLuint GLData::makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {
+GLuint GLData::makeProgram(std::vector<std::tuple<std::string, uint32_t>> shaders) {
     GLuint programID = 0;
     std::string programName = getProgramName(shaders);
-    programID = GLUtils::loadShaderProgram(shaders, shaderFilePath);
+    programID = GLUtils::loadShaderProgram(shaders);
     if (programID != 0)
         programs[programName] = programID;
     return programID;
@@ -25,11 +25,11 @@ GLuint GLData::getTexture(TextureData& textureData) {
     return makeTexture(textureData);
 }
 
-GLuint GLData::getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders, std::string shaderFilePath) {
+GLuint GLData::getProgram(std::vector<std::tuple<std::string, uint32_t>> shaders) {
     std::string programName = getProgramName(shaders);
     if (programs.contains(programName))
         return programs[programName];
-    return makeProgram(shaders, shaderFilePath);
+    return makeProgram(shaders);
 }
 
 GLData::~GLData() {

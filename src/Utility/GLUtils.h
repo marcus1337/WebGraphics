@@ -21,17 +21,15 @@
 
 namespace GLUtils {
 
-    std::string readShaderSource(const std::string& filename);
-
     void showShaderInfoLog(GLuint shader);
 
     void showProgramInfoLog(GLuint program);
     bool wasShaderCompiled(GLuint shader);
     GLuint linkProgram(std::vector<GLuint> shaders);
 
-    GLuint compileShader(const std::string &shaderCode, const std::string &shaderFilePath, uint32_t shaderType);
-    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos, const std::string &shaderFilePath);
-    GLuint loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaders, const std::string& shaderFilePath);
+    GLuint compileShader(const std::tuple<std::string, uint32_t>& shaderInfo);
+    std::vector<GLuint> compileShaders(std::vector<std::tuple<std::string, uint32_t>> shaderInfos);
+    GLuint loadShaderProgram(std::vector<std::tuple<std::string,uint32_t>> shaders);
 
     GLuint load2DTexture(const TextureData& textureData);
 
