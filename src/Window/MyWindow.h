@@ -8,8 +8,8 @@
 #include "Camera.h"
 #include <map>
 #include <string>
-#include "Mouse.h"
-#include "Keyboard.h"
+#include "IO/Controller/Mouse.h"
+#include "IO/Controller/Keyboard.h"
 
 #ifndef MYWINDOW_H
 #define MYWINDOW_H

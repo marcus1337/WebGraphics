@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "IO/TextureData.h"
-#include "IO/ShaderData.h"
+#include "IO/Files/TextureData.h"
+#include "IO/Files/ShaderData.h"
 
 namespace GLUtils {
     void showShaderInfoLog(GLuint shader);

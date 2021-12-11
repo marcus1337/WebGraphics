@@ -1,8 +1,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
-#include "Keyboard.h"
-#include "Mouse.h"
+#include "IO/Controller/Keyboard.h"
+#include "IO/Controller/Mouse.h"
 #include "Utility/MatrixData.h"
 
 #ifndef CAMERA_H

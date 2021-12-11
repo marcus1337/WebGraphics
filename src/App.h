@@ -1,5 +1,5 @@
 #include "Utility/GLData.h"
-#include "IO/IOStuff.h"
+#include "IO/Files/IOStuff.h"
 #include "Window/MyWindow.h"
 #include "Window/Image.h"
 
@@ -12,9 +12,9 @@
 #include <iostream>
 
 #include "Utility/MatrixData.h"
-#include "IO/IOStuff.h"
-#include "IO/IOShader.h"
-#include "IO/IOTexture.h"
+#include "IO/Files/IOStuff.h"
+#include "IO/Files/IOShader.h"
+#include "IO/Files/IOTexture.h"
 
 #include "Window/ImageUniform.h"
 

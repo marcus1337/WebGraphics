@@ -7,8 +7,8 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include <map>
-#include "IO/TextureData.h"
-#include "IO/ShaderData.h"
+#include "IO/Files/TextureData.h"
+#include "IO/Files/ShaderData.h"
 
 #ifndef GLDATA_H
 #define GLDATA_H
