@@ -21,8 +21,8 @@ void App::draw(){
 
 void App::drawStep()
 {
-    image.draw();
-
+    //image.draw();
+    text.renderText(glm::vec4(1.0f,0.0f,1.0f,0.0f));
 }
 
 void App::endDraw()
@@ -33,14 +33,23 @@ void App::endDraw()
 void App::beginDraw()
 {
     glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.15f, 0.15f, 0.0f, 1.0f);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    camera.setOrthographic(false);
+    camera.setOrthographic(true);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+
+    text.setSourceWindowSize((float)mywindow.SCR_WIDTH, (float)mywindow.SCR_HEIGHT);
+    text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+
+    text.setText("Hello world 123 ");
+    text.rotationAxis = glm::vec3(1.f, 0.f, 0.f);
+    text.rotation = 180.f;
+    text.setScale(glm::vec3(10.f, 10.f, 1.f));
+    text.setPosition(glm::vec3(0.0f,0.0f,1.0f));
 }
 
 void App::run()
@@ -67,6 +76,9 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     for(auto& s : shaders){
         std::cout << s.name << "\n";
     }
+
+    int status = text.loadGlyphs(textProgram, iostuff.binFolderPath);
+    std::cout << "Load glyphs: " << status << std::endl;
 }
 
 App::~App()

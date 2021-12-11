@@ -17,6 +17,7 @@
 #include "IO/Files/IOTexture.h"
 
 #include "Window/ImageUniform.h"
+#include "Window/Text.h"
 
 
 #ifndef APP_H
@@ -28,6 +29,7 @@ class App {
     Camera camera;
     Image image;
     ImageUniform* imageUniform = nullptr;
+    Text text;
 
     GLData glData;
     MatrixData matrixdata;

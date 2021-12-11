@@ -34,7 +34,7 @@ int Text::loadGlyphs(GLuint _programID, std::string& fontPath) {
 
     FT_Face face;
 
-    std::string font_name = fontPath + "DroidSans.ttf";
+    std::string font_name = fontPath + "fonts/" + "Roboto-Regular.ttf";
 
     if (FT_New_Face(ft, font_name.c_str(), 0, &face))
     {
@@ -136,6 +136,7 @@ void Text::setText(std::string _text) {
 
 void Text::initVBO()
 {
+    glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     glCreateBuffers(1, &vbo);
     glNamedBufferStorage(vbo, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_STORAGE_BIT);
@@ -190,19 +191,6 @@ void Text::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT) {
     SCR_HEIGHT = _SCR_HEIGHT;
     scaleValX = 1.0f / SCR_WIDTH;
     scaleValY = 1.0f / SCR_HEIGHT;
-}
-
-glm::mat4 Text::getStaticMVP() {
-    glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
-    glm::quat myQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
-
-    glm::mat4 rotateMat = glm::toMat4(myQuat);
-    glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
-    glm::mat4 modModel = translateMat * rotateMat * scaleMat;
-    modModel = translateMat * scaleMat;
-
-    glm::mat4 MVP = VP * modModel;
-    return MVP;
 }
 
 void Text::renderText(glm::vec4 color) {

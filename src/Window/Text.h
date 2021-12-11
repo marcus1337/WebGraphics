@@ -28,7 +28,6 @@ protected:
     GLuint vao, vbo;
 
     glm::mat4 getMVP();
-    glm::mat4 getStaticMVP();
     glm::vec3 midPosition, lastPosition;
     bool isMidPositionSet = false;
     bool isPositionSet = false;
