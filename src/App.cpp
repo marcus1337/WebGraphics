@@ -22,7 +22,7 @@ void App::draw(){
 void App::drawStep()
 {
     //image.draw();
-    text.renderText(glm::vec4(1.0f,0.0f,1.0f,0.0f));
+    text.renderText(glm::vec4(1.0f,0.0f,1.0f,1.0f));
 }
 
 void App::endDraw()
@@ -38,17 +38,17 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    camera.setOrthographic(true);
+    camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setSourceWindowSize((float)mywindow.SCR_WIDTH, (float)mywindow.SCR_HEIGHT);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
-    text.setText("Hello world 123 AAAAAAAAAAAAAAAAAAAAAAAAA");
-    text.rotationAxis = glm::vec3(1.f, 0.f, 0.f);
-    text.rotation = 180.f;
-    text.setScale(glm::vec3(100.f, 100.f, 1.f));
+    text.setText("Hello world 123 AAA");
+    text.rotationAxis = glm::vec3(0.f, 1.f, 0.f);
+    text.rotation = 45.f;
+    text.setScale(glm::vec3(10.f, 10.f, 1.f));
     text.setPosition(glm::vec3(0.0f,0.0f,1.0f));
 }
 
