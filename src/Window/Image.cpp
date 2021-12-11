@@ -35,11 +35,6 @@ void Image::setNormal(GLuint texture)
    normalID = texture;
 }
 
-void Image::setNormalOnOff(bool _on)
-{
-    isNormalUsed = _on;
-}
-
 void Image::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
 {
     VP = _VP;

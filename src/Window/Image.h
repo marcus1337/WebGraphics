@@ -19,17 +19,17 @@
 
 class Image
 {
+    glm::mat4 VP, V, P;
+    GLuint programID = 0;
+    GLuint textureID = 0;
+    GLuint normalID = 0;
+    GLuint vao, vbo;
+
     void initVBO();
     glm::mat4 getModel();
-
-    glm::mat4 VP, V, P;
-
     void setProgram(GLuint program);
     void setTexture(GLuint texture);
     void setNormal(GLuint texture);
-    GLuint programID = -1;
-    GLuint textureID = -1;
-    GLuint normalID = -1;
 
     void setTextureUniforms();
     void setMatrixUniforms();
@@ -37,29 +37,20 @@ class Image
     void setClippingUniforms();
     void setUniforms();
 
-    GLuint vao;
-    GLuint vbo;
-
 public:
-    glm::vec3 cameraPosition;
     glm::vec3 position, scale;
     glm::quat rotation;
-
     float alpha = 1.0f;
     bool isNormalUsed = false;
-
     glm::vec2 textureSize, textureCorner;
-    void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
 
     Image();
     ~Image();
     void setPosition(glm::vec3 _position);
     void setMidPosition(glm::vec3 _midPosition);
-
+    void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
-
     void draw(GLuint _program, GLuint _texture, GLuint _normal = 0);
-    void setNormalOnOff(bool _on);
 };
 
 #endif
