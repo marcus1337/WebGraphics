@@ -15,7 +15,6 @@
 class Image
 {
     void initVBO();
-    glm::mat4 getMVP();
     glm::mat4 getModel();
 
     glm::mat4 VP, V, P;

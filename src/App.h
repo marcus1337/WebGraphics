@@ -37,27 +37,28 @@ class App {
     long long MS_PASSED;
     std::chrono::steady_clock::time_point timeSinceGameUpdate;
 
+    TextureData textureData;
+    std::vector<ShaderData> shaders;
+
     void prepareUpdate();
     void update();
     void init();
     bool isGameUpdate();
 
-    TextureData textureData;
-
-public:
+    void drawStep();
+    void endDraw();
+    void beginDraw();
 
     void gameStep();
 
+public:
     App();
     ~App();
-    void drawStep();
-    void endDraw();
-    void beginImGuiDraw();
-    void beginDraw();
+    void draw();
     void run();
+    void step();
 
     void resizeWindow(int _width, int _height);
-
 };
 
 #endif

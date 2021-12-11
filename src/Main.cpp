@@ -1,13 +1,13 @@
 
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
-#include <iostream>
-#include <string>
-
 #ifdef EMSCRIPTEN
+    #include <GL/glew.h>
+    #include <GLFW/glfw3.h>
+    #include <glm/glm.hpp>
+    #include <glm/ext.hpp>
+    #include <iostream>
+    #include <string>
+
+
     #include <emscripten.h>
     #include <emscripten/html5.h>
     #include <emscripten/bind.h>
@@ -17,11 +17,9 @@
 
 #ifdef EMSCRIPTEN
     App app;
-
     void oneLoop(){
-        app.gameStep();
+        app.step();
     }
-
     void resizeWindow(int width, int height){
         app.resizeWindow(width, height);
     }
@@ -31,7 +29,6 @@
 #endif
 
 int main(int argc, char *argv[]){
-
     #ifdef EMSCRIPTEN
         emscripten_set_main_loop(oneLoop, 5, 1);
     #else

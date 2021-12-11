@@ -21,23 +21,25 @@ bool App::isGameUpdate()
     return MS_PASSED >= MS_FRAME;
 }
 
+void App::draw(){
+    beginDraw();
+    drawStep();
+    endDraw();
+}
+
 void App::drawStep()
 {
-    beginDraw();
-
     image.scale = glm::vec3(1.0, 1.0, 1.0f);
 
     GLuint textureID = glData.getTexture(textureData);
-    GLuint programID = glData.getProgram(ioshader.getShaderData()[0]);
+    GLuint programID = glData.getProgram(shaders[0]);
 
     image.draw(programID, textureID);
 
-    endDraw();
 }
 
 void App::endDraw()
 {
-
     glfwSwapBuffers(mywindow.window);
 }
 
@@ -66,6 +68,8 @@ App::App() : camera(glm::vec3(0.0f, 0.0f, 4.0f))
 {
     std::string textureFile = "stallTexture.png";
     textureData = iotexture.getTextureData(textureFile);
+    shaders = ioshader.getShaderData();
+
     init();
 }
 
@@ -81,19 +85,18 @@ void App::prepareUpdate()
     mywindow.mouse.beginFrame();
 }
 
+void App::step(){
+    prepareUpdate();
+    update();
+    draw();
+    mywindow.mouse.endFrame();
+}
+
 void App::gameStep()
 {
     if (isGameUpdate())
-    {
-        prepareUpdate();
-        update();
-        drawStep();
-        mywindow.mouse.endFrame();
-    }
-
-#ifndef EMSCRIPTEN
+        step();
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-#endif
 }
 
 void App::update()

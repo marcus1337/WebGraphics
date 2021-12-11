@@ -101,17 +101,6 @@ glm::mat4 Image::getModel()
     return modModel;
 }
 
-glm::mat4 Image::getMVP()
-{
-    glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
-    glm::quat myQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
-    glm::mat4 rotateMat = glm::toMat4(myQuat);
-    glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
-    glm::mat4 modModel = translateMat * rotateMat * scaleMat;
-    glm::mat4 MVP = VP * modModel;
-    return MVP;
-}
-
 void Image::draw(GLuint _program, GLuint _texture, GLuint _normal)
 {
     setProgram(_program);
