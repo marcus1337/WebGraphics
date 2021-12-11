@@ -1,5 +1,4 @@
-#version 450 core
-#extension GL_ARB_explicit_attrib_location : require
+#version 300 es
 
 layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
 out vec2 TexCoords;

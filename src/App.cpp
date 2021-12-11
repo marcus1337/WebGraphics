@@ -62,6 +62,11 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     imageUniform = new ImageUniform(glData.getProgram(shaders[0]));
     imageUniform->setTexture(glData.getTexture(textureData));
     image.imageUniform = imageUniform;
+
+    GLuint textProgram = glData.getProgram(shaders[2]);
+    for(auto& s : shaders){
+        std::cout << s.name << "\n";
+    }
 }
 
 App::~App()
