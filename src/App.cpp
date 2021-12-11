@@ -24,7 +24,9 @@ void App::drawStep()
     GLuint textureID = glData.getTexture(textureData);
     GLuint programID = glData.getProgram(shaders[0]);
 
-    image.draw(programID, textureID);
+    image.setProgram(programID);
+    image.setTexture(textureID);
+    image.draw();
 
 }
 

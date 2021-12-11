@@ -22,9 +22,8 @@ void Image::setMidPosition(glm::vec3 _position)
 void Image::setProgram(GLuint program)
 {
     programID = program;
-    glBindVertexArray(vao);
-    glUseProgram(programID);
 }
+
 void Image::setTexture(GLuint texture)
 {
     textureID = texture;
@@ -85,11 +84,8 @@ glm::mat4 Image::getModel()
     return modModel;
 }
 
-void Image::draw(GLuint _program, GLuint _texture, GLuint _normal)
+void Image::draw()
 {
-    setProgram(_program);
-    setTexture(_texture);
-    setNormal(_normal);
     setUniforms();
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glBindVertexArray(0);
@@ -97,6 +93,9 @@ void Image::draw(GLuint _program, GLuint _texture, GLuint _normal)
 
 void Image::setUniforms()
 {
+    glBindVertexArray(vao);
+    glUseProgram(programID);
+
     setMatrixUniforms();
     setClippingUniforms();
     setColorUniforms();

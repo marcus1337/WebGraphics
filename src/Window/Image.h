@@ -27,9 +27,6 @@ class Image
 
     void initVBO();
     glm::mat4 getModel();
-    void setProgram(GLuint program);
-    void setTexture(GLuint texture);
-    void setNormal(GLuint texture);
 
     void setTextureUniforms();
     void setMatrixUniforms();
@@ -46,11 +43,15 @@ public:
 
     Image();
     ~Image();
+
+    void setProgram(GLuint program);
+    void setTexture(GLuint texture);
+    void setNormal(GLuint texture);
     void setPosition(glm::vec3 _position);
     void setMidPosition(glm::vec3 _midPosition);
     void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
-    void draw(GLuint _program, GLuint _texture, GLuint _normal = 0);
+    void draw();
 };
 
 #endif
