@@ -225,7 +225,7 @@ void Text::renderText(glm::vec4 color) {
         };
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 

@@ -20,7 +20,7 @@ protected:
     };
 
     std::map<char, Character> Characters;
-    unsigned int textVBO;
+    //unsigned int textVBO;
 
     GLuint programID = 0;
 
