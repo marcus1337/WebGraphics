@@ -21,11 +21,6 @@ void App::draw(){
 
 void App::drawStep()
 {
-    GLuint textureID = glData.getTexture(textureData);
-    GLuint programID = glData.getProgram(shaders[0]);
-
-    image.setProgram(programID);
-    image.setTexture(textureID);
     image.draw();
 
 }
@@ -45,7 +40,7 @@ void App::beginDraw()
 
     camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
-    image.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
 void App::run()
@@ -63,10 +58,15 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     std::string textureFile = "stallTexture.png";
     textureData = iotexture.getTextureData(textureFile);
     shaders = ioshader.getShaderData();
+
+    imageUniform = new ImageUniform(glData.getProgram(shaders[0]));
+    imageUniform->setTexture(glData.getTexture(textureData));
+    image.imageUniform = imageUniform;
 }
 
 App::~App()
 {
+    delete imageUniform;
 }
 
 void App::prepareUpdate()

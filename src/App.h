@@ -16,6 +16,8 @@
 #include "IO/IOShader.h"
 #include "IO/IOTexture.h"
 
+#include "Window/ImageUniform.h"
+
 
 #ifndef APP_H
 #define APP_H
@@ -25,6 +27,7 @@ class App {
     MyWindow mywindow;
     Camera camera;
     Image image;
+    ImageUniform* imageUniform = nullptr;
 
     GLData glData;
     MatrixData matrixdata;
