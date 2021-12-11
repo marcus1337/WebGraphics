@@ -1,0 +1,13 @@
+#version 450 core
+#extension GL_ARB_explicit_attrib_location : require
+
+layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
+out vec2 TexCoords;
+
+uniform mat4 MVP;
+
+void main()
+{
+    gl_Position = MVP * vec4(vertex.xyz, 1.0);
+    TexCoords = vertex.zw;
+}  
