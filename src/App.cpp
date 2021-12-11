@@ -21,8 +21,6 @@ void App::draw(){
 
 void App::drawStep()
 {
-    image.scale = glm::vec3(1.0, 1.0, 1.0f);
-
     GLuint textureID = glData.getTexture(textureData);
     GLuint programID = glData.getProgram(shaders[0]);
 
@@ -43,7 +41,7 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    camera.setOrthographic(true);
+    camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     image.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
@@ -73,6 +71,7 @@ void App::prepareUpdate()
 {
     gameTicks++;
     MS_PASSED = 0;
+    mywindow.mouse.endFrame();
     glfwPollEvents();
     mywindow.mouse.beginFrame();
 }
@@ -81,7 +80,6 @@ void App::step(){
     prepareUpdate();
     update();
     draw();
-    mywindow.mouse.endFrame();
 }
 
 void App::gameStep()
