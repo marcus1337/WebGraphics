@@ -120,7 +120,9 @@ bool MyWindow::initGLFW()
 }
 
 
-MyWindow::MyWindow() {}
+MyWindow::MyWindow() {
+    initWindow();
+}
 MyWindow::~MyWindow() {
     glfwTerminate();
 }

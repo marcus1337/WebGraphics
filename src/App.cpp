@@ -4,14 +4,6 @@
 #include "glm/glm.hpp"
 #include <filesystem>
 
-void App::init()
-{
-    mywindow.initWindow();
-    MS_PASSED = 0;
-    MS_FRAME = 16600;
-    image.init();
-}
-
 bool App::isGameUpdate()
 {
     using namespace std::chrono;
@@ -64,13 +56,13 @@ void App::run()
     }
 }
 
-App::App() : camera(glm::vec3(0.0f, 0.0f, 4.0f))
+App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
 {
+    MS_PASSED = 0;
+    MS_FRAME = 16600;
     std::string textureFile = "stallTexture.png";
     textureData = iotexture.getTextureData(textureFile);
     shaders = ioshader.getShaderData();
-
-    init();
 }
 
 App::~App()

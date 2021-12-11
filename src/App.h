@@ -22,12 +22,12 @@
 
 class App {
 
+    MyWindow mywindow;
     Camera camera;
+    Image image;
 
     GLData glData;
     MatrixData matrixdata;
-    Image image;
-    MyWindow mywindow;
     IOStuff iostuff;
     IOShader ioshader;
     IOTexture iotexture;
@@ -42,7 +42,6 @@ class App {
 
     void prepareUpdate();
     void update();
-    void init();
     bool isGameUpdate();
 
     void drawStep();

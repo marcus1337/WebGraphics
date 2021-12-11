@@ -1,17 +1,12 @@
 #include "Window/Image.h"
 
-#include <iostream>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/common.hpp>
-#include "glm/glm.hpp"
 
-using namespace std;
-
-Image::Image() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
-                 rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
+Image::Image() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f))
 {
+    rotation = glm::angleAxis( glm::radians(0.0f), glm::vec3(0.f, 0.f, 1.f) );
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
+    initVBO();
 }
 
 void Image::setPosition(glm::vec3 _position)
@@ -43,11 +38,6 @@ void Image::setNormal(GLuint texture)
 void Image::setNormalOnOff(bool _on)
 {
     isNormalUsed = _on;
-}
-
-void Image::init()
-{
-    initVBO();
 }
 
 void Image::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
@@ -94,8 +84,7 @@ void Image::initVBO()
 glm::mat4 Image::getModel()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
-    glm::quat myQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
-    glm::mat4 rotateMat = glm::toMat4(myQuat);
+    glm::mat4 rotateMat = glm::toMat4(rotation);
     glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
     glm::mat4 modModel = translateMat * rotateMat * scaleMat;
     return modModel;

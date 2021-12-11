@@ -9,6 +9,11 @@
 
 #include "Utility/GLData.h"
 
+#include <glm/gtx/quaternion.hpp>
+#include <glm/common.hpp>
+#include "glm/glm.hpp"
+
+
 #ifndef FLOOR_H
 #define FLOOR_H
 
@@ -38,8 +43,8 @@ class Image
 public:
     glm::vec3 cameraPosition;
     glm::vec3 position, scale;
-    glm::vec3 rotationAxis;
-    float rotation;
+    glm::quat rotation;
+
     float alpha = 1.0f;
     bool isNormalUsed = false;
 
@@ -51,7 +56,6 @@ public:
     void setPosition(glm::vec3 _position);
     void setMidPosition(glm::vec3 _midPosition);
 
-    void init();
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
     void draw(GLuint _program, GLuint _texture, GLuint _normal = 0);
