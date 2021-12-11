@@ -73,7 +73,6 @@ void App::prepareUpdate()
 {
     gameTicks++;
     MS_PASSED = 0;
-    mywindow.mouse.endFrame();
     glfwPollEvents();
     mywindow.mouse.beginFrame();
 }
@@ -82,6 +81,7 @@ void App::step(){
     prepareUpdate();
     update();
     draw();
+    mywindow.mouse.endFrame();
 }
 
 void App::gameStep()
