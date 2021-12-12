@@ -75,11 +75,8 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     image.imageUniform = imageUniform;
 
     GLuint textProgram = glData.getProgram(shaders[2]);
-    for(auto& s : shaders){
-        std::cout << s.name << "\n";
-    }
-
     text.programID = textProgram;
+    text.font = "Roboto-Regular";
 }
 
 App::~App()

@@ -25,7 +25,7 @@ protected:
         unsigned int Advance;   // Offset to advance to next glyph
     };
 
-    std::map<char, Character> Characters;
+    std::map<std::string, std::map<char, Character>> CharactersMap;
     glm::mat4 VP, V, P;
     GLuint vao, vbo;
 
@@ -41,13 +41,13 @@ protected:
 
 private:
     IOFonts iofonts;
-    void setCharVertices(float &_x, char c);
+    void setCharVertices(float &_x, Character ch);
     void bindAndDrawTextTextures();
     void setUniforms();
-    void addCharacter(char c, unsigned int textureID, FT_Face &face);
+    void addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName);
     unsigned int makeGlyphTexture(FT_Face &face);
 
-    int loadGlyphs();
+    int loadGlyphs(FT_Face face, const std::string& fontName);
     void initVBO();
 
 public:
@@ -74,6 +74,7 @@ public:
     glm::vec3 rotationAxis;
     float rotation;
     GLuint programID = 0;
+    std::string font;
 
     void draw();
 

@@ -12,8 +12,14 @@ Text::Text() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1
 {
     initVBO();
 
-    int status = loadGlyphs();
-    std::cout << "Load glyphs: " << status << std::endl;
+    for (const auto &[key, value] : iofonts.fonts)
+    {
+        int isError = loadGlyphs(value, key);
+        if(isError != 0){
+            std::cout << "Load glyphs failed: " << isError << ", " << value << std::endl;
+            return;
+        }
+    }
 }
 
 Text::~Text()
@@ -22,7 +28,7 @@ Text::~Text()
     glDeleteVertexArrays(1, &vao);
 }
 
-void Text::addCharacter(char c, unsigned int textureID, FT_Face &face)
+void Text::addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName)
 {
     Character character = {
         textureID,
@@ -30,7 +36,7 @@ void Text::addCharacter(char c, unsigned int textureID, FT_Face &face)
         glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
         static_cast<unsigned int>(face->glyph->advance.x)};
 
-    Characters.insert(std::pair<char, Character>(c, character));
+    CharactersMap[fontName].insert(std::pair<char, Character>(c, character));
 }
 
 unsigned int Text::makeGlyphTexture(FT_Face &face)
@@ -56,12 +62,9 @@ unsigned int Text::makeGlyphTexture(FT_Face &face)
     return texture;
 }
 
-int Text::loadGlyphs()
+int Text::loadGlyphs(FT_Face face, const std::string& fontName)
 {
-
-
-    FT_Face face = iofonts.fonts["Roboto-Regular"];
-
+    CharactersMap[fontName] = std::map<char, Character>();
     FT_Set_Pixel_Sizes(face, 0, 60);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
@@ -72,7 +75,7 @@ int Text::loadGlyphs()
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
-        addCharacter(c, makeGlyphTexture(face), face);
+        addCharacter(c, makeGlyphTexture(face), face, fontName);
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -160,6 +163,7 @@ std::tuple<float, float> Text::getTextWidthAndHeight(std::string _text)
     float y = 0;
 
     std::string::const_iterator c;
+    auto& Characters = CharactersMap[font];
     for (c = _text.begin(); c != _text.end(); c++)
     {
         Character ch = Characters[*c];
@@ -185,9 +189,9 @@ void Text::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
     scaleValY = 1.0f / SCR_HEIGHT;
 }
 
-void Text::setCharVertices(float &_x, char c)
+void Text::setCharVertices(float &_x, Character ch)
 {
-    Character ch = Characters[c];
+   // Character ch = Characters[c];
 
     float xpos = _x + ch.Bearing.x;
     float ypos = -(ch.Size.y - ch.Bearing.y);
@@ -214,10 +218,11 @@ void Text::setCharVertices(float &_x, char c)
 
 void Text::bindAndDrawTextTextures()
 {
+    auto& Characters = CharactersMap[font];
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
-        setCharVertices(_x, *c);
+        setCharVertices(_x, Characters[*c]);
 }
 
 void Text::setUniforms()
