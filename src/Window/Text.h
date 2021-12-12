@@ -10,6 +10,7 @@
 
 class Text
 {
+
 protected:
     struct Character
     {
@@ -37,10 +38,16 @@ protected:
     float scaleValX = 0.0f;
     float scaleValY = 0.0f;
 
+private:
+    void setCharVertices(float& _x, char c);
+    void bindAndDrawTextTextures();
+    void setUniforms();
+
 public:
     void setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT);
 
     std::string text;
+    glm::vec4 color = glm::vec4(1.0f,0.0f,1.0f,1.0f);
 
     void setText(std::string text);
 
@@ -60,7 +67,7 @@ public:
     glm::vec3 rotationAxis;
     float rotation;
 
-    void renderText(glm::vec4 color);
+    void draw();
     int loadGlyphs(GLuint _programID, std::string &fontPath);
     void initVBO();
 

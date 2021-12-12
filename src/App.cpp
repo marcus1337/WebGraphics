@@ -22,7 +22,7 @@ void App::draw(){
 void App::drawStep()
 {
     //image.draw();
-    text.renderText(glm::vec4(1.0f,0.0f,1.0f,1.0f));
+    text.draw();
 }
 
 void App::endDraw()
@@ -37,8 +37,10 @@ void App::beginDraw()
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    camera.setOrthographic(true);
+    camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
