@@ -21,7 +21,7 @@ void App::draw(){
 
 void App::drawStep()
 {
-    //image.draw();
+    image.draw();
     text.draw();
 }
 
@@ -68,14 +68,12 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     MS_FRAME = 16600;
     std::string textureFile = "stallTexture.png";
     textureData = iotexture.getTextureData(textureFile);
-    shaders = ioshader.getShaderData();
 
-    imageUniform = new ImageUniform(glData.getProgram(shaders[0]));
+    imageUniform = new ImageUniform(glData.getProgram("image"));
     imageUniform->setTexture(glData.getTexture(textureData));
     image.imageUniform = imageUniform;
 
-    GLuint textProgram = glData.getProgram(shaders[2]);
-    text.programID = textProgram;
+    text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
 }
 

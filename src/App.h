@@ -11,7 +11,6 @@
 #include <iostream>
 
 #include "Utility/MatrixData.h"
-#include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
 
 #include "Window/ImageUniform.h"
@@ -31,7 +30,6 @@ class App {
 
     GLData glData;
     MatrixData matrixdata;
-    IOShader ioshader;
     IOTexture iotexture;
 
     uint64_t gameTicks = 0;
@@ -40,7 +38,6 @@ class App {
     std::chrono::steady_clock::time_point timeSinceGameUpdate;
 
     TextureData textureData;
-    std::vector<ShaderData> shaders;
 
     void prepareUpdate();
     void update();
