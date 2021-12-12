@@ -10,6 +10,7 @@
 #include "IO/Files/TextureData.h"
 #include "IO/Files/ShaderData.h"
 #include "IO/Files/IOShader.h"
+#include "IO/Files/IOTexture.h"
 
 #ifndef GLDATA_H
 #define GLDATA_H
@@ -23,14 +24,19 @@ private:
     GLuint makeProgram(ShaderData &shaders);
 
     IOShader ioshader;
+    IOTexture iotexture;
+
     std::vector<ShaderData> shaders;
+    std::vector<TextureData> textureInfos;
+
     GLuint getProgram(ShaderData &shaders);
+    GLuint getTexture(TextureData &textureData);
 
 public:
     GLData();
     ~GLData();
-    GLuint getTexture(TextureData &textureData);
     GLuint getProgram(std::string name);
+    GLuint getTexture(std::string name);
 };
 
 #endif

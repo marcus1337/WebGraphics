@@ -40,6 +40,16 @@ GLuint GLData::getTexture(TextureData &textureData)
     return makeTexture(textureData);
 }
 
+GLuint GLData::getTexture(std::string name){
+    for(TextureData& textureInfo : textureInfos){
+        if(textureInfo.fileName == name)
+            return getTexture(textureInfo);
+    }
+    TextureData textureInfo = iotexture.getTextureData(name);
+    textureInfos.push_back(textureInfo);
+    return getTexture(textureInfo);
+}
+
 GLuint GLData::getProgram(ShaderData &shaders)
 {
     if (programs.contains(shaders.name))

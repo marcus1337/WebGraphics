@@ -66,11 +66,9 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
 {
     MS_PASSED = 0;
     MS_FRAME = 16600;
-    std::string textureFile = "stallTexture.png";
-    textureData = iotexture.getTextureData(textureFile);
 
     imageUniform = new ImageUniform(glData.getProgram("image"));
-    imageUniform->setTexture(glData.getTexture(textureData));
+    imageUniform->setTexture(glData.getTexture("stallTexture.png"));
     image.imageUniform = imageUniform;
 
     text.programID = glData.getProgram("text");

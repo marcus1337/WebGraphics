@@ -11,8 +11,6 @@
 #include <iostream>
 
 #include "Utility/MatrixData.h"
-#include "IO/Files/IOTexture.h"
-
 #include "Window/ImageUniform.h"
 #include "Window/Text.h"
 
@@ -30,7 +28,6 @@ class App {
 
     GLData glData;
     MatrixData matrixdata;
-    IOTexture iotexture;
 
     uint64_t gameTicks = 0;
     long long MS_FRAME;
