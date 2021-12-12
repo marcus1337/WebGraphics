@@ -1,5 +1,4 @@
 #include "Utility/GLData.h"
-#include "IO/Files/IOStuff.h"
 #include "Window/MyWindow.h"
 #include "Window/Image.h"
 
@@ -12,7 +11,6 @@
 #include <iostream>
 
 #include "Utility/MatrixData.h"
-#include "IO/Files/IOStuff.h"
 #include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
 
@@ -33,7 +31,6 @@ class App {
 
     GLData glData;
     MatrixData matrixdata;
-    IOStuff iostuff;
     IOShader ioshader;
     IOTexture iotexture;
 

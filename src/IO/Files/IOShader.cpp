@@ -10,15 +10,11 @@
 #include <map>
 #include <GL/glew.h>
 
+#include "FolderPaths.h"
+
 IOShader::IOShader()
 {
-#ifdef EMSCRIPTEN
-    binFolderPath = "./res/";
-    shaderPath = binFolderPath + "shaders/";
-#else
-    binFolderPath = std::filesystem::current_path().string() + "//res//";
-    shaderPath = binFolderPath + "shaders//";
-#endif
+
 }
 
 std::string IOShader::getFileExtension(const std::string &fileName)
@@ -55,7 +51,7 @@ std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
 {
     std::map<std::string, std::vector<std::string>> shaderGroups;
     std::vector<std::string> names;
-    for (const auto &entry : std::filesystem::directory_iterator(shaderPath))
+    for (const auto &entry : std::filesystem::directory_iterator(FolderPaths::getShaderPath()))
     {
         const std::string filename = entry.path().filename();
         if (isShaderFile(filename))
@@ -86,7 +82,7 @@ ShaderCode IOShader::getShaderCode(const std::string &fileName)
 
 std::string IOShader::readShaderSource(const std::string &fileName)
 {
-    std::string filePathAndName = shaderPath + fileName;
+    std::string filePathAndName = FolderPaths::getShaderPath() + fileName;
     std::ifstream file(filePathAndName);
     std::stringstream stream;
     stream << file.rdbuf();

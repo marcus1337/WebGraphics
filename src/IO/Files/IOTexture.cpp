@@ -10,22 +10,16 @@
 #include <map>
 #include "lodepng.h"
 
+#include "FolderPaths.h"
+
 IOTexture::IOTexture()
 {
-#ifdef EMSCRIPTEN
-    binFolderPath = "./res/";
-    texturePath = binFolderPath + "textures/";
-    normalTexturePath = texturePath + "normals/";
-#else
-    binFolderPath = std::filesystem::current_path().string() + "//res//";
-    texturePath = binFolderPath + "textures//";
-    normalTexturePath = texturePath + "normals//";
-#endif
+
 }
 
 GLFWimage IOTexture::loadIconImage(const std::string &fileName)
 {
-    std::string filePathAndName = texturePath + fileName;
+    std::string filePathAndName = FolderPaths::getTexturesPath() + fileName;
     unsigned error;
     GLFWimage image;
     error = lodepng_decode32_file(&(image.pixels), (unsigned int *)&(image.width), (unsigned int *)&(image.height), filePathAndName.c_str());
@@ -37,7 +31,7 @@ GLFWimage IOTexture::loadIconImage(const std::string &fileName)
 TextureData IOTexture::getTextureData(const std::string& fileName){
     TextureData textureData;
     textureData.fileName = fileName;
-    std::string filePathAndName = texturePath + fileName;
+    std::string filePathAndName = FolderPaths::getTexturesPath() + fileName;
     textureData.error = lodepng::decode(textureData.data, textureData.width, textureData.height, filePathAndName);
     if (textureData.error != 0)
     {

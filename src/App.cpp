@@ -80,8 +80,6 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     }
 
     text.programID = textProgram;
-    int status = text.loadGlyphs(iostuff.binFolderPath);
-    std::cout << "Load glyphs: " << status << std::endl;
 }
 
 App::~App()

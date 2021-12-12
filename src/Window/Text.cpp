@@ -11,6 +11,9 @@ Text::Text() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1
                rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
 {
     initVBO();
+
+    int status = loadGlyphs();
+    std::cout << "Load glyphs: " << status << std::endl;
 }
 
 Text::~Text()
@@ -53,23 +56,11 @@ unsigned int Text::makeGlyphTexture(FT_Face &face)
     return texture;
 }
 
-int Text::loadGlyphs(std::string &fontPath)
+int Text::loadGlyphs()
 {
-    FT_Library ft;
-    if (FT_Init_FreeType(&ft))
-    {
-        std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
-        return -1;
-    }
 
-    FT_Face face;
-    std::string font_name = fontPath + "fonts/" + "Roboto-Regular.ttf";
-    if (FT_New_Face(ft, font_name.c_str(), 0, &face))
-    {
-        std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-        FT_Done_Face(face);
-        return -1;
-    }
+
+    FT_Face face = iofonts.fonts["Roboto-Regular"];
 
     FT_Set_Pixel_Sizes(face, 0, 60);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
@@ -85,8 +76,6 @@ int Text::loadGlyphs(std::string &fontPath)
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);
-    FT_Done_Face(face);
-    FT_Done_FreeType(ft);
 
     return 0;
 }

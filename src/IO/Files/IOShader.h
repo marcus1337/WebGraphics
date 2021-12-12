@@ -14,7 +14,6 @@
 class IOShader
 {
 private:
-    std::string binFolderPath;
     std::vector<std::vector<std::string>> getShaderFilenames();
     ShaderCode getShaderCode(const std::string& filename);
     std::string readShaderSource(const std::string& fileName);
@@ -28,7 +27,6 @@ private:
     void removeExtension(std::string& fileName);
 
 public:
-    std::string shaderPath;
 
     IOShader();
     std::vector<ShaderData> getShaderData();

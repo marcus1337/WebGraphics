@@ -5,6 +5,8 @@
 #include <string>
 #include <tuple>
 
+#include "IO/Files/IOFonts.h"
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -38,17 +40,21 @@ protected:
     float scaleValY = 0.0f;
 
 private:
-    void setCharVertices(float& _x, char c);
+    IOFonts iofonts;
+    void setCharVertices(float &_x, char c);
     void bindAndDrawTextTextures();
     void setUniforms();
-    void addCharacter(char c, unsigned int textureID, FT_Face& face);
-    unsigned int makeGlyphTexture(FT_Face& face);
+    void addCharacter(char c, unsigned int textureID, FT_Face &face);
+    unsigned int makeGlyphTexture(FT_Face &face);
+
+    int loadGlyphs();
+    void initVBO();
 
 public:
     void setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT);
 
     std::string text;
-    glm::vec4 color = glm::vec4(1.0f,0.0f,1.0f,1.0f);
+    glm::vec4 color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 
     void setText(std::string text);
 
@@ -70,8 +76,6 @@ public:
     GLuint programID = 0;
 
     void draw();
-    int loadGlyphs(std::string &fontPath);
-    void initVBO();
 
     ~Text();
     Text();

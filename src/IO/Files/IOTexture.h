@@ -13,10 +13,7 @@
 
 class IOTexture
 {
-    std::string binFolderPath;
 public:
-    std::string texturePath;
-    std::string normalTexturePath;
     IOTexture();
 
     GLFWimage loadIconImage(const std::string& fileName);
