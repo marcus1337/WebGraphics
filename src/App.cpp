@@ -38,7 +38,7 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
 
-    camera.setOrthographic(false);
+    camera.setOrthographic(true);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
@@ -46,9 +46,9 @@ void App::beginDraw()
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setText("Hello world 123 AAA");
-    text.rotationAxis = glm::vec3(0.f, 1.f, 0.f);
-    text.rotation = 45.f;
-    text.setScale(glm::vec3(10.f, 10.f, 1.f));
+    //text.rotationAxis = glm::vec3(0.f, 1.f, 0.f);
+    //text.rotation += 0.1f;
+    text.setScale(glm::vec3(5.f, 5.f, 1.f));
     text.setPosition(glm::vec3(0.0f,0.0f,1.0f));
 }
 
