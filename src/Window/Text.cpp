@@ -191,8 +191,6 @@ void Text::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
 
 void Text::setCharVertices(float &_x, Character ch)
 {
-   // Character ch = Characters[c];
-
     float xpos = _x + ch.Bearing.x;
     float ypos = -(ch.Size.y - ch.Bearing.y);
     float w = ch.Size.x;
@@ -218,11 +216,17 @@ void Text::setCharVertices(float &_x, Character ch)
 
 void Text::bindAndDrawTextTextures()
 {
-    auto& Characters = CharactersMap[font];
+    std::map<char, Character>* Characters = nullptr;
+    if(CharactersMap.contains(font))
+        Characters = &CharactersMap[font];
+    else{
+        std::cout << "Error: font not found\n";
+        return;
+    }
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
-        setCharVertices(_x, Characters[*c]);
+        setCharVertices(_x, (*Characters)[*c]);
 }
 
 void Text::setUniforms()
