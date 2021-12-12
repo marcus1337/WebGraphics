@@ -5,6 +5,9 @@
 #include <string>
 #include <tuple>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #ifndef FREETYPETEXT_H
 #define FREETYPETEXT_H
 
@@ -21,10 +24,6 @@ protected:
     };
 
     std::map<char, Character> Characters;
-    //unsigned int textVBO;
-
-    GLuint programID = 0;
-
     glm::mat4 VP, V, P;
     GLuint vao, vbo;
 
@@ -42,6 +41,8 @@ private:
     void setCharVertices(float& _x, char c);
     void bindAndDrawTextTextures();
     void setUniforms();
+    void addCharacter(char c, unsigned int textureID, FT_Face& face);
+    unsigned int makeGlyphTexture(FT_Face& face);
 
 public:
     void setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT);
@@ -66,9 +67,10 @@ public:
     glm::vec3 position, scale;
     glm::vec3 rotationAxis;
     float rotation;
+    GLuint programID = 0;
 
     void draw();
-    int loadGlyphs(GLuint _programID, std::string &fontPath);
+    int loadGlyphs(std::string &fontPath);
     void initVBO();
 
     ~Text();

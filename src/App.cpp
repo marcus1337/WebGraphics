@@ -79,7 +79,8 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
         std::cout << s.name << "\n";
     }
 
-    int status = text.loadGlyphs(textProgram, iostuff.binFolderPath);
+    text.programID = textProgram;
+    int status = text.loadGlyphs(iostuff.binFolderPath);
     std::cout << "Load glyphs: " << status << std::endl;
 }
 

@@ -10,6 +10,7 @@
 Text::Text() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
                rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
 {
+    initVBO();
 }
 
 Text::~Text()
@@ -18,11 +19,42 @@ Text::~Text()
     glDeleteVertexArrays(1, &vao);
 }
 
-int Text::loadGlyphs(GLuint _programID, std::string &fontPath)
+void Text::addCharacter(char c, unsigned int textureID, FT_Face &face)
 {
+    Character character = {
+        textureID,
+        glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+        glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+        static_cast<unsigned int>(face->glyph->advance.x)};
 
-    programID = _programID;
+    Characters.insert(std::pair<char, Character>(c, character));
+}
 
+unsigned int Text::makeGlyphTexture(FT_Face &face)
+{
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RED,
+        face->glyph->bitmap.width,
+        face->glyph->bitmap.rows,
+        0,
+        GL_RED,
+        GL_UNSIGNED_BYTE,
+        face->glyph->bitmap.buffer);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    return texture;
+}
+
+int Text::loadGlyphs(std::string &fontPath)
+{
     FT_Library ft;
     if (FT_Init_FreeType(&ft))
     {
@@ -31,63 +63,30 @@ int Text::loadGlyphs(GLuint _programID, std::string &fontPath)
     }
 
     FT_Face face;
-
     std::string font_name = fontPath + "fonts/" + "Roboto-Regular.ttf";
-
     if (FT_New_Face(ft, font_name.c_str(), 0, &face))
     {
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+        FT_Done_Face(face);
         return -1;
     }
 
     FT_Set_Pixel_Sizes(face, 0, 60);
-
-    // disable byte-alignment restriction
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
     for (unsigned char c = 0; c < 128; c++)
     {
-        // Load character glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
-        // generate texture
-        unsigned int texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            GL_RED,
-            face->glyph->bitmap.width,
-            face->glyph->bitmap.rows,
-            0,
-            GL_RED,
-            GL_UNSIGNED_BYTE,
-            face->glyph->bitmap.buffer);
-        // set texture options
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // now store character for later use
-
-        Character character = {
-            texture,
-            glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-            glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-            static_cast<unsigned int>(face->glyph->advance.x)};
-
-        Characters.insert(std::pair<char, Character>(c, character));
+        addCharacter(c, makeGlyphTexture(face), face);
     }
-    glBindTexture(GL_TEXTURE_2D, 0);
 
+    glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
-
-    initVBO();
 
     return 0;
 }
@@ -224,14 +223,16 @@ void Text::setCharVertices(float &_x, char c)
     _x += (ch.Advance >> 6); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 }
 
-void Text::bindAndDrawTextTextures(){
+void Text::bindAndDrawTextTextures()
+{
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
         setCharVertices(_x, *c);
 }
 
-void Text::setUniforms(){
+void Text::setUniforms()
+{
     glUniform4fv(glGetUniformLocation(programID, "textColor"), 1, &color[0]);
     glm::mat4 MVP = getMVP();
     glUniformMatrix4fv(glGetUniformLocation(programID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
