@@ -1,6 +1,9 @@
 #include "Utility/GLData.h"
 #include "Window/MyWindow.h"
 #include "Window/Image.h"
+#include "Utility/MatrixData.h"
+#include "Window/ImageUniform.h"
+#include "Window/Text.h"
 
 #include <stack>
 #include <tuple>
@@ -10,22 +13,16 @@
 #include <string>
 #include <iostream>
 
-#include "Utility/MatrixData.h"
-#include "Window/ImageUniform.h"
-#include "Window/Text.h"
-
-
 #ifndef APP_H
 #define APP_H
 
-class App {
-
+class App
+{
     MyWindow mywindow;
     Camera camera;
     Image image;
-    ImageUniform* imageUniform = nullptr;
+    ImageUniform *imageUniform = nullptr;
     Text text;
-
     GLData glData;
     MatrixData matrixdata;
 
@@ -34,17 +31,14 @@ class App {
     long long MS_PASSED;
     std::chrono::steady_clock::time_point timeSinceGameUpdate;
 
-    TextureData textureData;
-
     void prepareUpdate();
     void update();
     bool isGameUpdate();
+    void gameStep();
 
     void drawStep();
     void endDraw();
     void beginDraw();
-
-    void gameStep();
 
 public:
     App();
@@ -52,7 +46,6 @@ public:
     void draw();
     void run();
     void step();
-
     void resizeWindow(int _width, int _height);
 };
 
