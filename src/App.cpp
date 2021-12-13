@@ -2,7 +2,6 @@
 #include "App.h"
 
 #include "glm/glm.hpp"
-#include <filesystem>
 
 bool App::isGameUpdate()
 {
@@ -43,6 +42,7 @@ void App::beginDraw()
     camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    postImageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setSourceWindowSize((float)mywindow.SCR_WIDTH, (float)mywindow.SCR_HEIGHT);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
@@ -66,8 +66,12 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     MS_FRAME = 16600;
 
     imageUniform = new ImageUniform(glData.getProgram("image"));
+    postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
+
+    postImageUniform->setTexture(glData.getTexture("stallTexture.png"));
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
-    image.imageUniform = imageUniform;
+    //image.imageUniform = imageUniform;
+    image.imageUniform = postImageUniform;
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
@@ -76,6 +80,7 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
 App::~App()
 {
     delete imageUniform;
+    delete postImageUniform;
 }
 
 void App::prepareUpdate()

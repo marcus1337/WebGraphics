@@ -16,7 +16,6 @@
 class ImageUniform{
 
     glm::mat4 VP, V, P;
-    GLuint programID;
     GLuint textureID;
     GLuint normalID;
 
@@ -27,6 +26,7 @@ class ImageUniform{
     void setClippingUniforms();
 
 protected:
+    GLuint programID;
     virtual void setCustomUniforms() {};
 
 public:

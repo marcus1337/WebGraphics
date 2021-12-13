@@ -5,6 +5,9 @@
 GLData::GLData()
 {
     shaders = ioshader.getShaderData();
+    for(auto& s : shaders){
+        std::cout << "shader: " << s.name << "\n";
+    }
 
 }
 
