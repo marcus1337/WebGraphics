@@ -10,6 +10,7 @@
 #include <string>
 #include "IO/Controller/Mouse.h"
 #include "IO/Controller/Keyboard.h"
+#include "AspectRatio.h"
 
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
@@ -25,8 +26,11 @@ class MyWindow {
     void SetVSync(bool sync);
     void setWindowHints();
     void setWindowCallbacks(GLFWwindow* window);
+    AspectRatio aspectRatio;
 
 public:
+    void resizeToAspectRatio();
+
     void resizeWindow(int width, int height);
 
     GLFWwindow* window;

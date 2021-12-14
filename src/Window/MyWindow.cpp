@@ -23,21 +23,30 @@ auto MyWindow::key_callback(GLFWwindow* window, int key, int scancode, int actio
 
 auto MyWindow::window_size_callback(GLFWwindow* window, int width, int height)
 {
+    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    mw->SCR_WIDTH = width;
+    mw->SCR_HEIGHT = height;
     glViewport(0, 0, width, height);
-    MyWindow* mywindow = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-    mywindow->SCR_WIDTH = width;
-    mywindow->SCR_HEIGHT = height;
 }
 
 auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag(xpos,ypos);
+    mw->resizeToAspectRatio();
 }
 
 auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+}
+
+void MyWindow::resizeToAspectRatio(){
+    bool shouldResize = aspectRatio.getWidth() != SCR_WIDTH || aspectRatio.getHeight() != SCR_HEIGHT;
+    if(shouldResize){
+        aspectRatio.setIndexToClosestAspectRatio(SCR_WIDTH, SCR_HEIGHT);
+        resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
+    }
 }
 
 bool MyWindow::initWindow() {
@@ -74,7 +83,6 @@ void MyWindow::setWindowCallbacks(GLFWwindow* window){
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
-    glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_WIDTH);
     glfwSetWindowSizeCallback(window, window_size_callback);
 }
 

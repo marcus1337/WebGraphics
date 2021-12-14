@@ -37,7 +37,6 @@ class App
     void prepareUpdate();
     void update();
     bool isGameUpdate();
-    void gameStep();
 
     void drawStep();
     void endDraw();

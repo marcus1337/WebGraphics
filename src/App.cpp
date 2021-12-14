@@ -56,7 +56,10 @@ void App::run()
 {
     while (!glfwWindowShouldClose(mywindow.window) && !mywindow.keyboard.quitProgram)
     {
-        gameStep();
+        if (isGameUpdate()){
+            step();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
@@ -96,13 +99,6 @@ void App::step(){
     update();
     draw();
     mywindow.mouse.endFrame();
-}
-
-void App::gameStep()
-{
-    if (isGameUpdate())
-        step();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
 
 void App::update()
