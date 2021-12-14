@@ -43,7 +43,7 @@ int AspectRatio::getHeight()
 
 void AspectRatio::increase()
 {
-    index = std::min<int>(index + 1, (int)widths.size());
+    index = std::min<int>(index + 1, (int)widths.size()-1);
 }
 void AspectRatio::decrease()
 {

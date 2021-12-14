@@ -39,6 +39,14 @@ auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    
+    for(int i = 0 ; i < 30; i++)
+        if(yoffset > 0){
+            mw->aspectRatio.increase();
+        }else{
+            mw->aspectRatio.decrease();
+        }
+    mw->resizeWindow(mw->aspectRatio.getWidth(), mw->aspectRatio.getHeight());
 }
 
 void MyWindow::resizeToAspectRatio(){
@@ -130,6 +138,9 @@ bool MyWindow::initGLFW()
 
 MyWindow::MyWindow() {
     initWindow();
+#ifndef EMSCRIPTEN
+    resizeToAspectRatio();
+#endif
 }
 MyWindow::~MyWindow() {
     glfwTerminate();
