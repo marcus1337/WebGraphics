@@ -28,6 +28,8 @@ class MyWindow {
     void setWindowCallbacks(GLFWwindow* window);
     AspectRatio aspectRatio;
 
+    void scrollScreenResize(double yoffset);
+
 public:
     void resizeToAspectRatio();
 

@@ -36,17 +36,23 @@ auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
     mw->resizeToAspectRatio();
 }
 
+void MyWindow::scrollScreenResize(double yoffset){
+    for(int i = 0 ; i < 30; i++)
+        if(yoffset > 0){
+            aspectRatio.increase();
+        }else{
+            aspectRatio.decrease();
+        }
+    resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
+}
+
 auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
     
-    for(int i = 0 ; i < 30; i++)
-        if(yoffset > 0){
-            mw->aspectRatio.increase();
-        }else{
-            mw->aspectRatio.decrease();
-        }
-    mw->resizeWindow(mw->aspectRatio.getWidth(), mw->aspectRatio.getHeight());
+#ifndef EMSCRIPTEN
+    mw->scrollScreenResize(yoffset);
+#endif
 }
 
 void MyWindow::resizeToAspectRatio(){
