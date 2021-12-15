@@ -3,6 +3,7 @@ MyWindow.h Camera.h
 ImageUniform.h ImageUniform.cpp
 PostImageUniform.h PostImageUniform.cpp
 AspectRatio.h AspectRatio.cpp
+Framebuffer.h Framebuffer.cpp 
 Text.h Text.cpp)
 
 target_link_libraries(window glm)
