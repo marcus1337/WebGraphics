@@ -35,6 +35,7 @@ void App::setGLSettings(){
     glStencilMask(0x00);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
 }
 
 void App::beginDraw()
@@ -42,17 +43,16 @@ void App::beginDraw()
     glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    camera.setOrthographic(false);
+    camera.setOrthographic(true);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    postImageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setSourceWindowSize((float)mywindow.SCR_WIDTH, (float)mywindow.SCR_HEIGHT);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
-    text.setText("Hello world 123 AAA");
-    text.setScale(glm::vec3(5.f, 5.f, 1.f));
-    text.setPosition(glm::vec3(0.0f,0.0f,1.0f));
+    text.setText("Hello world");
+    text.setScale(glm::vec3(1.f, 1.f, 1.f));
+    text.setPosition(glm::vec3(0.0f,0.0f,0.0f));
 }
 
 void App::run()
@@ -75,10 +75,8 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
     imageUniform = new ImageUniform(glData.getProgram("image"));
     postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
 
-    postImageUniform->setTexture(glData.getTexture("stallTexture.png"));
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
-    //image.imageUniform = imageUniform;
-    image.imageUniform = postImageUniform;
+    image.imageUniform = imageUniform;
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
