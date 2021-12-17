@@ -42,6 +42,8 @@ class App
     void endDraw();
     void beginDraw();
 
+    void setGLSettings();
+
 public:
     App();
     ~App();

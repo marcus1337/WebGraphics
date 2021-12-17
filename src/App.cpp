@@ -29,15 +29,18 @@ void App::endDraw()
     glfwSwapBuffers(mywindow.window);
 }
 
-void App::beginDraw()
-{
-    glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+void App::setGLSettings(){
     glClearColor(0.15f, 0.15f, 0.0f, 1.0f);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glStencilMask(0x00);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void App::beginDraw()
+{
+    glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     camera.setOrthographic(false);
     matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
@@ -65,6 +68,7 @@ void App::run()
 
 App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
 {
+    setGLSettings();
     MS_PASSED = 0;
     MS_FRAME = 16600;
 
