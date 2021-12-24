@@ -32,12 +32,19 @@ void Mouse::click(int button, int action, int mods)
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
-        isLeftMousePressed = true;
+        isLeftPressed = true;
     }
-
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
     {
-        isLeftMousePressed = false;
+        isLeftPressed = false;
+    }
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+    {
+        isRightPressed = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
+    {
+        isRightPressed = false;
     }
 }
 
@@ -46,21 +53,26 @@ void Mouse::clearDeltas()
     deltaMouseX = deltaMouseY = 0;
 }
 
+void Mouse::beginPress(bool& _wasPressed, bool& _wasReleased, bool& _isPressed){
+    if (!_wasPressed && _isPressed)
+        _wasPressed = true;
+    if (_wasPressed && !_isPressed)
+    {
+        _wasPressed = false;
+        _wasReleased = true;
+    }
+}
+
 void Mouse::beginFrame()
 {
-    if (!wasLeftMousePressed && isLeftMousePressed)
-        wasLeftMousePressed = true;
-    if (wasLeftMousePressed && !isLeftMousePressed)
-    {
-        wasLeftMousePressed = false;
-        wasLeftMouseReleased = true;
-    }
+    beginPress(wasLeftPressed, wasLeftReleased, isLeftPressed);
+    beginPress(wasRightPressed, wasRightReleased, isRightPressed);
 }
 void Mouse::endFrame()
 {
-    if (wasLeftMouseReleased)
-    {
-        wasLeftMouseReleased = false;
-    }
+    if (wasLeftReleased)
+        wasLeftReleased = false;
+    if (wasRightReleased)
+        wasRightReleased = false;
     clearDeltas();
 }

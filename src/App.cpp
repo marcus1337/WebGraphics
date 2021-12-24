@@ -125,7 +125,16 @@ void App::step(){
 
 void App::update()
 {
-    camera.move(mywindow.mouse, mywindow.keyboard);
+    //camera.move(mywindow.mouse, mywindow.keyboard);
+    if(mywindow.mouse.wasLeftReleased){
+        std::cout << "CLICK1!\n";
+        framebuffer.postImageUniform->blur += 0.1f;
+    }
+    if(mywindow.mouse.wasRightReleased){
+        std::cout << "CLICK2!\n";
+        framebuffer.postImageUniform->blur -= 0.1f;
+    }
+
 }
 
 void App::resizeWindow(int _width, int _height)

@@ -7,11 +7,17 @@
 class Mouse
 {
 
+    void beginPress(bool& _wasPressed, bool& _wasReleased, bool& _isPressed);
+
 public:
 
-    bool isLeftMousePressed = false;
-    bool wasLeftMousePressed = false;
-    bool wasLeftMouseReleased = false;
+    bool isLeftPressed = false;
+    bool wasLeftPressed = false;
+    bool wasLeftReleased = false;
+
+    bool isRightPressed = false;
+    bool wasRightPressed = false;
+    bool wasRightReleased = false;
     
     double deltaMouseX = 0;
     double deltaMouseY = 0;
