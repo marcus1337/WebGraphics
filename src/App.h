@@ -5,6 +5,7 @@
 #include "Window/ImageUniform.h"
 #include "Window/PostImageUniform.h"
 #include "Window/Text.h"
+#include "Window/Framebuffer.h"
 
 #include <stack>
 #include <tuple>
@@ -23,11 +24,10 @@ class App
     Camera camera;
     Image image;
     ImageUniform *imageUniform = nullptr;
-    PostImageUniform *postImageUniform = nullptr;
+    Framebuffer framebuffer;
 
     Text text;
     GLData glData;
-    MatrixData matrixdata;
 
     uint64_t gameTicks = 0;
     long long MS_FRAME;

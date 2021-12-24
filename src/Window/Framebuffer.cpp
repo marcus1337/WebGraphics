@@ -26,10 +26,11 @@ Framebuffer::~Framebuffer()
 
 void Framebuffer::begin()
 {
-    glViewport(0, 0, width, height);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glViewport(0, 0, width, height);
 }
 void Framebuffer::end(int windowWidth, int windowHeight)
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, windowWidth, windowHeight);
 }

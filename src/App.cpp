@@ -20,12 +20,28 @@ void App::draw(){
 
 void App::drawStep()
 {
+
+    framebuffer.begin();
+
+    glClearColor(0.45f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    image.imageUniform = imageUniform;
     image.draw();
     text.draw();
+
+    framebuffer.postImageUniform->setPosition(glm::vec3(-1.f,-1.f,0.f));
+    framebuffer.postImageUniform->scale = glm::vec3(2.0f,2.0f,1.0f);
+    framebuffer.end(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+
+    image.imageUniform = framebuffer.postImageUniform;
+    image.draw();
+
 }
 
 void App::endDraw()
 {
+    glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
     glfwSwapBuffers(mywindow.window);
 }
 
@@ -44,15 +60,20 @@ void App::beginDraw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     camera.setOrthographic(true);
-    matrixdata = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
-    imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
-    text.setSourceWindowSize((float)mywindow.SCR_WIDTH, (float)mywindow.SCR_HEIGHT);
+    MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
+    text.setSourceWindowSize(framebuffer.width, framebuffer.height);
+
+    imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setText("Hello world");
     text.setScale(glm::vec3(1.f, 1.f, 1.f));
-    text.setPosition(glm::vec3(0.0f,0.0f,0.0f));
+    text.setPosition(glm::vec3(0.0f,0.0f,1.0f));
+
+    MatrixData matrixdataReal = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+    framebuffer.postImageUniform->setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
+
 }
 
 void App::run()
@@ -66,17 +87,17 @@ void App::run()
     }
 }
 
-App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
+App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f)), framebuffer(1920, 1080)
 {
     setGLSettings();
     MS_PASSED = 0;
     MS_FRAME = 16600;
 
     imageUniform = new ImageUniform(glData.getProgram("image"));
-    postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
+    framebuffer.postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
+    framebuffer.postImageUniform->setTexture(framebuffer.texture);
 
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
-    image.imageUniform = imageUniform;
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
@@ -85,7 +106,6 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f))
 App::~App()
 {
     delete imageUniform;
-    delete postImageUniform;
 }
 
 void App::prepareUpdate()
