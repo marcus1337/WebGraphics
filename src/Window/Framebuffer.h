@@ -1,22 +1,21 @@
 #include <GL/glew.h>
 #include <functional>
-#include "ImageUniform.h"
+#include "PostImageUniform.h"
+#include "Image.h"
 
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
 class Framebuffer
 {
-
+public:
+    PostImageUniform* postImageUniform = nullptr;
     GLuint texture, fbo;
+    const int width, height;
+    ~Framebuffer();
+    Framebuffer(int _width, int _height);
     void begin();
     void end(int windowWidth, int windowHeight);
-    void drawFramebuffer();
-
-public:
-    const int width, height;
-    Framebuffer(int _width, int _height);
-    void draw(std::function<void(void)>& drawFunc, int windowWidth, int windowHeight);
 
 };
 
