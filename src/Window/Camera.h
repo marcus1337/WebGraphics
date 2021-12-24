@@ -48,11 +48,6 @@ public:
     Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
     glm::mat4 GetViewMatrix();
     glm::mat4 GetPerspectiveMatrix(int windowWidth, int windowHeight);
-    void ProcessKeyboard(Camera_Movement direction, float deltaTime);
-    void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
-
-    void move(Mouse& mouse, Keyboard& keyboard);
-
     MatrixData getMatrixData(int windowWidth, int windowHeight);
 
 private:

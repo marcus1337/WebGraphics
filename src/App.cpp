@@ -26,16 +26,14 @@ void App::drawStep()
     glClearColor(0.45f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    image.imageUniform = imageUniform;
-    image.draw();
+    image.draw(imageUniform);
     text.draw();
 
     framebuffer.postImageUniform->setPosition(glm::vec3(-1.f,-1.f,0.f));
     framebuffer.postImageUniform->scale = glm::vec3(2.0f,2.0f,1.0f);
     framebuffer.end(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
 
-    image.imageUniform = framebuffer.postImageUniform;
-    image.draw();
+    image.draw(framebuffer.postImageUniform);
 
 }
 
@@ -58,8 +56,6 @@ void App::beginDraw()
 {
     glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-    camera.setOrthographic(true);
 
     MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
     text.setSourceWindowSize(framebuffer.width, framebuffer.height);
@@ -96,11 +92,14 @@ App::App() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f)), framebuffer(1920, 
     imageUniform = new ImageUniform(glData.getProgram("image"));
     framebuffer.postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
     framebuffer.postImageUniform->setTexture(framebuffer.texture);
+    framebuffer.postImageUniform->blur = 0.0f;
 
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
+
+    camera.setOrthographic(true);
 }
 
 App::~App()

@@ -15,8 +15,7 @@ public:
 
     Image();
     ~Image();
-    ImageUniform* imageUniform = nullptr;
-    void draw();
+    void draw(ImageUniform* imageUniform);
 };
 
 #endif

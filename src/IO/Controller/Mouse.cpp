@@ -1,31 +1,31 @@
 #include "Mouse.h"
 #include <GLFW/glfw3.h>
 
-glm::vec2 Mouse::getRelativeMousePosition(int windowWidth, int windowHeight, double _fromX, double _fromY, double _toX, double _toY)
+glm::vec2 Mouse::getRelativePosition(int windowWidth, int windowHeight, double _fromX, double _fromY, double _toX, double _toY)
 {
     if (windowWidth == 0.0f || windowHeight == 0.0f)
         return glm::vec2(0, 0);
 
-    glm::vec2 relativeMousePosition = glm::vec2(mouseX / (double)windowWidth, mouseY / (double)windowHeight);
-    relativeMousePosition.x -= _fromX;
-    relativeMousePosition.y -= _fromY;
-    relativeMousePosition.x /= (_toX - _fromX);
-    relativeMousePosition.y /= (_toY - _fromY);
-    return relativeMousePosition;
+    glm::vec2 relativePosition = glm::vec2(x / (double)windowWidth, y / (double)windowHeight);
+    relativePosition.x -= _fromX;
+    relativePosition.y -= _fromY;
+    relativePosition.x /= (_toX - _fromX);
+    relativePosition.y /= (_toY - _fromY);
+    return relativePosition;
 }
 
 void Mouse::drag(int toPosX, int toPosY)
 {
-    if (!hasInitMousePos)
+    if (!hasInitPos)
     {
-        mouseX = toPosX;
-        mouseY = toPosY;
-        hasInitMousePos = true;
+        x = toPosX;
+        y = toPosY;
+        hasInitPos = true;
     }
-    deltaMouseX += toPosX - mouseX;
-    deltaMouseY += mouseY - toPosY; // reversed since y-coordinates go from bottom to top
-    mouseX = toPosX;
-    mouseY = toPosY;
+    deltaX += toPosX - x;
+    deltaY += y - toPosY; // reversed since y-coordinates go from bottom to top
+    x = toPosX;
+    y = toPosY;
 }
 
 void Mouse::click(int button, int action, int mods)
@@ -50,7 +50,7 @@ void Mouse::click(int button, int action, int mods)
 
 void Mouse::clearDeltas()
 {
-    deltaMouseX = deltaMouseY = 0;
+    deltaX = deltaY = 0;
 }
 
 void Mouse::beginPress(bool& _wasPressed, bool& _wasReleased, bool& _isPressed){

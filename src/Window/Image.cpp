@@ -35,7 +35,7 @@ void Image::initVBO()
 }
 
 
-void Image::draw()
+void Image::draw(ImageUniform* imageUniform)
 {
     glBindVertexArray(vao);
     imageUniform->setUniforms();
