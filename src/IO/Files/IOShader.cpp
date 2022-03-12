@@ -53,7 +53,7 @@ std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
     std::vector<std::string> names;
     for (const auto &entry : std::filesystem::directory_iterator(FolderPaths::getShaderPath()))
     {
-        const std::string filename = entry.path().filename();
+        const std::string filename = entry.path().filename().string();
         if (isShaderFile(filename))
         {
             std::string name = entry.path().stem().string();
