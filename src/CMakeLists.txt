@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.17.4)
 
+if(NOT EMSCRIPTEN AND WIN32)
+    set(CMAKE_CXX_COMPILER 20)
+    #set(VCPKG_TARGET_TRIPLET x64-windows)
+    include("C:/Users/Maccc/Documents/Coding/vcpkg/scripts/buildsystems/vcpkg.cmake")
+endif()
+
 project(AniLib)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(${PROJECT_NAME} Main.cpp App.cpp )
+add_executable(${PROJECT_NAME} Main.cpp App.cpp App.h )
 
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
@@ -37,14 +43,43 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glm" "${CMAKE_CURRENT_BINARY
 list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
 list(APPEND EXTRA_LINK_DIRS glm)
 
-if(NOT EMSCRIPTEN)
-    add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glfw" "${CMAKE_CURRENT_BINARY_DIR}/external/glfw")
-    list(APPEND EXTRA_INCLUDE_DIRS "external/glfw/include")
-    list(APPEND EXTRA_LIB_DIRS "external/glfw/src")
-    list(APPEND EXTRA_LINK_DIRS glfw)
-endif(NOT EMSCRIPTEN)
+
+if(NOT EMSCRIPTEN AND WIN32)
+    #set(FREETYPE_INCLUDE_DIRS "C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/include")
+    #set(EXTRA_LINK_DIRS "C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/lib")
+    #add_subdirectory("C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/lib" "${CMAKE_CURRENT_BINARY_DIR}/external/freetype" EXCLUDE_FROM_ALL)
+
+    #list(APPEND EXTRA_LINK_DIRS freetype)
+
+    #add_definitions(-DGLEW_STATIC)
+    #add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glew" "${CMAKE_CURRENT_BINARY_DIR}/external/glew" EXCLUDE_FROM_ALL)
+    #list(APPEND EXTRA_INCLUDE_DIRS "external/glew/include")
+    #list(APPEND EXTRA_LINK_DIRS libglew_static)
+
+    #add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glfw" "${CMAKE_CURRENT_BINARY_DIR}/external/glfw")
+    #list(APPEND EXTRA_INCLUDE_DIRS "external/glfw/include")
+    #list(APPEND EXTRA_LIB_DIRS "external/glfw/src")
+    #list(APPEND EXTRA_LINK_DIRS glfw)
+
+        FIND_PACKAGE(OpenGL REQUIRED)
+        list(APPEND EXTRA_LINK_DIRS ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} OpenGL::GL)
+
+        find_package(GLEW REQUIRED)
+        list(APPEND EXTRA_INCLUDE_DIRS ${GLEW_INCLUDE_DIRS})
+        list(APPEND EXTRA_LINK_DIRS ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+
+        find_package(glfw3 REQUIRED)
+        list(APPEND EXTRA_LINK_DIRS glfw)
+
+        find_package(Freetype REQUIRED)
+        list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
+        list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
+
+        include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
+include_directories(include)
 
 add_subdirectory(Utility)
 list(APPEND EXTRA_LIB_DIRS "Utility")
