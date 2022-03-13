@@ -7,9 +7,7 @@ if(NOT EMSCRIPTEN AND WIN32)
 endif()
 
 project(AniLib)
-
 set(CMAKE_CXX_STANDARD 20)
-
 add_executable(${PROJECT_NAME} Main.cpp App.cpp App.h )
 
 if(EMSCRIPTEN)
@@ -45,37 +43,21 @@ list(APPEND EXTRA_LINK_DIRS glm)
 
 
 if(NOT EMSCRIPTEN AND WIN32)
-    #set(FREETYPE_INCLUDE_DIRS "C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/include")
-    #set(EXTRA_LINK_DIRS "C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/lib")
-    #add_subdirectory("C:/Users/Maccc/Documents/Coding/vcpkg/packages/freetype_x86-windows/lib" "${CMAKE_CURRENT_BINARY_DIR}/external/freetype" EXCLUDE_FROM_ALL)
+    find_package(OpenGL REQUIRED)
+    list(APPEND EXTRA_LINK_DIRS ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} OpenGL::GL)
 
-    #list(APPEND EXTRA_LINK_DIRS freetype)
+    find_package(GLEW REQUIRED)
+    list(APPEND EXTRA_INCLUDE_DIRS ${GLEW_INCLUDE_DIRS})
+    list(APPEND EXTRA_LINK_DIRS ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
-    #add_definitions(-DGLEW_STATIC)
-    #add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glew" "${CMAKE_CURRENT_BINARY_DIR}/external/glew" EXCLUDE_FROM_ALL)
-    #list(APPEND EXTRA_INCLUDE_DIRS "external/glew/include")
-    #list(APPEND EXTRA_LINK_DIRS libglew_static)
+    find_package(glfw3 REQUIRED)
+    list(APPEND EXTRA_LINK_DIRS glfw)
 
-    #add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glfw" "${CMAKE_CURRENT_BINARY_DIR}/external/glfw")
-    #list(APPEND EXTRA_INCLUDE_DIRS "external/glfw/include")
-    #list(APPEND EXTRA_LIB_DIRS "external/glfw/src")
-    #list(APPEND EXTRA_LINK_DIRS glfw)
+    find_package(Freetype REQUIRED)
+    list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
+    list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
 
-        FIND_PACKAGE(OpenGL REQUIRED)
-        list(APPEND EXTRA_LINK_DIRS ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} OpenGL::GL)
-
-        find_package(GLEW REQUIRED)
-        list(APPEND EXTRA_INCLUDE_DIRS ${GLEW_INCLUDE_DIRS})
-        list(APPEND EXTRA_LINK_DIRS ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
-
-        find_package(glfw3 REQUIRED)
-        list(APPEND EXTRA_LINK_DIRS glfw)
-
-        find_package(Freetype REQUIRED)
-        list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
-        list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
-
-        include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+    include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
