@@ -1,11 +1,4 @@
-#include "Utility/GLData.h"
-#include "Window/MyWindow.h"
-#include "Window/Image.h"
-#include "Utility/MatrixData.h"
-#include "Window/ImageUniform.h"
-#include "Window/PostImageUniform.h"
-#include "Window/Text.h"
-#include "Window/Framebuffer.h"
+#include "Engine/Engine.h"
 
 #include <stack>
 #include <tuple>
@@ -20,34 +13,19 @@
 
 class App
 {
-    MyWindow mywindow;
-    Camera camera;
-    Image image;
-    ImageUniform *imageUniform = nullptr;
-    Framebuffer framebuffer;
-
-    Text text;
-    GLData glData;
-
+    Engine engine;
     uint64_t gameTicks = 0;
     long long MS_FRAME;
     long long MS_PASSED;
     std::chrono::steady_clock::time_point timeSinceGameUpdate;
 
-    void prepareUpdate();
+    void beforeStep();
     void update();
     bool isGameUpdate();
-
-    void drawStep();
-    void endDraw();
-    void beginDraw();
-
-    void setGLSettings();
 
 public:
     App();
     ~App();
-    void draw();
     void run();
     void step();
     void resizeWindow(int _width, int _height);

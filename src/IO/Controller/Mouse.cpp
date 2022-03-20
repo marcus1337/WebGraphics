@@ -1,5 +1,6 @@
 #include "Mouse.h"
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 glm::vec2 Mouse::getRelativePosition(int windowWidth, int windowHeight, double _fromX, double _fromY, double _toX, double _toY)
 {
@@ -37,6 +38,7 @@ void Mouse::click(int button, int action, int mods)
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
     {
         isLeftPressed = false;
+        isLeftReleased = true;
     }
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
     {
@@ -44,6 +46,7 @@ void Mouse::click(int button, int action, int mods)
     }
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
     {
+        isRightReleased = true;
         isRightPressed = false;
     }
 }
@@ -53,26 +56,8 @@ void Mouse::clearDeltas()
     deltaX = deltaY = 0;
 }
 
-void Mouse::beginPress(bool& _wasPressed, bool& _wasReleased, bool& _isPressed){
-    if (!_wasPressed && _isPressed)
-        _wasPressed = true;
-    if (_wasPressed && !_isPressed)
-    {
-        _wasPressed = false;
-        _wasReleased = true;
-    }
-}
-
-void Mouse::beginFrame()
+void Mouse::reset()
 {
-    beginPress(wasLeftPressed, wasLeftReleased, isLeftPressed);
-    beginPress(wasRightPressed, wasRightReleased, isRightPressed);
-}
-void Mouse::endFrame()
-{
-    if (wasLeftReleased)
-        wasLeftReleased = false;
-    if (wasRightReleased)
-        wasRightReleased = false;
+    isRightReleased = isLeftReleased = false;
     clearDeltas();
 }
