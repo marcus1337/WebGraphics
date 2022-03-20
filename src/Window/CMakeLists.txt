@@ -1,8 +1,5 @@
-add_library(window "Window.cpp" Camera.cpp Image.cpp Image.h 
+add_library(window "Window.cpp" Camera.cpp
 "Window.h" Camera.h 
-"Shader.h" "Shader.cpp"
-AspectRatio.h AspectRatio.cpp
-Framebuffer.h Framebuffer.cpp 
-Text.h Text.cpp)
+AspectRatio.h AspectRatio.cpp)
 
 target_link_libraries(window glm)

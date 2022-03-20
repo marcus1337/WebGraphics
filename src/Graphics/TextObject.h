@@ -13,7 +13,7 @@
 #ifndef FREETYPETEXT_H
 #define FREETYPETEXT_H
 
-class Text
+class TextObject
 {
 
 protected:
@@ -78,8 +78,8 @@ public:
 
     void draw();
 
-    ~Text();
-    Text();
+    ~TextObject();
+    TextObject();
 };
 
 #endif

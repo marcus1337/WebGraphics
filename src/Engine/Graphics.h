@@ -1,10 +1,10 @@
 #include "Utility/GLData.h"
 #include "Window/Window.h"
-#include "Window/Image.h"
+#include "Graphics/ImageObject.h"
 #include "Utility/MatrixData.h"
-#include "Window/Shader.h"
-#include "Window/Text.h"
-#include "Window/Framebuffer.h"
+#include "Graphics/Shader.h"
+#include "Graphics/TextObject.h"
+#include "Graphics/Framebuffer.h"
 #include "Window/Camera.h"
 
 #include <stack>
@@ -23,11 +23,11 @@
 class Graphics {
 
     Camera camera;
-    Image image;
-    Shader* imageUniform = nullptr;
+    ImageObject image;
+    Shader* shader = nullptr;
     Framebuffer framebuffer;
 
-    Text text;
+    TextObject text;
     GLData glData;
 
     void preDraw();

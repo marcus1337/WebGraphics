@@ -3,19 +3,19 @@
 #include <vector>
 #include "Shader.h"
 
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef IMAGEOBJECT_H
+#define IMAGEOBJECT_H
 
-class Image
+class ImageObject
 {
     void initVBO();
     GLuint vao, vbo;
 
 public:
 
-    Image();
-    ~Image();
-    void draw(Shader* imageUniform);
+    ImageObject();
+    ~ImageObject();
+    void draw(Shader* shader);
 };
 
 #endif

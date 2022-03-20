@@ -78,6 +78,11 @@ list(APPEND EXTRA_LIB_DIRS "IO")
 list(APPEND EXTRA_INCLUDE_DIRS "IO")
 list(APPEND EXTRA_LINK_DIRS io)
 
+add_subdirectory(Graphics)
+list(APPEND EXTRA_LIB_DIRS "Graphics")
+list(APPEND EXTRA_INCLUDE_DIRS "Graphics")
+list(APPEND EXTRA_LINK_DIRS graphics)
+
 add_subdirectory(Engine)
 list(APPEND EXTRA_LIB_DIRS "Engine")
 list(APPEND EXTRA_INCLUDE_DIRS "Engine")

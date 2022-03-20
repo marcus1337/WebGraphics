@@ -1,5 +1,5 @@
 
-#include "Text.h"
+#include "TextObject.h"
 
 #include <iostream>
 #include <glm/gtx/quaternion.hpp>
@@ -7,7 +7,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-Text::Text() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
+TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
                rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
 {
     initVBO();
@@ -22,13 +22,13 @@ Text::Text() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1
     }
 }
 
-Text::~Text()
+TextObject::~TextObject()
 {
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 }
 
-void Text::addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName)
+void TextObject::addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName)
 {
     Character character = {
         textureID,
@@ -39,7 +39,7 @@ void Text::addCharacter(char c, unsigned int textureID, FT_Face &face, const std
     CharactersMap[fontName].insert(std::pair<char, Character>(c, character));
 }
 
-unsigned int Text::makeGlyphTexture(FT_Face &face)
+unsigned int TextObject::makeGlyphTexture(FT_Face &face)
 {
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -62,7 +62,7 @@ unsigned int Text::makeGlyphTexture(FT_Face &face)
     return texture;
 }
 
-int Text::loadGlyphs(FT_Face face, const std::string& fontName)
+int TextObject::loadGlyphs(FT_Face face, const std::string& fontName)
 {
     CharactersMap[fontName] = std::map<char, Character>();
     FT_Set_Pixel_Sizes(face, 0, 60);
@@ -83,7 +83,7 @@ int Text::loadGlyphs(FT_Face face, const std::string& fontName)
     return 0;
 }
 
-void Text::setPosition(glm::vec3 _position)
+void TextObject::setPosition(glm::vec3 _position)
 {
     lastPosition = _position;
     position = _position;
@@ -92,7 +92,7 @@ void Text::setPosition(glm::vec3 _position)
     isPositionSet = true;
 }
 
-void Text::setScale(glm::vec3 _scale)
+void TextObject::setScale(glm::vec3 _scale)
 {
     scale = _scale * glm::vec3(0.001f, 0.001f, 1.0f);
     if (isMidPositionSet)
@@ -101,7 +101,7 @@ void Text::setScale(glm::vec3 _scale)
         setPosition(lastPosition);
 }
 
-void Text::setMidPosition(glm::vec3 _midPosition)
+void TextObject::setMidPosition(glm::vec3 _midPosition)
 {
     position = _midPosition;
     position.x = position.x - (totalWidth * scale.x) / 2.0f;
@@ -111,14 +111,14 @@ void Text::setMidPosition(glm::vec3 _midPosition)
     midPosition = _midPosition;
 }
 
-void Text::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
+void TextObject::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
 {
     VP = _VP;
     V = _V;
     P = _P;
 }
 
-void Text::setText(std::string _text)
+void TextObject::setText(std::string _text)
 {
     text = _text;
     auto wh = getTextWidthAndHeight(text);
@@ -126,7 +126,7 @@ void Text::setText(std::string _text)
     totalWidth = std::get<0>(wh);
 }
 
-void Text::initVBO()
+void TextObject::initVBO()
 {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -139,7 +139,7 @@ void Text::initVBO()
     glBindVertexArray(0);
 }
 
-glm::mat4 Text::getMVP()
+glm::mat4 TextObject::getMVP()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
     glm::quat myQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
@@ -155,7 +155,7 @@ glm::mat4 Text::getMVP()
     return MVP;
 }
 
-std::tuple<float, float> Text::getTextWidthAndHeight(std::string _text)
+std::tuple<float, float> TextObject::getTextWidthAndHeight(std::string _text)
 {
     float _width = 0;
     float _height = 0;
@@ -181,7 +181,7 @@ std::tuple<float, float> Text::getTextWidthAndHeight(std::string _text)
     return std::make_tuple(_width, _height);
 }
 
-void Text::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
+void TextObject::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
 {
     SCR_WIDTH = _SCR_WIDTH;
     SCR_HEIGHT = _SCR_HEIGHT;
@@ -189,7 +189,7 @@ void Text::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
     scaleValY = 1.0f / SCR_HEIGHT;
 }
 
-void Text::setCharVertices(float &_x, Character ch)
+void TextObject::setCharVertices(float &_x, Character ch)
 {
     float xpos = _x + ch.Bearing.x;
     float ypos = -(ch.Size.y - ch.Bearing.y);
@@ -214,22 +214,21 @@ void Text::setCharVertices(float &_x, Character ch)
     _x += (ch.Advance >> 6); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 }
 
-void Text::bindAndDrawTextTextures()
+void TextObject::bindAndDrawTextTextures()
 {
-    std::map<char, Character>* Characters = nullptr;
-    if(CharactersMap.contains(font))
-        Characters = &CharactersMap[font];
-    else{
+    if (!CharactersMap.contains(font)) {
         std::cout << "Error: font not found\n";
         return;
     }
+
+    std::map<char, Character>& Characters = CharactersMap[font];
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
-        setCharVertices(_x, (*Characters)[*c]);
+        setCharVertices(_x, Characters[*c]);
 }
 
-void Text::setUniforms()
+void TextObject::setUniforms()
 {
     glUniform4fv(glGetUniformLocation(programID, "textColor"), 1, &color[0]);
     glm::mat4 MVP = getMVP();
@@ -237,7 +236,7 @@ void Text::setUniforms()
     glActiveTexture(GL_TEXTURE0);
 }
 
-void Text::draw()
+void TextObject::draw()
 {
     glBindVertexArray(vao);
     glUseProgram(programID);

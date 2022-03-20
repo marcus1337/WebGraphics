@@ -2,11 +2,11 @@
 
 Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.0f, 3.0f)), framebuffer(1920, 1080)
 {
-    imageUniform = new Shader(glData.getProgram("image"));
+    shader = new Shader(glData.getProgram("image"));
     framebuffer.shader = new Shader(glData.getProgram("postimage"));
     framebuffer.shader->setTexture(framebuffer.texture);
 
-    imageUniform->setTexture(glData.getTexture("stallTexture.png"));
+    shader->setTexture(glData.getTexture("stallTexture.png"));
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
@@ -15,7 +15,7 @@ Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.
 }
 
 Graphics::~Graphics() {
-    delete imageUniform;
+    delete shader;
 }
 
 void Graphics::draw() {
@@ -24,7 +24,7 @@ void Graphics::draw() {
     framebuffer.begin();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    image.draw(imageUniform);
+    image.draw(shader);
     text.draw();
 
     framebuffer.shader->setPosition(glm::vec3(-1.f, -1.f, 0.f));
@@ -42,7 +42,7 @@ void Graphics::preDraw()
     MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
     text.setSourceWindowSize(framebuffer.width, framebuffer.height);
 
-    imageUniform->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    shader->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setText("Hello world");

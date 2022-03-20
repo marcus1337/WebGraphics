@@ -1,20 +1,20 @@
-#include "Window/Image.h"
+#include "Graphics/ImageObject.h"
 
 
-Image::Image()
+ImageObject::ImageObject()
 {
     vao = 0;
     vbo = 0;
     initVBO();
 }
 
-Image::~Image()
+ImageObject::~ImageObject()
 {
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 }
 
-void Image::initVBO()
+void ImageObject::initVBO()
 {
     glGenVertexArrays(1, &vao);
 
@@ -37,10 +37,10 @@ void Image::initVBO()
 }
 
 
-void Image::draw(Shader* imageUniform)
+void ImageObject::draw(Shader* shader)
 {
     glBindVertexArray(vao);
-    imageUniform->setUniforms();
+    shader->setUniforms();
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glBindVertexArray(0);
 }
