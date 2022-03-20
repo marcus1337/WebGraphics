@@ -1,5 +1,5 @@
-add_library(window MyWindow.cpp Camera.cpp Image.cpp Image.h 
-MyWindow.h Camera.h 
+add_library(window "Window.cpp" Camera.cpp Image.cpp Image.h 
+"Window.h" Camera.h 
 ImageUniform.h ImageUniform.cpp
 PostImageUniform.h PostImageUniform.cpp
 AspectRatio.h AspectRatio.cpp

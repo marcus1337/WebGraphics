@@ -15,7 +15,7 @@
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
 
-class MyWindow {
+class Window {
 
     inline static auto mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     inline static auto mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -29,24 +29,26 @@ class MyWindow {
     AspectRatio aspectRatio;
 
     void scrollScreenResize(double yoffset);
+    bool initGLFW();
+    GLFWwindow* window;
 
 public:
     void resizeToAspectRatio();
-
     void resizeWindow(int width, int height);
 
-    GLFWwindow* window;
-    int SCR_WIDTH = 800;
-    int SCR_HEIGHT = 600;
+
+    int width = 800;
+    int height = 600;
 
     Mouse mouse;
     Keyboard keyboard;
 
     bool initWindow();
-    bool initGLFW();
 
-    MyWindow();
-    ~MyWindow();
+    Window();
+    ~Window();
+    bool hasQuit();
+    void display();
 };
 
 #endif

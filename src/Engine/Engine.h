@@ -1,5 +1,5 @@
 #include "Utility/GLData.h"
-#include "Window/MyWindow.h"
+#include "Window/Window.h"
 #include "Window/Image.h"
 #include "Utility/MatrixData.h"
 #include "Window/ImageUniform.h"
@@ -20,8 +20,9 @@
 #define ENGINE_H
 
 class Engine {
-
-    MyWindow mywindow;
+public:
+    Window window;
+private:
     Camera camera;
     Image image;
     ImageUniform* imageUniform = nullptr;
@@ -41,10 +42,7 @@ public:
 
     void draw();
     void resizeWindow(int _width, int _height);
-    bool hasQuit();
     void pollEvents();
-    Mouse& getMouse();
-    Keyboard& getKeyboard();
 };
 
 #endif // !ENGINE_H

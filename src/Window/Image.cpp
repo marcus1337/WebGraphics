@@ -3,6 +3,8 @@
 
 Image::Image()
 {
+    vao = 0;
+    vbo = 0;
     initVBO();
 }
 

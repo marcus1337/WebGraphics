@@ -1,4 +1,4 @@
-#include "MyWindow.h"
+#include "Window.h"
 #include <iostream>
 
 #if defined(_MSC_VER)
@@ -10,33 +10,33 @@
 #endif
 
 
-auto MyWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+auto Window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     mw->mouse.click(button, action, mods);
 }
 
-auto MyWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+auto Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     mw->keyboard.setKeys(window, key, scancode, action, mods);
 }
 
-auto MyWindow::window_size_callback(GLFWwindow* window, int width, int height)
+auto Window::window_size_callback(GLFWwindow* window, int width, int height)
 {
-    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
-    mw->SCR_WIDTH = width;
-    mw->SCR_HEIGHT = height;
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    mw->width = width;
+    mw->height = height;
     glViewport(0, 0, width, height);
 }
 
-auto MyWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos)
+auto Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag(xpos,ypos);
     mw->resizeToAspectRatio();
 }
 
-void MyWindow::scrollScreenResize(double yoffset){
+void Window::scrollScreenResize(double yoffset){
     for(int i = 0 ; i < 30; i++)
         if(yoffset > 0){
             aspectRatio.increase();
@@ -46,24 +46,24 @@ void MyWindow::scrollScreenResize(double yoffset){
     resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
 }
 
-auto MyWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+auto Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    MyWindow* mw = static_cast<MyWindow*>(glfwGetWindowUserPointer(window));
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     
 #ifndef EMSCRIPTEN
     mw->scrollScreenResize(yoffset);
 #endif
 }
 
-void MyWindow::resizeToAspectRatio(){
-    bool shouldResize = aspectRatio.getWidth() != SCR_WIDTH || aspectRatio.getHeight() != SCR_HEIGHT;
+void Window::resizeToAspectRatio(){
+    bool shouldResize = aspectRatio.getWidth() != width || aspectRatio.getHeight() != height;
     if(shouldResize){
-        aspectRatio.setIndexToClosestAspectRatio(SCR_WIDTH, SCR_HEIGHT);
+        aspectRatio.setIndexToClosestAspectRatio(width, height);
         resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
     }
 }
 
-bool MyWindow::initWindow() {
+bool Window::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
@@ -71,14 +71,14 @@ bool MyWindow::initWindow() {
     return EXIT_SUCCESS;
 }
 
-void MyWindow::resizeWindow(int _width, int _height){
+void Window::resizeWindow(int _width, int _height){
     glfwSetWindowSize(window, _width, _height);
     glViewport(0, 0, _width, _height);
-    SCR_WIDTH = _width;
-    SCR_HEIGHT = _height;
+    width = _width;
+    height = _height;
 }
 
-void MyWindow::setWindowHints(){
+void Window::setWindowHints(){
     #ifdef EMSCRIPTEN
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -91,7 +91,7 @@ void MyWindow::setWindowHints(){
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 }
 
-void MyWindow::setWindowCallbacks(GLFWwindow* window){
+void Window::setWindowCallbacks(GLFWwindow* window){
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -100,7 +100,7 @@ void MyWindow::setWindowCallbacks(GLFWwindow* window){
     glfwSetWindowSizeCallback(window, window_size_callback);
 }
 
-bool MyWindow::initGLFW()
+bool Window::initGLFW()
 {
     if(GLFW_TRUE != glfwInit()){
         std::clog << "Failed to init glfw\n";
@@ -110,7 +110,7 @@ bool MyWindow::initGLFW()
     setWindowHints();
     glfwSwapInterval(1);
 
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "WebGL_UI", nullptr, nullptr);
+    window = glfwCreateWindow(width, height, "WebGL_UI", nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -127,8 +127,8 @@ bool MyWindow::initGLFW()
         return EXIT_FAILURE;
     }
 
-    glfwGetWindowSize(window, &SCR_WIDTH, &SCR_HEIGHT);
-    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+    glfwGetWindowSize(window, &width, &height);
+    glViewport(0, 0, width, height);
     
     glEnable(GL_STENCIL_TEST);
     glEnable(GL_DEPTH_TEST);
@@ -142,17 +142,17 @@ bool MyWindow::initGLFW()
 }
 
 
-MyWindow::MyWindow() {
+Window::Window() {
     initWindow();
 #ifndef EMSCRIPTEN
     resizeToAspectRatio();
 #endif
 }
-MyWindow::~MyWindow() {
+Window::~Window() {
     glfwTerminate();
 }
 
-void MyWindow::SetVSync(bool sync)
+void Window::SetVSync(bool sync)
 {
     #if defined(_MSC_VER)
         typedef BOOL(APIENTRY* PFNWGLSWAPINTERVALPROC)(int);
@@ -167,4 +167,12 @@ void MyWindow::SetVSync(bool sync)
         glfwSwapInterval(sync);
         //glXSwapIntervalSGI(sync);
     #endif
+}
+
+bool Window::hasQuit() {
+    return glfwWindowShouldClose(window) || keyboard.quitProgram;
+}
+
+void Window::display() {
+    glfwSwapBuffers(window);
 }

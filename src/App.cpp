@@ -15,7 +15,7 @@ bool App::isGameUpdate()
 
 void App::run()
 {
-    while (!engine.hasQuit())
+    while (!engine.window.hasQuit())
     {
         if (isGameUpdate()){
             step();
@@ -35,15 +35,10 @@ App::~App()
 
 }
 
-void App::beforeStep()
-{
+void App::step(){
     gameTicks++;
     MS_PASSED = 0;
     engine.pollEvents();
-}
-
-void App::step(){
-    beforeStep();
     update();
     engine.draw();
 }

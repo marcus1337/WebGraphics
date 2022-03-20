@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "glm/glm.hpp"
 
-Engine::Engine() : mywindow(), camera(glm::vec3(0.0f, 0.0f, 4.0f)), framebuffer(1920, 1080) {
+Engine::Engine() : window(), camera(glm::vec3(0.0f, 0.0f, 4.0f)), framebuffer(1920, 1080), image() {
     setGLSettings();
 
     imageUniform = new ImageUniform(glData.getProgram("image"));
@@ -40,25 +40,14 @@ void Engine::drawStep()
 
     framebuffer.postImageUniform->setPosition(glm::vec3(-1.f, -1.f, 0.f));
     framebuffer.postImageUniform->scale = glm::vec3(2.0f, 2.0f, 1.0f);
-    framebuffer.end(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+    framebuffer.end(window.width, window.height);
 
     image.draw(framebuffer.postImageUniform);
-
-    if (getMouse().isLeftReleased) {
-        std::cout << "CLICK1!\n";
-        framebuffer.postImageUniform->blur += 0.1f;
-    }
-    if(getMouse().isRightReleased){
-        std::cout << "CLICK2!\n";
-        framebuffer.postImageUniform->blur -= 0.1f;
-    }
-
 }
 
 void Engine::endDraw()
 {
-    glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
-    glfwSwapBuffers(mywindow.window);
+    window.display();
 }
 
 void Engine::setGLSettings() {
@@ -68,11 +57,12 @@ void Engine::setGLSettings() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
+    glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
 }
 
 void Engine::beginDraw()
 {
-    glViewport(0, 0, mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+    glViewport(0, 0, window.width, window.height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
@@ -85,28 +75,16 @@ void Engine::beginDraw()
     text.setScale(glm::vec3(1.f, 1.f, 1.f));
     text.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 
-    MatrixData matrixdataReal = camera.getMatrixData(mywindow.SCR_WIDTH, mywindow.SCR_HEIGHT);
+    MatrixData matrixdataReal = camera.getMatrixData(window.width, window.height);
     framebuffer.postImageUniform->setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
 
 }
 
 void Engine::resizeWindow(int _width, int _height) {
-    mywindow.resizeWindow(_width, _height);
-}
-
-bool Engine::hasQuit() {
-    return glfwWindowShouldClose(mywindow.window) || mywindow.keyboard.quitProgram;
+    window.resizeWindow(_width, _height);
 }
 
 void Engine::pollEvents() {
-    getMouse().reset();
+    window.mouse.reset();
     glfwPollEvents();
-}
-
-Mouse& Engine::getMouse() {
-    return mywindow.mouse;
-}
-
-Keyboard& Engine::getKeyboard() {
-    return mywindow.keyboard;
 }
