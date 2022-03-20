@@ -176,3 +176,8 @@ bool Window::hasQuit() {
 void Window::display() {
     glfwSwapBuffers(window);
 }
+
+void Window::pollEvents() {
+    mouse.reset();
+    glfwPollEvents();
+}

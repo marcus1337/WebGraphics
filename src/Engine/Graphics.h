@@ -17,21 +17,31 @@
 #include <iostream>
 #include <vector>
 
-#include "Graphics.h"
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
-class Engine {
+class Graphics {
+
+    Camera camera;
+    Image image;
+    ImageUniform* imageUniform = nullptr;
+    Framebuffer framebuffer;
+
+    Text text;
+    GLData glData;
+
+    void drawStep();
+    void beginDraw();
+
+    int windowWidth, windowHeight;
+    Window& window;
 public:
-    Window window;
-    Graphics graphics;
-private:
-    void setGLSettings();
+    Graphics(Window& _window);
+    ~Graphics();
 
-public:
-    Engine();
-    ~Engine();
+    void draw();
+
 };
 
-#endif // !ENGINE_H
+#endif // !GRAPHICS_H

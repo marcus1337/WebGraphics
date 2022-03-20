@@ -38,26 +38,26 @@ App::~App()
 void App::step(){
     gameTicks++;
     MS_PASSED = 0;
-    engine.pollEvents();
+    engine.window.pollEvents();
     update();
-    engine.draw();
+    engine.graphics.draw();
+    engine.window.display();
 }
 
 void App::update()
 {
-    //camera.move(engine.getMouse(), mywindow.keyboard);
-    /*if (mywindow.mouse.wasLeftReleased) {
+    if (engine.window.mouse.isLeftReleased) {
         std::cout << "CLICK1!\n";
-        framebuffer.postImageUniform->blur += 0.1f;
+        //framebuffer.postImageUniform->blur += 0.1f;
     }
-    if(mywindow.mouse.wasRightReleased){
+    if(engine.window.mouse.isRightReleased){
         std::cout << "CLICK2!\n";
-        framebuffer.postImageUniform->blur -= 0.1f;
-    }*/
+        //framebuffer.postImageUniform->blur -= 0.1f;
+    }
 
 }
 
 void App::resizeWindow(int _width, int _height)
 {
-    engine.resizeWindow(_width, _height);
+    engine.window.resizeWindow(_width, _height);
 }
