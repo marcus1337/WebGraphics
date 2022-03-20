@@ -21,16 +21,10 @@ Framebuffer::~Framebuffer()
 {
     glDeleteFramebuffers(1, &fbo);
     glDeleteTextures(1, &texture);
-    delete shader;
 }
 
-void Framebuffer::begin()
+void Framebuffer::use()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, width, height);
-}
-void Framebuffer::end(int windowWidth, int windowHeight)
-{
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, windowWidth, windowHeight);
 }

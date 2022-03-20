@@ -2,11 +2,11 @@
 
 Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.0f, 3.0f)), framebuffer(1920, 1080)
 {
-    shader = new Shader(glData.getProgram("image"));
-    framebuffer.shader = new Shader(glData.getProgram("postimage"));
-    framebuffer.shader->setTexture(framebuffer.texture);
+    imageShader = Shader(glData.getProgram("image"));
+    framebuffer.shader = Shader(glData.getProgram("postimage"));
+    framebuffer.shader.setTexture(framebuffer.texture);
 
-    shader->setTexture(glData.getTexture("stallTexture.png"));
+    imageShader.setTexture(glData.getTexture("stallTexture.png"));
 
     text.programID = glData.getProgram("text");
     text.font = "Roboto-Regular";
@@ -15,23 +15,25 @@ Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.
 }
 
 Graphics::~Graphics() {
-    delete shader;
+
 }
 
 void Graphics::draw() {
     preDraw();
 
-    framebuffer.begin();
+    framebuffer.use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    image.draw(shader);
+    image.draw(&imageShader);
     text.draw();
 
-    framebuffer.shader->setPosition(glm::vec3(-1.f, -1.f, 0.f));
-    framebuffer.shader->scale = glm::vec3(2.0f, 2.0f, 1.0f);
-    framebuffer.end(window.width, window.height);
+    framebuffer.shader.setPosition(glm::vec3(-1.f, -1.f, 0.f));
+    framebuffer.shader.scale = glm::vec3(2.0f, 2.0f, 1.0f);
 
-    image.draw(framebuffer.shader);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, window.width, window.height);
+
+    image.draw(&framebuffer.shader);
 }
 
 void Graphics::preDraw()
@@ -42,7 +44,7 @@ void Graphics::preDraw()
     MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
     text.setSourceWindowSize(framebuffer.width, framebuffer.height);
 
-    shader->setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 
     text.setText("Hello world");
@@ -50,6 +52,6 @@ void Graphics::preDraw()
     text.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 
     MatrixData matrixdataReal = camera.getMatrixData(window.width, window.height);
-    framebuffer.shader->setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
+    framebuffer.shader.setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
 
 }

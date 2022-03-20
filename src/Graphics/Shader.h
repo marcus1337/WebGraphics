@@ -31,7 +31,7 @@ protected:
     virtual void setCustomUniforms() {};
 
 public:
-    Shader(GLuint _programID);
+    Shader(GLuint _programID = 0);
     virtual ~Shader();
 
     void setUniforms();

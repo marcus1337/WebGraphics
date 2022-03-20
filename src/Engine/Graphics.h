@@ -24,7 +24,7 @@ class Graphics {
 
     Camera camera;
     ImageObject image;
-    Shader* shader = nullptr;
+    Shader imageShader;
     Framebuffer framebuffer;
 
     TextObject text;

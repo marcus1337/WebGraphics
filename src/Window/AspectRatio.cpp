@@ -2,6 +2,8 @@
 #include <math.h>
 #include <iostream>
 #include <algorithm>
+#include <iterator>
+#include <functional>
 
 AspectRatio::AspectRatio()
 {
