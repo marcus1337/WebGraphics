@@ -5,14 +5,14 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-class Framebuffer
+class FrameBuffer
 {
 public:
     Shader shader;
     GLuint texture, fbo;
     const int width, height;
-    ~Framebuffer();
-    Framebuffer(int _width, int _height);
+    ~FrameBuffer();
+    FrameBuffer(int _width, int _height);
     void use();
 
 };

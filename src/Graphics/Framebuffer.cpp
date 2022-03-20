@@ -1,7 +1,7 @@
-#include "Framebuffer.h"
+#include "FrameBuffer.h"
 #include <iostream>
 
-Framebuffer::Framebuffer(int _width, int _height) : width(_width), height(_height)
+FrameBuffer::FrameBuffer(int _width, int _height) : width(_width), height(_height)
 {
     glGenFramebuffers(1, &fbo);
     glGenTextures(1, &texture);
@@ -17,13 +17,13 @@ Framebuffer::Framebuffer(int _width, int _height) : width(_width), height(_heigh
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-Framebuffer::~Framebuffer()
+FrameBuffer::~FrameBuffer()
 {
     glDeleteFramebuffers(1, &fbo);
     glDeleteTextures(1, &texture);
 }
 
-void Framebuffer::use()
+void FrameBuffer::use()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, width, height);

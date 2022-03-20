@@ -55,3 +55,7 @@ void Graphics::preDraw()
     framebuffer.shader.setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
 
 }
+
+FrameBuffer& Graphics::getDefaultView() {
+    return framebuffer;
+}

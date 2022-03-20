@@ -4,7 +4,7 @@
 #include "Utility/MatrixData.h"
 #include "Graphics/Shader.h"
 #include "Graphics/TextObject.h"
-#include "Graphics/Framebuffer.h"
+#include "Graphics/FrameBuffer.h"
 #include "Window/Camera.h"
 
 #include <stack>
@@ -25,7 +25,7 @@ class Graphics {
     Camera camera;
     ImageObject image;
     Shader imageShader;
-    Framebuffer framebuffer;
+    FrameBuffer framebuffer;
 
     TextObject text;
     GLData glData;
@@ -37,6 +37,8 @@ public:
     ~Graphics();
 
     void draw();
+
+    FrameBuffer& getDefaultView();
 
 };
 
