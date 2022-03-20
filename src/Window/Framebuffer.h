@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 #include <functional>
-#include "PostImageUniform.h"
+#include "Shader.h"
 #include "Image.h"
 
 #ifndef FRAMEBUFFER_H
@@ -9,7 +9,7 @@
 class Framebuffer
 {
 public:
-    PostImageUniform* postImageUniform = nullptr;
+    Shader* postImageUniform = nullptr;
     GLuint texture, fbo;
     const int width, height;
     ~Framebuffer();

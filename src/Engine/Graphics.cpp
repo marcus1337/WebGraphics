@@ -2,10 +2,10 @@
 
 Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.0f, 3.0f)), framebuffer(1920, 1080)
 {
-    imageUniform = new ImageUniform(glData.getProgram("image"));
-    framebuffer.postImageUniform = new PostImageUniform(glData.getProgram("postimage"));
+    imageUniform = new Shader(glData.getProgram("image"));
+    framebuffer.postImageUniform = new Shader(glData.getProgram("postimage"));
     framebuffer.postImageUniform->setTexture(framebuffer.texture);
-    framebuffer.postImageUniform->blur = 0.0f;
+    framebuffer.postImageUniform->setUniform("blur", 50.0f);
 
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
 
@@ -20,16 +20,9 @@ Graphics::~Graphics() {
 }
 
 void Graphics::draw() {
-    beginDraw();
-    drawStep();
-}
-
-void Graphics::drawStep()
-{
+    preDraw();
 
     framebuffer.begin();
-
-    glClearColor(0.45f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     image.draw(imageUniform);
@@ -42,7 +35,7 @@ void Graphics::drawStep()
     image.draw(framebuffer.postImageUniform);
 }
 
-void Graphics::beginDraw()
+void Graphics::preDraw()
 {
     glViewport(0, 0, window.width, window.height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

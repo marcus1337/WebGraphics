@@ -1,7 +1,7 @@
-#include "ImageUniform.h"
+#include "Shader.h"
 
 
-ImageUniform::ImageUniform(GLuint _programID) : programID(_programID) {
+Shader::Shader(GLuint _programID) : programID(_programID), P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), normalID(0), textureID(0) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
     rotation = glm::angleAxis( glm::radians(0.0f), glm::vec3(0.f, 0.f, 1.f) );
@@ -9,11 +9,11 @@ ImageUniform::ImageUniform(GLuint _programID) : programID(_programID) {
     textureCorner = glm::vec2(0.0f, 0.0f);
 }
 
-ImageUniform::~ImageUniform(){
+Shader::~Shader(){
 
 }
 
-glm::mat4 ImageUniform::getModel()
+glm::mat4 Shader::getModel()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
     glm::mat4 rotateMat = glm::toMat4(rotation);
@@ -22,7 +22,7 @@ glm::mat4 ImageUniform::getModel()
     return modModel;
 }
 
-void ImageUniform::setUniforms(){
+void Shader::setUniforms(){
     glUseProgram(programID);
 
     setMatrixUniforms();
@@ -32,56 +32,56 @@ void ImageUniform::setUniforms(){
     setCustomUniforms();
 }
 
-void ImageUniform::setPosition(glm::vec3 _position)
+void Shader::setPosition(glm::vec3 _position)
 {
     position = glm::vec3(_position.x + scale.x / 2.0f, _position.y + scale.y / 2.0f, _position.z);
 }
 
-void ImageUniform::setMidPosition(glm::vec3 _position)
+void Shader::setMidPosition(glm::vec3 _position)
 {
     position = _position;
 }
 
-void ImageUniform::setTexture(GLuint _textureID)
+void Shader::setTexture(GLuint _textureID)
 {
     textureID = _textureID;
 }
 
-void ImageUniform::setNormal(GLuint _textureID)
+void Shader::setNormal(GLuint _textureID)
 {
    normalID = _textureID;
 }
 
-void ImageUniform::setProgram(GLuint _programID){
+void Shader::setProgram(GLuint _programID){
     programID = _programID;
 }
 
-void ImageUniform::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
+void Shader::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
 {
     VP = _VP;
     V = _V;
     P = _P;
 }
 
-void ImageUniform::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner)
+void Shader::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner)
 {
     textureSize = _textureSize;
     textureCorner = _textureCorner;
 }
 
-void ImageUniform::setColorUniforms()
+void Shader::setColorUniforms()
 {
     glUniform1f(glGetUniformLocation(programID, "alpha"), alpha);
     glUniform1f(glGetUniformLocation(programID, "usingNormalMap"), isNormalUsed ? 1.0f : 0.0f);
 }
 
-void ImageUniform::setClippingUniforms()
+void Shader::setClippingUniforms()
 {
     glUniform2fv(glGetUniformLocation(programID, "inTexCoord"), 1, &textureCorner[0]);
     glUniform2fv(glGetUniformLocation(programID, "textureSize"), 1, &textureSize[0]);
 }
 
-void ImageUniform::setMatrixUniforms()
+void Shader::setMatrixUniforms()
 {
     glm::mat4 M = getModel();
     glm::mat4 MVP = VP * M;
@@ -90,7 +90,7 @@ void ImageUniform::setMatrixUniforms()
     glUniformMatrix4fv(glGetUniformLocation(programID, "MV"), 1, GL_FALSE, &MV[0][0]);
 }
 
-void ImageUniform::setTextureUniforms()
+void Shader::setTextureUniforms()
 {
     GLuint mTex1Handle0 = glGetUniformLocation(programID, "tex");
     glUniform1i(mTex1Handle0, 0);
@@ -103,4 +103,8 @@ void ImageUniform::setTextureUniforms()
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalID);
     }
+}
+
+void Shader::setUniform(std::string name, float value) {
+    glUniform1f(glGetUniformLocation(programID, name.c_str()), value);
 }

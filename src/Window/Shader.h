@@ -9,11 +9,12 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/common.hpp>
 #include "glm/glm.hpp"
+#include <string>
 
 #ifndef IMAGE_UNIFORM_H
 #define IMAGE_UNIFORM_H
 
-class ImageUniform{
+class Shader{
 
     glm::mat4 VP, V, P;
     GLuint textureID;
@@ -30,8 +31,8 @@ protected:
     virtual void setCustomUniforms() {};
 
 public:
-    ImageUniform(GLuint _programID);
-    virtual ~ImageUniform();
+    Shader(GLuint _programID);
+    virtual ~Shader();
 
     void setUniforms();
 
@@ -49,6 +50,7 @@ public:
     void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
+    void setUniform(std::string name, float value);
 };
 
 #endif
