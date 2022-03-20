@@ -31,8 +31,6 @@ class Graphics {
     GLData glData;
 
     void preDraw();
-
-    int windowWidth, windowHeight;
     Window& window;
 public:
     Graphics(Window& _window);

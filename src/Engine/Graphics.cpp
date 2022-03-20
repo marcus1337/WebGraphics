@@ -3,9 +3,8 @@
 Graphics::Graphics(Window& _window) : window(_window), camera(glm::vec3(0.0f, 0.0f, 3.0f)), framebuffer(1920, 1080)
 {
     imageUniform = new Shader(glData.getProgram("image"));
-    framebuffer.postImageUniform = new Shader(glData.getProgram("postimage"));
-    framebuffer.postImageUniform->setTexture(framebuffer.texture);
-    framebuffer.postImageUniform->setUniform("blur", 50.0f);
+    framebuffer.shader = new Shader(glData.getProgram("postimage"));
+    framebuffer.shader->setTexture(framebuffer.texture);
 
     imageUniform->setTexture(glData.getTexture("stallTexture.png"));
 
@@ -28,11 +27,11 @@ void Graphics::draw() {
     image.draw(imageUniform);
     text.draw();
 
-    framebuffer.postImageUniform->setPosition(glm::vec3(-1.f, -1.f, 0.f));
-    framebuffer.postImageUniform->scale = glm::vec3(2.0f, 2.0f, 1.0f);
+    framebuffer.shader->setPosition(glm::vec3(-1.f, -1.f, 0.f));
+    framebuffer.shader->scale = glm::vec3(2.0f, 2.0f, 1.0f);
     framebuffer.end(window.width, window.height);
 
-    image.draw(framebuffer.postImageUniform);
+    image.draw(framebuffer.shader);
 }
 
 void Graphics::preDraw()
@@ -51,6 +50,6 @@ void Graphics::preDraw()
     text.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 
     MatrixData matrixdataReal = camera.getMatrixData(window.width, window.height);
-    framebuffer.postImageUniform->setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
+    framebuffer.shader->setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
 
 }

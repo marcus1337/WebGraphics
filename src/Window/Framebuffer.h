@@ -9,7 +9,7 @@
 class Framebuffer
 {
 public:
-    Shader* postImageUniform = nullptr;
+    Shader* shader = nullptr;
     GLuint texture, fbo;
     const int width, height;
     ~Framebuffer();

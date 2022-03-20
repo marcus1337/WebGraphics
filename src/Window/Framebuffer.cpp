@@ -21,7 +21,7 @@ Framebuffer::~Framebuffer()
 {
     glDeleteFramebuffers(1, &fbo);
     glDeleteTextures(1, &texture);
-    delete postImageUniform;
+    delete shader;
 }
 
 void Framebuffer::begin()
