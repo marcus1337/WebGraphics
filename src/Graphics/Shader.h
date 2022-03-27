@@ -2,9 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
 #include <vector>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/common.hpp>

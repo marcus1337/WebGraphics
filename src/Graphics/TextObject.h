@@ -43,29 +43,21 @@ private:
     void initVBO();
 
 public:
-
-    std::string text;
-    glm::vec4 color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
-
     void setText(std::string text);
-
     std::tuple<float, float> getTextWidthAndHeight(std::string _text);
-
     void setScale(glm::vec3 _scale);
     void setPosition(glm::vec3 _position);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
+    void draw();
+    ~TextObject();
+    TextObject();
 
-    glm::vec3 cameraPosition;
+    std::string text;
+    glm::vec4 color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
     glm::vec3 position, scale;
-    glm::vec3 rotationAxis;
     float rotation;
     GLuint programID = 0;
     std::string font;
-
-    void draw();
-
-    ~TextObject();
-    TextObject();
 };
 
 #endif

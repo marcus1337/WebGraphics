@@ -7,8 +7,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)),
-               rotationAxis(glm::vec3(0.f, 0.f, 1.f)), rotation(0)
+TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), rotation(0)
 {
     initVBO();
 

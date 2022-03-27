@@ -40,7 +40,23 @@ void App::step(){
     MS_PASSED = 0;
     engine.window.pollEvents();
     update();
-    engine.graphics.draw();
+
+    engine.graphics.clearViews();
+
+    Image image;
+    Text text, text2;
+    text2.text = "another text";
+    text2.color = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+    text2.rotation = 45.0f;
+    text2.y = 400;
+    text2.x = 100;
+    image.x = 300;
+    image.y = 300;
+    engine.graphics.drawImage(image);
+    engine.graphics.drawText(text);
+    engine.graphics.drawText(text2);
+
+    engine.graphics.display();
     engine.window.display();
 }
 

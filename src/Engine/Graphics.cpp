@@ -1,50 +1,82 @@
 #include "Graphics.h"
 
-Graphics::Graphics(Window& _window) : window(_window), framebuffer(1920, 1080)
+Graphics::Graphics(Window& _window) : window(_window)
 {
+    frameBuffers.push_back(makeFrameBuffer(1920, 1080));
     imageShader = Shader(glData.getProgram("image"));
-    framebuffer.shader = Shader(glData.getProgram("postimage"));
-    framebuffer.shader.setTexture(framebuffer.texture);
+    textObject.programID = glData.getProgram("text");
+}
 
-    imageShader.setTexture(glData.getTexture("stallTexture.png"));
+void Graphics::initViews(std::vector<View> views) {
+    for (View& view : views) {
+        frameBuffers.push_back(makeFrameBuffer(view.width, view.height));
+    }
+}
 
-    text.programID = glData.getProgram("text");
-    text.font = "Roboto-Regular";
-
+FrameBuffer* Graphics::makeFrameBuffer(int width, int height) {
+    FrameBuffer* frameBuffer = new FrameBuffer(width, height);
+    frameBuffer->shader = Shader(glData.getProgram("postimage"));
+    frameBuffer->shader.setTexture(frameBuffer->texture);
+    return frameBuffer;
 }
 
 Graphics::~Graphics() {
-
+    for(FrameBuffer* frameBuffer : frameBuffers) {
+        delete frameBuffer;
+    }
 }
 
-void Graphics::draw() {
-    glViewport(0, 0, window.width, window.height);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-    MatrixData matrixdata = camera.getMatrixData(framebuffer.width, framebuffer.height);
-    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    text.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-
-    framebuffer.use();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-    imageShader.setPosition(glm::vec3(0, 980, 0));
-    imageShader.scale = glm::vec3(100.0f, 100.0f, 1.0f);
-
-    image.draw(&imageShader);
-
-    text.setText("Hello world");
-    text.setScale(glm::vec3(1.f, 1.f, 1.f));
-    text.setPosition(glm::vec3(100.0f, 100.0f + 46.0f, 1.0f));
-    text.rotation = 45.0f;
-    text.draw();
-
+void Graphics::clearViews() {
+    for (FrameBuffer* frameBuffer : frameBuffers) {
+        frameBuffer->use();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    framebuffer.shader.scale = glm::vec3((float)window.width, (float)window.height, 1.0f);
     glViewport(0, 0, window.width, window.height);
-
-    matrixdata = camera.getMatrixData(window.width, window.height);
-    framebuffer.shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    image.draw(&framebuffer.shader);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
+void Graphics::display() {
+    frameBuffers[0]->use();
+    MatrixData matrixdata = camera.getMatrixData(frameBuffers[0]->width, frameBuffers[0]->height);
+    for (std::size_t i = 1; i < frameBuffers.size(); i++) {
+        frameBuffers[i]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+        imageObject.draw(&frameBuffers[i]->shader);
+    }
+    drawMainView();
+}
+
+void Graphics::drawImage(Image& image, std::size_t viewID) {
+    FrameBuffer& frameBuffer = *frameBuffers[viewID];
+    frameBuffer.use();
+    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
+    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    imageShader.setPosition(glm::vec3(image.x, image.y, 0.0f));
+    imageShader.scale = glm::vec3(image.width, image.height, 1.0f);
+    imageShader.setTexture(glData.getTexture(image.texture));
+    imageShader.rotation = image.rotation;
+    imageObject.draw(&imageShader);
+}
+
+void Graphics::drawText(Text& text, std::size_t viewID) {
+    FrameBuffer& frameBuffer = *frameBuffers[viewID];
+    frameBuffer.use();
+    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
+    textObject.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    textObject.font = text.font;
+    textObject.setPosition(glm::vec3(text.x, text.y, 0.0f));
+    //textObject.scale = text.scale;
+    textObject.text = text.text;
+    textObject.rotation = text.rotation;
+    textObject.color = text.color;
+    textObject.draw();
+}
+
+void Graphics::drawMainView() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    frameBuffers[0]->shader.scale = glm::vec3((float)window.width, (float)window.height, 1.0f);
+    glViewport(0, 0, window.width, window.height);
+    MatrixData matrixdata = camera.getMatrixData(window.width, window.height);
+    frameBuffers[0]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    imageObject.draw(&frameBuffers[0]->shader);
+}

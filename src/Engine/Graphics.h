@@ -6,6 +6,9 @@
 #include "Graphics/TextObject.h"
 #include "Graphics/FrameBuffer.h"
 #include "Window/Camera.h"
+#include "Drawables/View.h"
+#include "Drawables/Image.h"
+#include "Drawables/Text.h"
 
 #include <stack>
 #include <tuple>
@@ -22,18 +25,25 @@
 
 class Graphics {
     Camera camera;
-    ImageObject image;
+    ImageObject imageObject;
     Shader imageShader;
-    FrameBuffer framebuffer;
 
-    TextObject text;
+    TextObject textObject;
     GLData glData;
     Window& window;
+
+    void drawMainView();
+    std::vector<FrameBuffer*> frameBuffers;
+    FrameBuffer* makeFrameBuffer(int width, int height);
 public:
     Graphics(Window& _window);
     ~Graphics();
 
-    void draw();
+    void clearViews();
+    void display();
+    void initViews(std::vector<View> views);
+    void drawImage(Image& image, std::size_t viewID = 0);
+    void drawText(Text& text, std::size_t viewID = 0);
 };
 
 #endif // !GRAPHICS_H
