@@ -1,10 +1,8 @@
 #include "Shader.h"
 
-
 Shader::Shader(GLuint _programID) : programID(_programID), P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), normalID(0), textureID(0) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
-    rotation = glm::angleAxis( glm::radians(0.0f), glm::vec3(0.f, 0.f, 1.f) );
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
 }
@@ -16,10 +14,17 @@ Shader::~Shader(){
 glm::mat4 Shader::getModel()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
-    glm::mat4 rotateMat = glm::toMat4(rotation);
-    glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
+    glm::vec3 rotationAxis(0, 0, 1.0f);
+    glm::quat rotationQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
+    glm::mat4 rotateMat = glm::toMat4(rotationQuat);
+    glm::vec3 adjustedPosition = glm::vec3(position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z);
+    glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), adjustedPosition);
     glm::mat4 modModel = translateMat * rotateMat * scaleMat;
     return modModel;
+}
+
+void Shader::setRotation(float _rotation) {
+    rotation = _rotation;
 }
 
 void Shader::setUniforms(){
@@ -33,11 +38,6 @@ void Shader::setUniforms(){
 }
 
 void Shader::setPosition(glm::vec3 _position)
-{
-    position = glm::vec3(_position.x + scale.x / 2.0f, _position.y + scale.y / 2.0f, _position.z);
-}
-
-void Shader::setMidPosition(glm::vec3 _position)
 {
     position = _position;
 }

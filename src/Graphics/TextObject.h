@@ -30,14 +30,6 @@ protected:
     GLuint vao, vbo;
 
     glm::mat4 getMVP();
-    glm::vec3 midPosition, lastPosition;
-    bool isMidPositionSet = false;
-    bool isPositionSet = false;
-
-    float SCR_WIDTH = 0;
-    float SCR_HEIGHT = 0;
-    float scaleValX = 0.0f;
-    float scaleValY = 0.0f;
 
 private:
     IOFonts iofonts;
@@ -51,7 +43,6 @@ private:
     void initVBO();
 
 public:
-    void setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT);
 
     std::string text;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
@@ -63,10 +54,8 @@ public:
     float totalWidth = 0;
     float totalHeight = 0;
 
-    void setMidPosition(glm::vec3 _midPosition);
     void setScale(glm::vec3 _scale);
     void setPosition(glm::vec3 _position);
-
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
     glm::vec3 cameraPosition;

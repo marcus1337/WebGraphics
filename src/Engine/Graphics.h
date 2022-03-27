@@ -21,7 +21,6 @@
 #define GRAPHICS_H
 
 class Graphics {
-
     Camera camera;
     ImageObject image;
     Shader imageShader;
@@ -29,8 +28,6 @@ class Graphics {
 
     TextObject text;
     GLData glData;
-
-    void preDraw();
     Window& window;
 public:
     Graphics(Window& _window);
@@ -39,7 +36,6 @@ public:
     void draw();
 
     FrameBuffer& getDefaultView();
-
 };
 
 #endif // !GRAPHICS_H

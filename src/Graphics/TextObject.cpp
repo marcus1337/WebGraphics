@@ -85,30 +85,12 @@ int TextObject::loadGlyphs(FT_Face face, const std::string& fontName)
 
 void TextObject::setPosition(glm::vec3 _position)
 {
-    lastPosition = _position;
     position = _position;
-    //position.y -= (totalHeight * scale.y);
-    isMidPositionSet = false;
-    isPositionSet = true;
 }
 
 void TextObject::setScale(glm::vec3 _scale)
 {
-    scale = _scale * glm::vec3(0.001f, 0.001f, 1.0f);
-    if (isMidPositionSet)
-        setMidPosition(midPosition);
-    if (isPositionSet)
-        setPosition(lastPosition);
-}
-
-void TextObject::setMidPosition(glm::vec3 _midPosition)
-{
-    position = _midPosition;
-    position.x = position.x - (totalWidth * scale.x) / 2.0f;
-    position.y = position.y + (totalHeight * scale.y) / 2.0f;
-    isMidPositionSet = true;
-    isPositionSet = false;
-    midPosition = _midPosition;
+    scale = _scale * glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 void TextObject::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P)
@@ -146,7 +128,7 @@ glm::mat4 TextObject::getMVP()
 
     glm::mat4 rotateMat = glm::toMat4(myQuat);
     glm::mat4 pointOfRotation = glm::translate(glm::mat4(1.0f),
-                                               glm::vec3(0, -(totalHeight * scale.y), 0));
+                                               glm::vec3(0.0f, -(totalHeight * scale.y), 0.0f));
 
     glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
     glm::mat4 modModel = translateMat * rotateMat * pointOfRotation * scaleMat;
@@ -179,14 +161,6 @@ std::tuple<float, float> TextObject::getTextWidthAndHeight(std::string _text)
     }
 
     return std::make_tuple(_width, _height);
-}
-
-void TextObject::setSourceWindowSize(float _SCR_WIDTH, float _SCR_HEIGHT)
-{
-    SCR_WIDTH = _SCR_WIDTH;
-    SCR_HEIGHT = _SCR_HEIGHT;
-    scaleValX = 1.0f / SCR_WIDTH;
-    scaleValY = 1.0f / SCR_HEIGHT;
 }
 
 void TextObject::setCharVertices(float &_x, Character ch)
