@@ -103,9 +103,6 @@ void TextObject::setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat
 void TextObject::setText(std::string _text)
 {
     text = _text;
-    auto wh = getTextWidthAndHeight(text);
-    totalHeight = std::get<1>(wh);
-    totalWidth = std::get<0>(wh);
 }
 
 void TextObject::initVBO()
@@ -124,14 +121,20 @@ void TextObject::initVBO()
 glm::mat4 TextObject::getMVP()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
+    glm::vec3 rotationAxis(0, 0, 1.0f);
     glm::quat myQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
 
     glm::mat4 rotateMat = glm::toMat4(myQuat);
-    glm::mat4 pointOfRotation = glm::translate(glm::mat4(1.0f),
-                                               glm::vec3(0.0f, -(totalHeight * scale.y), 0.0f));
+    std::tuple<float,float> widthAndHeight = getTextWidthAndHeight(text);
+    float width = std::get<0>(widthAndHeight);
+    float height = std::get<1>(widthAndHeight);
+    glm::mat4 offsetToMiddle = glm::translate(glm::mat4(1.0f),
+                                               glm::vec3(-width/2.0f, -height/2.0f, 0.0f));
+    glm::mat4 revertOffsetToMiddle = glm::translate(glm::mat4(1.0f),
+        glm::vec3(width / 2.0f, height / 2.0f, 0.0f));
 
     glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), position);
-    glm::mat4 modModel = translateMat * rotateMat * pointOfRotation * scaleMat;
+    glm::mat4 modModel = translateMat * revertOffsetToMiddle * rotateMat * offsetToMiddle * scaleMat;
 
     glm::mat4 MVP = VP * modModel;
     return MVP;

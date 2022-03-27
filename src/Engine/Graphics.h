@@ -34,8 +34,6 @@ public:
     ~Graphics();
 
     void draw();
-
-    FrameBuffer& getDefaultView();
 };
 
 #endif // !GRAPHICS_H

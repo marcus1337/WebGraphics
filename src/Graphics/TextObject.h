@@ -51,9 +51,6 @@ public:
 
     std::tuple<float, float> getTextWidthAndHeight(std::string _text);
 
-    float totalWidth = 0;
-    float totalHeight = 0;
-
     void setScale(glm::vec3 _scale);
     void setPosition(glm::vec3 _position);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);

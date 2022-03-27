@@ -30,21 +30,21 @@ void Graphics::draw() {
 
     imageShader.setPosition(glm::vec3(0, 980, 0));
     imageShader.scale = glm::vec3(100.0f, 100.0f, 1.0f);
+
     image.draw(&imageShader);
 
     text.setText("Hello world");
     text.setScale(glm::vec3(1.f, 1.f, 1.f));
-    text.setPosition(glm::vec3(0.0f, 46.0f, 1.0f));
+    text.setPosition(glm::vec3(100.0f, 100.0f + 46.0f, 1.0f));
+    text.rotation = 45.0f;
     text.draw();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     framebuffer.shader.scale = glm::vec3((float)window.width, (float)window.height, 1.0f);
     glViewport(0, 0, window.width, window.height);
-    MatrixData matrixdataReal = camera.getMatrixData(window.width, window.height);
-    framebuffer.shader.setViewProjectionMatrix(matrixdataReal.VP, matrixdataReal.V, matrixdataReal.P);
+
+    matrixdata = camera.getMatrixData(window.width, window.height);
+    framebuffer.shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     image.draw(&framebuffer.shader);
 }
 
-FrameBuffer& Graphics::getDefaultView() {
-    return framebuffer;
-}
