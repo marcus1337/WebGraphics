@@ -5,6 +5,7 @@ Graphics::Graphics(Window& _window) : window(_window)
     frameBuffers.push_back(makeFrameBuffer(1920, 1080));
     imageShader = Shader(glData.getProgram("image"));
     textObject.programID = glData.getProgram("text");
+    window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
 }
 
 void Graphics::initViews(std::vector<View> views) {

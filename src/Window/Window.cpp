@@ -27,16 +27,17 @@ auto Window::window_size_callback(GLFWwindow* window, int width, int height)
     mw->width = width;
     mw->height = height;
     glViewport(0, 0, width, height);
+    if(mw->appResizeCallbackFunction)
+        mw->appResizeCallbackFunction();
 }
 
 auto Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag(xpos,ypos);
-    //mw->resizeToAspectRatio();
 }
 
-void Window::scrollScreenResize(double yoffset){
+void Window::autoScreenResize(double yoffset){
     for(int i = 0 ; i < 30; i++)
         if(yoffset > 0){
             aspectRatio.increase();
@@ -51,17 +52,9 @@ auto Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     
 #ifndef EMSCRIPTEN
-    mw->scrollScreenResize(yoffset);
+    mw->autoScreenResize(yoffset);
 #endif
 }
-
-/*void Window::resizeToAspectRatio() {
-    bool shouldResize = aspectRatio.getWidth() != width || aspectRatio.getHeight() != height;
-    if(shouldResize){
-        aspectRatio.setIndexToClosestAspectRatio(width, height);
-        resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
-    }
-}*/
 
 bool Window::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
@@ -144,9 +137,6 @@ bool Window::initGLFW()
 
 Window::Window() {
     initWindow();
-/*#ifndef EMSCRIPTEN
-    resizeToAspectRatio();
-#endif*/
 }
 Window::~Window() {
     glfwTerminate();

@@ -5,6 +5,7 @@
 #include "IO/Controller/Mouse.h"
 #include "IO/Controller/Keyboard.h"
 #include "AspectRatio.h"
+#include <functional>
 
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
@@ -21,15 +22,15 @@ class Window {
     void setWindowHints();
     void setWindowCallbacks(GLFWwindow* window);
 
-    void scrollScreenResize(double yoffset);
     bool initGLFW();
     GLFWwindow* window;
     bool initWindow();
 
 public:
-    //void resizeToAspectRatio();
+    std::function<void(void)> appResizeCallbackFunction;
     AspectRatio aspectRatio;
     void resizeWindow(int width, int height);
+    void autoScreenResize(double yoffset);
     int width = 800;
     int height = 600;
     Mouse mouse;
