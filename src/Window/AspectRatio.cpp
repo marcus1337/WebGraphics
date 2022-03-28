@@ -65,6 +65,27 @@ void AspectRatio::setIndexToClosestAspectRatio(int width, int height)
     }
 }
 
+void AspectRatio::setIndexToLessOrEqual(int width, int height) {
+
+    if (width == widths[index] && height == heights[index])
+        return;
+
+    if (width < widths[0] || height < heights[0])
+    {
+        index = 0;
+        return;
+    }
+
+    for (int i = 1; i < widths.size(); i++) {
+        if (width < widths[i] || height < heights[i]) {
+            index = i - 1;
+            return;
+        }
+    }
+
+    setIndexToMax();
+}
+
 void AspectRatio::setIndexToMax(){
     index = widths.size()-1;
 }

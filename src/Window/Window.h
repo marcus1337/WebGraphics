@@ -20,7 +20,6 @@ class Window {
     void SetVSync(bool sync);
     void setWindowHints();
     void setWindowCallbacks(GLFWwindow* window);
-    AspectRatio aspectRatio;
 
     void scrollScreenResize(double yoffset);
     bool initGLFW();
@@ -28,7 +27,8 @@ class Window {
     bool initWindow();
 
 public:
-    void resizeToAspectRatio();
+    //void resizeToAspectRatio();
+    AspectRatio aspectRatio;
     void resizeWindow(int width, int height);
     int width = 800;
     int height = 600;

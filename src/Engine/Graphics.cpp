@@ -27,6 +27,7 @@ Graphics::~Graphics() {
 }
 
 void Graphics::clearViews() {
+    glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
     for (FrameBuffer* frameBuffer : frameBuffers) {
         frameBuffer->use();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -44,6 +45,7 @@ void Graphics::display() {
         imageObject.draw(&frameBuffers[i]->shader);
     }
     drawMainView();
+    window.display();
 }
 
 void Graphics::drawImage(Image& image, std::size_t viewID) {
@@ -74,7 +76,18 @@ void Graphics::drawText(Text& text, std::size_t viewID) {
 
 void Graphics::drawMainView() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    frameBuffers[0]->shader.scale = glm::vec3((float)window.width, (float)window.height, 1.0f);
+    glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    window.aspectRatio.setIndexToLessOrEqual(window.width, window.height);
+    int frameWidth = window.aspectRatio.getWidth();
+    int frameHeight = window.aspectRatio.getHeight();
+    float frameXPos = 0.0f;
+    float frameYPos = 0.0f;
+    frameXPos = (float)(window.width - frameWidth) / 2.0f;
+    frameYPos = (float)(window.height - frameHeight) / 2.0f;
+    frameBuffers[0]->shader.setPosition(glm::vec3(frameXPos, frameYPos, 0.f));
+
+    frameBuffers[0]->shader.scale = glm::vec3((float)frameWidth, (float)frameHeight, 1.0f);
     glViewport(0, 0, window.width, window.height);
     MatrixData matrixdata = camera.getMatrixData(window.width, window.height);
     frameBuffers[0]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);

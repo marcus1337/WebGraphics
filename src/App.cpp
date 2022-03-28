@@ -57,18 +57,15 @@ void App::step(){
     engine.graphics.drawText(text2);
 
     engine.graphics.display();
-    engine.window.display();
 }
 
 void App::update()
 {
     if (engine.window.mouse.isLeftReleased) {
         std::cout << "CLICK1!\n";
-        //framebuffer.postImageUniform->blur += 0.1f;
     }
     if(engine.window.mouse.isRightReleased){
         std::cout << "CLICK2!\n";
-        //framebuffer.postImageUniform->blur -= 0.1f;
     }
 
 }

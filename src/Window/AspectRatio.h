@@ -28,6 +28,7 @@ public:
     void increase();
     void decrease();
     void setIndexToClosestAspectRatio(int width, int height);
+    void setIndexToLessOrEqual(int width, int height);
 };
 
 

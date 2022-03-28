@@ -33,7 +33,7 @@ auto Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag(xpos,ypos);
-    mw->resizeToAspectRatio();
+    //mw->resizeToAspectRatio();
 }
 
 void Window::scrollScreenResize(double yoffset){
@@ -55,13 +55,13 @@ auto Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 #endif
 }
 
-void Window::resizeToAspectRatio(){
+/*void Window::resizeToAspectRatio() {
     bool shouldResize = aspectRatio.getWidth() != width || aspectRatio.getHeight() != height;
     if(shouldResize){
         aspectRatio.setIndexToClosestAspectRatio(width, height);
         resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
     }
-}
+}*/
 
 bool Window::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
@@ -144,9 +144,9 @@ bool Window::initGLFW()
 
 Window::Window() {
     initWindow();
-#ifndef EMSCRIPTEN
+/*#ifndef EMSCRIPTEN
     resizeToAspectRatio();
-#endif
+#endif*/
 }
 Window::~Window() {
     glfwTerminate();
