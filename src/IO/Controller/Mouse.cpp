@@ -2,18 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-glm::vec2 Mouse::getRelativePosition(int windowWidth, int windowHeight, double _fromX, double _fromY, double _toX, double _toY)
-{
-    if (windowWidth == 0.0f || windowHeight == 0.0f)
-        return glm::vec2(0, 0);
-
-    glm::vec2 relativePosition = glm::vec2(x / (double)windowWidth, y / (double)windowHeight);
-    relativePosition.x -= _fromX;
-    relativePosition.y -= _fromY;
-    relativePosition.x /= (_toX - _fromX);
-    relativePosition.y /= (_toY - _fromY);
-    return relativePosition;
-}
 
 void Mouse::drag(int toPosX, int toPosY)
 {

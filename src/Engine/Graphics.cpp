@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include <algorithm>
 
 Graphics::Graphics(Window& _window) : window(_window)
 {
@@ -22,7 +23,7 @@ FrameBuffer* Graphics::makeFrameBuffer(int width, int height) {
 }
 
 Graphics::~Graphics() {
-    for(FrameBuffer* frameBuffer : frameBuffers) {
+    for (FrameBuffer* frameBuffer : frameBuffers) {
         delete frameBuffer;
     }
 }
@@ -82,10 +83,9 @@ void Graphics::drawMainView() {
     window.aspectRatio.setIndexToLessOrEqual(window.width, window.height);
     int frameWidth = window.aspectRatio.getWidth();
     int frameHeight = window.aspectRatio.getHeight();
-    float frameXPos = 0.0f;
-    float frameYPos = 0.0f;
-    frameXPos = (float)(window.width - frameWidth) / 2.0f;
-    frameYPos = (float)(window.height - frameHeight) / 2.0f;
+    float frameXPos = (float)(window.width - frameWidth) / 2.0f;
+    float frameYPos = (float)(window.height - frameHeight) / 2.0f;
+
     frameBuffers[0]->shader.setPosition(glm::vec3(frameXPos, frameYPos, 0.f));
 
     frameBuffers[0]->shader.scale = glm::vec3((float)frameWidth, (float)frameHeight, 1.0f);
@@ -93,4 +93,33 @@ void Graphics::drawMainView() {
     MatrixData matrixdata = camera.getMatrixData(window.width, window.height);
     frameBuffers[0]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     imageObject.draw(&frameBuffers[0]->shader);
+}
+
+std::pair<int, int> Graphics::getPixelPosition(int _x, int _y, std::size_t viewID) {
+    FrameBuffer& mainFrameBuffer = *frameBuffers[0];
+    FrameBuffer& viewedFrameBuffer = *frameBuffers[viewID];
+    int xOffset = (int)mainFrameBuffer.shader.position.x;
+    int yOffset = (int)mainFrameBuffer.shader.position.y;
+    _x -= xOffset;
+    _y -= yOffset;
+    _x = std::clamp(_x, 0, (int)viewedFrameBuffer.shader.scale.x);
+    _y = std::clamp(_y, 0, (int)viewedFrameBuffer.shader.scale.y);
+    float relX = (float)_x / viewedFrameBuffer.shader.scale.x;
+    float relY = (float)_y / viewedFrameBuffer.shader.scale.y;
+    //std::cout << "a " << relX << " b " << relY << "\n";
+    return std::make_pair((int)(relX * viewedFrameBuffer.width), (int)(relY * viewedFrameBuffer.height));
+}
+
+bool Graphics::isInsideView(int _x, int _y, std::size_t viewID) {
+    if (viewID == 0)
+        return true;
+    FrameBuffer& viewedFrameBuffer = *frameBuffers[viewID];
+    std::pair<int, int> pos = getPixelPosition(_x, _y);
+    _x = pos.first;
+    _y = pos.second;
+    int viewX = viewedFrameBuffer.shader.position.x;
+    int viewY = viewedFrameBuffer.shader.position.y;
+    int viewMaxX = viewX + viewedFrameBuffer.width;
+    int viewMaxY = viewY + viewedFrameBuffer.height;
+    return _x >= viewX && _x <= viewMaxX && _y >= viewY && _y <= viewMaxY;
 }

@@ -18,6 +18,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <utility>
 
 
 #ifndef GRAPHICS_H
@@ -44,6 +45,8 @@ public:
     void initViews(std::vector<View> views);
     void drawImage(Image& image, std::size_t viewID = 0);
     void drawText(Text& text, std::size_t viewID = 0);
+    std::pair<int, int> getPixelPosition(int _x, int _y, std::size_t viewID = 0);
+    bool isInsideView(int _x, int _y, std::size_t viewID = 0);
 };
 
 #endif // !GRAPHICS_H

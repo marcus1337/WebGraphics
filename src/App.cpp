@@ -61,11 +61,14 @@ void App::step(){
 
 void App::update()
 {
+    int x = engine.window.mouse.x;
+    int y = engine.window.mouse.y;
+    std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
     if (engine.window.mouse.isLeftReleased) {
-        std::cout << "CLICK1!\n";
+        std::cout << "CLICK DOWN " << "x: " << pos.first << " y: " << pos.second << "\n";
     }
     if(engine.window.mouse.isRightReleased){
-        std::cout << "CLICK2!\n";
+        std::cout << "CLICK UP " << "x: " << pos.first << " y: " << pos.second << "\n";
     }
 
 }

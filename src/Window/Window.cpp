@@ -34,7 +34,7 @@ auto Window::window_size_callback(GLFWwindow* window, int width, int height)
 auto Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    mw->mouse.drag(xpos,ypos);
+    mw->mouse.drag((int)xpos, mw->height - 1 - (int)ypos);
 }
 
 void Window::autoScreenResize(double yoffset){
