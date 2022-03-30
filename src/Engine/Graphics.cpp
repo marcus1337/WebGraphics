@@ -28,12 +28,15 @@ Graphics::~Graphics() {
     }
 }
 
-void Graphics::clearViews() {
+void Graphics::clearView(std::size_t viewID) {
     glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
-    for (FrameBuffer* frameBuffer : frameBuffers) {
-        frameBuffer->use();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    }
+    frameBuffers[viewID]->use();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void Graphics::clearViews() {
+    for (std::size_t i = 0; i < frameBuffers.size(); i++)
+        clearView(i);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, window.width, window.height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

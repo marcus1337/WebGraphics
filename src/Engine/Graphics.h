@@ -41,6 +41,7 @@ public:
     ~Graphics();
 
     void clearViews();
+    void clearView(std::size_t viewID = 0);
     void display();
     void initViews(std::vector<View> views);
     void drawImage(Image& image, std::size_t viewID = 0);
