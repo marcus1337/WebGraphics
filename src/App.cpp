@@ -2,6 +2,7 @@
 #include "App.h"
 
 #include "glm/glm.hpp"
+#include "Drawables/Rectangle.h"
 
 bool App::isGameUpdate()
 {
@@ -45,6 +46,9 @@ void App::step(){
 
     Image image;
     Text text, text2;
+    Rectangle rectangle;
+    rectangle.x = 250;
+    rectangle.y = 500;
     text2.text = "another text";
     text2.color = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
     text2.rotation = 45.0f;
@@ -55,6 +59,7 @@ void App::step(){
     engine.graphics.drawImage(image);
     engine.graphics.drawText(text);
     engine.graphics.drawText(text2);
+    engine.graphics.drawRectangle(rectangle);
 
     engine.graphics.display();
 }

@@ -42,6 +42,7 @@ void Mouse::click(int button, int action, int mods)
 void Mouse::clearDeltas()
 {
     deltaX = deltaY = 0;
+    scrollDelta = 0;
 }
 
 void Mouse::reset()

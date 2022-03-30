@@ -33,7 +33,7 @@ public:
 
     void setUniforms();
 
-    glm::vec3 position, scale;
+    glm::vec3 position, scale, color;
     float rotation = 0.0f;
     float alpha = 1.0f;
     bool isNormalUsed = false;
@@ -46,7 +46,10 @@ public:
     void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
 
+    void setUniform(std::string name, glm::vec3 value);
+    void setUniform(std::string name, glm::vec2 value);
     void setUniform(std::string name, float value);
+
     void setRotation(float _rotation);
 };
 

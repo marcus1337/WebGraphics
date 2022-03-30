@@ -5,6 +5,7 @@ Graphics::Graphics(Window& _window) : window(_window)
 {
     frameBuffers.push_back(makeFrameBuffer(1920, 1080));
     imageShader = Shader(glData.getProgram("image"));
+    rectangleShader = Shader(glData.getProgram("rectangle"));
     textObject.programID = glData.getProgram("text");
     window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
 }
@@ -51,6 +52,21 @@ void Graphics::display() {
     }
     drawMainView();
     window.display();
+}
+
+void Graphics::drawRectangle(Rectangle& rectangle, std::size_t viewID) {
+    FrameBuffer& frameBuffer = *frameBuffers[viewID];
+    frameBuffer.use();
+    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
+
+    rectangleShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    rectangleShader.setPosition(glm::vec3(rectangle.x, rectangle.y, 0.0f));
+    rectangleShader.scale = glm::vec3(rectangle.width, rectangle.height, 1.0f);
+    rectangleShader.alpha = rectangle.alpha;
+    rectangleShader.rotation = rectangle.rotation;
+    rectangleShader.color = rectangle.color;
+    imageObject.draw(&rectangleShader);
+
 }
 
 void Graphics::drawImage(Image& image, std::size_t viewID) {

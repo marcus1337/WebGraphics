@@ -72,6 +72,7 @@ void Shader::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner)
 void Shader::setColorUniforms()
 {
     glUniform1f(glGetUniformLocation(programID, "alpha"), alpha);
+    glUniform3fv(glGetUniformLocation(programID, "color"), 1, &color[0]);
     glUniform1f(glGetUniformLocation(programID, "usingNormalMap"), isNormalUsed ? 1.0f : 0.0f);
 }
 
@@ -107,4 +108,12 @@ void Shader::setTextureUniforms()
 
 void Shader::setUniform(std::string name, float value) {
     glUniform1f(glGetUniformLocation(programID, name.c_str()), value);
+}
+
+void Shader::setUniform(std::string name, glm::vec3 value) {
+    glUniform3fv(glGetUniformLocation(programID, name.c_str()), 1, &value[0]);
+}
+
+void Shader::setUniform(std::string name, glm::vec2 value) {
+    glUniform2fv(glGetUniformLocation(programID, name.c_str()), 1, &value[0]);
 }

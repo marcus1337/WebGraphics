@@ -16,6 +16,7 @@ public:
     
     double deltaX = 0;
     double deltaY = 0;
+    double scrollDelta = 0;
     double x = 0.0f;
     double y = 0.0f;
     bool hasInitPos = false;

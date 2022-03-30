@@ -11,6 +11,8 @@ public:
     int x = 0, y = 0;
     std::string texture = "stallTexture.png";
     float rotation = 0;
+    glm::vec3 color = glm::vec3(1.0f, 0.0f, 1.0f);
+    float alpha = 1.0f;
 };
 
 #endif

@@ -37,6 +37,12 @@ auto Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
     mw->mouse.drag((int)xpos, mw->height - 1 - (int)ypos);
 }
 
+auto Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    mw->mouse.scrollDelta = yoffset;
+}
+
 void Window::autoScreenResize(double yoffset){
     for(int i = 0 ; i < 30; i++)
         if(yoffset > 0){
@@ -45,15 +51,6 @@ void Window::autoScreenResize(double yoffset){
             aspectRatio.decrease();
         }
     resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
-}
-
-auto Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    Window* mw = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    
-#ifndef EMSCRIPTEN
-    mw->autoScreenResize(yoffset);
-#endif
 }
 
 bool Window::initWindow() {
