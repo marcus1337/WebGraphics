@@ -13,4 +13,4 @@ public:
 };
 
 
-#endif RECTANGLE_H
+#endif

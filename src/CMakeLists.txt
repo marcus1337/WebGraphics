@@ -8,7 +8,7 @@ endif()
 
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
-add_executable(${PROJECT_NAME} Main.cpp App.cpp App.h  "Engine/Engine.h" "Engine/Engine.cpp" "Drawables/Drawable.h")
+add_executable(${PROJECT_NAME} Main.cpp App.cpp App.h)
 
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
@@ -33,6 +33,8 @@ if(UNIX)
         list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
         list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
         include_directories (/usr/include/freetype2)
+
+        #include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
     endif(NOT EMSCRIPTEN)
 
 endif(UNIX)
