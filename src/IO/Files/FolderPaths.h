@@ -7,14 +7,13 @@ class FolderPaths{
 
 public:
 
-static const std::string& getShaderPath() {return shaderFolder;}
-static const std::string& getModelsPath() {return modelsFolder;}
-static const std::string& getTexturesPath() {return textureFolder;}
-static const std::string& getNormalTexturesPath() {return normalTextureFolder;}
-static const std::string& getFontsPath() {return fontsFolder;}
+static std::string getShaderPath();
+static std::string getModelsPath();
+static std::string getTexturesPath();
+static std::string getNormalTexturesPath();
+static std::string getFontsPath();
+static std::string getResPath();
 
-private:
-    static std::string binFolder, shaderFolder, modelsFolder, textureFolder, normalTextureFolder, fontsFolder;
 };
 
 #endif
