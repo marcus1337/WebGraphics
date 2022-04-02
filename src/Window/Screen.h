@@ -10,7 +10,7 @@
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
 
-class Window {
+class Screen {
 
     inline static auto mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     inline static auto mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -35,8 +35,8 @@ public:
     int height = 600;
     Mouse mouse;
     Keyboard keyboard;
-    Window();
-    ~Window();
+    Screen();
+    ~Screen();
     bool hasQuit();
     void display();
     void pollEvents();

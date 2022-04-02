@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include <algorithm>
 
-Graphics::Graphics(Window& _window) : window(_window)
+Graphics::Graphics(Screen& _window) : window(_window)
 {
     frameBuffers.push_back(makeFrameBuffer(1920, 1080));
     imageShader = Shader(glData.getProgram("image"));
