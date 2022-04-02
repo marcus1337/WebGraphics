@@ -1,4 +1,4 @@
-#include "Screen.h"
+#include "Canvas.h"
 #include <iostream>
 
 #if defined(_MSC_VER)
@@ -10,20 +10,20 @@
 #endif
 
 
-auto Screen::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-    Screen* mw = static_cast<Screen*>(glfwGetWindowUserPointer(window));
+auto Canvas::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
     mw->mouse.click(button, action, mods);
 }
 
-auto Screen::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+auto Canvas::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    Screen* mw = static_cast<Screen*>(glfwGetWindowUserPointer(window));
+    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
     mw->keyboard.setKeys(window, key, scancode, action, mods);
 }
 
-auto Screen::window_size_callback(GLFWwindow* window, int width, int height)
+auto Canvas::window_size_callback(GLFWwindow* window, int width, int height)
 {
-    Screen* mw = static_cast<Screen*>(glfwGetWindowUserPointer(window));
+    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
     mw->width = width;
     mw->height = height;
     glViewport(0, 0, width, height);
@@ -31,19 +31,19 @@ auto Screen::window_size_callback(GLFWwindow* window, int width, int height)
         mw->appResizeCallbackFunction();
 }
 
-auto Screen::mouse_callback(GLFWwindow* window, double xpos, double ypos)
+auto Canvas::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    Screen* mw = static_cast<Screen*>(glfwGetWindowUserPointer(window));
+    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
     mw->mouse.drag((int)xpos, mw->height - 1 - (int)ypos);
 }
 
-auto Screen::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+auto Canvas::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    Screen* mw = static_cast<Screen*>(glfwGetWindowUserPointer(window));
+    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
     mw->mouse.scrollDelta = yoffset;
 }
 
-void Screen::autoScreenResize(double yoffset){
+void Canvas::autoScreenResize(double yoffset){
     for(int i = 0 ; i < 30; i++)
         if(yoffset > 0){
             aspectRatio.increase();
@@ -53,7 +53,7 @@ void Screen::autoScreenResize(double yoffset){
     resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
 }
 
-bool Screen::initWindow() {
+bool Canvas::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
@@ -61,14 +61,14 @@ bool Screen::initWindow() {
     return EXIT_SUCCESS;
 }
 
-void Screen::resizeWindow(int _width, int _height){
+void Canvas::resizeWindow(int _width, int _height){
     glfwSetWindowSize(window, _width, _height);
     glViewport(0, 0, _width, _height);
     width = _width;
     height = _height;
 }
 
-void Screen::setWindowHints(){
+void Canvas::setWindowHints(){
     #ifdef EMSCRIPTEN
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -81,7 +81,7 @@ void Screen::setWindowHints(){
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 }
 
-void Screen::setWindowCallbacks(GLFWwindow* window){
+void Canvas::setWindowCallbacks(GLFWwindow* window){
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -90,7 +90,7 @@ void Screen::setWindowCallbacks(GLFWwindow* window){
     glfwSetWindowSizeCallback(window, window_size_callback);
 }
 
-bool Screen::initGLFW()
+bool Canvas::initGLFW()
 {
     if(GLFW_TRUE != glfwInit()){
         std::clog << "Failed to init glfw\n";
@@ -132,14 +132,14 @@ bool Screen::initGLFW()
 }
 
 
-Screen::Screen() {
+Canvas::Canvas() {
     initWindow();
 }
-Screen::~Screen() {
+Canvas::~Canvas() {
     glfwTerminate();
 }
 
-void Screen::SetVSync(bool sync)
+void Canvas::SetVSync(bool sync)
 {
     #if defined(_MSC_VER)
         typedef BOOL(APIENTRY* PFNWGLSWAPINTERVALPROC)(int);
@@ -156,15 +156,15 @@ void Screen::SetVSync(bool sync)
     #endif
 }
 
-bool Screen::hasQuit() {
+bool Canvas::hasQuit() {
     return glfwWindowShouldClose(window) || keyboard.quitProgram;
 }
 
-void Screen::display() {
+void Canvas::display() {
     glfwSwapBuffers(window);
 }
 
-void Screen::pollEvents() {
+void Canvas::pollEvents() {
     mouse.reset();
     glfwPollEvents();
 }

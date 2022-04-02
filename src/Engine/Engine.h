@@ -6,7 +6,7 @@
 
 class Engine {
 public:
-    Screen window;
+    Canvas window;
     Graphics graphics;
 private:
     void setGLSettings();

@@ -7,10 +7,10 @@
 #include "AspectRatio.h"
 #include <functional>
 
-#ifndef MYWINDOW_H
-#define MYWINDOW_H
+#ifndef CANVAS_H
+#define CANVAS_H
 
-class Screen {
+class Canvas {
 
     inline static auto mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     inline static auto mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -35,8 +35,8 @@ public:
     int height = 600;
     Mouse mouse;
     Keyboard keyboard;
-    Screen();
-    ~Screen();
+    Canvas();
+    ~Canvas();
     bool hasQuit();
     void display();
     void pollEvents();

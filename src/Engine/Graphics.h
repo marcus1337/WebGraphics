@@ -1,5 +1,5 @@
 #include "Utility/GLData.h"
-#include "Window/Screen.h"
+#include "Window/Canvas.h"
 #include "Graphics/ImageObject.h"
 #include "Utility/MatrixData.h"
 #include "Graphics/Shader.h"
@@ -32,13 +32,13 @@ class Graphics {
 
     TextObject textObject;
     GLData glData;
-    Screen& window;
+    Canvas& window;
 
     void drawMainView();
     std::vector<FrameBuffer*> frameBuffers;
     FrameBuffer* makeFrameBuffer(int width, int height);
 public:
-    Graphics(Screen& _window);
+    Graphics(Canvas& _window);
     ~Graphics();
 
     void clearViews();
