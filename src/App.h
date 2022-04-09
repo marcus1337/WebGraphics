@@ -20,6 +20,7 @@ class App
 
     void update();
     bool isGameUpdate();
+    void draw();
 
 public:
     App();

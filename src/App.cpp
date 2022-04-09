@@ -37,14 +37,22 @@ App::~App()
 
 }
 
+void App::resizeWindow(int _width, int _height)
+{
+    engine.window.resizeWindow(_width, _height);
+}
+
 void App::step(){
     gameTicks++;
     frameTimePassed = 0;
-    engine.window.pollEvents();
     update();
-
+    engine.window.pollEvents();
     engine.graphics.clearViews();
+    draw();
+    engine.graphics.display();
+}
 
+void App::draw(){
     Image image;
     Text text, text2;
     Rectangle rectangle;
@@ -61,8 +69,6 @@ void App::step(){
     engine.graphics.drawRectangle(rectangle);
     engine.graphics.drawText(text);
     engine.graphics.drawText(text2);
-
-    engine.graphics.display();
 }
 
 void App::update()
@@ -77,9 +83,4 @@ void App::update()
         std::cout << "CLICK UP " << "x: " << pos.first << " y: " << pos.second << "\n";
     }
 
-}
-
-void App::resizeWindow(int _width, int _height)
-{
-    engine.window.resizeWindow(_width, _height);
 }
