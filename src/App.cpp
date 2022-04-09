@@ -8,9 +8,9 @@ bool App::isGameUpdate()
 {
     using namespace std::chrono;
     steady_clock::time_point timeGameUpdate = steady_clock::now();
-    MS_PASSED += duration_cast<microseconds>(timeGameUpdate - timeSinceGameUpdate).count();
+    frameTimePassed += duration_cast<microseconds>(timeGameUpdate - timeSinceGameUpdate).count();
     timeSinceGameUpdate = timeGameUpdate;
-    return MS_PASSED >= MS_FRAME;
+    return frameTimePassed >= frameTime;
 }
 
 
@@ -27,8 +27,9 @@ void App::run()
 
 App::App() 
 {
-    MS_PASSED = 0;
-    MS_FRAME = 16600;
+    gameTicks = 0;
+    frameTimePassed = 0;
+    frameTime = 16600;
 }
 
 App::~App()
@@ -38,7 +39,7 @@ App::~App()
 
 void App::step(){
     gameTicks++;
-    MS_PASSED = 0;
+    frameTimePassed = 0;
     engine.window.pollEvents();
     update();
 
@@ -47,7 +48,7 @@ void App::step(){
     Image image;
     Text text, text2;
     Rectangle rectangle;
-    rectangle.x = 250;
+    rectangle.x = 150;
     rectangle.y = 500;
     text2.text = "another text";
     text2.color = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);

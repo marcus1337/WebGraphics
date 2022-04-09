@@ -1,13 +1,5 @@
 
 #ifdef EMSCRIPTEN
-    #include <GL/glew.h>
-    #include <GLFW/glfw3.h>
-    #include <glm/glm.hpp>
-    #include <glm/ext.hpp>
-    #include <iostream>
-    #include <string>
-
-
     #include <emscripten.h>
     #include <emscripten/html5.h>
     #include <emscripten/bind.h>
@@ -17,7 +9,7 @@
 
 #ifdef EMSCRIPTEN
     App app;
-    void oneLoop(){
+    void step(){
         app.step();
     }
     void resizeWindow(int width, int height){
@@ -30,7 +22,7 @@
 
 int main(int argc, char *argv[]){
     #ifdef EMSCRIPTEN
-        emscripten_set_main_loop(oneLoop, 20, 1);
+        emscripten_set_main_loop(step, 20, 1);
     #else
         App app;
         app.run();
