@@ -57,9 +57,9 @@ void App::step(){
     image.x = 300;
     image.y = 300;
     engine.graphics.drawImage(image);
+    engine.graphics.drawRectangle(rectangle);
     engine.graphics.drawText(text);
     engine.graphics.drawText(text2);
-    engine.graphics.drawRectangle(rectangle);
 
     engine.graphics.display();
 }

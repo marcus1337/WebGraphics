@@ -46,11 +46,11 @@ unsigned int TextObject::makeGlyphTexture(FT_Face &face)
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
-        GL_RED,
+        GL_RGBA,
         face->glyph->bitmap.width,
         face->glyph->bitmap.rows,
         0,
-        GL_RED,
+        GL_RGBA,
         GL_UNSIGNED_BYTE,
         face->glyph->bitmap.buffer);
 
