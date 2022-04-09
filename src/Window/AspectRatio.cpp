@@ -8,7 +8,7 @@
 
 AspectRatio::AspectRatio()
 {
-    for (int i = 640; i <= 1920; i++)
+    for (int i = 200; i <= 1920; i++)
     {
         int width = i;
         widths.push_back(width);

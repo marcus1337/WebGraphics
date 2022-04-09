@@ -23,6 +23,7 @@ GLuint GLData::makeTexture(TextureData &textureData)
 {
     GLuint textID = 0;
     textID = GLUtils::load2DTexture(textureData);
+    textureData.data.clear(); //free up some RAM
     if (textID != 0)
         textures[textureData.fileName] = textID;
     return textID;
