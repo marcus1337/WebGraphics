@@ -7,9 +7,6 @@
 class Keyboard
 {
     static constexpr std::size_t numKeys = 350;
-    bool isPressed[numKeys] = {};
-    bool isDownClick[numKeys] = {};
-    bool isUpClick[numKeys] = {};
 
 public:
 
@@ -17,6 +14,9 @@ public:
     bool quitProgram = false;
     void reset();
 
+    bool isPressed[numKeys] = {};
+    bool isDownClick[numKeys] = {};
+    bool isUpClick[numKeys] = {};
 };
 
 #endif

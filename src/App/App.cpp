@@ -30,10 +30,19 @@ void App::updateLogic() {
     int y = engine.window.mouse.y;
     std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
     if (engine.window.mouse.isLeftReleased) {
-        std::cout << "CLICK DOWN " << "x: " << pos.first << " y: " << pos.second << "\n";
+        std::cout << "mouse up L " << "x: " << pos.first << " y: " << pos.second << "\n";
     }
     if (engine.window.mouse.isRightReleased) {
-        std::cout << "CLICK UP " << "x: " << pos.first << " y: " << pos.second << "\n";
+        std::cout << "mouse up R " << "x: " << pos.first << " y: " << pos.second << "\n";
+    }
+    if (engine.window.keyboard.isPressed[GLFW_KEY_A]) {
+        std::cout << "A isPressed" << std::endl;
+    }
+    if (engine.window.keyboard.isDownClick[GLFW_KEY_A]) {
+        std::cout << "A down press" << std::endl;
+    }
+    if (engine.window.keyboard.isUpClick[GLFW_KEY_A]) {
+        std::cout << "A up press" << std::endl;
     }
 }
 
