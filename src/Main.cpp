@@ -5,7 +5,7 @@
     #include <emscripten/bind.h>
 #endif
 
-#include "App.h"
+#include "App/App.h"
 
 #ifdef EMSCRIPTEN
     App app;

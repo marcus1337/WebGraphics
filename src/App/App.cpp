@@ -1,15 +1,6 @@
 
 #include "App.h"
-#include "glm/glm.hpp"
-#include "Drawables/Rectangle.h"
-
-App::App() 
-{
-}
-
-App::~App()
-{
-}
+#include <iostream>
 
 void App::run()
 {

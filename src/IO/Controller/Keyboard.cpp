@@ -1,76 +1,34 @@
 #include "Keyboard.h"
+#include <iostream>
 
 void Keyboard::setKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        goForward = true;
-    }
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE)
-    {
-        goForward = false;
+
+    if (action == GLFW_PRESS) {
+        isDownClick[key] = true;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        goBack = true;
+    for (std::size_t i = 0; i < numKeys; i++) {
+        if (glfwGetKey(window, i) == GLFW_PRESS)
+        {
+            isPressed[key] = true;
+        }
+        else {
+            isPressed[key] = false;
+        }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE)
-    {
-        goBack = false;
+    if (action == GLFW_RELEASE) {
+        isUpClick[key] = true;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        goLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE)
-    {
-        goLeft = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        goRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE)
-    {
-        goRight = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        rotateRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        rotateLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        rotateRight = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        rotateLeft = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE)
-    {
-        rotateRight = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE)
-    {
-        rotateLeft = false;
-    }
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+    if (isDownClick[GLFW_KEY_ESCAPE])
         quitProgram = true;
+
+}
+
+void Keyboard::reset() {
+    for (std::size_t i = 0; i < numKeys; i++) {
+        isDownClick[i] = isUpClick[i] = false;
     }
 }

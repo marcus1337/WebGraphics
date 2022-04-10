@@ -166,5 +166,6 @@ void Canvas::display() {
 
 void Canvas::pollEvents() {
     mouse.reset();
+    keyboard.reset();
     glfwPollEvents();
 }
