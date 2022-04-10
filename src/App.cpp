@@ -1,40 +1,38 @@
 
 #include "App.h"
-
 #include "glm/glm.hpp"
 #include "Drawables/Rectangle.h"
 
-bool App::isGameUpdate()
+App::App() 
 {
-    using namespace std::chrono;
-    steady_clock::time_point timeGameUpdate = steady_clock::now();
-    frameTimePassed += duration_cast<microseconds>(timeGameUpdate - timeSinceGameUpdate).count();
-    timeSinceGameUpdate = timeGameUpdate;
-    return frameTimePassed >= frameTime;
+    passedFrameTime = 0;
+    frameTime = 16666;
 }
 
+App::~App()
+{
+}
 
 void App::run()
 {
     while (!engine.window.hasQuit())
     {
-        if (isGameUpdate()){
-            step();
-        }
+        if (isUpdate())
+            update();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
-App::App() 
+bool App::isUpdate()
 {
-    gameTicks = 0;
-    frameTimePassed = 0;
-    frameTime = 16600;
-}
-
-App::~App()
-{
-
+    using namespace std::chrono;
+    steady_clock::time_point timeNow = steady_clock::now();
+    passedFrameTime += duration_cast<microseconds>(timeNow - timeLastUpdateCheck).count();
+    timeLastUpdateCheck = timeNow;
+    if (passedFrameTime < frameTime)
+        return false;
+    passedFrameTime = 0;
+    return true;
 }
 
 void App::resizeWindow(int _width, int _height)
@@ -42,17 +40,31 @@ void App::resizeWindow(int _width, int _height)
     engine.window.resizeWindow(_width, _height);
 }
 
-void App::step(){
-    gameTicks++;
-    frameTimePassed = 0;
-    update();
+void App::update(){
+    updateLogic();
     engine.window.pollEvents();
+    render();
+}
+
+void App::updateLogic() {
+    int x = engine.window.mouse.x;
+    int y = engine.window.mouse.y;
+    std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
+    if (engine.window.mouse.isLeftReleased) {
+        std::cout << "CLICK DOWN " << "x: " << pos.first << " y: " << pos.second << "\n";
+    }
+    if (engine.window.mouse.isRightReleased) {
+        std::cout << "CLICK UP " << "x: " << pos.first << " y: " << pos.second << "\n";
+    }
+}
+
+void App::render() {
     engine.graphics.clearViews();
-    draw();
+    renderViews();
     engine.graphics.display();
 }
 
-void App::draw(){
+void App::renderViews(){
     Image image;
     Text text, text2;
     Rectangle rectangle;
@@ -69,18 +81,4 @@ void App::draw(){
     engine.graphics.drawRectangle(rectangle);
     engine.graphics.drawText(text);
     engine.graphics.drawText(text2);
-}
-
-void App::update()
-{
-    int x = engine.window.mouse.x;
-    int y = engine.window.mouse.y;
-    std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
-    if (engine.window.mouse.isLeftReleased) {
-        std::cout << "CLICK DOWN " << "x: " << pos.first << " y: " << pos.second << "\n";
-    }
-    if(engine.window.mouse.isRightReleased){
-        std::cout << "CLICK UP " << "x: " << pos.first << " y: " << pos.second << "\n";
-    }
-
 }

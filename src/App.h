@@ -14,19 +14,19 @@
 class App
 {
     Engine engine;
-    uint64_t gameTicks;
-    long long frameTimePassed, frameTime;
-    std::chrono::steady_clock::time_point timeSinceGameUpdate;
+    long long passedFrameTime, frameTime;
+    std::chrono::steady_clock::time_point timeLastUpdateCheck;
 
-    void update();
-    bool isGameUpdate();
-    void draw();
+    void updateLogic();
+    bool isUpdate();
+    void renderViews();
+    void render();
 
 public:
     App();
     ~App();
     void run();
-    void step();
+    void update();
     void resizeWindow(int _width, int _height);
 };
 

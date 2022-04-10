@@ -9,8 +9,8 @@
 
 #ifdef EMSCRIPTEN
     App app;
-    void step(){
-        app.step();
+    void update(){
+        app.update();
     }
     void resizeWindow(int width, int height){
         app.resizeWindow(width, height);
@@ -22,7 +22,7 @@
 
 int main(int argc, char *argv[]){
     #ifdef EMSCRIPTEN
-        emscripten_set_main_loop(step, 20, 1);
+        emscripten_set_main_loop(update, 20, 1);
     #else
         App app;
         app.run();
