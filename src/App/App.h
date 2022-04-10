@@ -1,4 +1,5 @@
 #include "Engine/Engine.h"
+#include "UpdateTimer.h"
 
 #include <stack>
 #include <tuple>
@@ -13,12 +14,10 @@
 
 class App
 {
+    UpdateTimer updateTimer;
     Engine engine;
-    long long passedFrameTime, frameTime;
-    std::chrono::steady_clock::time_point timeLastUpdateCheck;
 
     void updateLogic();
-    bool isUpdate();
     void renderViews();
     void render();
 

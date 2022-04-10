@@ -5,8 +5,6 @@
 
 App::App() 
 {
-    passedFrameTime = 0;
-    frameTime = 16666;
 }
 
 App::~App()
@@ -17,22 +15,10 @@ void App::run()
 {
     while (!engine.window.hasQuit())
     {
-        if (isUpdate())
+        if (updateTimer.isRenderUpdate())
             update();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-}
-
-bool App::isUpdate()
-{
-    using namespace std::chrono;
-    steady_clock::time_point timeNow = steady_clock::now();
-    passedFrameTime += duration_cast<microseconds>(timeNow - timeLastUpdateCheck).count();
-    timeLastUpdateCheck = timeNow;
-    if (passedFrameTime < frameTime)
-        return false;
-    passedFrameTime = 0;
-    return true;
 }
 
 void App::resizeWindow(int _width, int _height)
@@ -41,8 +27,10 @@ void App::resizeWindow(int _width, int _height)
 }
 
 void App::update(){
-    updateLogic();
-    engine.window.pollEvents();
+    if (updateTimer.isLogicUpdate()) {
+        updateLogic();
+        engine.window.pollEvents();
+    }
     render();
 }
 

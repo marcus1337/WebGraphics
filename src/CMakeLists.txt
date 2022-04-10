@@ -8,7 +8,7 @@ endif()
 
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
-add_executable(${PROJECT_NAME} Main.cpp App.cpp App.h)
+add_executable(${PROJECT_NAME} Main.cpp)
 
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
@@ -94,6 +94,11 @@ add_subdirectory(Engine)
 list(APPEND EXTRA_LIB_DIRS "Engine")
 list(APPEND EXTRA_INCLUDE_DIRS "Engine")
 list(APPEND EXTRA_LINK_DIRS engine)
+
+add_subdirectory(App)
+list(APPEND EXTRA_LIB_DIRS "App")
+list(APPEND EXTRA_INCLUDE_DIRS "App")
+list(APPEND EXTRA_LINK_DIRS app)
 
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${EXTRA_INCLUDE_DIRS})
