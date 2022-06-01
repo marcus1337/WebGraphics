@@ -21,6 +21,7 @@ void Mouse::click(int button, int action, int mods)
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
+        isLeftPress = true;
         isLeftPressed = true;
     }
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
@@ -30,6 +31,7 @@ void Mouse::click(int button, int action, int mods)
     }
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
     {
+        isRightPress = true;
         isRightPressed = true;
     }
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
@@ -48,5 +50,6 @@ void Mouse::clearDeltas()
 void Mouse::reset()
 {
     isRightReleased = isLeftReleased = false;
+    isRightPress = isLeftPress = false;
     clearDeltas();
 }

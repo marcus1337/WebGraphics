@@ -13,6 +13,8 @@ public:
     bool isRightPressed = false;
     bool isLeftReleased = false;
     bool isRightReleased = false;
+    bool isRightPress = false;
+    bool isLeftPress = false;
     
     double deltaX = 0;
     double deltaY = 0;

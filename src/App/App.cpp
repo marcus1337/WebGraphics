@@ -1,6 +1,7 @@
 
 #include "App.h"
 #include <iostream>
+#include "Drawables/Button.h"
 
 void App::run()
 {
@@ -26,13 +27,19 @@ void App::update(){
 }
 
 Image image;
+Button button;
 
 void App::updateLogic() {
     int x = engine.window.mouse.x;
     int y = engine.window.mouse.y;
     std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
+    if (engine.window.mouse.isLeftPress) {
+        std::cout << "mouse down L " << "x: " << pos.first << " y: " << pos.second << "\n";
+        button.onPress(pos.first, pos.second);
+    }
     if (engine.window.mouse.isLeftReleased) {
         std::cout << "mouse up L " << "x: " << pos.first << " y: " << pos.second << "\n";
+        button.onRelease(pos.first, pos.second);
     }
     if (engine.window.mouse.isRightReleased) {
         std::cout << "mouse up R " << "x: " << pos.first << " y: " << pos.second << "\n";
@@ -48,6 +55,7 @@ void App::updateLogic() {
     if (engine.window.keyboard.isUpClick[GLFW_KEY_A]) {
         std::cout << "A up press" << std::endl;
     }
+
 }
 
 void App::render() {
@@ -72,4 +80,10 @@ void App::renderViews(){
     engine.graphics.drawRectangle(rectangle);
     engine.graphics.drawText(text);
     engine.graphics.drawText(text2);
+
+    button.setPosition(600, 100);
+    Image btnImage = button.getImage();
+    Text btnText = button.getText();
+    engine.graphics.drawImage(btnImage);
+    engine.graphics.drawText(btnText);
 }
