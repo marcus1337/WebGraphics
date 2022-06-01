@@ -13,6 +13,8 @@ public:
     float rotation = 0;
     glm::vec3 color = glm::vec3(1.0f, 0.0f, 1.0f);
     float alpha = 1.0f;
+    bool isHighlighted = false;
+    int borderSize = 30;
 };
 
 #endif

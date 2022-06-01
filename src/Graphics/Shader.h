@@ -37,6 +37,7 @@ public:
     float rotation = 0.0f;
     float alpha = 1.0f;
     bool isNormalUsed = false;
+    bool isSingleColor = false;
     glm::vec2 textureSize, textureCorner;
 
     void setProgram(GLuint _programID);

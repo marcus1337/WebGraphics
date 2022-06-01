@@ -25,6 +25,8 @@ void App::update(){
     render();
 }
 
+Image image;
+
 void App::updateLogic() {
     int x = engine.window.mouse.x;
     int y = engine.window.mouse.y;
@@ -35,8 +37,10 @@ void App::updateLogic() {
     if (engine.window.mouse.isRightReleased) {
         std::cout << "mouse up R " << "x: " << pos.first << " y: " << pos.second << "\n";
     }
+    image.isHighlighted = false;
     if (engine.window.keyboard.isPressed[GLFW_KEY_A]) {
         std::cout << "A isPressed" << std::endl;
+        image.isHighlighted = true;
     }
     if (engine.window.keyboard.isDownClick[GLFW_KEY_A]) {
         std::cout << "A down press" << std::endl;
@@ -53,7 +57,6 @@ void App::render() {
 }
 
 void App::renderViews(){
-    Image image;
     Text text, text2;
     Rectangle rectangle;
     rectangle.x = 150;

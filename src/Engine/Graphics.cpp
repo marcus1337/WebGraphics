@@ -78,7 +78,26 @@ void Graphics::drawImage(Image& image, std::size_t viewID) {
     imageShader.scale = glm::vec3(image.width, image.height, 1.0f);
     imageShader.setTexture(glData.getTexture(image.texture));
     imageShader.rotation = image.rotation;
-    imageObject.draw(&imageShader);
+    if (image.isHighlighted) {
+        glm::vec3 scale = imageShader.scale;
+        glm::vec3 position = glm::vec3(image.x, image.y, 0.0f);
+        glm::vec3 positionTmp = position;
+        imageShader.scale.x += (float) image.borderSize;
+        imageShader.scale.y += (float) image.borderSize;
+        positionTmp.x -= (float) image.borderSize / 2.0f;
+        positionTmp.y -= (float) image.borderSize / 2.0f;
+        imageShader.isSingleColor = true;
+        imageShader.setPosition(positionTmp);
+        imageObject.draw(&imageShader);
+        imageShader.isSingleColor = false;
+        imageShader.scale = scale;
+        imageShader.setPosition(position);
+        imageObject.draw(&imageShader);
+    }
+    else {
+        imageShader.isSingleColor = false;
+        imageObject.draw(&imageShader);
+    }
 }
 
 void Graphics::drawText(Text& text, std::size_t viewID) {
