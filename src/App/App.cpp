@@ -3,6 +3,17 @@
 #include <iostream>
 #include "Drawables/Button.h"
 
+Image image;
+Button button;
+
+App::App() {
+    button.onPressCallback = []() { std::cout << "button clicked (lambda)...\n"; };
+}
+
+App::~App() {
+
+}
+
 void App::run()
 {
     while (!engine.window.hasQuit())
@@ -25,9 +36,6 @@ void App::update(){
     }
     render();
 }
-
-Image image;
-Button button;
 
 void App::updateLogic() {
     int x = engine.window.mouse.x;

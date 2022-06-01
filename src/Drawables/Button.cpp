@@ -3,14 +3,17 @@
 
 void Button::onPress(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
-        std::cout << "inside...\n";
+        isPressed = true;
     }
-
+    else {
+        isPressed = false;
+    }
 }
 void Button::onRelease(int _x, int _y) {
-    if (isClicked && onPressCallback) {
+    if (isPressed && isPointerInside(_x, _y) && onPressCallback) {
         onPressCallback();
     }
+    isPressed = false;
 }
 
 void Button::onHover(int _x, int _y) {

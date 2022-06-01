@@ -10,8 +10,6 @@ class Button {
     Image image;
     Text text;
     bool isPressed = false;
-    bool isClicked = false;
-
     bool isPointerInside(int _x, int _y);
 
 public:

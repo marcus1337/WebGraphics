@@ -15,6 +15,8 @@ class App
     void render();
 
 public:
+    App();
+    ~App();
     void run();
     void update();
     void resizeWindow(int _width, int _height);
