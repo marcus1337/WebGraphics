@@ -19,6 +19,7 @@ public:
 
     void onPress(int _x, int _y);
     void onRelease(int _x, int _y);
+    void onHover(int _x, int _y);
     void setSize(int _width, int _height);
     void setPosition(int _x, int _y);
     Image getImage();

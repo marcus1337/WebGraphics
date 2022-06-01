@@ -33,6 +33,7 @@ void App::updateLogic() {
     int x = engine.window.mouse.x;
     int y = engine.window.mouse.y;
     std::pair<int, int> pos = engine.graphics.getPixelPosition(x, y);
+    button.onHover(pos.first, pos.second);
     if (engine.window.mouse.isLeftPress) {
         std::cout << "mouse down L " << "x: " << pos.first << " y: " << pos.second << "\n";
         button.onPress(pos.first, pos.second);

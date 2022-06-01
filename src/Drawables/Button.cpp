@@ -13,6 +13,15 @@ void Button::onRelease(int _x, int _y) {
     }
 }
 
+void Button::onHover(int _x, int _y) {
+    if (isPointerInside(_x, _y)) {
+        image.isHighlighted = true;
+    }
+    else {
+        image.isHighlighted = false;
+    }
+}
+
 bool Button::isPointerInside(int _x, int _y) {
     int x = image.x;
     int y = image.y;
