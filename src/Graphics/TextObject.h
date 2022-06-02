@@ -5,41 +5,25 @@
 #include <string>
 #include <tuple>
 
-#include "IO/Files/IOFonts.h"
+#include "GlyphTextureCreator.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
-#ifndef FREETYPETEXT_H
-#define FREETYPETEXT_H
+#ifndef TEXTOBJECT_H
+#define TEXTOBJECT_H
 
 class TextObject
 {
 
 protected:
-    struct Character
-    {
-        unsigned int TextureID; // ID handle of the glyph texture
-        glm::ivec2 Size;        // Size of glyph
-        glm::ivec2 Bearing;     // Offset from baseline to left/top of glyph
-        unsigned int Advance;   // Offset to advance to next glyph
-    };
-
-    std::map<std::string, std::map<char, Character>> CharactersMap;
+    GlyphTextureCreator glyphTextureCreator;
+    std::map<std::string, std::map<char, Character>> characterMap;
     glm::mat4 VP, V, P;
     GLuint vao, vbo;
-
     glm::mat4 getMVP();
 
 private:
-    IOFonts iofonts;
-    void setCharVertices(float &_x, Character ch);
+    void setCharVertices(float& _x, Character ch);
     void bindAndDrawTextTextures();
     void setUniforms();
-    void addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName);
-    unsigned int makeGlyphTexture(FT_Face &face);
-
-    int loadGlyphs(FT_Face face, const std::string& fontName);
     void initVBO();
 
 public:
@@ -47,7 +31,7 @@ public:
     std::tuple<float, float> getTextWidthAndHeight(std::string _text);
     void setScale(glm::vec3 _scale);
     void setPosition(glm::vec3 _position);
-    void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
+    void setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P);
     void draw();
     ~TextObject();
     TextObject();

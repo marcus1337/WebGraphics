@@ -10,84 +10,13 @@
 TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), rotation(0)
 {
     initVBO();
-
-    for (const auto &[key, value] : iofonts.fonts)
-    {
-        int isError = loadGlyphs(value, key);
-        if(isError != 0){
-            std::cout << "Load glyphs failed: " << isError << ", " << value << std::endl;
-            return;
-        }
-    }
+    characterMap = glyphTextureCreator.createTextures();
 }
 
 TextObject::~TextObject()
 {
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
-}
-
-void TextObject::addCharacter(char c, unsigned int textureID, FT_Face &face, const std::string& fontName)
-{
-    Character character = {
-        textureID,
-        glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-        glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-        static_cast<unsigned int>(face->glyph->advance.x)};
-
-    CharactersMap[fontName].insert(std::pair<char, Character>(c, character));
-}
-
-unsigned int TextObject::makeGlyphTexture(FT_Face &face)
-{
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    int bitWidth = face->glyph->bitmap.width;
-    int bitHeight = face->glyph->bitmap.rows;
-    unsigned char* tmpBuffer = new unsigned char[bitWidth*bitHeight*3];
-    for (int i = 0; i < bitWidth * bitHeight; i++) {
-        tmpBuffer[i*3] = face->glyph->bitmap.buffer[i];
-    }
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        GL_RGB,
-        face->glyph->bitmap.width,
-        face->glyph->bitmap.rows,
-        0,
-        GL_RGB,
-        GL_UNSIGNED_BYTE,
-        tmpBuffer);
-    delete[] tmpBuffer;
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    return texture;
-}
-
-int TextObject::loadGlyphs(FT_Face face, const std::string& fontName)
-{
-    CharactersMap[fontName] = std::map<char, Character>();
-    FT_Set_Pixel_Sizes(face, 0, 60);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
-
-    for (unsigned char c = 0; c < 128; c++)
-    {
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
-        {
-            std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
-            continue;
-        }
-        addCharacter(c, makeGlyphTexture(face), face, fontName);
-    }
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    return 0;
 }
 
 void TextObject::setPosition(glm::vec3 _position)
@@ -157,7 +86,7 @@ std::tuple<float, float> TextObject::getTextWidthAndHeight(std::string _text)
     float y = 0;
 
     std::string::const_iterator c;
-    auto& Characters = CharactersMap[font];
+    auto& Characters = characterMap[font];
     for (c = _text.begin(); c != _text.end(); c++)
     {
         Character ch = Characters[*c];
@@ -202,12 +131,12 @@ void TextObject::setCharVertices(float &_x, Character ch)
 
 void TextObject::bindAndDrawTextTextures()
 {
-    if (!CharactersMap.contains(font)) {
+    if (!characterMap.contains(font)) {
         std::cout << "Error: font not found\n";
         return;
     }
 
-    std::map<char, Character>& Characters = CharactersMap[font];
+    std::map<char, Character>& Characters = characterMap[font];
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
