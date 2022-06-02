@@ -14,6 +14,7 @@ class Button {
 
 public:
     std::function<void(void)> onPressCallback;
+    Button();
 
     void onPress(int _x, int _y);
     void onRelease(int _x, int _y);

@@ -12,6 +12,7 @@ public:
     std::string font = "Roboto-Regular";
     float rotation = 0;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+    unsigned int pixelHeight = 60;
 };
 
 #endif // !TEXT_H

@@ -115,6 +115,7 @@ void Graphics::drawText(Text& text, std::size_t viewID) {
     textObject.text = text.text;
     textObject.rotation = text.rotation;
     textObject.color = text.color;
+    textObject.setTextPixelHeight(text.pixelHeight);
     textObject.draw();
 }
 

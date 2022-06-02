@@ -1,6 +1,10 @@
 #include "Button.h"
 #include <iostream>
 
+Button::Button() {
+    text.pixelHeight = 30;
+}
+
 void Button::onPress(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
         isPressed = true;
