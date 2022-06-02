@@ -40,6 +40,7 @@ class Graphics {
 public:
     Graphics(Canvas& _window);
     ~Graphics();
+    glm::vec3 backgroundColor, outerBackgroundColor;
 
     void clearViews();
     void clearView(std::size_t viewID = 0);

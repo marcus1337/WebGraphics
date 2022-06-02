@@ -11,7 +11,8 @@ public:
     int x = 0, y = 0;
     std::string texture = "stallTexture.png";
     float rotation = 0;
-    glm::vec3 color = glm::vec3(1.0f, 0.0f, 1.0f);
+    glm::vec3 extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 singleColor = glm::vec3(1.0f, 0.0f, 0.0f);
     float alpha = 1.0f;
     bool isHighlighted = false;
     int borderSize = 30;

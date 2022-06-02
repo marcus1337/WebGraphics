@@ -3,6 +3,8 @@
 
 Graphics::Graphics(Canvas& _window) : window(_window)
 {
+    backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
+    outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
     frameBuffers.push_back(makeFrameBuffer(1920, 1080));
     imageShader = Shader(glData.getProgram("image"));
     rectangleShader = Shader(glData.getProgram("rectangle"));
@@ -30,7 +32,7 @@ Graphics::~Graphics() {
 }
 
 void Graphics::clearView(std::size_t viewID) {
-    glClearColor(0.1f, 0.1f, 0.0f, 1.0f);
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
     frameBuffers[viewID]->use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
@@ -78,6 +80,8 @@ void Graphics::drawImage(Image& image, std::size_t viewID) {
     imageShader.scale = glm::vec3(image.width, image.height, 1.0f);
     imageShader.setTexture(glData.getTexture(image.texture));
     imageShader.rotation = image.rotation;
+    imageShader.extraColor = image.extraColor;
+    imageShader.singleColor = image.singleColor;
     if (image.isHighlighted) {
         glm::vec3 scale = imageShader.scale;
         glm::vec3 position = glm::vec3(image.x, image.y, 0.0f);
@@ -116,7 +120,7 @@ void Graphics::drawText(Text& text, std::size_t viewID) {
 
 void Graphics::drawMainView() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
+    glClearColor(outerBackgroundColor.r, outerBackgroundColor.g, outerBackgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     window.aspectRatio.setIndexToLessOrEqual(window.width, window.height);
     int frameWidth = window.aspectRatio.getWidth();

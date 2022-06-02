@@ -11,23 +11,27 @@ uniform vec2 inTexCoord;
 uniform vec2 textureSize;
 uniform float alpha;
 uniform float isSingleColor;
+uniform vec3 extraColor;
+uniform vec3 singleColor;
+
 out vec4 frag_color;
 
 void main(){
 
     if(alpha == 0.0)
-        discard;
+        discard;    
 
     vec2 realTexCoord = inTexCoord + (uv_frag * textureSize);
     frag_color = texture(tex, realTexCoord);
-    
+    frag_color = vec4(frag_color.xyz + extraColor, frag_color.a);
+
     if(frag_color.a == 0.0)
         discard;
     if(alpha != 1.0)
         frag_color.a = alpha;
 
     if(isSingleColor == 1.0){
-        frag_color = vec4(0.01, 0.01, 0.01, 1.0);
+        frag_color = vec4(singleColor, 1.0);
     }
 
 }

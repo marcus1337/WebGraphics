@@ -4,24 +4,32 @@
 void Button::onPress(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
         isPressed = true;
+        image.extraColor = glm::vec3(0.0f, 1.0f, 0.0f);
     }
     else {
         isPressed = false;
+        image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 }
 void Button::onRelease(int _x, int _y) {
     if (isPressed && isPointerInside(_x, _y) && onPressCallback) {
         onPressCallback();
     }
+    image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
     isPressed = false;
+    onHover(_x, _y);
 }
 
 void Button::onHover(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
         image.isHighlighted = true;
+        if(!isPressed)
+            image.extraColor = glm::vec3(1.0f, 0.0f, 0.0f);
     }
     else {
         image.isHighlighted = false;
+        if(!isPressed)
+            image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 }
 

@@ -30,10 +30,8 @@ protected:
 public:
     Shader(GLuint _programID = 0);
     virtual ~Shader();
-
     void setUniforms();
-
-    glm::vec3 position, scale, color;
+    glm::vec3 position, scale, extraColor, singleColor, color;
     float rotation = 0.0f;
     float alpha = 1.0f;
     bool isNormalUsed = false;

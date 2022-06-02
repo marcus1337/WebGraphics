@@ -73,6 +73,8 @@ void Shader::setColorUniforms()
 {
     glUniform1f(glGetUniformLocation(programID, "alpha"), alpha);
     glUniform3fv(glGetUniformLocation(programID, "color"), 1, &color[0]);
+    glUniform3fv(glGetUniformLocation(programID, "singleColor"), 1, &singleColor[0]);
+    glUniform3fv(glGetUniformLocation(programID, "extraColor"), 1, &extraColor[0]);
     glUniform1f(glGetUniformLocation(programID, "isSingleColor"), isSingleColor ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "usingNormalMap"), isNormalUsed ? 1.0f : 0.0f);
 }
