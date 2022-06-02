@@ -10,7 +10,10 @@
 TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), rotation(0)
 {
     initVBO();
-    characterMap = glyphTextureCreator.createTextures();
+}
+
+void TextObject::setTextPixelHeight(unsigned int pixelHeight) {
+
 }
 
 TextObject::~TextObject()
@@ -86,10 +89,10 @@ std::tuple<float, float> TextObject::getTextWidthAndHeight(std::string _text)
     float y = 0;
 
     std::string::const_iterator c;
-    auto& Characters = characterMap[font];
+    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font);
     for (c = _text.begin(); c != _text.end(); c++)
     {
-        Character ch = Characters[*c];
+        Character ch = characters.at(*c);
         float xpos = x + ch.Bearing.x;
         float ypos = y - (ch.Size.y - ch.Bearing.y);
         float w = ch.Size.x;
@@ -129,18 +132,21 @@ void TextObject::setCharVertices(float &_x, Character ch)
     _x += (ch.Advance >> 6); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 }
 
-void TextObject::bindAndDrawTextTextures()
-{
-    if (!characterMap.contains(font)) {
+void TextObject::setFont(std::string _font) {
+    if (!glyphTextureCreator.fontExists(_font)) {
         std::cout << "Error: font not found\n";
         return;
     }
+    font = _font;
+}
 
-    std::map<char, Character>& Characters = characterMap[font];
+void TextObject::bindAndDrawTextTextures()
+{
+    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font);
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
-        setCharVertices(_x, Characters[*c]);
+        setCharVertices(_x, characters.at(*c));
 }
 
 void TextObject::setUniforms()

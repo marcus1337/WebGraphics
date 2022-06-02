@@ -2,16 +2,24 @@
 #include <iostream>
 
 GlyphTextureCreator::GlyphTextureCreator() {
-
+    characterMap = createTextures(60);
 }
 GlyphTextureCreator::~GlyphTextureCreator() {
 
 }
 
-std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createTextures() {
+const std::map<char, Character>& GlyphTextureCreator::getCharacters(std::string font) {
+    return characterMap[font];
+}
+
+bool GlyphTextureCreator::fontExists(std::string font) {
+    return characterMap.contains(font);
+}
+
+std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createTextures(unsigned int pixelHeight) {
     std::map<std::string, std::map<char, Character>> characterMap;
     for (const auto& [key, value] : iofonts.fonts)
-        characterMap[key] = loadGlyphs(value, 60);
+        characterMap[key] = loadGlyphs(value, pixelHeight);
     return characterMap;
 }
 

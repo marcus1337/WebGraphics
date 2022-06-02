@@ -109,7 +109,7 @@ void Graphics::drawText(Text& text, std::size_t viewID) {
     frameBuffer.use();
     MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
     textObject.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    textObject.font = text.font;
+    textObject.setFont(text.font);
     textObject.setPosition(glm::vec3(text.x, text.y, 0.0f));
     //textObject.scale = text.scale;
     textObject.text = text.text;
