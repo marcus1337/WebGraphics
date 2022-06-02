@@ -3,6 +3,10 @@
 #include <map>
 #include <string>
 #include <tuple>
+#include <vector>
+#include <algorithm>
+#include <array>
+#include <tuple>
 
 #include "IO/Files/IOFonts.h"
 
@@ -27,12 +31,13 @@ class GlyphTextureCreator {
     std::map<char, Character> loadGlyphs(FT_Face face, unsigned int pixelHeight);
     unsigned int makeGlyphTexture(FT_Face& face);
     void addCharacter(char c, unsigned int textureID, FT_Face& face, std::map<char, Character>& _characterMap);
-    std::map<std::string, std::map<char, Character>> characterMap;
+    std::map<std::pair<std::string,int>, std::map<char, Character>> characterMap;
     std::map<std::string, std::map<char, Character>> createTextures(unsigned int pixelHeight);
+    void createAndAddTextures(unsigned int pixelHeight);
 public:
     GlyphTextureCreator();
     ~GlyphTextureCreator();
-    const std::map<char, Character>& getCharacters(std::string font);
+    const std::map<char, Character>& getCharacters(std::string font, unsigned int _pixelHeight);
     bool fontExists(std::string font);
 };
 

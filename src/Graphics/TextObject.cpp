@@ -12,8 +12,8 @@ TextObject::TextObject() : position(glm::vec3(0.f, 0.f, 0.f)), scale(glm::vec3(1
     initVBO();
 }
 
-void TextObject::setTextPixelHeight(unsigned int pixelHeight) {
-
+void TextObject::setTextPixelHeight(unsigned int _pixelHeight) {
+    pixelHeight = _pixelHeight;
 }
 
 TextObject::~TextObject()
@@ -89,7 +89,7 @@ std::tuple<float, float> TextObject::getTextWidthAndHeight(std::string _text)
     float y = 0;
 
     std::string::const_iterator c;
-    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font);
+    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font, pixelHeight);
     for (c = _text.begin(); c != _text.end(); c++)
     {
         Character ch = characters.at(*c);
@@ -142,7 +142,7 @@ void TextObject::setFont(std::string _font) {
 
 void TextObject::bindAndDrawTextTextures()
 {
-    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font);
+    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font, pixelHeight);
     float _x = 0;
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)

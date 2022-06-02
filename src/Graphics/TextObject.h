@@ -25,6 +25,7 @@ private:
     void setUniforms();
     void initVBO();
     std::string font;
+    unsigned int pixelHeight = 60;
 
 public:
     void setFont(std::string _font);
@@ -34,7 +35,7 @@ public:
     void setPosition(glm::vec3 _position);
     void setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P);
     void draw();
-    void setTextPixelHeight(unsigned int pixelHeight);
+    void setTextPixelHeight(unsigned int _pixelHeight);
     ~TextObject();
     TextObject();
 
