@@ -11,6 +11,7 @@ class Button {
     Text text;
     bool isPressed = false;
     bool isPointerInside(int _x, int _y);
+    void setTextPositionCenter();
 
 public:
     std::function<void(void)> onPressCallback;

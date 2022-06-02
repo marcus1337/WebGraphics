@@ -3,6 +3,19 @@
 
 Button::Button() {
     text.pixelHeight = 30;
+    setTextPositionCenter();
+    text.color = glm::vec4(0.0f,0.0f,0.0f,1.0f);
+}
+
+void Button::setTextPositionCenter() {
+    int textW = text.estimateWidth();
+    int textH = text.pixelHeight;
+    int btnX = image.x;
+    int btnY = image.y;
+    int btnW = image.width;
+    int btnH = image.height;
+    text.x = btnX + (btnW / 2) - (textW / 2);
+    text.y = btnY + (btnH / 2) - (textH / 2);
 }
 
 void Button::onPress(int _x, int _y) {
@@ -53,8 +66,7 @@ void Button::setSize(int _width, int _height) {
 void Button::setPosition(int _x, int _y) {
     image.x = _x;
     image.y = _y;
-    text.x = _x;
-    text.y = _y;
+    setTextPositionCenter();
 }
 
 Image Button::getImage() {
