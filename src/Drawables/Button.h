@@ -6,14 +6,13 @@
 #define BUTTON_H
 
 class Button {
-
-    Image image;
-    Text text;
     bool isPressed = false;
     bool isPointerInside(int _x, int _y);
     void setTextPositionCenter();
 
 public:
+    Image image;
+    Text text;
     std::function<void(void)> onPressCallback;
     Button();
 
@@ -22,8 +21,6 @@ public:
     void onHover(int _x, int _y);
     void setSize(int _width, int _height);
     void setPosition(int _x, int _y);
-    Image getImage();
-    Text getText();
 };
 
 #endif // !BUTTON_H

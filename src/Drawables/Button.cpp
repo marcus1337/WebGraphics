@@ -69,10 +69,3 @@ void Button::setPosition(int _x, int _y) {
     setTextPositionCenter();
 }
 
-Image Button::getImage() {
-    return image;
-}
-
-Text Button::getText() {
-    return text;
-}
