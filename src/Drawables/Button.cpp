@@ -4,7 +4,9 @@
 Button::Button() {
     text.pixelHeight = 30;
     setTextPositionCenter();
-    text.color = glm::vec4(0.0f,0.0f,0.0f,1.0f);
+    text.color = glm::vec4(0.8f,0.8f,0.8f,1.0f);
+    image.texture = "button1.png";
+    image.width = 300;
 }
 
 void Button::setTextPositionCenter() {
@@ -21,18 +23,18 @@ void Button::setTextPositionCenter() {
 void Button::onPress(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
         isPressed = true;
-        image.extraColor = glm::vec3(0.0f, 1.0f, 0.0f);
+        image.extraColor = pressedColor;
     }
     else {
         isPressed = false;
-        image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
+        image.extraColor = defaultColor;
     }
 }
 void Button::onRelease(int _x, int _y) {
     if (isPressed && isPointerInside(_x, _y) && onPressCallback) {
         onPressCallback();
     }
-    image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
+    image.extraColor = defaultColor;
     isPressed = false;
     onHover(_x, _y);
 }
@@ -41,12 +43,12 @@ void Button::onHover(int _x, int _y) {
     if (isPointerInside(_x, _y)) {
         image.isHighlighted = true;
         if(!isPressed)
-            image.extraColor = glm::vec3(1.0f, 0.0f, 0.0f);
+            image.extraColor = highlightColor;
     }
     else {
         image.isHighlighted = false;
         if(!isPressed)
-            image.extraColor = glm::vec3(0.0f, 0.0f, 0.0f);
+            image.extraColor = defaultColor;
     }
 }
 

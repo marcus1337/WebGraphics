@@ -11,6 +11,10 @@ class Button {
     void setTextPositionCenter();
 
 public:
+    glm::vec3 highlightColor = { 0.0f, 0.1f, 0.0f };
+    glm::vec3 pressedColor = { 0.1f, 0.0f, 0.0f };
+    glm::vec3 defaultColor = { 0,0,0 };
+
     Image image;
     Text text;
     std::function<void(void)> onPressCallback;

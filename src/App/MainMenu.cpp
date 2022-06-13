@@ -3,6 +3,9 @@
 
 MainMenu::MainMenu(Engine& _engine) : engine(_engine) {
 
+    backgroundImage.width = 1920;
+    backgroundImage.height = 1080;
+
     singlePlayerButton.onPressCallback = std::bind(&MainMenu::onStartSinglePlayer, this);
     multiPlayerButton.onPressCallback = std::bind(&MainMenu::onStartMultiPlayer, this);
     settingsButton.onPressCallback = std::bind(&MainMenu::onStartSettings, this);
@@ -23,7 +26,7 @@ MainMenu::MainMenu(Engine& _engine) : engine(_engine) {
     for (int i = 0; i < buttons.size(); i++) {
         int btnWidth = buttons[i]->image.width;
         int btnHeight = buttons[i]->image.height;
-        buttons[i]->setPosition(1920 / 2 - btnWidth / 2, 900 - (i * btnHeight) - (50*i));
+        buttons[i]->setPosition(1920 / 2 - btnWidth / 2, 700 - (i * btnHeight) - (25*i));
     }
 
 }
