@@ -1,6 +1,9 @@
 #include "MainMenu.h"
 #include <iostream>
 #include "SettingsMenu.h"
+#include "AchievementsMenu.h"
+#include "LobbyMenu.h"
+#include "GamePanel.h"
 
 MainMenu::MainMenu(Engine& _engine) : Panel(_engine) {
 
@@ -45,10 +48,14 @@ void MainMenu::render() {
 
 void MainMenu::onSinglePlayer() {
     std::cout << "onSinglePlayer()\n";
+    if (childPanel == nullptr)
+        childPanel = new GamePanel(engine);
 }
 
 void MainMenu::onMultiPlayer() {
     std::cout << "onMultiPlayer()\n";
+    if (childPanel == nullptr)
+        childPanel = new LobbyMenu(engine);
 }
 
 void MainMenu::onSettings() {
@@ -59,6 +66,8 @@ void MainMenu::onSettings() {
 
 void MainMenu::onAchievements() {
     std::cout << "onAchievements()\n";
+    if (childPanel == nullptr)
+        childPanel = new AchievementsMenu(engine);
 }
 
 void MainMenu::onQuit() {

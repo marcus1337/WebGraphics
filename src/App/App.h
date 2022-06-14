@@ -2,8 +2,7 @@
 #include "UpdateTimer.h"
 #include <string>
 
-#include "MainMenu.h"
-#include "Panel.h"
+#include "Panels/Panel.h"
 #include <stack>
 
 #ifndef APP_H
@@ -18,6 +17,7 @@ class App
     void updateLogic();
     void renderViews();
     void render();
+    void handlePanelChange();
 
 public:
     App();
