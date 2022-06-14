@@ -8,29 +8,26 @@
 #include <Drawables/View.h>
 #include <Drawables/Text.h>
 #include <vector>
-
+#include "Panel.h"
 
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-class MainMenu {
-
-    Engine& engine;
+class MainMenu : public Panel {
 
     Image backgroundImage;
-    void onStartSinglePlayer();
-    void onStartMultiPlayer();
-    void onStartSettings();
-    void onStartAchievements();
+    void onSinglePlayer();
+    void onMultiPlayer();
+    void onSettings();
+    void onAchievements();
     void onQuit();
 
     Button singlePlayerButton, multiPlayerButton, settingsButton, achievementsButton, quitButton;
-    std::vector<Button*> buttons;
 
 public:
     MainMenu(Engine& _engine);
-    void update();
-    void render();
+    void update() override;
+    void render() override;
 
 };
 

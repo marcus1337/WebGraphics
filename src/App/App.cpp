@@ -3,12 +3,16 @@
 #include <iostream>
 #include "Drawables/Button.h"
 
-App::App() : mainMenu(engine) {
-
+App::App() {
+    panels.push(new MainMenu(engine));
 }
 
 App::~App() {
-
+    while (!panels.empty()) {
+        Panel* panel = panels.top();
+        delete panel;
+        panels.pop();
+    }
 }
 
 void App::run()
@@ -28,6 +32,17 @@ void App::resizeWindow(int _width, int _height)
 
 void App::update(){
     if (updateTimer.isLogicUpdate()) {
+        if (panels.top()->panelStatus == PanelStatus::FINISHED) {
+            delete panels.top();
+            panels.pop();
+        }
+
+        Panel* childPanel = panels.top()->childPanel;
+        if (childPanel != nullptr) {
+            panels.top()->childPanel = nullptr;
+            panels.push(childPanel);
+        }
+
         updateLogic();
         engine.window.pollEvents();
     }
@@ -35,7 +50,7 @@ void App::update(){
 }
 
 void App::updateLogic() {
-    mainMenu.update();
+    panels.top()->update();
 }
 
 void App::render() {
@@ -45,5 +60,5 @@ void App::render() {
 }
 
 void App::renderViews(){
-    mainMenu.render();
+    panels.top()->render();
 }

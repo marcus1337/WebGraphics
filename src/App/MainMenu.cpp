@@ -1,15 +1,16 @@
 #include "MainMenu.h"
 #include <iostream>
+#include "SettingsMenu.h"
 
-MainMenu::MainMenu(Engine& _engine) : engine(_engine) {
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine) {
 
     backgroundImage.width = 1920;
     backgroundImage.height = 1080;
 
-    singlePlayerButton.onPressCallback = std::bind(&MainMenu::onStartSinglePlayer, this);
-    multiPlayerButton.onPressCallback = std::bind(&MainMenu::onStartMultiPlayer, this);
-    settingsButton.onPressCallback = std::bind(&MainMenu::onStartSettings, this);
-    achievementsButton.onPressCallback = std::bind(&MainMenu::onStartAchievements, this);
+    singlePlayerButton.onPressCallback = std::bind(&MainMenu::onSinglePlayer, this);
+    multiPlayerButton.onPressCallback = std::bind(&MainMenu::onMultiPlayer, this);
+    settingsButton.onPressCallback = std::bind(&MainMenu::onSettings, this);
+    achievementsButton.onPressCallback = std::bind(&MainMenu::onAchievements, this);
     quitButton.onPressCallback = std::bind(&MainMenu::onQuit, this);
     singlePlayerButton.text.text = "SinglePlayer";
     multiPlayerButton.text.text = "MultiPlayer";
@@ -32,48 +33,32 @@ MainMenu::MainMenu(Engine& _engine) : engine(_engine) {
 }
 
 void MainMenu::update() {
-    int globalX = engine.window.mouse.x;
-    int globalY = engine.window.mouse.y;
-    std::pair<int, int> relativeMousePosition = engine.graphics.getPixelPosition(globalX, globalY);
-    int x = relativeMousePosition.first;
-    int y = relativeMousePosition.second;
-
-    for (int i = 0; i < buttons.size(); i++) {
-        buttons[i]->onHover(x, y);
-        if (engine.window.mouse.isLeftPress) {
-            buttons[i]->onPress(x, y);
-        }
-        if (engine.window.mouse.isLeftReleased) {
-            buttons[i]->onRelease(x, y);
-        }
-    }
-
+    int x = getRelativeMouseXPosition();
+    int y = getRelativeMouseYPosition();
+    updateButtons(x, y);
 }
 
 void MainMenu::render() {
     engine.graphics.drawImage(backgroundImage);
-
-    for (Button* btn : buttons) {
-        engine.graphics.drawImage(btn->image);
-        engine.graphics.drawText(btn->text);
-    }
-
+    renderButtons();
 }
 
-void MainMenu::onStartSinglePlayer() {
-    std::cout << "onStartSinglePlayer()\n";
+void MainMenu::onSinglePlayer() {
+    std::cout << "onSinglePlayer()\n";
 }
 
-void MainMenu::onStartMultiPlayer() {
-    std::cout << "onStartMultiPlayer()\n";
+void MainMenu::onMultiPlayer() {
+    std::cout << "onMultiPlayer()\n";
 }
 
-void MainMenu::onStartSettings() {
-    std::cout << "onStartSettings()\n";
+void MainMenu::onSettings() {
+    std::cout << "onSettings()\n";
+    if(childPanel == nullptr)
+        childPanel = new SettingsMenu(engine);
 }
 
-void MainMenu::onStartAchievements() {
-    std::cout << "onStartAchievements()\n";
+void MainMenu::onAchievements() {
+    std::cout << "onAchievements()\n";
 }
 
 void MainMenu::onQuit() {

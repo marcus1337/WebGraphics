@@ -3,6 +3,8 @@
 #include <string>
 
 #include "MainMenu.h"
+#include "Panel.h"
+#include <stack>
 
 #ifndef APP_H
 #define APP_H
@@ -11,7 +13,7 @@ class App
 {
     UpdateTimer updateTimer;
     Engine engine;
-    MainMenu mainMenu;
+    std::stack<Panel*> panels;
 
     void updateLogic();
     void renderViews();
