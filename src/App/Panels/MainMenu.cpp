@@ -24,7 +24,7 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine) {
     buttons.push_back(&singlePlayerButton);
     buttons.push_back(&multiPlayerButton);
     buttons.push_back(&settingsButton);
-    buttons.push_back(&achievementsButton);
+    //buttons.push_back(&achievementsButton);
     buttons.push_back(&quitButton);
 
     for (int i = 0; i < buttons.size(); i++) {
