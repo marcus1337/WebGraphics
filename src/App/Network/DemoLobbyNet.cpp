@@ -1,8 +1,16 @@
 
 #include "DemoLobbyNet.h"
 
+DemoLobbyNet::DemoLobbyNet() {
+
+}
+
 std::vector<NetID<int>> DemoLobbyNet::getOpenLobbies() {
     std::vector<NetID<int>> lobbies;
+
+    lobbies.push_back(NetID<int>(1));
+    lobbies.push_back(NetID<int>(2));
+    lobbies.push_back(NetID<int>(3));
 
     return lobbies;
 }
@@ -38,11 +46,6 @@ void DemoLobbyNet::setReady(bool _ready) {
 
 }
 
-bool DemoLobbyNet::areAllReady() {
-
-    return false;
-}
-
 void DemoLobbyNet::startGame() {
 
 }
@@ -52,3 +55,14 @@ std::string DemoLobbyNet::getUsername(NetID<int> _ID) {
     return "username123";
 }
 
+void DemoLobbyNet::update() {
+
+}
+
+std::vector<NetID<int>> DemoLobbyNet::getLobbyMembers() {
+    return { userID };
+}
+
+bool DemoLobbyNet::isReady(NetID<int> _ID) {
+    return true;
+}

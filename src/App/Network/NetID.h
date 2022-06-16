@@ -9,6 +9,7 @@ class NetID {
 
 public:
 
+    NetID() : ID() {}
     NetID(T _ID) : ID(_ID) {}
     T getID() {
         return ID;
