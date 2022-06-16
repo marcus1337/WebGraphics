@@ -1,7 +1,7 @@
 
 #include "GameViewOverlay.h"
 
-GameViewOverlay::GameViewOverlay(Engine& _engine) : Panel(_engine) {
+GameViewOverlay::GameViewOverlay(Engine& _engine) : Panel(_engine), gameView(_engine) {
     backgroundImage.width = 1920;
     backgroundImage.height = 1080;
     backgroundImage.texture = "background2.png";
