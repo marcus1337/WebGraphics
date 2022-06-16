@@ -7,11 +7,22 @@
 #ifndef LOBBYBROWSER_H
 #define LOBBYBROWSER_H
 
+struct LobbyButton {
+    Button button;
+    NetID<int> lobbyID;
+};
+
 class LobbyBrowser : public Panel {
 
     Image backgroundImage;
-    Button backButton;
+    Button backButton, refreshButton;
     DemoLobbyNet& lobbyNet;
+
+    std::vector<LobbyButton> lobbyButtons;
+    LobbyButton makeLobbyButton(NetID<int> lobbyID);
+    void setLobbyButtons();
+    void handleLobbyButtonClick();
+    void onRefresh();
 
 public:
 

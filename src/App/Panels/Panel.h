@@ -18,6 +18,9 @@ protected:
     std::vector<Button*> buttons;
     void updateButtons(int _x, int _y);
     void renderButtons();
+    void updateButton(Button& button, int _x, int _y);
+    void renderButton(Button& button);
+
     int getRelativeMouseXPosition();
     int getRelativeMouseYPosition();
     void onExit();

@@ -5,22 +5,28 @@ Panel::Panel(Engine& _engine) : panelStatus(PanelStatus::RUNNING), engine(_engin
 }
 
 void Panel::updateButtons(int _x, int _y) {
-    for (int i = 0; i < buttons.size(); i++) {
-        buttons[i]->onHover(_x, _y);
-        if (engine.window.mouse.isLeftPress) {
-            buttons[i]->onPress(_x, _y);
-        }
-        if (engine.window.mouse.isLeftReleased) {
-            buttons[i]->onRelease(_x, _y);
-        }
-    }
+    for (int i = 0; i < buttons.size(); i++)
+        updateButton(*buttons[i], _x, _y);
 }
 
 void Panel::renderButtons() {
-    for (Button* btn : buttons) {
-        engine.graphics.drawImage(btn->image);
-        engine.graphics.drawText(btn->text);
+    for (Button* button : buttons)
+        renderButton(*button);
+}
+
+void Panel::updateButton(Button& button, int _x, int _y) {
+    button.onHover(_x, _y);
+    if (engine.window.mouse.isLeftPress) {
+        button.onPress(_x, _y);
     }
+    if (engine.window.mouse.isLeftReleased) {
+        button.onRelease(_x, _y);
+    }
+}
+
+void Panel::renderButton(Button& button) {
+    engine.graphics.drawImage(button.image);
+    engine.graphics.drawText(button.text);
 }
 
 int Panel::getRelativeMouseXPosition() {
