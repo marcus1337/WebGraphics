@@ -10,19 +10,26 @@
 #include <vector>
 #include "Panel.h"
 
+#include "../Network/DemoLobbyNet.h"
+#include "../Network/GameNet.h"
+
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
 class MainMenu : public Panel {
 
+    GameNet gameNet;
+    DemoLobbyNet lobbyNet;
+
     Image backgroundImage;
     void onSinglePlayer();
-    void onMultiPlayer();
+    void onHostMultiPlayer();
+    void onJoinMultiPlayer();
     void onSettings();
     void onAchievements();
     void onQuit();
 
-    Button singlePlayerButton, multiPlayerButton, settingsButton, achievementsButton, quitButton;
+    Button singlePlayerButton, joinMultiPlayerButton, hostMultiPlayerButton, settingsButton, achievementsButton, quitButton;
 
 public:
     MainMenu(Engine& _engine);

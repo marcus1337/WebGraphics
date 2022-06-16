@@ -1,12 +1,13 @@
+
 #include "Panel.h"
 #include <Drawables/Button.h>
 #include <Drawables/Image.h>
 #include "../Network/DemoLobbyNet.h"
 
-#ifndef LOBBYMENU_H
-#define LOBBYMENU_H
+#ifndef LOBBYBROWSER_H
+#define LOBBYBROWSER_H
 
-class LobbyMenu : public Panel {
+class LobbyBrowser : public Panel {
 
     Image backgroundImage;
     Button backButton;
@@ -14,11 +15,11 @@ class LobbyMenu : public Panel {
 
 public:
 
-    LobbyMenu(Engine& _engine, DemoLobbyNet& _lobbyNet);
+    LobbyBrowser(Engine& _engine, DemoLobbyNet& _lobbyNet);
     void update() override;
     void render() override;
 
+
 };
 
-
-#endif // !LOBBYMENU_H
+#endif

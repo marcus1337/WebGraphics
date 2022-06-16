@@ -1,6 +1,6 @@
 #include "LobbyMenu.h"
 
-LobbyMenu::LobbyMenu(Engine& _engine) : Panel(_engine) {
+LobbyMenu::LobbyMenu(Engine& _engine, DemoLobbyNet& _lobbyNet) : Panel(_engine), lobbyNet(_lobbyNet) {
     backgroundImage.width = 1920;
     backgroundImage.height = 1080;
     backgroundImage.texture = "background2.png";
