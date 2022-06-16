@@ -8,6 +8,11 @@
 
 class GameView : public Panel {
 
+    Image getCardImage(int cardValue);
+    std::string getRankName(int cardRank);
+    std::string getSuitName(int cardSuit);
+    std::string getCardTextureName(int cardValue);
+
 public:
 
     GameView(Engine& _engine);
