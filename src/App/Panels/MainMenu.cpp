@@ -3,7 +3,8 @@
 #include "SettingsMenu.h"
 #include "AchievementsMenu.h"
 #include "LobbyMenu.h"
-#include "GamePanel.h"
+#include "GameView.h"
+#include "GameViewOverlay.h"
 #include "LobbyBrowser.h"
 
 MainMenu::MainMenu(Engine& _engine) : Panel(_engine) {
@@ -58,7 +59,7 @@ void MainMenu::render() {
 void MainMenu::onSinglePlayer() {
     std::cout << "onSinglePlayer()\n";
     if (childPanel == nullptr)
-        childPanel = new GamePanel(engine);
+        childPanel = new GameViewOverlay(engine);
 }
 
 void MainMenu::onHostMultiPlayer() {

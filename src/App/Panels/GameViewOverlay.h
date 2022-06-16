@@ -6,14 +6,14 @@
 #ifndef GAMEPANEL_H
 #define GAMEPANEL_H
 
-class GamePanel : public Panel {
+class GameViewOverlay : public Panel {
 
     Image backgroundImage;
     Button backButton;
 
 public:
 
-    GamePanel(Engine& _engine);
+    GameViewOverlay(Engine& _engine);
     void update() override;
     void render() override;
 
