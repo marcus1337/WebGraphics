@@ -28,12 +28,12 @@ std::string GameView::getRankName(int cardRank) {
 
 std::string GameView::getSuitName(int cardSuit) {
     if (cardSuit == 0)
-        return "spades";
+        return "clubs";
     if (cardSuit == 1)
         return "hearts";
     if (cardSuit == 2)
         return "diamonds";
-    return "clubs";
+    return "spades";
 }
 
 Image GameView::getCardImage(int cardValue) {
