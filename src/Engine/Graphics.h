@@ -35,7 +35,7 @@ private:
 public:
     ImageObject imageObject;
     TextObject textObject;
-    glm::vec3 backgroundColor, outerBackgroundColor;
+    glm::vec3 outerBackgroundColor;
 
     Graphics(Canvas& _window);
     ~Graphics();

@@ -9,6 +9,7 @@
 
 class FrameBuffer
 {
+    glm::vec3 backgroundColor;
 public:
     ImageShader shader;
     GLuint texture, fbo;
@@ -16,6 +17,7 @@ public:
     ~FrameBuffer();
     FrameBuffer(GLData& gldata, int _width, int _height);
     void use();
+    void clear();
 
 };
 

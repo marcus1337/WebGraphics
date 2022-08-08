@@ -18,6 +18,7 @@ FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width
 
     shader.setProgram(glData.getProgram("postimage"));
     shader.setTexture(texture);
+    backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
 }
 
 FrameBuffer::~FrameBuffer()
@@ -30,4 +31,10 @@ void FrameBuffer::use()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, width, height);
+}
+
+void FrameBuffer::clear() {
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
+    use();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }

@@ -4,7 +4,6 @@
 
 Graphics::Graphics(Canvas& _window) : window(_window), mainView(glData, 1920, 1080)
 {
-    backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
     window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
 }
@@ -14,9 +13,7 @@ Graphics::~Graphics() {
 }
 
 void Graphics::clearView() {
-    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
-    mainView.use();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    mainView.clear();
 }
 
 void Graphics::display() {
