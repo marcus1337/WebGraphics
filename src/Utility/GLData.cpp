@@ -80,6 +80,6 @@ void GLData::preloadTextures() {
     std::vector<std::string> textureNames = iotexture.getAllTextureNames();
     for (std::string textureName : textureNames) {
         getTexture(textureName);
-        std::cout << "loaded: " << textureName << "\n";
+       // std::cout << "loaded: " << textureName << "\n";
     }
 }
