@@ -1,4 +1,4 @@
-#include "Graphics/ImageObject.h"
+#include "Graphics/Objects/ImageObject.h"
 
 
 ImageObject::ImageObject()

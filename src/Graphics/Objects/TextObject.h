@@ -5,9 +5,9 @@
 #include <string>
 #include <tuple>
 
-#include "GlyphTextureCreator.h"
+#include "Graphics/GlyphTextureCreator.h"
 #include <array>
-#include "Shader.h"
+#include "Graphics/Shaders/Shader.h"
 
 #ifndef TEXTOBJECT_H
 #define TEXTOBJECT_H

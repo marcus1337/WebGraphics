@@ -1,12 +1,12 @@
 #include "Utility/GLData.h"
 #include "Window/Canvas.h"
-#include "Graphics/ImageObject.h"
+#include "Graphics/Objects/ImageObject.h"
 #include "Utility/MatrixData.h"
-#include "Graphics/Shader.h"
-#include "Graphics/ImageShader.h"
-#include "Graphics/TextObject.h"
+#include "Graphics/Shaders/Shader.h"
+#include "Graphics/Shaders/ImageShader.h"
+#include "Graphics/Objects/TextObject.h"
 #include "Graphics/FrameBuffer.h"
-#include "Graphics/TextShader.h"
+#include "Graphics/Shaders/TextShader.h"
 #include "Window/Camera.h"
 
 #include <stack>
@@ -37,7 +37,7 @@ public:
     void setShaderPrograms();
     GLData glData;
     ImageObject imageObject;
-    ImageShader imageShader, rectangleShader, buttonShader;
+    ImageShader imageShader, rectangleShader;
     TextShader textShader;
     TextObject textObject;
     glm::vec3 backgroundColor, outerBackgroundColor;

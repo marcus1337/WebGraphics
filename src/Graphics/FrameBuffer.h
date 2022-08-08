@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <functional>
-#include "Shader.h"
-#include "ImageShader.h"
+#include "Shaders/Shader.h"
+#include "Shaders/ImageShader.h"
 
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H

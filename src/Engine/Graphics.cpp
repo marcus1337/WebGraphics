@@ -19,7 +19,6 @@ void Graphics::setShaderPrograms() {
     imageShader.setProgram(glData.getProgram("image"));
     rectangleShader.setProgram(glData.getProgram("rectangle"));
     textShader.setProgram(glData.getProgram("text"));
-    buttonShader.setProgram(glData.getProgram("button"));
     for (auto& framebuffer : frameBuffers) {
         framebuffer->shader.setProgram(glData.getProgram("postimage"));
     }
@@ -33,7 +32,6 @@ void Graphics::setViewIndex(std::size_t _viewIndex){
     rectangleShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
     textShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    buttonShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
 FrameBuffer* Graphics::makeFrameBuffer(int width, int height) {

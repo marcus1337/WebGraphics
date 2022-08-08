@@ -1,7 +1,6 @@
 
 #include <Engine/Engine.h>
 #include <stack>
-#include <Drawables/Button.h>
 
 #ifndef PANEL_H
 #define PANEL_H
@@ -14,10 +13,6 @@ class Panel {
 protected:
     Engine& engine;
     Graphics& graphics;
-    std::vector<Button*> buttons;
-    void updateButtons();
-    void renderButtons();
-    void renderButton(Button& button);
     void onExit();
 
 public:

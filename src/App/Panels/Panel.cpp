@@ -4,25 +4,6 @@ Panel::Panel(Engine &_engine) : panelStatus(PanelStatus::RUNNING), engine(_engin
 {
 }
 
-void Panel::updateButtons()
-{
-    for (int i = 0; i < buttons.size(); i++)
-    {
-        (*buttons[i]).update(engine.graphics, engine.window.mouse);
-    }
-}
-
-void Panel::renderButtons()
-{
-    for (Button *button : buttons)
-        renderButton(*button);
-}
-
-void Panel::renderButton(Button &button)
-{
-    button.render(engine.graphics, engine.window.mouse);
-}
-
 void Panel::onExit()
 {
     panelStatus = PanelStatus::FINISHED;

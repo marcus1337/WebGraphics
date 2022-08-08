@@ -1,4 +1,4 @@
-add_library(graphics ImageObject.cpp Shader.cpp TextObject.cpp ImageObject.h Shader.h TextObject.h "FrameBuffer.cpp" "FrameBuffer.h"  "GlyphTextureCreator.h" "GlyphTextureCreator.cpp" "ImageShader.h" "ImageShader.cpp" "TextShader.h" "TextShader.cpp")
+add_library(graphics "Objects/ImageObject.cpp" "Shaders/Shader.cpp" "Objects/TextObject.cpp" "Objects/ImageObject.h" "Shaders/Shader.h" "Objects/TextObject.h" "FrameBuffer.cpp" "FrameBuffer.h"  "GlyphTextureCreator.h" "GlyphTextureCreator.cpp" "Shaders/ImageShader.h" "Shaders/ImageShader.cpp" "Shaders/TextShader.h" "Shaders/TextShader.cpp")
 
 set(FREETYPE_LIB "")
 if(UNIX)
