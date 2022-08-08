@@ -30,7 +30,7 @@ private:
 public:
     void setFont(std::string _font);
     void setText(std::string text);
-    void draw(Shader& shader);
+    virtual void draw(Shader& shader) override;
     void setTextPixelHeight(unsigned int _pixelHeight);
     ~TextObject();
     TextObject();

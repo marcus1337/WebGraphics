@@ -13,7 +13,7 @@ public:
 
     ImageObject();
     ~ImageObject();
-    void draw(Shader& shader);
+    virtual void draw(Shader& shader) override;
 };
 
 #endif
