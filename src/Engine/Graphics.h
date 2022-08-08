@@ -37,7 +37,6 @@ public:
     ImageObject imageObject;
     TextObject textObject;
     ImageShader imageShader;
-    TextShader textShader;
     glm::vec3 backgroundColor, outerBackgroundColor;
 
     Graphics(Canvas& _window);
