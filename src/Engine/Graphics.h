@@ -36,7 +36,6 @@ public:
     GLData glData;
     ImageObject imageObject;
     TextObject textObject;
-    ImageShader imageShader;
     glm::vec3 backgroundColor, outerBackgroundColor;
 
     Graphics(Canvas& _window);

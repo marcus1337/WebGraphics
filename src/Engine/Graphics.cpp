@@ -14,7 +14,6 @@ Graphics::Graphics(Canvas& _window) : window(_window)
 }
 
 void Graphics::setShaderPrograms() {
-    imageShader.setProgram(glData.getProgram("image"));
     for (auto& framebuffer : frameBuffers) {
         framebuffer->shader.setProgram(glData.getProgram("postimage"));
     }

@@ -1,10 +1,8 @@
 #include "MainMenu.h"
 #include <iostream>
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine) {
-
-    backgroundImage.width = 1920;
-    backgroundImage.height = 1080;
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine) {
+    backgroundImage.setSize(1920, 1080);
 }
 
 
@@ -13,7 +11,7 @@ void MainMenu::update() {
 }
 
 void MainMenu::render() {
-    backgroundImage.render(engine.graphics);
+    backgroundImage.render();
 
 }
 

@@ -1,45 +1,34 @@
 #include "Image.h"
 
-Image::~Image() {
-
+Image::Image(Engine& _engine) : Drawable(_engine) {
+    shader = new ImageShader(graphics.glData.getProgram("image"));
+    shader->rotation = 180.0f;
+    setTexture("background1.png");
+    setMirror(true);
 }
 
-void Image::addImageVariablesToShader(ImageShader& _shader, GLuint _textureID) {
-    _shader.setTexture(_textureID);
-    _shader.rotation = rotation;
-    _shader.color = extraColor;
-    _shader.mirror = !mirror;
-    _shader.grayscale = grayscale;
-    _shader.darken = darken;
-    _shader.alpha = alpha;
-    _shader.singleColor = singleColor;
-    _shader.scale = glm::vec3(width, height, 1.0f);
-    _shader.isSingleColor = false;
-    _shader.setPosition(glm::vec3(x, y, 0.0f));
-    _shader.effect = effect;
-    _shader.mouse = { mouseX, mouseY };
+void Image::setTexture(std::string _texture) {
+    ((ImageShader*)shader)->setTexture(graphics.glData.getTexture(_texture));
+}
+void Image::setSingleColor(glm::vec3 _color) {
+    ((ImageShader*)shader)->singleColor = _color;
+}
+void Image::setMirror(bool _mirror) {
+    ((ImageShader*)shader)->mirror = _mirror;
+}
+void Image::setEffect(float _effect) {
+    ((ImageShader*)shader)->effect = _effect;
+}
+void Image::setIsSingleColor(bool _isSingleColor) {
+    ((ImageShader*)shader)->isSingleColor = _isSingleColor;
+}
+void Image::setGray(bool _gray) {
+    ((ImageShader*)shader)->grayscale = _gray;
+}
+void Image::setDark(bool _dark) {
+    ((ImageShader*)shader)->darken = _dark;
 }
 
-void Image::addHighlightedImageVariablesToShader(ImageShader& _shader, GLuint _textureID) {
-    addImageVariablesToShader(_shader, _textureID);
-    _shader.scale = glm::vec3(width + borderSize, height + borderSize, 1.0f);
-    glm::vec3 positionTmp = glm::vec3(x, y, 0.0f);
-    positionTmp.x -= (float)borderSize / 2.0f;
-    positionTmp.y -= (float)borderSize / 2.0f;
-    _shader.setPosition(positionTmp);
-    _shader.isSingleColor = true;
-}
-
-void Image::render(Graphics& _graphics) {
-    GLuint _textureID = _graphics.glData.getTexture(texture);
-    if (isHighlighted) {
-        addHighlightedImageVariablesToShader(_graphics.imageShader, _textureID);
-        _graphics.imageObject.draw(_graphics.imageShader);
-    }
-    addImageVariablesToShader(_graphics.imageShader, _textureID);
-    _graphics.imageObject.draw(_graphics.imageShader);
-}
-
-Image* Image::clone() const {
-    return new Image(*this);
+void Image::render() {
+    graphics.imageObject.draw(*shader);
 }
