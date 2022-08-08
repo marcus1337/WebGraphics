@@ -9,26 +9,6 @@
 
 TextObject::TextObject()
 {
-    initVBO();
-}
-
-void TextObject::setTextPixelHeight(unsigned int _pixelHeight) {
-    pixelHeight = _pixelHeight;
-}
-
-TextObject::~TextObject()
-{
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
-}
-
-void TextObject::setText(std::string _text)
-{
-    text = _text;
-}
-
-void TextObject::initVBO()
-{
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -40,6 +20,19 @@ void TextObject::initVBO()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
+}
+
+void TextObject::setTextPixelHeight(unsigned int _pixelHeight) {
+    pixelHeight = _pixelHeight;
+}
+
+TextObject::~TextObject()
+{
+}
+
+void TextObject::setText(std::string _text)
+{
+    text = _text;
 }
 
 std::array<std::array<float, 4>, 6> TextObject::getGlyphVertices(float _x, float _y, float _w, float _h) {

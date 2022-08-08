@@ -2,15 +2,13 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include "Graphics/Shaders/Shader.h"
+#include "VertexObject.h"
 
 #ifndef IMAGEOBJECT_H
 #define IMAGEOBJECT_H
 
-class ImageObject
+class ImageObject : public VertexObject
 {
-    void initVBO();
-    GLuint vao, vbo;
-
 public:
 
     ImageObject();
