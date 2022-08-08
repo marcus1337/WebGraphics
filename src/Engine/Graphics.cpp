@@ -11,7 +11,6 @@ Graphics::Graphics(Canvas& _window) : window(_window)
     textObject.setFont("Roboto-Regular");
     window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
     setViewIndex(0);
-    glData.preloadTextures();
 }
 
 void Graphics::setShaderPrograms() {
@@ -28,10 +27,7 @@ void Graphics::setViewIndex(std::size_t _viewIndex){
     viewIndex = _viewIndex;
     frameBuffers[viewIndex]->use();
     FrameBuffer& fb = *frameBuffers[viewIndex];
-    MatrixData matrixdata = camera.getMatrixData(fb.width, fb.height);
-    rectangleShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    textShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    //to be implemented.................
 }
 
 FrameBuffer* Graphics::makeFrameBuffer(int width, int height) {
@@ -65,8 +61,6 @@ void Graphics::clearViews() {
 void Graphics::display() {
     for (std::size_t i = 1; i < frameBuffers.size(); i++) {
         frameBuffers[i]->use();
-        MatrixData matrixdata = camera.getMatrixData(frameBuffers[i]->width, frameBuffers[i]->height);
-        frameBuffers[i]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
         imageObject.draw(frameBuffers[i]->shader);
     }
     drawMainView();
@@ -87,8 +81,7 @@ void Graphics::drawMainView() {
     frameBuffers[0]->shader.setPosition(glm::vec3(frameXPos, frameYPos, 0.f));
     frameBuffers[0]->shader.scale = glm::vec3((float)frameWidth, (float)frameHeight, 1.0f);
     glViewport(0, 0, window.width, window.height);
-    MatrixData matrixdata = camera.getMatrixData(window.width, window.height);
-    frameBuffers[0]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    frameBuffers[0]->shader.setViewProjectionMatrix(window.width, window.height);
     imageObject.draw(frameBuffers[0]->shader);
 }
 

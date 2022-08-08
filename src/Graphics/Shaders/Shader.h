@@ -15,6 +15,9 @@ class Shader{
 
 protected:
 
+    int screenWidth = 1920;
+    int screenHeight = 1080;
+
     GLuint programID;
     glm::mat4 VP, V, P;
 
@@ -37,6 +40,7 @@ public:
     void setUniforms();
     void setProgram(GLuint _programID);
     void setPosition(glm::vec3 _position);
+    void setViewProjectionMatrix(int _width, int _height);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
     void setRotation(float _rotation);
 

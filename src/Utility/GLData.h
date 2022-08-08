@@ -31,13 +31,13 @@ private:
 
     GLuint getProgram(ShaderData &shaders);
     GLuint getTexture(TextureData &textureData);
+    void preloadTextures();
 
 public:
     GLData();
     ~GLData();
     GLuint getProgram(std::string name);
     GLuint getTexture(std::string name);
-    void preloadTextures();
     void loadShaderCodeStrings();
 };
 

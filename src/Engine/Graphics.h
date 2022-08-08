@@ -7,7 +7,6 @@
 #include "Graphics/Objects/TextObject.h"
 #include "Graphics/FrameBuffer.h"
 #include "Graphics/Shaders/TextShader.h"
-#include "Window/Camera.h"
 
 #include <stack>
 #include <tuple>
@@ -24,7 +23,6 @@
 #define GRAPHICS_H
 
 class Graphics {
-    Camera camera;
     Canvas& window;
 
     void drawMainView();

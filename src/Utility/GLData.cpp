@@ -4,7 +4,7 @@
 
 GLData::GLData()
 {
-
+    preloadTextures();
 }
 
 void GLData::loadShaderCodeStrings() {

@@ -1,9 +1,11 @@
 #include "Shader.h"
 #include <iostream>
+#include "Graphics/Camera.h"
 
 Shader::Shader(GLuint _programID) : programID(_programID), P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
+    setViewProjectionMatrix(screenWidth, screenHeight);
 }
 
 Shader::~Shader() {
@@ -50,6 +52,12 @@ void Shader::setPosition(glm::vec3 _position)
 
 void Shader::setProgram(GLuint _programID) {
     programID = _programID;
+}
+
+void Shader::setViewProjectionMatrix(int _width, int _height) {
+    Camera camera;
+    MatrixData matrixdata = camera.getMatrixData(_width, _height);
+    setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
 void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P)
