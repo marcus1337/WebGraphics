@@ -23,17 +23,16 @@
 #define GRAPHICS_H
 
 class Graphics {
-    Canvas& window;
+public:
+    GLData glData;
 
+private:
+    Canvas& window;
     void drawMainView();
-    std::vector<FrameBuffer*> frameBuffers;
-    FrameBuffer* makeFrameBuffer(int width, int height);
+    FrameBuffer mainView;
     std::size_t viewIndex = 0;
 
 public:
-    void setViewIndex(std::size_t _viewIndex);
-    void setShaderPrograms();
-    GLData glData;
     ImageObject imageObject;
     TextObject textObject;
     glm::vec3 backgroundColor, outerBackgroundColor;
@@ -41,11 +40,8 @@ public:
     Graphics(Canvas& _window);
     ~Graphics();
 
-    void clearViews();
-    void clearView(std::size_t viewID = 0);
+    void clearView();
     void display();
-    std::pair<int, int> getPixelPosition(int _x, int _y, std::size_t viewID = 0);
-    bool isInsideView(int _x, int _y, std::size_t viewID = 0);
 };
 
 #endif // !GRAPHICS_H

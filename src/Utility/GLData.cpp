@@ -6,6 +6,7 @@ GLData::GLData()
 {
     preloadTextures();
     loadShaderCodeStrings();
+    std::cout << "GLData()\n";
 }
 
 void GLData::loadShaderCodeStrings() {

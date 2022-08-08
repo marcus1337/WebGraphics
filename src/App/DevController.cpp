@@ -17,7 +17,7 @@ void DevController::update() {
     }
 
     if (autoUpdateShaders && wasAnyShaderFileModified()) {
-        graphics.setShaderPrograms();
+        std::cout << "auto-shader-update to be implemented here........\n";
     }
 }
 

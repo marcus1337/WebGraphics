@@ -20,7 +20,6 @@ class App
     DevController devController;
 
     void updateLogic();
-    void renderViews();
     void render();
     void handlePanelChange();
 

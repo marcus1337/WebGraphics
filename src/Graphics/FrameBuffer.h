@@ -2,6 +2,7 @@
 #include <functional>
 #include "Shaders/Shader.h"
 #include "Shaders/ImageShader.h"
+#include <Utility/GLData.h>
 
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
@@ -13,7 +14,7 @@ public:
     GLuint texture, fbo;
     const int width, height;
     ~FrameBuffer();
-    FrameBuffer(int _width, int _height);
+    FrameBuffer(GLData& gldata, int _width, int _height);
     void use();
 
 };

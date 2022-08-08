@@ -62,11 +62,7 @@ void App::updateLogic() {
 }
 
 void App::render() {
-    engine.graphics.clearViews();
-    renderViews();
-    engine.graphics.display();
-}
-
-void App::renderViews() {
+    engine.graphics.clearView();
     panels.top()->render();
+    engine.graphics.display();
 }
