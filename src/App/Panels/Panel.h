@@ -11,25 +11,22 @@ enum class PanelStatus {
 };
 
 class Panel {
-
 protected:
-
     Engine& engine;
+    Graphics& graphics;
     std::vector<Button*> buttons;
-    void updateButtons(int _x, int _y);
+    void updateButtons();
     void renderButtons();
-    void updateButton(Button& button, int _x, int _y);
     void renderButton(Button& button);
-
-    int getRelativeMouseXPosition();
-    int getRelativeMouseYPosition();
     void onExit();
 
 public:
     PanelStatus panelStatus;
     Panel(Engine& _engine);
+    virtual ~Panel() = default;
     virtual void update() = 0;
     virtual void render() = 0;
+    virtual void onEnter();
     Panel* childPanel = nullptr;
 };
 

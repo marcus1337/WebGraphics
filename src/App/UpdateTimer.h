@@ -12,7 +12,7 @@ class UpdateTimer {
     std::chrono::steady_clock::time_point timeLastRenderUpdateCheck, timeLastLogicUpdateCheck;
 
 public:
-    UpdateTimer(double _rendersPerSecond = 60.0, double _logicUpdatesPerSecond = 20.0);
+    UpdateTimer(double _rendersPerSecond = 60.0, double _logicUpdatesPerSecond = 50.0);
     bool isLogicUpdate();
     bool isRenderUpdate();
 };

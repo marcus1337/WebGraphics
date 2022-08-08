@@ -9,6 +9,8 @@
     #include <GL/glx.h>
 #endif
 
+#include "IO/Files/IOTexture.h"
+
 
 auto Canvas::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
@@ -58,6 +60,7 @@ bool Canvas::initWindow() {
         return EXIT_FAILURE;
     }
     SetVSync(true);
+    setIconImage();
     return EXIT_SUCCESS;
 }
 
@@ -100,7 +103,7 @@ bool Canvas::initGLFW()
     setWindowHints();
     glfwSwapInterval(1);
 
-    window = glfwCreateWindow(width, height, "WebGL_UI", nullptr, nullptr);
+    window = glfwCreateWindow(width, height, "MyApp", nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -168,4 +171,10 @@ void Canvas::pollEvents() {
     mouse.reset();
     keyboard.reset();
     glfwPollEvents();
+}
+
+void Canvas::setIconImage() {
+    IOTexture ioTexture;
+    GLFWimage iconImg = ioTexture.loadIconImage("icons//icon256x256.png");
+    glfwSetWindowIcon(window, 1, &iconImg);
 }

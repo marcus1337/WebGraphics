@@ -1,4 +1,5 @@
 
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
@@ -25,14 +26,15 @@ class Canvas {
     bool initGLFW();
     GLFWwindow* window;
     bool initWindow();
+    void setIconImage();
 
 public:
     std::function<void(void)> appResizeCallbackFunction;
     AspectRatio aspectRatio;
     void resizeWindow(int width, int height);
     void autoScreenResize(double yoffset);
-    int width = 800;
-    int height = 600;
+    int width = 1280;
+    int height = 720;
     Mouse mouse;
     Keyboard keyboard;
     Canvas();

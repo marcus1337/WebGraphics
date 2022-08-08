@@ -3,13 +3,11 @@
 #include "Graphics/ImageObject.h"
 #include "Utility/MatrixData.h"
 #include "Graphics/Shader.h"
+#include "Graphics/ImageShader.h"
 #include "Graphics/TextObject.h"
 #include "Graphics/FrameBuffer.h"
-#include "Drawables/Rectangle.h"
+#include "Graphics/TextShader.h"
 #include "Window/Camera.h"
-#include "Drawables/View.h"
-#include "Drawables/Image.h"
-#include "Drawables/Text.h"
 
 #include <stack>
 #include <tuple>
@@ -27,28 +25,29 @@
 
 class Graphics {
     Camera camera;
-    ImageObject imageObject;
-    Shader imageShader, rectangleShader;
-
-    TextObject textObject;
-    GLData glData;
     Canvas& window;
 
     void drawMainView();
     std::vector<FrameBuffer*> frameBuffers;
     FrameBuffer* makeFrameBuffer(int width, int height);
+    std::size_t viewIndex = 0;
+
 public:
+    void setViewIndex(std::size_t _viewIndex);
+    void setShaderPrograms();
+    GLData glData;
+    ImageObject imageObject;
+    ImageShader imageShader, rectangleShader, buttonShader;
+    TextShader textShader;
+    TextObject textObject;
+    glm::vec3 backgroundColor, outerBackgroundColor;
+
     Graphics(Canvas& _window);
     ~Graphics();
-    glm::vec3 backgroundColor, outerBackgroundColor;
 
     void clearViews();
     void clearView(std::size_t viewID = 0);
     void display();
-    void initViews(std::vector<View> views);
-    void drawRectangle(Rectangle& rectangle, std::size_t viewID = 0);
-    void drawImage(Image& image, std::size_t viewID = 0);
-    void drawText(Text& text, std::size_t viewID = 0);
     std::pair<int, int> getPixelPosition(int _x, int _y, std::size_t viewID = 0);
     bool isInsideView(int _x, int _y, std::size_t viewID = 0);
 };

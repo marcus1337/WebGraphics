@@ -4,11 +4,17 @@
 
 GLData::GLData()
 {
-    shaders = ioshader.getShaderData();
-    for(auto& s : shaders){
-        std::cout << "shader: " << s.name << "\n";
-    }
 
+}
+
+void GLData::loadShaderCodeStrings() {
+    for (auto& programObj : programs)
+        glDeleteProgram(std::get<1>(programObj));
+    programs.clear();
+    shaders = ioshader.getShaderData();
+    for (auto& s : shaders) {
+        std::cout << "Shader name: " << s.name << "\n";
+    }
 }
 
 GLuint GLData::getProgram(std::string name){
@@ -16,6 +22,7 @@ GLuint GLData::getProgram(std::string name){
         if(shader.name == name)
             return getProgram(shader);
     }
+    std::cout << "Error: shader not found (" << name << ")\n";
     return 0;
 }
 
@@ -67,4 +74,12 @@ GLData::~GLData()
         glDeleteProgram(std::get<1>(programObj));
     for (auto &textureObj : textures)
         glDeleteTextures(1, &std::get<1>(textureObj));
+}
+
+void GLData::preloadTextures() {
+    std::vector<std::string> textureNames = iotexture.getAllTextureNames();
+    for (std::string textureName : textureNames) {
+        getTexture(textureName);
+        std::cout << "loaded: " << textureName << "\n";
+    }
 }

@@ -47,6 +47,13 @@ uint32_t IOShader::getShaderValue(const std::string &extension)
     return 0;
 }
 
+std::vector<std::string> IOShader::getShaderFilePaths() {
+    std::vector<std::string> paths;
+    for (const auto& entry : std::filesystem::directory_iterator(FolderPaths::getShaderPath()))
+        paths.push_back(entry.path().string());
+    return paths;
+}
+
 std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
 {
     std::map<std::string, std::vector<std::string>> shaderGroups;

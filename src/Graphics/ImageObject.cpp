@@ -37,10 +37,10 @@ void ImageObject::initVBO()
 }
 
 
-void ImageObject::draw(Shader* shader)
+void ImageObject::draw(Shader& shader)
 {
     glBindVertexArray(vao);
-    shader->setUniforms();
+    shader.setUniforms();
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glBindVertexArray(0);
 }

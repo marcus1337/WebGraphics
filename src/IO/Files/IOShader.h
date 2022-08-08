@@ -27,6 +27,7 @@ private:
     void removeExtension(std::string& fileName);
 
 public:
+    std::vector<std::string> getShaderFilePaths();
 
     IOShader();
     std::vector<ShaderData> getShaderData();

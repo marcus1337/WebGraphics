@@ -37,6 +37,8 @@ public:
     ~GLData();
     GLuint getProgram(std::string name);
     GLuint getTexture(std::string name);
+    void preloadTextures();
+    void loadShaderCodeStrings();
 };
 
 #endif

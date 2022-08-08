@@ -15,7 +15,7 @@ class IOTexture
 {
 public:
     IOTexture();
-
+    std::vector<std::string> getAllTextureNames();
     GLFWimage loadIconImage(const std::string& fileName);
     TextureData getTextureData(const std::string& fileName);
 };

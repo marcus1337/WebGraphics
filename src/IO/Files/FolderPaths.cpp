@@ -46,3 +46,19 @@ std::string FolderPaths::getFontsPath() {
     return std::filesystem::current_path().string() + "//res//fonts//";
 #endif
 }
+
+std::string FolderPaths::getSavesPath() {
+#ifdef EMSCRIPTEN
+    return "./res/saves/";
+#else
+    return std::filesystem::current_path().string() + "//res//saves//";
+#endif
+}
+
+std::string FolderPaths::getLogsPath() {
+#ifdef EMSCRIPTEN
+    return "./res/logs/";
+#else
+    return std::filesystem::current_path().string() + "//res//logs//";
+#endif
+}

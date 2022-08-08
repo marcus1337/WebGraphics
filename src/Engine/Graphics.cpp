@@ -1,26 +1,44 @@
 #include "Graphics.h"
 #include <algorithm>
+#include <iostream>
 
 Graphics::Graphics(Canvas& _window) : window(_window)
 {
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
+    setShaderPrograms();
     frameBuffers.push_back(makeFrameBuffer(1920, 1080));
-    imageShader = Shader(glData.getProgram("image"));
-    rectangleShader = Shader(glData.getProgram("rectangle"));
-    textObject.programID = glData.getProgram("text");
+    textObject.setFont("Roboto-Regular");
     window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
+    setViewIndex(0);
+    glData.preloadTextures();
 }
 
-void Graphics::initViews(std::vector<View> views) {
-    for (View& view : views) {
-        frameBuffers.push_back(makeFrameBuffer(view.width, view.height));
+void Graphics::setShaderPrograms() {
+    glData.loadShaderCodeStrings();
+    imageShader.setProgram(glData.getProgram("image"));
+    rectangleShader.setProgram(glData.getProgram("rectangle"));
+    textShader.setProgram(glData.getProgram("text"));
+    buttonShader.setProgram(glData.getProgram("button"));
+    for (auto& framebuffer : frameBuffers) {
+        framebuffer->shader.setProgram(glData.getProgram("postimage"));
     }
+}
+
+void Graphics::setViewIndex(std::size_t _viewIndex){
+    viewIndex = _viewIndex;
+    frameBuffers[viewIndex]->use();
+    FrameBuffer& fb = *frameBuffers[viewIndex];
+    MatrixData matrixdata = camera.getMatrixData(fb.width, fb.height);
+    rectangleShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    textShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    buttonShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
 }
 
 FrameBuffer* Graphics::makeFrameBuffer(int width, int height) {
     FrameBuffer* frameBuffer = new FrameBuffer(width, height);
-    frameBuffer->shader = Shader(glData.getProgram("postimage"));
+    frameBuffer->shader = ImageShader(glData.getProgram("postimage"));
     frameBuffer->shader.setTexture(frameBuffer->texture);
     return frameBuffer;
 }
@@ -43,80 +61,19 @@ void Graphics::clearViews() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, window.width, window.height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    frameBuffers[viewIndex]->use();
 }
 
 void Graphics::display() {
-    frameBuffers[0]->use();
-    MatrixData matrixdata = camera.getMatrixData(frameBuffers[0]->width, frameBuffers[0]->height);
     for (std::size_t i = 1; i < frameBuffers.size(); i++) {
+        frameBuffers[i]->use();
+        MatrixData matrixdata = camera.getMatrixData(frameBuffers[i]->width, frameBuffers[i]->height);
         frameBuffers[i]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-        imageObject.draw(&frameBuffers[i]->shader);
+        imageObject.draw(frameBuffers[i]->shader);
     }
     drawMainView();
     window.display();
-}
-
-void Graphics::drawRectangle(Rectangle& rectangle, std::size_t viewID) {
-    FrameBuffer& frameBuffer = *frameBuffers[viewID];
-    frameBuffer.use();
-    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
-
-    rectangleShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    rectangleShader.setPosition(glm::vec3(rectangle.x, rectangle.y, 0.0f));
-    rectangleShader.scale = glm::vec3(rectangle.width, rectangle.height, 1.0f);
-    rectangleShader.alpha = rectangle.alpha;
-    rectangleShader.rotation = rectangle.rotation;
-    rectangleShader.color = rectangle.color;
-    imageObject.draw(&rectangleShader);
-
-}
-
-void Graphics::drawImage(Image& image, std::size_t viewID) {
-    FrameBuffer& frameBuffer = *frameBuffers[viewID];
-    frameBuffer.use();
-    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
-    imageShader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    imageShader.setPosition(glm::vec3(image.x, image.y, 0.0f));
-    imageShader.scale = glm::vec3(image.width, image.height, 1.0f);
-    imageShader.setTexture(glData.getTexture(image.texture));
-    imageShader.rotation = image.rotation;
-    imageShader.extraColor = image.extraColor;
-    imageShader.singleColor = image.singleColor;
-    if (image.isHighlighted) {
-        glm::vec3 scale = imageShader.scale;
-        glm::vec3 position = glm::vec3(image.x, image.y, 0.0f);
-        glm::vec3 positionTmp = position;
-        imageShader.scale.x += (float) image.borderSize;
-        imageShader.scale.y += (float) image.borderSize;
-        positionTmp.x -= (float) image.borderSize / 2.0f;
-        positionTmp.y -= (float) image.borderSize / 2.0f;
-        imageShader.isSingleColor = true;
-        imageShader.setPosition(positionTmp);
-        imageObject.draw(&imageShader);
-        imageShader.isSingleColor = false;
-        imageShader.scale = scale;
-        imageShader.setPosition(position);
-        imageObject.draw(&imageShader);
-    }
-    else {
-        imageShader.isSingleColor = false;
-        imageObject.draw(&imageShader);
-    }
-}
-
-void Graphics::drawText(Text& text, std::size_t viewID) {
-    FrameBuffer& frameBuffer = *frameBuffers[viewID];
-    frameBuffer.use();
-    MatrixData matrixdata = camera.getMatrixData(frameBuffer.width, frameBuffer.height);
-    textObject.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    textObject.setFont(text.font);
-    textObject.setPosition(glm::vec3(text.x, text.y, 0.0f));
-    //textObject.scale = text.scale;
-    textObject.text = text.text;
-    textObject.rotation = text.rotation;
-    textObject.color = text.color;
-    textObject.setTextPixelHeight(text.pixelHeight);
-    textObject.draw();
+    frameBuffers[viewIndex]->use();
 }
 
 void Graphics::drawMainView() {
@@ -130,12 +87,11 @@ void Graphics::drawMainView() {
     float frameYPos = (float)(window.height - frameHeight) / 2.0f;
 
     frameBuffers[0]->shader.setPosition(glm::vec3(frameXPos, frameYPos, 0.f));
-
     frameBuffers[0]->shader.scale = glm::vec3((float)frameWidth, (float)frameHeight, 1.0f);
     glViewport(0, 0, window.width, window.height);
     MatrixData matrixdata = camera.getMatrixData(window.width, window.height);
     frameBuffers[0]->shader.setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
-    imageObject.draw(&frameBuffers[0]->shader);
+    imageObject.draw(frameBuffers[0]->shader);
 }
 
 std::pair<int, int> Graphics::getPixelPosition(int _x, int _y, std::size_t viewID) {
@@ -149,7 +105,6 @@ std::pair<int, int> Graphics::getPixelPosition(int _x, int _y, std::size_t viewI
     _y = std::clamp(_y, 0, (int)viewedFrameBuffer.shader.scale.y);
     float relX = (float)_x / viewedFrameBuffer.shader.scale.x;
     float relY = (float)_y / viewedFrameBuffer.shader.scale.y;
-    //std::cout << "a " << relX << " b " << relY << "\n";
     return std::make_pair((int)(relX * viewedFrameBuffer.width), (int)(relY * viewedFrameBuffer.height));
 }
 

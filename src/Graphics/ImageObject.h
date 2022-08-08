@@ -15,7 +15,7 @@ public:
 
     ImageObject();
     ~ImageObject();
-    void draw(Shader* shader);
+    void draw(Shader& shader);
 };
 
 #endif

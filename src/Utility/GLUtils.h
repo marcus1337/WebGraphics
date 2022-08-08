@@ -1,13 +1,13 @@
 
-#ifndef GLUTILS_H
-#define GLUTILS_H
-
 #include <GL/glew.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include "IO/Files/TextureData.h"
 #include "IO/Files/ShaderData.h"
+
+#ifndef GLUTILS_H
+#define GLUTILS_H
 
 namespace GLUtils {
     void showShaderInfoLog(GLuint shader);

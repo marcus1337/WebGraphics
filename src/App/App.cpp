@@ -2,11 +2,13 @@
 #include "App.h"
 #include <iostream>
 #include "Drawables/Button.h"
-#include "Panels/MainMenu.h"
+#include "App/Panels/Main/MainMenu.h"
 
-App::App() {
+App::App() : devController(engine) {
     panels.push(new MainMenu(engine));
+    panels.top()->onEnter();
 }
+
 
 App::~App() {
     while (!panels.empty()) {
@@ -31,24 +33,27 @@ void App::resizeWindow(int _width, int _height)
     engine.window.resizeWindow(_width, _height);
 }
 
-void App::handlePanelChange() {
+void App::handlePanelChange() { //assume MainMenu is always the base panel.
     if (panels.top()->panelStatus == PanelStatus::FINISHED) {
         delete panels.top();
         panels.pop();
+        panels.top()->onEnter();
     }
 
     Panel* childPanel = panels.top()->childPanel;
     if (childPanel != nullptr) {
         panels.top()->childPanel = nullptr;
         panels.push(childPanel);
+        panels.top()->onEnter();
     }
 }
 
-void App::update(){
+void App::update() { 
     handlePanelChange();
     if (updateTimer.isLogicUpdate()) {
         updateLogic();
         engine.window.pollEvents();
+        devController.update();
     }
     render();
 }
@@ -63,6 +68,6 @@ void App::render() {
     engine.graphics.display();
 }
 
-void App::renderViews(){
+void App::renderViews() {
     panels.top()->render();
 }
