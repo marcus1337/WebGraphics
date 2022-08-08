@@ -35,9 +35,9 @@ public:
     void setShaderPrograms();
     GLData glData;
     ImageObject imageObject;
-    ImageShader imageShader, rectangleShader;
-    TextShader textShader;
     TextObject textObject;
+    ImageShader imageShader;
+    TextShader textShader;
     glm::vec3 backgroundColor, outerBackgroundColor;
 
     Graphics(Canvas& _window);

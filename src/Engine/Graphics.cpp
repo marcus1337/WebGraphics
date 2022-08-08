@@ -14,9 +14,7 @@ Graphics::Graphics(Canvas& _window) : window(_window)
 }
 
 void Graphics::setShaderPrograms() {
-    glData.loadShaderCodeStrings();
     imageShader.setProgram(glData.getProgram("image"));
-    rectangleShader.setProgram(glData.getProgram("rectangle"));
     textShader.setProgram(glData.getProgram("text"));
     for (auto& framebuffer : frameBuffers) {
         framebuffer->shader.setProgram(glData.getProgram("postimage"));
