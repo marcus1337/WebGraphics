@@ -17,7 +17,7 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), 
 
 
 void MainMenu::update() {
-
+    btn.update();
 }
 
 void MainMenu::render() {

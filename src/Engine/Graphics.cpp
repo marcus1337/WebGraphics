@@ -49,5 +49,13 @@ void Graphics::drawMainView() {
     imageObject.draw(mainView.shader);
 }
 
-
+std::pair<int, int> Graphics::getPixelPosition(int _x, int _y) {
+    _x -= mainView.shader.getX();
+    _y -= mainView.shader.getY();
+    _x = std::clamp(_x, 0, mainView.shader.getWidth());
+    _y = std::clamp(_y, 0, mainView.shader.getHeight());
+    float relX = (float)_x / mainView.shader.getWidth();
+    float relY = (float)_y / mainView.shader.getHeight();
+    return std::make_pair((int)(relX * mainView.width), (int)(relY * mainView.height));
+}
 

@@ -17,7 +17,9 @@ void Button::render() {
 }
 
 void Button::update() {
-
+    if (isPointerInside()) {
+        std::cout << "inside...\n";
+    }
 }
 
 void Button::setPosition(int _x, int _y) {
@@ -25,8 +27,9 @@ void Button::setPosition(int _x, int _y) {
 }
 
 bool Button::isPointerInside() {
-    int mouseX = engine.window.mouse.x;
-    int mouseY = engine.window.mouse.y;
+    auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+    int mouseX = std::get<0>(mousePos);
+    int mouseY = std::get<1>(mousePos);
     return mouseX >= view.getX() && mouseX <= view.getX() + view.getWidth() && mouseY >= view.getY() && mouseY <= view.getY() + view.getHeight();
 }
 void Button::onPress() {

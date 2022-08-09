@@ -44,6 +44,7 @@ public:
     void useMainView();
     void clearView();
     void display();
+    std::pair<int, int> getPixelPosition(int _x, int _y);
 };
 
 #endif // !GRAPHICS_H
