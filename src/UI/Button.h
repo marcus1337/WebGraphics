@@ -15,9 +15,7 @@ class Button {
     bool pressed = false;
 
     bool isPointerInside();
-    void onPress();
     void onRelease();
-    void onHover();
 
 public:
 

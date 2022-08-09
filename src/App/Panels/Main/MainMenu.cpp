@@ -13,6 +13,9 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), 
     backgroundImage.setSize(1920, 1080);
 
     btn.setPosition(500, 500);
+    btn.onPressCallback = []() {
+        std::cout << "pressed button...\n";
+    };
 }
 
 
