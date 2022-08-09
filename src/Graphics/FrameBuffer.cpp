@@ -18,6 +18,8 @@ FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width
 
     shader.setProgram(glData.getProgram("postimage"));
     shader.setTexture(texture);
+    shader.setScale(width, height);
+    //shader.setViewProjectionMatrix(width, height);
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
 }
 

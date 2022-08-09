@@ -37,6 +37,7 @@ public:
     Shader(GLuint _programID = 0);
     virtual ~Shader();
 
+    void setScale(int _width, int _height);
     void setUniforms();
     void setProgram(GLuint _programID);
     void setPosition(glm::vec3 _position);

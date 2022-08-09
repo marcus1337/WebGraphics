@@ -5,6 +5,7 @@
 #include <Drawables/Image.h>
 #include <Drawables/Rect.h>
 #include <Drawables/Text.h>
+#include <Drawables/View.h>
 #include <vector>
 #include "App/Panels/Panel.h"
 
@@ -13,6 +14,7 @@
 
 class MainMenu : public Panel {
     Image backgroundImage;
+    View view;
     void onQuit();
     virtual void onEnter() override;
 public:

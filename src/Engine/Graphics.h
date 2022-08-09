@@ -30,7 +30,6 @@ private:
     Canvas& window;
     void drawMainView();
     FrameBuffer mainView;
-    std::size_t viewIndex = 0;
 
 public:
     ImageObject imageObject;
@@ -40,6 +39,7 @@ public:
     Graphics(Canvas& _window);
     ~Graphics();
 
+    void useMainView();
     void clearView();
     void display();
 };

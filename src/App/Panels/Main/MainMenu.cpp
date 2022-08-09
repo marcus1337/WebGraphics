@@ -1,8 +1,15 @@
 #include "MainMenu.h"
 #include <iostream>
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine) {
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), view(_engine, 500,500){
     backgroundImage.setSize(1920, 1080);
+    view.paint(backgroundImage);
+    Text text(_engine);
+    text.setText("eyyy");
+    text.setPosition(50, 50);
+    text.setSize(1, 1);
+    text.setPixelHeight(60);
+    view.paint(text);
 }
 
 
@@ -11,8 +18,8 @@ void MainMenu::update() {
 }
 
 void MainMenu::render() {
-    backgroundImage.render();
-
+   // backgroundImage.render();
+    view.render();
 }
 
 void MainMenu::onQuit() {

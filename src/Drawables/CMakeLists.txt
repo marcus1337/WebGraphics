@@ -3,6 +3,6 @@ add_library(drawables Drawable.h "Drawable.cpp" "Text.h" "Image.h" "Rect.h" "Rec
       
    
 "ShaderTimer.h" "ShaderTimer.cpp"
-)
+ "View.h" "View.cpp")
 
 target_link_libraries(drawables graphics)

@@ -12,6 +12,10 @@ Graphics::Graphics(Canvas& _window) : window(_window), mainView(glData, 1920, 10
 Graphics::~Graphics() {
 }
 
+void Graphics::useMainView() {
+    mainView.use();
+}
+
 void Graphics::clearView() {
     mainView.clear();
 }

@@ -12,6 +12,10 @@ Shader::~Shader() {
 
 }
 
+void Shader::setScale(int _width, int _height) {
+    scale = glm::vec3((float)_width, (float)_height, 1.0f);
+}
+
 glm::mat4 Shader::getModel()
 {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
