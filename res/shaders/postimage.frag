@@ -13,7 +13,7 @@ uniform vec2 textureSize;
 uniform float alpha;
 uniform float usingNormalMap;
 
-uniform float blur;
+uniform float effect;
 const float maxBlur = 0.05;
 
 out vec4 frag_color;
@@ -76,9 +76,9 @@ void main(){
     }
 
 
-    if(blur != 0.0){
+    if(effect != 0.0){
 
-        float offset = blur * maxBlur;  
+        float offset = effect * maxBlur;  
         vec2 offsets[9] = vec2[](
             vec2(-offset,  offset), // top-left
             vec2( 0.0f,    offset), // top-center
