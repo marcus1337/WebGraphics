@@ -3,12 +3,14 @@
 #include <Drawables/View.h>
 #include <Drawables/Image.h>
 #include <Drawables/Text.h>
+#include <Drawables/ShaderTimer.h>
 #include <functional>
 
 #ifndef BUTTON_H
 #define BUTTON_H
 
 class Button {
+    ShaderTimer shaderTimer;
     Engine& engine;
     Graphics& graphics;
     View view;

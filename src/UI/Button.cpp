@@ -14,6 +14,8 @@ Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), v
 }
 
 void Button::render() {
+    shaderTimer.updateEffectInterpolation();
+    view.setEffect(shaderTimer.effectInterpolation);
     view.render();
 }
 
@@ -22,11 +24,8 @@ void Button::update() {
         pressed = true;
     if (engine.window.mouse.isLeftReleased)
         onRelease();
-
-    if (pressed)
-        view.setEffect(1.0f);
-    else
-        view.setEffect(0.0f);
+    shaderTimer.forwardAnimation = isPointerInside();
+    shaderTimer.backAnimation = !shaderTimer.forwardAnimation;
 }
 
 void Button::setPosition(int _x, int _y) {
