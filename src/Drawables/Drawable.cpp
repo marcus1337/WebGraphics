@@ -8,10 +8,10 @@ Drawable::~Drawable() {
 }
 
 void Drawable::setPosition(int _x, int _y) {
-    shader->setPosition(glm::vec3(_x, _y, 0.0f));
+    shader->setPosition(_x, _y);
 }
 void Drawable::setSize(int _width, int _height) {
-    shader->scale = glm::vec3(_width, _height, 1.0f);
+    shader->setScale(_width, _height);
 }
 void Drawable::setColor(glm::vec3 _color) {
     shader->color = _color;
@@ -25,3 +25,16 @@ void Drawable::setRotation(float _rotation) {
 void Drawable::setViewProjectionMatrix(int _width, int _height) {
     shader->setViewProjectionMatrix(_width, _height);
 }
+int Drawable::getX() {
+    return shader->getX();
+}
+int Drawable::getY() {
+    return shader->getY();
+}
+int Drawable::getWidth() {
+    return shader->getWidth();
+}
+int Drawable::getHeight() {
+    return shader->getHeight();
+}
+

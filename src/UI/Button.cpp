@@ -23,3 +23,19 @@ void Button::update() {
 void Button::setPosition(int _x, int _y) {
     view.setPosition(_x, _y);
 }
+
+bool Button::isPointerInside() {
+    int mouseX = engine.window.mouse.x;
+    int mouseY = engine.window.mouse.y;
+    return mouseX >= view.getX() && mouseX <= view.getX() + view.getWidth() && mouseY >= view.getY() && mouseY <= view.getY() + view.getHeight();
+}
+void Button::onPress() {
+
+}
+void Button::onRelease() {
+
+}
+void Button::onHover() {
+
+}
+

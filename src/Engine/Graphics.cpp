@@ -42,8 +42,8 @@ void Graphics::drawMainView() {
     float frameXPos = (float)(window.width - frameWidth) / 2.0f;
     float frameYPos = (float)(window.height - frameHeight) / 2.0f;
 
-    mainView.shader.setPosition(glm::vec3(frameXPos, frameYPos, 0.f));
-    mainView.shader.scale = glm::vec3((float)frameWidth, (float)frameHeight, 1.0f);
+    mainView.shader.setPosition(frameXPos, frameYPos);
+    mainView.shader.setScale(frameWidth, frameHeight);
     glViewport(0, 0, window.width, window.height);
     mainView.shader.setViewProjectionMatrix(window.width, window.height);
     imageObject.draw(mainView.shader);

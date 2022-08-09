@@ -26,9 +26,10 @@ protected:
     void setColorUniforms();
 
     virtual void setCustomUniforms() = 0;
+    glm::vec3 position, scale;
 
 public:
-    glm::vec3 position, scale, color;
+    glm::vec3 color;
     glm::vec2 rotateOffset;
     float rotation = 0.0f;
     float alpha = 1.0f;
@@ -40,10 +41,15 @@ public:
     void setScale(int _width, int _height);
     void setUniforms();
     void setProgram(GLuint _programID);
-    void setPosition(glm::vec3 _position);
+    void setPosition(int _x, int _y);
     void setViewProjectionMatrix(int _width, int _height);
     void setViewProjectionMatrix(glm::mat4 &_VP, glm::mat4 &_V, glm::mat4 &_P);
     void setRotation(float _rotation);
+    
+    int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 
 
 };

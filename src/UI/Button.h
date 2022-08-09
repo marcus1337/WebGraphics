@@ -3,6 +3,7 @@
 #include <Drawables/View.h>
 #include <Drawables/Image.h>
 #include <Drawables/Text.h>
+#include <functional>
 
 #ifndef BUTTON_H
 #define BUTTON_H
@@ -11,6 +12,12 @@ class Button {
     Engine& engine;
     Graphics& graphics;
     View view;
+    bool pressed = false;
+
+    bool isPointerInside();
+    void onPress();
+    void onRelease();
+    void onHover();
 
 public:
 

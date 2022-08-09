@@ -48,9 +48,10 @@ void Shader::setUniforms() {
     setCustomUniforms();
 }
 
-void Shader::setPosition(glm::vec3 _position)
+void Shader::setPosition(int _x, int _y)
 {
-    position = _position;
+    position.x = _x;
+    position.y = _y;
 }
 
 
@@ -84,4 +85,17 @@ void Shader::setMatrixUniforms()
     glm::mat4 MV = V * M;
     glUniformMatrix4fv(glGetUniformLocation(programID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(programID, "MV"), 1, GL_FALSE, &MV[0][0]);
+}
+
+int Shader::getX() {
+    return position.x;
+}
+int Shader::getY() {
+    return position.y;
+}
+int Shader::getWidth() {
+    return scale.x;
+}
+int Shader::getHeight() {
+    return scale.y;
 }

@@ -27,6 +27,10 @@ public:
     void setAlpha(float _alpha);
     void setRotation(float _rotation);
     void setViewProjectionMatrix(int _width, int _height);
+    int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 };
 
 #endif
