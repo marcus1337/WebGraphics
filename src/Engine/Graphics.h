@@ -39,6 +39,8 @@ public:
     Graphics(Canvas& _window);
     ~Graphics();
 
+    int getScreenWidth();
+    int getScrenHeight();
     void useMainView();
     void clearView();
     void display();

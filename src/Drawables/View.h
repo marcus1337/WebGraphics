@@ -10,6 +10,7 @@
 
 class View : public Drawable {
     FrameBuffer frameBuffer;
+    int pixelWidth, pixelHeight;
 
 public:
 
@@ -18,7 +19,6 @@ public:
     void clear();
     void paint(Drawable& drawable);
     virtual void render() override;
-
 
 };
 

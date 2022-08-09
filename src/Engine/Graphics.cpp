@@ -25,6 +25,13 @@ void Graphics::display() {
     window.display();
 }
 
+int Graphics::getScreenWidth() {
+    return mainView.width;
+}
+int Graphics::getScrenHeight() {
+    return mainView.height;
+}
+
 void Graphics::drawMainView() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(outerBackgroundColor.r, outerBackgroundColor.g, outerBackgroundColor.b, 1.0f);

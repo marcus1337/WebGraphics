@@ -22,3 +22,6 @@ void Drawable::setAlpha(float _alpha) {
 void Drawable::setRotation(float _rotation) {
     shader->rotation = _rotation;
 }
+void Drawable::setViewProjectionMatrix(int _width, int _height) {
+    shader->setViewProjectionMatrix(_width, _height);
+}

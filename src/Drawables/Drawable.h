@@ -16,7 +16,6 @@ protected:
     Graphics& graphics;
     Mouse& mouse;
     Shader* shader = nullptr;
-
 public:
     Drawable(Engine& _engine);
     virtual ~Drawable();
@@ -27,7 +26,7 @@ public:
     void setColor(glm::vec3 _color);
     void setAlpha(float _alpha);
     void setRotation(float _rotation);
-
+    void setViewProjectionMatrix(int _width, int _height);
 };
 
 #endif

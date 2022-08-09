@@ -6,7 +6,7 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), 
     view.paint(backgroundImage);
     Text text(_engine);
     text.setText("eyyy");
-    text.setPosition(50, 50);
+    text.setPosition(50, 250);
     text.setSize(1, 1);
     text.setPixelHeight(60);
     view.paint(text);
