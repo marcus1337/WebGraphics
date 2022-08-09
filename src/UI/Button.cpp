@@ -10,6 +10,7 @@ Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), v
     text.setPixelHeight(40);
     text.center(0, 0, 200, 100);
     view.paint(text);
+    view.setShaderProgram("button");
 }
 
 void Button::render() {
@@ -21,6 +22,11 @@ void Button::update() {
         pressed = true;
     if (engine.window.mouse.isLeftReleased)
         onRelease();
+
+    if (pressed)
+        view.setEffect(1.0f);
+    else
+        view.setEffect(0.0f);
 }
 
 void Button::setPosition(int _x, int _y) {

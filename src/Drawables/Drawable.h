@@ -31,6 +31,7 @@ public:
     int getY();
     int getWidth();
     int getHeight();
+    void setShaderProgram(std::string shaderProgramName);
 };
 
 #endif

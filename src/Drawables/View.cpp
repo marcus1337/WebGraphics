@@ -24,3 +24,9 @@ void View::paint(Drawable& drawable) {
 void View::render() {
     graphics.imageObject.draw(*shader);
 }
+
+void View::setEffect(float _effect) {
+    ((ImageShader*)shader)->effect = _effect;
+}
+
+

@@ -20,6 +20,8 @@ public:
     void paint(Drawable& drawable);
     virtual void render() override;
 
+    void setEffect(float _effect);
+
 };
 
 #endif

@@ -51,7 +51,6 @@ public:
     int getWidth();
     int getHeight();
 
-
 };
 
 #endif

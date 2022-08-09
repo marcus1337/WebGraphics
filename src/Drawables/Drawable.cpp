@@ -37,4 +37,6 @@ int Drawable::getWidth() {
 int Drawable::getHeight() {
     return shader->getHeight();
 }
-
+void Drawable::setShaderProgram(std::string shaderProgramName) {
+    shader->setProgram(graphics.glData.getProgram(shaderProgramName));
+}
