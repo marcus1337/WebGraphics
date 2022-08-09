@@ -35,7 +35,7 @@ void main(){
     frag_color.a = min(alpha, frag_color.a);
 
     frag_color.xyz = frag_color.xyz * min(effect*effect, 0.7) + frag_color.xyz;
-    frag_color = vec4(frag_color.xyz + color*effect, frag_color.a);
+    frag_color = vec4(frag_color.xyz + color, frag_color.a);
     //float mouseDist = distance(realTexCoord, mouse);
     //frag_color = vec4(frag_color.x  * mouseDist, frag_color.y, frag_color.z, frag_color.a);
 

@@ -15,8 +15,8 @@ protected:
     Engine& engine;
     Graphics& graphics;
     Mouse& mouse;
-    Shader* shader = nullptr;
 public:
+    Shader* shader = nullptr;
     Drawable(Engine& _engine);
     virtual ~Drawable();
     virtual void render() = 0;

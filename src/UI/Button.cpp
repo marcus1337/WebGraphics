@@ -2,7 +2,7 @@
 
 Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), view(_engine, 200, 100) {
     Image img(engine);
-    img.setTexture("button1.png");
+    ((ImageShader*)img.shader)->setTexture(graphics.glData.getTexture("button1.png"));
     img.setSize(200, 100);
     view.paint(img);
     Text text(engine);
@@ -15,7 +15,7 @@ Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), v
 
 void Button::render() {
     shaderTimer.updateEffectInterpolation();
-    view.setEffect(shaderTimer.effectInterpolation);
+    ((ImageShader*)view.shader)->effect = shaderTimer.effectInterpolation;
     view.render();
 }
 
@@ -26,6 +26,12 @@ void Button::update() {
         onRelease();
     shaderTimer.forwardAnimation = isPointerInside();
     shaderTimer.backAnimation = !shaderTimer.forwardAnimation;
+    if (pressed) {
+        view.setColor({ 0.1f,0.1f,0.1f }); //
+    }
+    else {
+        view.setColor({ 0,0,0 });
+    }
 }
 
 void Button::setPosition(int _x, int _y) {
