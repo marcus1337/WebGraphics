@@ -8,6 +8,7 @@
 #include <Drawables/View.h>
 #include <vector>
 #include "App/Panels/Panel.h"
+#include <UI/Button.h>
 
 #ifndef MAINMENU_H
 #define MAINMENU_H
@@ -15,6 +16,7 @@
 class MainMenu : public Panel {
     Image backgroundImage;
     View view;
+    Button btn;
     void onQuit();
     virtual void onEnter() override;
 public:

@@ -30,3 +30,11 @@ void Text::setPixelHeight(unsigned int _pixelHeight) {
 unsigned int Text::getPixelHeight() {
     return pixelHeight;
 }
+
+void Text::center(int _x, int _y, int _width, int _height) {
+    int textWidth = getPixelWidth();
+    int textHeight = getPixelHeight();
+    int xOffset = (_width - textWidth) / 2;
+    int yOffset = (_height - textHeight) / 2;
+    setPosition(_x + xOffset, _y + yOffset);
+}

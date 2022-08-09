@@ -21,6 +21,7 @@ public:
     void setText(std::string _text);
     void setFont(std::string _font);
     void setPixelHeight(unsigned int _pixelHeight);
+    void center(int _x, int _y, int _width, int _height);
 };
 
 #endif // !TEXT_H

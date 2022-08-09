@@ -8,7 +8,7 @@ endif()
 
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
-add_executable(${PROJECT_NAME} Main.cpp)
+add_executable(${PROJECT_NAME} Main.cpp "UI/Button.h" "UI/Button.cpp")
 
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
@@ -94,6 +94,11 @@ add_subdirectory(Engine)
 list(APPEND EXTRA_LIB_DIRS "Engine")
 list(APPEND EXTRA_INCLUDE_DIRS "Engine")
 list(APPEND EXTRA_LINK_DIRS engine)
+
+add_subdirectory(UI)
+list(APPEND EXTRA_LIB_DIRS "UI")
+list(APPEND EXTRA_INCLUDE_DIRS "UI")
+list(APPEND EXTRA_LINK_DIRS ui)
 
 add_subdirectory(App)
 list(APPEND EXTRA_LIB_DIRS "App")
