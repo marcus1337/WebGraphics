@@ -3,6 +3,5 @@ build2/
 .vscode
 .vs
 AniLib.*
-index.html
 CMakePresets.json
 
