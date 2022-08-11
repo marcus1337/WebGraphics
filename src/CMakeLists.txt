@@ -10,54 +10,40 @@ project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
 add_executable(${PROJECT_NAME} Main.cpp "UI/Button.h" "UI/Button.cpp")
 
+add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glm" "${CMAKE_CURRENT_BINARY_DIR}/external/glm")
+list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
+list(APPEND EXTRA_LINK_DIRS glm)
+
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind --embed-file res -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument")
 endif(EMSCRIPTEN)
 
-if(UNIX)
-    if(NOT EMSCRIPTEN)
-        message(STATUS "GCC detected, adding compile flags")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=invalid-offsetof -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder -lstdc++fs -std=c++2a -lfreetype")
-        set(CMAKE_CXX_FLAGS_DEBUG "-g")
-        set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
-
-        FIND_PACKAGE(OpenGL REQUIRED)
-        list(APPEND EXTRA_LINK_DIRS ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} OpenGL::GL)
-
-        find_package(GLEW REQUIRED)
-        list(APPEND EXTRA_INCLUDE_DIRS ${GLEW_INCLUDE_DIRS})
-        list(APPEND EXTRA_LINK_DIRS ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
-
-        find_package(Freetype REQUIRED)
-        list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
-        list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
-        include_directories (/usr/include/freetype2)
-
-        #include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
-    endif(NOT EMSCRIPTEN)
-
-endif(UNIX)
-
-add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glm" "${CMAKE_CURRENT_BINARY_DIR}/external/glm")
-list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
-list(APPEND EXTRA_LINK_DIRS glm)
-
-
-if(NOT EMSCRIPTEN AND WIN32)
-    find_package(OpenGL REQUIRED)
+if(NOT EMSCRIPTEN)
+    FIND_PACKAGE(OpenGL REQUIRED)
     list(APPEND EXTRA_LINK_DIRS ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} OpenGL::GL)
 
     find_package(GLEW REQUIRED)
     list(APPEND EXTRA_INCLUDE_DIRS ${GLEW_INCLUDE_DIRS})
     list(APPEND EXTRA_LINK_DIRS ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
-    find_package(glfw3 REQUIRED)
-    list(APPEND EXTRA_LINK_DIRS glfw)
-
     find_package(Freetype REQUIRED)
     list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
     list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
+endif()
+
+if(NOT EMSCRIPTEN AND UNIX)
+    message(STATUS "GCC detected, adding compile flags")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=invalid-offsetof -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder -lstdc++fs -std=c++2a -lfreetype")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+
+    include_directories (/usr/include/freetype2)
+endif()
+
+if(NOT EMSCRIPTEN AND WIN32)
+    find_package(glfw3 REQUIRED)
+    list(APPEND EXTRA_LINK_DIRS glfw)
 
     include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 endif()
