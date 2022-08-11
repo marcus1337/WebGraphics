@@ -40,6 +40,12 @@ if(NOT EMSCRIPTEN)
     include_directories(${FREETYPE_INCLUDE_DIRS})
 endif()
 
+if(WIN32)
+    find_package(LUA 5.4 REQUIRED)
+    list(APPEND EXTRA_INCLUDE_DIRS ${LUA_INCLUDE_DIRS})
+    list(APPEND EXTRA_LINK_DIRS ${LUA_LIBRARIES})
+endif()
+
 if(NOT EMSCRIPTEN AND UNIX)
     message(STATUS "GCC detected, adding compile flags")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=invalid-offsetof -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder -lstdc++fs -std=c++2a -lfreetype")
