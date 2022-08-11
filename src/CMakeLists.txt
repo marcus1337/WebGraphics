@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.17.4)
 
 if(NOT EMSCRIPTEN AND WIN32)
-    #set(CMAKE_CXX_COMPILER 20)
-    #set(VCPKG_TARGET_TRIPLET x64-windows)
-    include("C:/Users/Maccc/Documents/Coding/vcpkg/scripts/buildsystems/vcpkg.cmake")
+    set(VCPKG_PATH "C:/Users/Maccc/Documents/Coding/vcpkg/scripts/buildsystems")
+    include("${VCPKG_PATH}/vcpkg.cmake")
 endif()
 
 project(AniLib)
