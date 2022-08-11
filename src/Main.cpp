@@ -20,15 +20,15 @@
     }
 #endif
 
-extern "C" {
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
+#include <sol/sol.hpp>
 
 int main(int argc, char *argv[]){
-    lua_State* L = luaL_newstate();
-    lua_close(L);
+    sol::state lua;
+    int x = 0;
+    lua.set_function("beep", [&x]{ ++x; });
+    lua.script("beep()");
+    std::cout << "X: " << x << "\n";
+
     #ifdef EMSCRIPTEN
         emscripten_set_main_loop(update, 20, 1);
     #else

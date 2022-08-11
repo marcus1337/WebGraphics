@@ -41,6 +41,7 @@ if(NOT EMSCRIPTEN)
     list(APPEND EXTRA_LINK_DIRS ${GLUT_LIBRARIES})
 
     include_directories(${FREETYPE_INCLUDE_DIRS})
+    list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
 endif()
 
 if(WIN32)
