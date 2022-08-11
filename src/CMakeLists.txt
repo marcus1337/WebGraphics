@@ -8,7 +8,7 @@ endif()
 
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
-add_executable(${PROJECT_NAME} Main.cpp "UI/Button.h" "UI/Button.cpp")
+add_executable(${PROJECT_NAME} Main.cpp)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glm" "${CMAKE_CURRENT_BINARY_DIR}/external/glm")
 list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
@@ -30,6 +30,10 @@ if(NOT EMSCRIPTEN)
     find_package(Freetype REQUIRED)
     list(APPEND EXTRA_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
     list(APPEND EXTRA_LINK_DIRS ${FREETYPE_LIBRARIES})
+
+    find_package(glfw3 REQUIRED)
+    list(APPEND EXTRA_LINK_DIRS glfw)
+    include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLUT_LIBRARIES})
 endif()
 
 if(NOT EMSCRIPTEN AND UNIX)
@@ -37,19 +41,10 @@ if(NOT EMSCRIPTEN AND UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=invalid-offsetof -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder -lstdc++fs -std=c++2a -lfreetype")
     set(CMAKE_CXX_FLAGS_DEBUG "-g")
     set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
-
     include_directories (/usr/include/freetype2)
 endif()
 
-if(NOT EMSCRIPTEN AND WIN32)
-    find_package(glfw3 REQUIRED)
-    list(APPEND EXTRA_LINK_DIRS glfw)
-
-    include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
-endif()
-
 include_directories("${PROJECT_SOURCE_DIR}")
-include_directories(include)
 
 add_subdirectory(Utility)
 list(APPEND EXTRA_LIB_DIRS "Utility")
