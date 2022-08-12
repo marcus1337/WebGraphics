@@ -6,6 +6,7 @@
 
 FileChecker::FileChecker(std::string _filePath) : filePath(_filePath) {
     setUnchanged();
+    std::cout << "FileChecker() " << filePath << "\n";
 }
 
 bool FileChecker::isChanged() {

@@ -2,7 +2,7 @@
 #include <IO/Files/FolderPaths.h>
 #include <iostream>
 
-UIScript::UIScript(std::string _scriptFileName) : scriptFileName(_scriptFileName)
+UIScript::UIScript(std::string _scriptFileName) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath())
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
     load();
@@ -39,5 +39,10 @@ void UIScript::render()
 
 void UIScript::update()
 {
+    if (fileChecker.isChanged()) {
+        fileChecker.setUnchanged();
+        load();
+        std::cout << "Script was edited.\n";
+    }
     // script();
 }
