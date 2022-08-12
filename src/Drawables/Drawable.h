@@ -15,6 +15,12 @@ protected:
     Engine& engine;
     Graphics& graphics;
     Mouse& mouse;
+
+    //Delete copy constructor and assignment operator for now as I might not need them and including them requires extra work and code.
+    //There is also a "cost of carry" for having extra code for this.
+    Drawable& operator=(const Drawable&) = delete;
+    Drawable() = delete;
+    Drawable(const Drawable&) = delete;
 public:
     Shader* shader = nullptr;
     Drawable(Engine& _engine);
