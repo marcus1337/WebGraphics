@@ -1,3 +1,8 @@
 add_library(ui Button.h Button.cpp UIScript.h UIScript.cpp)
 
-target_link_libraries(ui graphics drawables engine lua dl )
+set(LINUX_EXTRA_LIBS "")
+if(UNIX)
+	set(LINUX_EXTRA_LIBS "dl")
+endif()
+
+target_link_libraries(ui graphics drawables engine lua ${LINUX_EXTRA_LIBS} )
