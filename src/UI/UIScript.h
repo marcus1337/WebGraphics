@@ -10,6 +10,9 @@ class UIScript
 {
     sol::state lua;
     sol::load_result script;
+    sol::function scriptInit;
+    sol::function scriptUpdate;
+
     std::string scriptFileName;
     std::string getScriptFilePath();
     void load();

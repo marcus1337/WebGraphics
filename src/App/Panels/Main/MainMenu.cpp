@@ -28,6 +28,7 @@ void MainMenu::render() {
     backgroundImage.render();
     view.render();
     btn.render();
+    uiScript.render();
 }
 
 void MainMenu::onQuit() {
