@@ -1,10 +1,10 @@
 #include "Drawable.h"
 
-Drawable::Drawable(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse)
+Drawable::Drawable(Engine& _engine, Shader& _shader) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse), shader(&_shader)
 {};
 
 Drawable::~Drawable() {
-    delete shader;
+
 }
 
 void Drawable::setPosition(int _x, int _y) {

@@ -1,12 +1,10 @@
 #include "View.h"
 
-View::View(Engine& _engine, int _pixelWidth, int _pixelHeight) : Drawable(_engine),
+View::View(Engine& _engine, int _pixelWidth, int _pixelHeight) : Drawable(_engine, frameBuffer.shader),
     frameBuffer(engine.graphics.glData, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
-    shader = &frameBuffer.shader;
 }
 
 View::~View() {
-    shader = nullptr;
 }
 
 void View::clear() {
@@ -22,7 +20,10 @@ void View::paint(Drawable& drawable) {
 }
 
 void View::render() {
-    graphics.imageObject.draw(*shader);
+    graphics.imageObject.draw(frameBuffer.shader);
 }
 
+ImageShader& View::getShaderRef() {
+    return frameBuffer.shader;
+}
 

@@ -1,15 +1,15 @@
 #include "Text.h"
 #include "Graphics/Shaders/TextShader.h"
 
-Text::Text(Engine& _engine) : Drawable(_engine) {
-    shader = new TextShader(graphics.glData.getProgram("text"));
+Text::Text(Engine& _engine) : Drawable(_engine, textShader) {
+    textShader.setProgram(graphics.glData.getProgram("text"));
 }
 
 void Text::render() {
     graphics.textObject.setFont(font);
     graphics.textObject.setText(text);
     graphics.textObject.setTextPixelHeight(pixelHeight);
-    graphics.textObject.draw(*shader);
+    graphics.textObject.draw(textShader);
 }
 
 unsigned int Text::getPixelWidth() {

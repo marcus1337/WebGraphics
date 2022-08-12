@@ -1,8 +1,8 @@
 #include "Button.h"
 
 Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), view(_engine, 200, 100) {
-    Image img(engine);
-    ((ImageShader*)img.shader)->setTexture(graphics.glData.getTexture("button1.png"));
+    Image img(engine, "button1.png");
+
     img.setSize(200, 100);
     view.paint(img);
     Text text(engine);
@@ -15,7 +15,7 @@ Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), v
 
 void Button::render() {
     shaderTimer.updateEffectInterpolation();
-    ((ImageShader*)view.shader)->effect = shaderTimer.effectInterpolation;
+    view.getShaderRef().effect = shaderTimer.effectInterpolation;
     view.render();
 }
 

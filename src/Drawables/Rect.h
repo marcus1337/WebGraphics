@@ -6,7 +6,7 @@
 #define RECT_H
 
 class Rect : public Drawable {
-
+    ImageShader imageShader;
 public:
     Rect(Engine& _engine);
     virtual void render() override;

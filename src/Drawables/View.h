@@ -18,6 +18,7 @@ public:
     ~View();
     void clear();
     void paint(Drawable& drawable);
+    ImageShader& getShaderRef();
     virtual void render() override;
 
 };

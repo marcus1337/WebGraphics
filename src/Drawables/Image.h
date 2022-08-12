@@ -7,8 +7,9 @@
 #define IMAGE_H
 
 class Image : public Drawable {
+    ImageShader imageShader;
 public:
-    Image(Engine& _engine);
+    Image(Engine& _engine, std::string _texture);
     virtual void render() override;
 
 };

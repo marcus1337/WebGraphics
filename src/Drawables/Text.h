@@ -11,6 +11,7 @@ class Text : public Drawable {
     std::string text = "_text_";
     std::string font = "Roboto-Regular";
     unsigned int pixelHeight = 60;
+    TextShader textShader;
 
 public:
 
