@@ -19,6 +19,7 @@ if(EMSCRIPTEN)
     list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
     list(APPEND EXTRA_LIB_DIRS "../external/lib/emscripten")
     list(APPEND EXTRA_LINK_DIRS lua)
+    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
 endif(EMSCRIPTEN)
 
 if(NOT EMSCRIPTEN)
@@ -42,6 +43,7 @@ if(NOT EMSCRIPTEN)
 
     include_directories(${FREETYPE_INCLUDE_DIRS})
     list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
+    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
 endif()
 
 if(WIN32)
@@ -60,6 +62,7 @@ if(NOT EMSCRIPTEN AND UNIX)
     list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
     list(APPEND EXTRA_LIB_DIRS "../external/lib/linux")
     list(APPEND EXTRA_LINK_DIRS lua)
+    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
 endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")

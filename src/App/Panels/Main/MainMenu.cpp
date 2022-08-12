@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include <iostream>
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), view(_engine, 500,500), btn(_engine) {
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), view(_engine, 500,500), btn(_engine), uiScript("main_menu") {
     backgroundImage.setSize(500, 500);
     view.paint(backgroundImage);
     Text text(_engine);
@@ -21,6 +21,7 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine), 
 
 void MainMenu::update() {
     btn.update();
+    uiScript.update();
 }
 
 void MainMenu::render() {

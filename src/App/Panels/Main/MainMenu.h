@@ -9,6 +9,7 @@
 #include <vector>
 #include "App/Panels/Panel.h"
 #include <UI/Button.h>
+#include <UI/UIScript.h>
 
 #ifndef MAINMENU_H
 #define MAINMENU_H
@@ -17,6 +18,7 @@ class MainMenu : public Panel {
     Image backgroundImage;
     View view;
     Button btn;
+    UIScript uiScript;
     void onQuit();
     virtual void onEnter() override;
 public:

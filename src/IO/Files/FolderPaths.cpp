@@ -62,3 +62,11 @@ std::string FolderPaths::getLogsPath() {
     return std::filesystem::current_path().string() + "//res//logs//";
 #endif
 }
+
+std::string FolderPaths::getScriptsPath(){
+#ifdef EMSCRIPTEN
+    return "./res/scripts/";
+#else
+    return std::filesystem::current_path().string() + "//res//scripts//";
+#endif
+}
