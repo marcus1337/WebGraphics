@@ -18,6 +18,9 @@ class UIScript
     std::string getScriptFilePath();
     bool loaded = false;
     bool load();
+    void printError(sol::protected_function_result& result);
+    void printError(sol::load_result& result);
+    sol::protected_function_result testScriptValidity();
 
 public:
     UIScript(std::string _scriptFileName);

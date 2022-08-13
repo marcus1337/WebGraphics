@@ -17,22 +17,40 @@ bool UIScript::load()
     script = lua.load_file(getScriptFilePath());
     if (!script.valid())
     {
-        sol::error err = script;
-        std::string what = err.what();
-        std::cout << "Error loading script: " << what << "\n";
+        printError(script);
         return false;
     }
-    sol::protected_function_result result = script();
+    sol::protected_function_result result = testScriptValidity();
     if (!result.valid()) {
-        sol::error err = result;
-        sol::call_status status = result.status();
-        std::cout << "Error script-runtime: " << sol::to_string(status) << " error" << "\n\t" << err.what() << std::endl;
+        printError(result);
         return false;
     }
-
-    lua["init"]();
-    scriptUpdate = lua["update"];
     return true;
+}
+
+sol::protected_function_result UIScript::testScriptValidity() {
+    sol::protected_function_result result = script();
+    if (!result.valid())
+        return result;
+    result = lua["init"]();
+    if (!result.valid())
+        return result;
+    result = lua["update"]();
+    if (!result.valid())
+        return result;
+    return result;
+}
+
+void UIScript::printError(sol::protected_function_result& result) {
+    sol::error err = result;
+    sol::call_status status = result.status();
+    std::cout << "Error script-runtime: " << sol::to_string(status) << " error" << "\n\t" << err.what() << std::endl;
+}
+
+void UIScript::printError(sol::load_result& result) {
+    sol::error err = script;
+    std::string what = err.what();
+    std::cout << "Error loading script: " << what << "\n";
 }
 
 std::string UIScript::getScriptFilePath()
