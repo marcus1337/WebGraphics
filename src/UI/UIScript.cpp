@@ -93,8 +93,20 @@ void UIScript::update()
 }
 
 void UIScript::setUserTypes() {
+    lua.new_usertype<glm::vec3>("vec3", 
+        sol::constructors<glm::vec3(), glm::vec3(float), glm::vec3(float, float, float)>(),
+        sol::call_constructor, [](float _x, float _y, float _z) {return glm::vec3(_x,_y,_z); });
     lua.new_usertype<Drawable>("Drawable",
         "setSize", &Drawable::setSize,
+        "setColor", &Drawable::setColor,
+        "setAlpha", &Drawable::setAlpha,
+        "setRotation", &Drawable::setRotation,
+        "setViewProjectionMatrix", &Drawable::setViewProjectionMatrix,
+        "getX", &Drawable::getX,
+        "getY", &Drawable::getY,
+        "getWidth", &Drawable::getWidth,
+        "getHeight", &Drawable::getHeight,
+        "setShaderProgram", &Drawable::setShaderProgram,
         "render", &Drawable::render);
 
     auto imgFactory = sol::factories([&engine = engine]() {
