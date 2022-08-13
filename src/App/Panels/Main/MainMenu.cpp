@@ -1,11 +1,11 @@
 #include "MainMenu.h"
 #include <iostream>
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine, "background1.png"), view(_engine, 500, 500), btn(_engine), uiScript("main_menu") {
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine, "background1.png"), view(_engine, 500, 500), btn(_engine), uiScript("main_menu", _engine) {
     backgroundImage.setSize(500, 500);
     view.paint(backgroundImage);
     Text text(_engine);
-    text.setText("eyyy");
+    text.setText("eyyy2");
     text.setPosition(50, 250);
     text.setSize(1, 1);
     text.setPixelHeight(60);

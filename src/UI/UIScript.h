@@ -9,9 +9,12 @@
 
 class UIScript
 {
+    Engine& engine;
+    Graphics& graphics;
+
     sol::state lua;
     sol::load_result script;
-    sol::function scriptUpdate;
+    sol::function scriptUpdate, scriptRender;
 
     std::string scriptFileName;
     FileChecker fileChecker;
@@ -21,9 +24,10 @@ class UIScript
     void printError(sol::protected_function_result& result);
     void printError(sol::load_result& result);
     sol::protected_function_result testScriptValidity();
+    void setUserTypes();
 
 public:
-    UIScript(std::string _scriptFileName);
+    UIScript(std::string _scriptFileName, Engine& _engine);
     ~UIScript();
     void render();
     void update();

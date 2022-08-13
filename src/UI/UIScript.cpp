@@ -2,10 +2,36 @@
 #include <IO/Files/FolderPaths.h>
 #include <iostream>
 
-UIScript::UIScript(std::string _scriptFileName) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath())
+#include <Drawables/Drawable.h>
+#include <Drawables/Image.h>
+#include <Drawables/Text.h>
+#include <Drawables/View.h>
+#include <Drawables/Rect.h>
+#include <memory>
+
+
+UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath()), engine(_engine), graphics(_engine.graphics)
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
+    setUserTypes();
     loaded = load();
+}
+
+void UIScript::setUserTypes() {
+    lua.new_usertype<Drawable>("Drawable",
+        "setSize", &Drawable::setSize,
+        "render", &Drawable::render);
+    auto imgFactory = sol::factories([&engine = engine]() {
+        std::unique_ptr<Image> img = std::make_unique<Image>(engine, "background2.png");
+        img->setSize(300, 150);
+        img->setPosition(500, 500);
+        return img;
+        });
+    lua.new_usertype<Image>("Image",
+        sol::meta_function::construct, imgFactory,
+        sol::call_constructor, imgFactory,
+        "setPosition", &Drawable::setPosition,
+        sol::base_classes, sol::bases<Drawable>());
 }
 
 UIScript::~UIScript()
@@ -25,6 +51,8 @@ bool UIScript::load()
         printError(result);
         return false;
     }
+    scriptUpdate = lua["update"];
+    scriptRender = lua["render"];
     return true;
 }
 
@@ -36,6 +64,9 @@ sol::protected_function_result UIScript::testScriptValidity() {
     if (!result.valid())
         return result;
     result = lua["update"]();
+    if (!result.valid())
+        return result;
+    result = lua["render"]();
     if (!result.valid())
         return result;
     return result;
@@ -61,7 +92,7 @@ std::string UIScript::getScriptFilePath()
 void UIScript::render()
 {
     if (loaded) {
-        // script();
+        scriptRender();
     }
 }
 
@@ -73,6 +104,6 @@ void UIScript::update()
         std::cout << "Script was edited.\n";
     }
     if (loaded) {
-        // script();
+        scriptUpdate();
     }
 }
