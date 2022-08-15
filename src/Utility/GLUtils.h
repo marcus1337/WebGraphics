@@ -10,8 +10,8 @@
 #define GLUTILS_H
 
 namespace GLUtils {
-    void showShaderInfoLog(GLuint shader);
-    void showProgramInfoLog(GLuint program);
+    void printCompileError(GLuint shader);
+    void printLinkError(GLuint program);
     bool wasShaderCompiled(GLuint shader);
     GLuint linkProgram(std::vector<GLuint> shaders);
     GLuint compileShader(const ShaderCode& shaderInfo);

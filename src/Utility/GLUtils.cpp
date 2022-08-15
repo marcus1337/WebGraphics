@@ -2,8 +2,9 @@
 #include "GLUtils.h"
 
 
-void GLUtils::showShaderInfoLog(GLuint shader)
+void GLUtils::printCompileError(GLuint shader)
 {
+    std::cerr << "Shader compilation failed, " << shader << std::endl;
     GLint infoLogLength = 0;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
     std::vector<char> infoLog(infoLogLength);
@@ -12,8 +13,9 @@ void GLUtils::showShaderInfoLog(GLuint shader)
     std::cerr << infoLogStr << std::endl;
 }
 
-void GLUtils::showProgramInfoLog(GLuint program)
+void GLUtils::printLinkError(GLuint program)
 {
+    std::cerr << "Program linking failed, " << program << std::endl;
     GLint infoLogLength = 0;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
     std::vector<char> infoLog(infoLogLength);
@@ -26,32 +28,17 @@ bool GLUtils::wasShaderCompiled(GLuint shader)
 {
     GLint compiled = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-    if (!compiled)
-    {
-        std::clog << "Shader compilation failed, " << shader << std::endl;
-        showShaderInfoLog(shader);
-    }
     return compiled != 0;
 }
 
 GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
 {
     GLuint program = glCreateProgram();
-
     for (GLuint shader : shaders)
-    {
         glAttachShader(program, shader);
-    }
     glLinkProgram(program);
-
     GLint linked = 0;
     glGetProgramiv(program, GL_LINK_STATUS, &linked);
-    if (!linked)
-    {
-        std::cerr << "Program linking failed, " << program << std::endl;
-        showProgramInfoLog(program);
-        glDeleteProgram(program);
-    }
 
     for (GLuint shader : shaders)
     {
@@ -60,8 +47,11 @@ GLuint GLUtils::linkProgram(std::vector<GLuint> shaders)
     }
 
     if (!linked)
+    {
+        printLinkError(program);
+        glDeleteProgram(program);
         return 0;
-
+    }
     return program;
 }
 
@@ -82,10 +72,10 @@ std::vector<GLuint> GLUtils::compileShaders(std::vector<ShaderCode>& shaderInfos
     {
         GLuint shader = compileShader(shaderInfos[i]);
         shaders.push_back(shader);
-
         if (!wasShaderCompiled(shader))
         {
-            for(GLuint tmpShader : shaders)
+            printCompileError(shader);
+            for (GLuint tmpShader : shaders)
                 glDeleteShader(shader);
             return std::vector<GLuint>();
         }
@@ -96,7 +86,7 @@ std::vector<GLuint> GLUtils::compileShaders(std::vector<ShaderCode>& shaderInfos
 GLuint GLUtils::loadShaderProgram(std::vector<ShaderCode>& shaderInfos)
 {
     std::vector<GLuint> shaders = compileShaders(shaderInfos);
-    if(shaders.empty())
+    if (shaders.empty())
         return 0;
     return linkProgram(shaders);
 }
@@ -112,7 +102,7 @@ GLuint GLUtils::load2DTexture(const TextureData& textureData)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureData.width, textureData.height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, &(textureData.data[0]));
+        GL_UNSIGNED_BYTE, &(textureData.data[0]));
     glBindTexture(GL_TEXTURE_2D, 0);
     return texture;
 }
