@@ -3,6 +3,7 @@
 #include <Engine/Engine.h>
 #include <Engine/Graphics.h>
 #include <IO/Files/FileChecker.h>
+#include "UIScriptTypes.h"
 
 #ifndef UISCRIPT_H
 #define UISCRIPT_H
@@ -12,6 +13,7 @@ class UIScript
     Engine& engine;
     Graphics& graphics;
 
+    UIScriptTypes scriptTypes;
     sol::state lua;
     sol::load_result script;
     sol::function scriptUpdate, scriptRender;
@@ -24,7 +26,6 @@ class UIScript
     void printError(sol::protected_function_result& result);
     void printError(sol::load_result& result);
     sol::protected_function_result testScriptValidity();
-    void setUserTypes();
 
 public:
     UIScript(std::string _scriptFileName, Engine& _engine);

@@ -1,4 +1,4 @@
-add_library(ui Button.h Button.cpp UIScript.h UIScript.cpp)
+add_library(ui Button.h Button.cpp UIScript.h UIScript.cpp "UIScriptTypes.h" "UIScriptTypes.cpp")
 
 set(LINUX_EXTRA_LIBS "")
 if(UNIX)
