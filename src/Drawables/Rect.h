@@ -6,6 +6,7 @@
 #define RECT_H
 
 class Rect : public Drawable {
+protected:
     ImageShader imageShader;
 public:
     Rect(Engine& _engine);
