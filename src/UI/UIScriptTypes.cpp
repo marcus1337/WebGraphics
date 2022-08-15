@@ -32,6 +32,7 @@ void UIScriptTypes::addVec() {
 void UIScriptTypes::addDrawable() {
     lua.new_usertype<Drawable>("Drawable",
         "setPosition", &Drawable::setPosition,
+        "setEffect", &Drawable::setEffect,
         "setSize", &Drawable::setSize,
         "setColor", &Drawable::setColor,
         "setAlpha", &Drawable::setAlpha,
@@ -94,7 +95,6 @@ void UIScriptTypes::addView() {
         sol::call_constructor, viewFactory,
         "clear", &View::clear,
         "paint", &View::paint,
-        //getImage()?
         sol::base_classes, sol::bases<Drawable>());
 }
 void UIScriptTypes::addRect() {

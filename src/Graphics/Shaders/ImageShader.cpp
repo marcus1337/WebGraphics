@@ -8,10 +8,8 @@ ImageShader::ImageShader(GLData& _glData) : Shader(_glData, "image"), defaultCol
 void ImageShader::setCustomUniforms() {
     glUniform3fv(glGetUniformLocation(programID, "defaultColor"), 1, &defaultColor[0]);
     glUniform1f(glGetUniformLocation(programID, "image"), image ? 1.0f : 0.0f);
-    //glUniform1f(glGetUniformLocation(programID, "normal"), normal ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "grayscale"), grayscale ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "darken"), darken ? 1.0f : 0.0f);
-    glUniform1f(glGetUniformLocation(programID, "effect"), effect);
     glUniform2fv(glGetUniformLocation(programID, "mouse"), 1, &mouse[0]);
     setClippingUniforms();
     setTextureUniforms();
@@ -52,12 +50,5 @@ void ImageShader::setTextureUniforms()
     glUniform1i(mTex1Handle0, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
-    /*if (normal)
-    {
-        GLuint mTex1Handle1 = glGetUniformLocation(programID, "normalMap");
-        glUniform1i(mTex1Handle1, 1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, normalID);
-    }*/
 }
 

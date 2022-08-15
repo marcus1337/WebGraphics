@@ -23,7 +23,3 @@ void View::render() {
     graphics.imageObject.draw(frameBuffer.shader);
 }
 
-ImageShader& View::getShaderRef() {
-    return frameBuffer.shader;
-}
-

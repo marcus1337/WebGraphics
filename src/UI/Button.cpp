@@ -15,7 +15,7 @@ Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), v
 
 void Button::render() {
     shaderTimer.updateEffectInterpolation();
-    view.getShaderRef().effect = shaderTimer.effectInterpolation;
+    view.setEffect(shaderTimer.effectInterpolation);
     view.render();
 }
 

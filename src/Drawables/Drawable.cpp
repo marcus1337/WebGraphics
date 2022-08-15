@@ -40,3 +40,6 @@ int Drawable::getHeight() {
 void Drawable::setShaderProgram(std::string shaderProgramName) {
     shader->setProgram(shaderProgramName);
 }
+void Drawable::setEffect(float _effect) {
+    shader->effect = _effect;
+}

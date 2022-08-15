@@ -51,6 +51,7 @@ void Shader::setUniforms() {
     setMatrixUniforms();
     setColorUniforms();
     setCustomUniforms();
+    glUniform1f(glGetUniformLocation(programID, "effect"), effect);
 }
 
 void Shader::setPosition(int _x, int _y)

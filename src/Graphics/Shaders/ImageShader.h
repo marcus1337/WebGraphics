@@ -18,8 +18,6 @@ public:
     ImageShader(GLData& _glData);
 
     glm::vec3 defaultColor;
-    float effect = 0.0f;
-    //bool normal = false;
     bool image = true;
     bool grayscale = false;
     bool darken = false;

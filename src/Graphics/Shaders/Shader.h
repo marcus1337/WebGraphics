@@ -37,6 +37,7 @@ public:
     float rotation = 0.0f;
     float alpha = 1.0f;
     bool mirror = false;
+    float effect = 0.0f;
 
     Shader(GLData& _glData, std::string programName);
     virtual ~Shader();
