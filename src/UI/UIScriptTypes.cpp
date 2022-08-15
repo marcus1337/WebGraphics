@@ -86,7 +86,16 @@ void UIScriptTypes::addText() {
         sol::base_classes, sol::bases<Drawable>());
 }
 void UIScriptTypes::addView() {
-
+    auto viewFactory = sol::factories([&engine = engine](int _width, int _height) {
+        std::unique_ptr<View> view = std::make_unique<View>(engine, _width, _height);
+        return view;});
+    lua.new_usertype<View>("View",
+        sol::meta_function::construct, viewFactory,
+        sol::call_constructor, viewFactory,
+        "clear", &View::clear,
+        "paint", &View::paint,
+        //getImage()?
+        sol::base_classes, sol::bases<Drawable>());
 }
 void UIScriptTypes::addRect() {
     auto rectFactory = sol::factories([&engine = engine]() {
