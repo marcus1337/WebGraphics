@@ -17,10 +17,10 @@ public:
 
     ImageShader(GLuint _programID = 0);
 
-    glm::vec3 singleColor;
+    glm::vec3 defaultColor;
     float effect = 0.0f;
-    bool isNormalUsed = false;
-    bool isSingleColor = false;
+    //bool normal = false;
+    bool image = true;
     bool grayscale = false;
     bool darken = false;
     glm::vec2 mouse = {0.0f,0.0f};

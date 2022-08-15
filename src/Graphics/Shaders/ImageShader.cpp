@@ -1,14 +1,14 @@
 #include "ImageShader.h"
 
-ImageShader::ImageShader(GLuint _programID) : Shader(_programID), singleColor({}), normalID(0), textureID(0) {
+ImageShader::ImageShader(GLuint _programID) : Shader(_programID), defaultColor({}), normalID(0), textureID(0) {
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
 }
 
 void ImageShader::setCustomUniforms() {
-    glUniform3fv(glGetUniformLocation(programID, "singleColor"), 1, &singleColor[0]);
-    glUniform1f(glGetUniformLocation(programID, "isSingleColor"), isSingleColor ? 1.0f : 0.0f);
-    glUniform1f(glGetUniformLocation(programID, "usingNormalMap"), isNormalUsed ? 1.0f : 0.0f);
+    glUniform3fv(glGetUniformLocation(programID, "defaultColor"), 1, &defaultColor[0]);
+    glUniform1f(glGetUniformLocation(programID, "image"), image ? 1.0f : 0.0f);
+    //glUniform1f(glGetUniformLocation(programID, "normal"), normal ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "grayscale"), grayscale ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "darken"), darken ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "effect"), effect);
@@ -45,12 +45,12 @@ void ImageShader::setTextureUniforms()
     glUniform1i(mTex1Handle0, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
-    if (isNormalUsed)
+    /*if (normal)
     {
         GLuint mTex1Handle1 = glGetUniformLocation(programID, "normalMap");
         glUniform1i(mTex1Handle1, 1);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalID);
-    }
+    }*/
 }
 

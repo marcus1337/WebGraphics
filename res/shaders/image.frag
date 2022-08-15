@@ -10,9 +10,9 @@ uniform sampler2D normalMap;
 uniform vec2 inTexCoord;
 uniform vec2 textureSize;
 uniform float alpha;
-uniform float isSingleColor;
+uniform float image;
 uniform vec3 color;
-uniform vec3 singleColor;
+uniform vec3 defaultColor;
 uniform float grayscale;
 uniform float darken;
 
@@ -33,8 +33,8 @@ void main(){
         discard;
     frag_color.a = min(alpha, frag_color.a);
 
-    if(isSingleColor == 1.0){
-        frag_color = vec4(singleColor, 1.0);
+    if(image == 0.0){
+        frag_color = vec4(defaultColor, 1.0);
     }else if(grayscale == 1.0){
         vec3 gray = greyscaleify(frag_color.xyz, 1.0);
         frag_color = vec4(gray, alpha);
