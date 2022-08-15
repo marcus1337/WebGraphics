@@ -1,6 +1,6 @@
 #include "ImageShader.h"
 
-ImageShader::ImageShader(GLuint _programID) : Shader(_programID), defaultColor({}), normalID(0), textureID(0) {
+ImageShader::ImageShader(GLData& _glData) : Shader(_glData, "image"), defaultColor({}), normalID(0), textureID(0) {
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
 }
@@ -25,6 +25,13 @@ void ImageShader::setTexture(GLuint _textureID)
 void ImageShader::setNormal(GLuint _textureID)
 {
     normalID = _textureID;
+}
+
+void ImageShader::setTexture(std::string textureName) {
+    setTexture(glData.getTexture(textureName));
+}
+void ImageShader::setNormal(std::string normalName) {
+    setNormal(glData.getTexture(normalName));
 }
 
 void ImageShader::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner)

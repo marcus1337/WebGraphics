@@ -2,14 +2,19 @@
 #include <iostream>
 #include "Graphics/Camera.h"
 
-Shader::Shader(GLuint _programID) : programID(_programID), P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}) {
+Shader::Shader(GLData& _glData, std::string programName) : programID(0), P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), glData(_glData) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
+    setProgram(programName);
     setViewProjectionMatrix(screenWidth, screenHeight);
 }
 
 Shader::~Shader() {
 
+}
+
+void Shader::setProgram(std::string programName) {
+    setProgram(glData.getProgram(programName));
 }
 
 void Shader::setScale(int _width, int _height) {

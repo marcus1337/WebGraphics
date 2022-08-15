@@ -7,7 +7,7 @@
 class TextShader : public Shader {
     virtual void setCustomUniforms() override;
 public:
-    TextShader(GLuint _programID = 0);
+    TextShader(GLData& _glData);
 };
 
 #endif // !TEXTSHADER_H

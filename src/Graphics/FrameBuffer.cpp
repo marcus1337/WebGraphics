@@ -1,7 +1,7 @@
 #include "FrameBuffer.h"
 #include <iostream>
 
-FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width), height(_height)
+FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width), height(_height), shader(glData)
 {
     glGenFramebuffers(1, &fbo);
     glGenTextures(1, &texture);
@@ -16,7 +16,7 @@ FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    shader.setProgram(glData.getProgram("postimage"));
+    shader.setProgram("postimage");
     shader.setTexture(texture);
     shader.setScale(width, height);
     //shader.setViewProjectionMatrix(width, height);

@@ -1,7 +1,7 @@
 #include "Rect.h"
 
-Rect::Rect(Engine& _engine) : Drawable(_engine, imageShader) {
-    imageShader.setProgram(graphics.glData.getProgram("rectangle"));
+Rect::Rect(Engine& _engine) : Drawable(_engine, imageShader), imageShader(_engine.graphics.glData) {
+    imageShader.setProgram("rectangle");
 }
 
 void Rect::render() {

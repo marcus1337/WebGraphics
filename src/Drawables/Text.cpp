@@ -1,8 +1,8 @@
 #include "Text.h"
 #include "Graphics/Shaders/TextShader.h"
 
-Text::Text(Engine& _engine) : Drawable(_engine, textShader) {
-    textShader.setProgram(graphics.glData.getProgram("text"));
+Text::Text(Engine& _engine) : Drawable(_engine, textShader), textShader(_engine.graphics.glData) {
+
 }
 
 void Text::render() {

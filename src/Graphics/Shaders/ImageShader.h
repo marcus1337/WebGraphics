@@ -15,7 +15,7 @@ class ImageShader : public Shader {
 
 public:
 
-    ImageShader(GLuint _programID = 0);
+    ImageShader(GLData& _glData);
 
     glm::vec3 defaultColor;
     float effect = 0.0f;
@@ -28,6 +28,9 @@ public:
 
     void setTexture(GLuint _textureID);
     void setNormal(GLuint _textureID);
+    void setTexture(std::string textureName);
+    void setNormal(std::string normalName);
+
     void setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorner);
 };
 
