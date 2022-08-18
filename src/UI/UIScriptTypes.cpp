@@ -7,6 +7,7 @@
 #include <Drawables/View.h>
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
+#include <Drawables/Circle.h>
 #include "Button.h"
 
 UIScriptTypes::UIScriptTypes(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
@@ -23,6 +24,7 @@ void UIScriptTypes::setUserTypes() {
     addView();
     addButton();
     addLine();
+    addCircle();
 }
 
 void UIScriptTypes::addVec() {
@@ -129,3 +131,16 @@ void UIScriptTypes::addLine() {
         sol::call_constructor, lineFactory,
         sol::base_classes, sol::bases<Drawable, Rect>());
 }
+
+void UIScriptTypes::addCircle() {
+    auto circleFactory = sol::factories([&engine = engine]() {
+        std::unique_ptr<Circle> circle = std::make_unique<Circle>(engine);
+        circle->setSize(100, 100);
+        return circle;
+        });
+    lua.new_usertype<Circle>("Circle",
+        sol::meta_function::construct, circleFactory,
+        sol::call_constructor, circleFactory,
+        sol::base_classes, sol::bases<Drawable>());
+}
+

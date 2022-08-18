@@ -20,6 +20,7 @@ class UIScriptTypes {
     void addView();
     void addRect();
     void addLine();
+    void addCircle();
 
 public:
 
