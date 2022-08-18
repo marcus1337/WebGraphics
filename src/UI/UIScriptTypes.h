@@ -19,6 +19,7 @@ class UIScriptTypes {
     void addText();
     void addView();
     void addRect();
+    void addLine();
 
 public:
 

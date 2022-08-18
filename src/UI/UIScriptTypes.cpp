@@ -6,6 +6,7 @@
 #include <Drawables/Text.h>
 #include <Drawables/View.h>
 #include <Drawables/Rect.h>
+#include <Drawables/Line.h>
 #include "Button.h"
 
 UIScriptTypes::UIScriptTypes(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
@@ -21,9 +22,13 @@ void UIScriptTypes::setUserTypes() {
     addRect();
     addView();
     addButton();
+    addLine();
 }
 
 void UIScriptTypes::addVec() {
+    lua.new_usertype<glm::vec2>("vec2",
+        sol::constructors<glm::vec2(), glm::vec2(float), glm::vec2(float, float)>(),
+        sol::call_constructor, [](float _x, float _y) {return glm::vec2(_x, _y); });
     lua.new_usertype<glm::vec3>("vec3",
         sol::constructors<glm::vec3(), glm::vec3(float), glm::vec3(float, float, float)>(),
         sol::call_constructor, [](float _x, float _y, float _z) {return glm::vec3(_x, _y, _z); });
@@ -45,6 +50,7 @@ void UIScriptTypes::addDrawable() {
         "setShaderProgram", &Drawable::setShaderProgram,
         "render", &Drawable::render);
 }
+
 void UIScriptTypes::addButton() {
     auto btnFactory = sol::factories([&engine = engine]() {
         std::unique_ptr<Button> btn = std::make_unique<Button>(engine);
@@ -57,6 +63,7 @@ void UIScriptTypes::addButton() {
         "render", &Button::render,
         "onPressCallback", &Button::onPressCallback);
 }
+
 void UIScriptTypes::addImage() {
     auto imgFactory = sol::factories([&engine = engine]() {
         std::unique_ptr<Image> img = std::make_unique<Image>(engine, "background2.png");
@@ -69,6 +76,7 @@ void UIScriptTypes::addImage() {
         sol::call_constructor, imgFactory,
         sol::base_classes, sol::bases<Drawable>());
 }
+
 void UIScriptTypes::addText() {
     auto textFactory = sol::factories([&engine = engine](std::string _str) {
         std::unique_ptr<Text> text = std::make_unique<Text>(engine);
@@ -86,6 +94,7 @@ void UIScriptTypes::addText() {
         "center", &Text::center,
         sol::base_classes, sol::bases<Drawable>());
 }
+
 void UIScriptTypes::addView() {
     auto viewFactory = sol::factories([&engine = engine](int _width, int _height) {
         std::unique_ptr<View> view = std::make_unique<View>(engine, _width, _height);
@@ -97,6 +106,7 @@ void UIScriptTypes::addView() {
         "paint", &View::paint,
         sol::base_classes, sol::bases<Drawable>());
 }
+
 void UIScriptTypes::addRect() {
     auto rectFactory = sol::factories([&engine = engine]() {
         std::unique_ptr<Rect> rect = std::make_unique<Rect>(engine);
@@ -109,4 +119,13 @@ void UIScriptTypes::addRect() {
         sol::base_classes, sol::bases<Drawable>());
 }
 
-
+void UIScriptTypes::addLine() {
+    auto lineFactory = sol::factories([&engine = engine](int fromX, int fromY, int toX, int toY) {
+        std::unique_ptr<Line> line = std::make_unique<Line>(engine, fromX, fromY, toX, toY);
+        return line;
+        });
+    lua.new_usertype<Line>("Line",
+        sol::meta_function::construct, lineFactory,
+        sol::call_constructor, lineFactory,
+        sol::base_classes, sol::bases<Drawable, Rect>());
+}
