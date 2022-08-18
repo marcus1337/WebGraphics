@@ -25,6 +25,8 @@ function update()
     btn:update()
     line:setPosition(100, 800)
     circle:setPosition(200,200)
+    circle:setSize(250,250)
+    circle:setColor(vec3(0.4,0.4,0.8))
 end
 
 function render()

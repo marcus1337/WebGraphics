@@ -16,14 +16,20 @@ void main(){
         discard;
 
     vec2 uv = uv_frag * 2.0 - 1.0;
+    float fade = 0.008;
+    float thickness = 0.1;
 
     frag_color = vec4(color, alpha);
 
     float distance = 1.0 - length(uv);
-    if(distance > 0.0)
-        distance = 1.0;
+    vec3 colorIntensity = vec3(smoothstep(0.0, fade, distance));
+    vec3 ringColorIntensity = vec3(1.0);
+
+    if(thickness < 1.0)
+        ringColorIntensity = vec3(1.0 - smoothstep(thickness - fade, thickness, distance));
+    if(distance < 0.0 || length(ringColorIntensity) <= 0.0)
+        discard; 
     
-    frag_color.rgb = vec3(distance);
-    
+    frag_color.rgb = colorIntensity * ringColorIntensity * color;
 
 }
