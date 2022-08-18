@@ -24,6 +24,7 @@ function update()
     img:setSize(200,55)
     btn:update()
     line:setPosition(100, 800)
+    circle:setPosition(200,200)
 end
 
 function render()
