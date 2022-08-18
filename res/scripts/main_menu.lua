@@ -3,6 +3,7 @@ img = nil
 btn = nil
 line = nil
 circle = nil
+rect = nil
 
 function init()
     print('main_menu: init()')
@@ -12,6 +13,12 @@ function init()
     line:setColor(vec3(0.8,0.5,0.5))
     btn.onPressCallback = foo
     circle = Circle()
+    rect = Rect()
+
+    rect:setSize(600,300)
+    rect:setColor(vec3(0.6,0.5,0.2))
+    rect:setPosition(250,200)
+    rect:setThickness(0.04)
 end
 
 function foo()
@@ -27,6 +34,8 @@ function update()
     circle:setPosition(200,200)
     circle:setSize(250,250)
     circle:setColor(vec3(0.4,0.4,0.8))
+    circle:setFade(0.01)
+    circle:setThickness(0.75)
 end
 
 function render()
@@ -35,5 +44,6 @@ function render()
     --btn:render()
     --line:render()
     circle:render()
+    rect:render()
 end
 

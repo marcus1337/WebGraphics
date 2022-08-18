@@ -12,6 +12,9 @@ void ImageShader::setCustomUniforms() {
     glUniform1f(glGetUniformLocation(programID, "grayscale"), grayscale ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "darken"), darken ? 1.0f : 0.0f);
     glUniform2fv(glGetUniformLocation(programID, "mouse"), 1, &mouse[0]);
+    glUniform1f(glGetUniformLocation(programID, "fade"), fade);
+    glUniform1f(glGetUniformLocation(programID, "thickness"), thickness);
+    glUniform1f(glGetUniformLocation(programID, "aspect"), scale.x/scale.y);
     setClippingUniforms();
     setTextureUniforms();
 }

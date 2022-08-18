@@ -118,6 +118,8 @@ void UIScriptTypes::addRect() {
     lua.new_usertype<Rect>("Rect",
         sol::meta_function::construct, rectFactory,
         sol::call_constructor, rectFactory,
+        "setFade", &Rect::setFade,
+        "setThickness", &Rect::setThickness,
         sol::base_classes, sol::bases<Drawable>());
 }
 
@@ -141,6 +143,8 @@ void UIScriptTypes::addCircle() {
     lua.new_usertype<Circle>("Circle",
         sol::meta_function::construct, circleFactory,
         sol::call_constructor, circleFactory,
+        "setFade", &Circle::setFade,
+        "setThickness", &Circle::setThickness,
         sol::base_classes, sol::bases<Drawable>());
 }
 

@@ -21,6 +21,8 @@ public:
     bool image = true;
     bool grayscale = false;
     bool darken = false;
+    float fade = 0.08;
+    float thickness = 0.1f;
     glm::vec2 mouse = {0.0f,0.0f};
     glm::vec2 textureSize, textureCorner;
 

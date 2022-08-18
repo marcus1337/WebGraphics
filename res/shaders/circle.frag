@@ -7,6 +7,8 @@ in vec3 vertPos;
 
 uniform vec3 color;
 uniform float alpha;
+uniform float thickness;
+uniform float fade;
 out vec4 frag_color;
 
 
@@ -16,9 +18,6 @@ void main(){
         discard;
 
     vec2 uv = uv_frag * 2.0 - 1.0;
-    float fade = 0.008;
-    float thickness = 0.1;
-
     frag_color = vec4(color, alpha);
 
     float distance = 1.0 - length(uv);
