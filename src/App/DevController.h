@@ -17,7 +17,7 @@ class DevController {
     uint64_t mostRecentShaderEditTime;
     uint64_t getMostRecentEditTime(std::vector<std::string> paths);
     std::vector<std::string> trackedShaderFilePaths;
-    bool autoUpdateShaders = false;
+    bool autoUpdateShaders = true;
 
 public:
 

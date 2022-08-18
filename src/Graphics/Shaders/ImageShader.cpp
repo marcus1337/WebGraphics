@@ -6,6 +6,7 @@ ImageShader::ImageShader(GLData& _glData) : Shader(_glData, "image"), defaultCol
 }
 
 void ImageShader::setCustomUniforms() {
+    GLuint programID = glData.getProgram(programName);
     glUniform3fv(glGetUniformLocation(programID, "defaultColor"), 1, &defaultColor[0]);
     glUniform1f(glGetUniformLocation(programID, "image"), image ? 1.0f : 0.0f);
     glUniform1f(glGetUniformLocation(programID, "grayscale"), grayscale ? 1.0f : 0.0f);
@@ -40,12 +41,14 @@ void ImageShader::setTextureArea(glm::vec2 _textureSize, glm::vec2 _textureCorne
 
 void ImageShader::setClippingUniforms()
 {
+    GLuint programID = glData.getProgram(programName);
     glUniform2fv(glGetUniformLocation(programID, "inTexCoord"), 1, &textureCorner[0]);
     glUniform2fv(glGetUniformLocation(programID, "textureSize"), 1, &textureSize[0]);
 }
 
 void ImageShader::setTextureUniforms()
 {
+    GLuint programID = glData.getProgram(programName);
     GLuint mTex1Handle0 = glGetUniformLocation(programID, "tex");
     glUniform1i(mTex1Handle0, 0);
     glActiveTexture(GL_TEXTURE0);

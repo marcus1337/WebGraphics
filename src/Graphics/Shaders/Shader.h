@@ -19,7 +19,7 @@ protected:
     int screenWidth = 1920;
     int screenHeight = 1080;
 
-    GLuint programID;
+    std::string programName;
     glm::mat4 VP, V, P;
 
     glm::mat4 getModel();
@@ -29,7 +29,6 @@ protected:
     virtual void setCustomUniforms() = 0;
     glm::vec3 position, scale;
     void setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P);
-    void setProgram(GLuint _programID);
 
 public:
     glm::vec3 color;
@@ -42,7 +41,7 @@ public:
     Shader(GLData& _glData, std::string programName);
     virtual ~Shader();
 
-    void setProgram(std::string programName);
+    void setProgram(std::string _programName);
     void setScale(int _width, int _height);
     void setUniforms();
     void setPosition(int _x, int _y);
