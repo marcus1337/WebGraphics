@@ -10,7 +10,9 @@
 class FrameBuffer
 {
     glm::vec3 backgroundColor;
+    void setBuffers();
 public:
+    void setTextureScaleType(unsigned int scaleType);
     ImageShader shader;
     GLuint texture, fbo;
     const int width, height;
