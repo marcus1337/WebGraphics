@@ -34,6 +34,9 @@ void UIScriptTypes::addVec() {
     lua.new_usertype<glm::vec3>("vec3",
         sol::constructors<glm::vec3(), glm::vec3(float), glm::vec3(float, float, float)>(),
         sol::call_constructor, [](float _x, float _y, float _z) {return glm::vec3(_x, _y, _z); });
+    lua.new_usertype<glm::vec4>("vec4",
+        sol::constructors<glm::vec4(), glm::vec4(float), glm::vec4(float, float, float, float)>(),
+        sol::call_constructor, [](float _x, float _y, float _z, float _a) {return glm::vec4(_x, _y, _z, _a); });
 }
 
 void UIScriptTypes::addDrawable() {
@@ -100,12 +103,15 @@ void UIScriptTypes::addText() {
 void UIScriptTypes::addView() {
     auto viewFactory = sol::factories([&engine = engine](int _width, int _height) {
         std::unique_ptr<View> view = std::make_unique<View>(engine, _width, _height);
-        return view;});
+        return view; });
     lua.new_usertype<View>("View",
         sol::meta_function::construct, viewFactory,
         sol::call_constructor, viewFactory,
         "clear", &View::clear,
         "paint", &View::paint,
+        "setRenderPixelPerfect", &View::setRenderPixelPerfect,
+        "getPixel", &View::getPixel,
+        "setPixel", &View::setPixel,
         sol::base_classes, sol::bases<Drawable>());
 }
 
