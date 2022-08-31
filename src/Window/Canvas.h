@@ -19,7 +19,6 @@ class Canvas {
 
     bool initGLFW();
     GLFWwindow* window;
-    bool initWindow();
     void setIconImage();
     CanvasCallbacks canvasCallbacks;
     CanvasSettings canvasSettings;

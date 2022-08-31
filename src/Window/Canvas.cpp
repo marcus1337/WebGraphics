@@ -8,18 +8,8 @@
     #include <GL/glxew.h>
     #include <GL/glx.h>
 #endif
-
 #include "IO/Files/IOTexture.h"
 
-
-bool Canvas::initWindow() {
-    if (initGLFW() == EXIT_FAILURE) {
-        return EXIT_FAILURE;
-    }
-    SetVSync(true);
-    setIconImage();
-    return EXIT_SUCCESS;
-}
 
 void Canvas::setResizeCallbackFunction(std::function<void(void)> _function) {
     canvasCallbacks.resizeCallbackFunction = _function;
@@ -55,18 +45,17 @@ int Canvas::getHeight() {
 bool Canvas::initGLFW()
 {
     if(GLFW_TRUE != glfwInit()){
-        std::clog << "Failed to init glfw\n";
-        return EXIT_FAILURE;
+        std::cout << "Failed to init glfw\n";
+        return false;
     }
 
     setWindowHints();
     glfwSwapInterval(1);
-
-    window = glfwCreateWindow(canvasSettings.width, canvasSettings.height, "MyApp", nullptr, nullptr);
+    window = glfwCreateWindow(canvasSettings.width, canvasSettings.height, canvasSettings.appName.c_str(), nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
-        return EXIT_FAILURE;
+        return false;
     }
     
     canvasCallbacks.set(window, &mouse, &keyboard, &canvasSettings);
@@ -76,26 +65,23 @@ bool Canvas::initGLFW()
     if (GLEW_OK != glewInit())
     {
         std::cout << "Failed to initialize GLEW" << std::endl;
-        return EXIT_FAILURE;
+        return false;
     }
 
     glfwGetWindowSize(window, &canvasSettings.width, &canvasSettings.height);
     glViewport(0, 0, canvasSettings.width, canvasSettings.height);
-    
-    glEnable(GL_STENCIL_TEST);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
     #ifdef EMSCRIPTEN
         std::clog << "version: " << glGetString(GL_VERSION)<< std::endl;
     #endif
-
-    return EXIT_SUCCESS;
+    return true;
 }
 
 
 Canvas::Canvas() {
-    initWindow();
+    if (!initGLFW())
+        return;
+    SetVSync(true);
+    setIconImage();
 }
 Canvas::~Canvas() {
     glfwTerminate();

@@ -14,6 +14,10 @@ Engine::~Engine() {
 }
 
 void Engine::setGLSettings() {
+    glEnable(GL_STENCIL_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     glStencilMask(0x00);
     glEnable(GL_BLEND);
