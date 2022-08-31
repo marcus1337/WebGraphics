@@ -1,53 +1,44 @@
 
-img = nil
 btn = nil
-line = nil
 circle = nil
 rect = nil
 
+function toggleFullScreen()
+    setFullScreen(not isFullScreen())
+end
+
 function init()
     print('main_menu: init()')
-    img = Image.new()
     btn = Button.new()
     txt = Text("FullScreen?")
     txt:setPixelHeight(35)
     txt:setColor(vec3(0.9,0.9,0.9))
+    btn:setPosition(1710, 960)
+    btn:setImage("background3.png")
     btn:setText(txt)
+    btn.onPressCallback = toggleFullScreen
 
-    line = Line.new(50,50, 100, 100)
-    line:setColor(vec3(0.8,0.5,0.5))
-    btn.onPressCallback = foo
     circle = Circle()
+
     rect = Rect()
-
-    rect:setSize(600,300)
+    rect:setSize(1520,900)
     rect:setColor(vec3(0.6,0.5,0.2))
-    rect:setPosition(250,200)
-    rect:setThickness(0.04)
+    rect:setPosition(200,100)
+    rect:setThickness(0.01)
 end
 
-function foo()
-    setFullScreen(not isFullScreen())
-end
 
 function update()
-    --print('main_menu: update()')
-    img:setPosition(50,55)
-    img:setSize(200,55)
     btn:update()
-    line:setPosition(100, 800)
-    circle:setPosition(200,200)
-    circle:setSize(250,250)
+    circle:setPosition(0,0)
+    circle:setSize(200,200)
     circle:setColor(vec3(0.4,0.4,0.8))
     circle:setFade(0.01)
     circle:setThickness(0.75)
 end
 
 function render()
-    --print('main_menu: render()')
-    --img:render()
     btn:render()
-    --line:render()
     circle:render()
     rect:render()
 end

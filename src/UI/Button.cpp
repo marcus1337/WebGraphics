@@ -50,7 +50,7 @@ void Button::onRelease() {
 
 void Button::setText(Text& _text){
     paintImage();
-    _text.center(view.getX(), view.getY(), view.getWidth(), view.getHeight()); 
+    _text.center(0, 0, view.getWidth(), view.getHeight()); 
     view.paint(_text);
 }
 
