@@ -49,9 +49,18 @@ void Button::onRelease() {
 }
 
 void Button::setText(Text& _text){
-    Image img(engine, "button1.png");
-    img.setSize(view.getWidth(), view.getHeight());
-    view.paint(img);
+    paintImage();
     _text.center(view.getX(), view.getY(), view.getWidth(), view.getHeight()); 
     view.paint(_text);
+}
+
+void Button::paintImage() {
+    Image img(engine, imageName);
+    img.setSize(view.getWidth(), view.getHeight());
+    view.paint(img);
+}
+
+void Button::setImage(std::string _imageName) {
+    imageName = _imageName;
+    paintImage();
 }

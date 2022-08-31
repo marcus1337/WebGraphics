@@ -67,6 +67,7 @@ void UIScriptTypes::addButton() {
         "update", &Button::update,
         "render", &Button::render,
         "setText", &Button::setText,
+        "setImage", &Button::setImage,
         "onPressCallback", &Button::onPressCallback);
 }
 
