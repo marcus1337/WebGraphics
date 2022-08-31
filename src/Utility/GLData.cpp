@@ -59,6 +59,9 @@ GLuint GLData::getTexture(std::string name){
             return getTexture(textureInfo);
     }
     TextureData textureInfo = iotexture.getTextureData(name);
+    if (textureInfo.error != 0) {
+        return 0;
+    }
     textureInfos.push_back(textureInfo);
     return getTexture(textureInfo);
 }
