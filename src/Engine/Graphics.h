@@ -1,5 +1,7 @@
 #include "Utility/GLData.h"
 #include "Window/Canvas.h"
+#include "AspectRatio.h"
+
 #include "Graphics/Objects/ImageObject.h"
 #include "Utility/MatrixData.h"
 #include "Graphics/Shaders/Shader.h"
@@ -30,6 +32,7 @@ private:
     Canvas& window;
     void drawMainView();
     FrameBuffer mainView;
+    AspectRatio aspectRatio;
 
 public:
     ImageObject imageObject;

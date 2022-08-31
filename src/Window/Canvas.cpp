@@ -12,49 +12,6 @@
 #include "IO/Files/IOTexture.h"
 
 
-auto Canvas::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
-    mw->mouse.click(button, action, mods);
-}
-
-auto Canvas::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
-    mw->keyboard.setKeys(window, key, scancode, action, mods);
-}
-
-auto Canvas::window_size_callback(GLFWwindow* window, int width, int height)
-{
-    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
-    mw->width = width;
-    mw->height = height;
-    glViewport(0, 0, width, height);
-    if(mw->appResizeCallbackFunction)
-        mw->appResizeCallbackFunction();
-}
-
-auto Canvas::mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
-    mw->mouse.drag((int)xpos, mw->height - 1 - (int)ypos);
-}
-
-auto Canvas::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    Canvas* mw = static_cast<Canvas*>(glfwGetWindowUserPointer(window));
-    mw->mouse.scrollDelta = yoffset;
-}
-
-void Canvas::autoScreenResize(double yoffset){
-    for(int i = 0 ; i < 30; i++)
-        if(yoffset > 0){
-            aspectRatio.increase();
-        }else{
-            aspectRatio.decrease();
-        }
-    resizeWindow(aspectRatio.getWidth(), aspectRatio.getHeight());
-}
-
 bool Canvas::initWindow() {
     if (initGLFW() == EXIT_FAILURE) {
         return EXIT_FAILURE;
@@ -62,6 +19,10 @@ bool Canvas::initWindow() {
     SetVSync(true);
     setIconImage();
     return EXIT_SUCCESS;
+}
+
+void Canvas::setResizeCallbackFunction(std::function<void(void)> _function) {
+    canvasCallbacks.resizeCallbackFunction = _function;
 }
 
 void Canvas::resizeWindow(int _width, int _height){
@@ -84,13 +45,11 @@ void Canvas::setWindowHints(){
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 }
 
-void Canvas::setWindowCallbacks(GLFWwindow* window){
-    glfwSetWindowUserPointer(window, this);
-    glfwSetKeyCallback(window, key_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
-    glfwSetWindowSizeCallback(window, window_size_callback);
+int Canvas::getWidth() {
+    return width;
+}
+int Canvas::getHeight() {
+    return height;
 }
 
 bool Canvas::initGLFW()
@@ -110,7 +69,7 @@ bool Canvas::initGLFW()
         return EXIT_FAILURE;
     }
     
-    setWindowCallbacks(window);
+    canvasCallbacks.set(window, &mouse, &keyboard, &width, &height);
     glfwMakeContextCurrent(window);
 
     glewExperimental = GL_TRUE;

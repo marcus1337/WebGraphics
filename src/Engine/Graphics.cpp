@@ -5,7 +5,7 @@
 Graphics::Graphics(Canvas& _window) : window(_window), mainView(glData, 1920, 1080)
 {
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
-    window.appResizeCallbackFunction = std::bind(&Graphics::display, this);
+    window.setResizeCallbackFunction(std::bind(&Graphics::display, this));
 }
 
 
@@ -36,16 +36,16 @@ void Graphics::drawMainView() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(outerBackgroundColor.r, outerBackgroundColor.g, outerBackgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    window.aspectRatio.setIndexToLessOrEqual(window.width, window.height);
-    int frameWidth = window.aspectRatio.getWidth();
-    int frameHeight = window.aspectRatio.getHeight();
-    float frameXPos = (float)(window.width - frameWidth) / 2.0f;
-    float frameYPos = (float)(window.height - frameHeight) / 2.0f;
+    aspectRatio.setIndexToLessOrEqual(window.getWidth(), window.getHeight());
+    int frameWidth = aspectRatio.getWidth();
+    int frameHeight = aspectRatio.getHeight();
+    float frameXPos = (float)(window.getWidth() - frameWidth) / 2.0f;
+    float frameYPos = (float)(window.getHeight() - frameHeight) / 2.0f;
 
     mainView.shader.setPosition(frameXPos, frameYPos);
     mainView.shader.setScale(frameWidth, frameHeight);
-    glViewport(0, 0, window.width, window.height);
-    mainView.shader.setViewProjectionMatrix(window.width, window.height);
+    glViewport(0, 0, window.getWidth(), window.getHeight());
+    mainView.shader.setViewProjectionMatrix(window.getWidth(), window.getHeight());
     imageObject.draw(mainView.shader);
 }
 
