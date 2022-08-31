@@ -14,8 +14,8 @@ auto CanvasCallbacks::key_callback(GLFWwindow* window, int key, int scancode, in
 auto CanvasCallbacks::window_size_callback(GLFWwindow* window, int width, int height)
 {
     CanvasCallbacks* mw = static_cast<CanvasCallbacks*>(glfwGetWindowUserPointer(window));
-    *mw->width = width;
-    *mw->height = height;
+    mw->canvasSettings->width = width;
+    mw->canvasSettings->height = height;
     glViewport(0, 0, width, height);
     if (mw->resizeCallbackFunction)
         mw->resizeCallbackFunction();
@@ -24,7 +24,7 @@ auto CanvasCallbacks::window_size_callback(GLFWwindow* window, int width, int he
 auto CanvasCallbacks::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     CanvasCallbacks* mw = static_cast<CanvasCallbacks*>(glfwGetWindowUserPointer(window));
-    mw->mouse->drag((int)xpos, *mw->height - 1 - (int)ypos);
+    mw->mouse->drag((int)xpos, mw->canvasSettings->height - 1 - (int)ypos);
 }
 
 auto CanvasCallbacks::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -33,12 +33,11 @@ auto CanvasCallbacks::scroll_callback(GLFWwindow* window, double xoffset, double
     mw->mouse->scrollDelta = yoffset;
 }
 
-void CanvasCallbacks::set(GLFWwindow* _window, Mouse* _mouse, Keyboard* _keyboard, int* _width, int* _height) {
+void CanvasCallbacks::set(GLFWwindow* _window, Mouse* _mouse, Keyboard* _keyboard, CanvasSettings* _canvasSettings) {
     window = _window;
     mouse = _mouse;
     keyboard = _keyboard;
-    width = _width;
-    height = _height;
+    canvasSettings = _canvasSettings;
 
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, key_callback);

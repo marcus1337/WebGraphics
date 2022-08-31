@@ -5,6 +5,7 @@
 #include "IO/Controller/Mouse.h"
 #include "IO/Controller/Keyboard.h"
 #include <functional>
+#include "CanvasSettings.h"
 
 
 #ifndef CANVASCALLBACKS_H
@@ -22,11 +23,10 @@ public:
     Mouse* mouse;
     Keyboard* keyboard;
     GLFWwindow* window;
-    int* width;
-    int* height;
+    CanvasSettings* canvasSettings;
     std::function<void(void)> resizeCallbackFunction;
 
-    void set(GLFWwindow* _window, Mouse* _mouse, Keyboard* _keyboard, int* _width, int* _height);
+    void set(GLFWwindow* _window, Mouse* _mouse, Keyboard* _keyboard, CanvasSettings* _canvasSettings);
 };
 
 #endif

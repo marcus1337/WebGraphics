@@ -1,5 +1,5 @@
 add_library(window "Canvas.cpp" "../Graphics/Camera.cpp"
 "Canvas.h" "../Graphics/Camera.h" 
-"CanvasCallbacks.h" "CanvasCallbacks.cpp")
+"CanvasCallbacks.h" "CanvasCallbacks.cpp" "CanvasSettings.h" "CanvasSettings.cpp")
 
 target_link_libraries(window glm glfw)

@@ -28,8 +28,8 @@ void Canvas::setResizeCallbackFunction(std::function<void(void)> _function) {
 void Canvas::resizeWindow(int _width, int _height){
     glfwSetWindowSize(window, _width, _height);
     glViewport(0, 0, _width, _height);
-    width = _width;
-    height = _height;
+    canvasSettings.width = _width;
+    canvasSettings.height = _height;
 }
 
 void Canvas::setWindowHints(){
@@ -46,10 +46,10 @@ void Canvas::setWindowHints(){
 }
 
 int Canvas::getWidth() {
-    return width;
+    return canvasSettings.width;
 }
 int Canvas::getHeight() {
-    return height;
+    return canvasSettings.height;
 }
 
 bool Canvas::initGLFW()
@@ -62,14 +62,14 @@ bool Canvas::initGLFW()
     setWindowHints();
     glfwSwapInterval(1);
 
-    window = glfwCreateWindow(width, height, "MyApp", nullptr, nullptr);
+    window = glfwCreateWindow(canvasSettings.width, canvasSettings.height, "MyApp", nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         return EXIT_FAILURE;
     }
     
-    canvasCallbacks.set(window, &mouse, &keyboard, &width, &height);
+    canvasCallbacks.set(window, &mouse, &keyboard, &canvasSettings);
     glfwMakeContextCurrent(window);
 
     glewExperimental = GL_TRUE;
@@ -79,8 +79,8 @@ bool Canvas::initGLFW()
         return EXIT_FAILURE;
     }
 
-    glfwGetWindowSize(window, &width, &height);
-    glViewport(0, 0, width, height);
+    glfwGetWindowSize(window, &canvasSettings.width, &canvasSettings.height);
+    glViewport(0, 0, canvasSettings.width, canvasSettings.height);
     
     glEnable(GL_STENCIL_TEST);
     glEnable(GL_DEPTH_TEST);

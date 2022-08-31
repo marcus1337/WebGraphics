@@ -7,6 +7,7 @@
 #include "IO/Controller/Keyboard.h"
 #include <functional>
 #include "CanvasCallbacks.h"
+#include "CanvasSettings.h"
 
 #ifndef CANVAS_H
 #define CANVAS_H
@@ -21,8 +22,7 @@ class Canvas {
     bool initWindow();
     void setIconImage();
     CanvasCallbacks canvasCallbacks;
-    int width = 1280;
-    int height = 720;
+    CanvasSettings canvasSettings;
 
 public:
     void setResizeCallbackFunction(std::function<void(void)> _function);
