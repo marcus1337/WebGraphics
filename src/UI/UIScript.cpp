@@ -11,10 +11,11 @@
 #include "Button.h"
 
 
-UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath()), engine(_engine), graphics(_engine.graphics), scriptTypes(lua, _engine)
+UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath()), engine(_engine), graphics(_engine.graphics), scriptTypes(lua, _engine), scriptMethods(lua, _engine)
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
     scriptTypes.setUserTypes();
+    scriptMethods.setMethods();
     loaded = load();
 }
 

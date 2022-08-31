@@ -9,6 +9,7 @@ function init()
     print('main_menu: init()')
     img = Image.new()
     btn = Button.new()
+    --btn.setText("FullScreen?")
     line = Line.new(50,50, 100, 100)
     line:setColor(vec3(0.8,0.5,0.5))
     btn.onPressCallback = foo
@@ -22,7 +23,7 @@ function init()
 end
 
 function foo()
-    print("foo function...")
+    setFullScreen(not isFullScreen())
 end
 
 function update()
@@ -41,7 +42,7 @@ end
 function render()
     --print('main_menu: render()')
     --img:render()
-    --btn:render()
+    btn:render()
     --line:render()
     circle:render()
     rect:render()

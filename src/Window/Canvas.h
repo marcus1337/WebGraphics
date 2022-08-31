@@ -35,6 +35,9 @@ public:
     void pollEvents();
     int getWidth();
     int getHeight();
+
+    void setFullScreen(bool _fullScreen);
+    bool isFullScreen();
 };
 
 #endif

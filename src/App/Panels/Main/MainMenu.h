@@ -16,8 +16,6 @@
 
 class MainMenu : public Panel {
     Image backgroundImage;
-    View view;
-    Button btn;
     UIScript uiScript;
     void onQuit();
     virtual void onEnter() override;

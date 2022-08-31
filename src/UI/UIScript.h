@@ -4,6 +4,7 @@
 #include <Engine/Graphics.h>
 #include <IO/Files/FileChecker.h>
 #include "UIScriptTypes.h"
+#include "UIScriptMethods.h"
 
 #ifndef UISCRIPT_H
 #define UISCRIPT_H
@@ -14,6 +15,7 @@ class UIScript
     Graphics& graphics;
 
     UIScriptTypes scriptTypes;
+    UIScriptMethods scriptMethods;
     sol::state lua;
     sol::load_result script;
     sol::function scriptUpdate, scriptRender;
