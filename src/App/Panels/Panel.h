@@ -5,24 +5,23 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-enum class PanelStatus {
-    RUNNING = 0, FINISHED, PAUSED
-};
-
 class Panel {
+private:
+    Panel* childPanel = nullptr;
 protected:
     Engine& engine;
     Graphics& graphics;
-    void onExit();
-
+    void setDone();
+    bool done = false;
+    void setChildPanel(Panel* _panel);
 public:
-    PanelStatus panelStatus;
     Panel(Engine& _engine);
+    bool isDone();
     virtual ~Panel() = default;
     virtual void update() = 0;
     virtual void render() = 0;
     virtual void onEnter();
-    Panel* childPanel = nullptr;
+    Panel* getChildPanel();
 };
 
 #endif

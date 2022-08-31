@@ -25,7 +25,6 @@ public:
     MainMenu(Engine& _engine);
     void update() override;
     void render() override;
-
 };
 
 #endif // !MAINMENU_H

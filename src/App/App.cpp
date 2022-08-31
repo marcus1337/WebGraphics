@@ -32,16 +32,15 @@ void App::resizeWindow(int _width, int _height)
     engine.window.resizeWindow(_width, _height);
 }
 
-void App::handlePanelChange() { //assume MainMenu is always the base panel.
-    if (panels.top()->panelStatus == PanelStatus::FINISHED) {
+void App::handlePanelChange() {
+    if (panels.size() > 1 && panels.top()->isDone()) {
         delete panels.top();
         panels.pop();
         panels.top()->onEnter();
     }
 
-    Panel* childPanel = panels.top()->childPanel;
+    Panel* childPanel = panels.top()->getChildPanel();
     if (childPanel != nullptr) {
-        panels.top()->childPanel = nullptr;
         panels.push(childPanel);
         panels.top()->onEnter();
     }
