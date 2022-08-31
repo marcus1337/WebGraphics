@@ -1,15 +1,12 @@
 #include "Button.h"
+#include <utility>
 
 Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), view(_engine, 200, 100) {
-    Image img(engine, "button1.png");
-
-    img.setSize(200, 100);
-    view.paint(img);
     Text text(engine);
-    text.setText("Button1");
+    text.setText("Button");
     text.setPixelHeight(40);
-    text.center(0, 0, 200, 100);
-    view.paint(text);
+    text.setColor({ 0.9,0.9,0.9 });
+    setText(text);
     view.setShaderProgram("button");
 }
 
@@ -51,3 +48,10 @@ void Button::onRelease() {
     pressed = false;
 }
 
+void Button::setText(Text& _text){
+    Image img(engine, "button1.png");
+    img.setSize(view.getWidth(), view.getHeight());
+    view.paint(img);
+    _text.center(view.getX(), view.getY(), view.getWidth(), view.getHeight()); 
+    view.paint(_text);
+}

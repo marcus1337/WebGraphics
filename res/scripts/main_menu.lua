@@ -9,7 +9,11 @@ function init()
     print('main_menu: init()')
     img = Image.new()
     btn = Button.new()
-    --btn.setText("FullScreen?")
+    txt = Text("FullScreen?")
+    txt:setPixelHeight(35)
+    txt:setColor(vec3(0.9,0.9,0.9))
+    btn:setText(txt)
+
     line = Line.new(50,50, 100, 100)
     line:setColor(vec3(0.8,0.5,0.5))
     btn.onPressCallback = foo

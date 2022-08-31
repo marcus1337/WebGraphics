@@ -18,6 +18,7 @@ protected:
 
 public:
     Drawable(Engine& _engine, Shader& _shader);
+    Drawable(const Drawable&) = delete;
     virtual ~Drawable();
     virtual void render() = 0;
 

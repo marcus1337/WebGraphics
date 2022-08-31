@@ -66,6 +66,7 @@ void UIScriptTypes::addButton() {
         "setPosition", &Button::setPosition,
         "update", &Button::update,
         "render", &Button::render,
+        "setText", &Button::setText,
         "onPressCallback", &Button::onPressCallback);
 }
 

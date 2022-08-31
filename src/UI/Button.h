@@ -24,6 +24,7 @@ public:
     Button(Engine& _engine);
     void render();
     void update();
+    void setText(Text& _text);
     void setPosition(int _x, int _y);
     std::function<void(void)> onPressCallback;
 
