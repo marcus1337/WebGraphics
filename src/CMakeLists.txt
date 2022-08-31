@@ -72,15 +72,15 @@ list(APPEND EXTRA_LIB_DIRS "Utility")
 list(APPEND EXTRA_INCLUDE_DIRS "Utility")
 list(APPEND EXTRA_LINK_DIRS utility)
 
-add_subdirectory(Window)
-list(APPEND EXTRA_LIB_DIRS "Window")
-list(APPEND EXTRA_INCLUDE_DIRS "Window")
-list(APPEND EXTRA_LINK_DIRS window)
-
 add_subdirectory(IO)
 list(APPEND EXTRA_LIB_DIRS "IO")
 list(APPEND EXTRA_INCLUDE_DIRS "IO")
 list(APPEND EXTRA_LINK_DIRS io)
+
+add_subdirectory(Window)
+list(APPEND EXTRA_LIB_DIRS "Window")
+list(APPEND EXTRA_INCLUDE_DIRS "Window")
+list(APPEND EXTRA_LINK_DIRS window)
 
 add_subdirectory(Graphics)
 list(APPEND EXTRA_LIB_DIRS "Graphics")

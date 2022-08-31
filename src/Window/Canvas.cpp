@@ -83,6 +83,7 @@ Canvas::Canvas() {
     SetVSync(true);
     setIconImage();
 }
+
 Canvas::~Canvas() {
     glfwTerminate();
 }

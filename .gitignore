@@ -4,4 +4,6 @@ build2/
 .vs
 AniLib.*
 CMakePresets.json
+res/saves/canvasSettings.bin
+
 
