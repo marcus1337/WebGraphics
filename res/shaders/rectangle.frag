@@ -27,9 +27,5 @@ void main(){
     if(uv.x > minX && uv.x < maxX && uv.y > minY && uv.y < maxY)
         discard;
 
-    frag_color = vec4(color, alpha);
-
-     if(uv.x > 1.0)
-        frag_color = vec4(0.6,0.6,0.1,1.0);    
-
+    frag_color = vec4(color, alpha);  
 }
