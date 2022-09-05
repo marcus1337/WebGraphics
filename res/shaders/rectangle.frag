@@ -19,10 +19,9 @@ void main(){
 
     float maxX = 1.0 - thickness / aspect;
     float minX = thickness / aspect;
-    float maxY = 1.0 - (thickness / aspect) * aspect;
-    float minY = thickness / aspect;
+    float maxY = 1.0 - thickness;
+    float minY = thickness;
     vec2 uv = uv_frag;
-    minY *= aspect;
 
     if(uv.x > minX && uv.x < maxX && uv.y > minY && uv.y < maxY)
         discard;
