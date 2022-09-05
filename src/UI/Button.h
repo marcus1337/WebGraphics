@@ -23,7 +23,7 @@ class Button {
 
 public:
 
-    Button(Engine& _engine);
+    Button(Engine& _engine, int pixelWidth, int pixelHeight);
     void render();
     void update();
     void setText(Text& _text);

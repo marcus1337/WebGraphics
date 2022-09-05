@@ -57,8 +57,8 @@ void UIScriptTypes::addDrawable() {
 }
 
 void UIScriptTypes::addButton() {
-    auto btnFactory = sol::factories([&engine = engine]() {
-        std::unique_ptr<Button> btn = std::make_unique<Button>(engine);
+    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
+        std::unique_ptr<Button> btn = std::make_unique<Button>(engine, pixelWidth, pixelHeight);
         return btn; });
     lua.new_usertype<Button>("Button",
         sol::meta_function::construct, btnFactory,

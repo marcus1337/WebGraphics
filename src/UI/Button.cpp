@@ -1,7 +1,7 @@
 #include "Button.h"
 #include <utility>
 
-Button::Button(Engine& _engine) : engine(_engine), graphics(_engine.graphics), view(_engine, 200, 100) {
+Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : engine(_engine), graphics(_engine.graphics), view(_engine, pixelWidth, pixelHeight) {
     Text text(engine);
     text.setText("Button");
     text.setPixelHeight(40);
