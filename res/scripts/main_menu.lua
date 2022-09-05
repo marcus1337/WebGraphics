@@ -1,12 +1,9 @@
 
-btn = nil
-rect = nil
-
 function toggleFullScreen()
     setFullScreen(not isFullScreen())
 end
 
-function updateFSButtonText()
+function setFSButtonText(btn)
     local str = "Full Screen"
     if isFullScreen() then 
         str = str .. " (on)"
@@ -17,25 +14,27 @@ function updateFSButtonText()
 end
 
 function getFSButton()
-    local b = nil
-    b = Button.new(300, 100)
-    b:setPosition(1510, 760)
-    b:setImage("background3.png")
-    setButtonText(b, "empty...")
-    b.onPressCallback = toggleFullScreen
-    return b
+    local btn = Button.new(300, 100)
+    btn:setPosition(1600, 950)
+    btn:setImage("background3.png")
+    setFSButtonText(btn)
+    btn.onPressCallback = toggleFullScreen
+    return btn
 end
 
-function setButtonText(b, str)
+function setButtonText(btn, str)
     local txt = Text(str)
     txt:setPixelHeight(35)
     txt:setColor(vec3(0.9,0.9,0.9))
-    b:setText(txt)
+    btn:setText(txt)
 end
+
+fsBtn = nil
+rect = nil
 
 function init()
     print('main_menu: init()')
-    btn = getFSButton()
+    fsBtn = getFSButton()
 
     rect = Rect()
     rect:setSize(1520,900)
@@ -45,12 +44,12 @@ function init()
 end
 
 function update()
-    updateFSButtonText()
-    btn:update()
+    setFSButtonText(fsBtn)
+    fsBtn:update()
 end
 
 function render()
     rect:render()
-    btn:render()
+    fsBtn:render()
 end
 
