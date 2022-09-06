@@ -23,6 +23,7 @@ public:
     bool darken = false;
     float fade = 0.08;
     float thickness = 0.1f;
+    float radius = 0.5f;
     glm::vec2 mouse = {0.0f,0.0f};
     glm::vec2 textureSize, textureCorner;
 

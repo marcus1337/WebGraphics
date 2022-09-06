@@ -128,6 +128,7 @@ void UIScriptTypes::addRect() {
         sol::call_constructor, rectFactory,
         "setFade", &Rect::setFade,
         "setThickness", &Rect::setThickness,
+        "setRadius", &Rect::setRadius,
         sol::base_classes, sol::bases<Drawable>());
 }
 

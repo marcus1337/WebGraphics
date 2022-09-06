@@ -17,3 +17,7 @@ void Rect::setThickness(float _thickness) {
     imageShader.thickness = _thickness;
 }
 
+void Rect::setRadius(float _radius) {
+    imageShader.radius = _radius;
+}
+

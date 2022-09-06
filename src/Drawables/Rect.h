@@ -13,6 +13,7 @@ public:
     virtual void render() override;
     void setFade(float _fade);
     void setThickness(float _thickness);
+    void setRadius(float _radius);
 };
 
 

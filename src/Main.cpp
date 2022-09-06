@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
         emscripten_set_main_loop(update, 20, 1);
     #else
         App app; 
-        app.run();
+        app.run(); 
     #endif
     return 0;
 }

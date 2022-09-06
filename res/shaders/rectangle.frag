@@ -9,6 +9,7 @@ uniform vec3 color;
 uniform float alpha;
 uniform float width;
 uniform float height;
+uniform float radius;
 uniform float aspect;
 uniform float thickness;
 out vec4 frag_color;
@@ -24,7 +25,6 @@ vec2 getAspectRatio(){
 }
 
 float getDistance(float _thickness){
-    float radius = 0.2;
     vec2 centerPos = vec2(0.5,0.5);
     vec2 uv = uv_frag;    
     vec2 size = getAspectRatio();
