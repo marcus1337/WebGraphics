@@ -24,12 +24,12 @@ vec2 getAspectRatio(){
     return aspectRatio; 
 }
 
-float getDistance(float _thickness){
+float getDistance(){
     vec2 centerPos = vec2(0.5,0.5);
     vec2 uv = uv_frag;    
     vec2 size = getAspectRatio();
     vec2 pos = (abs(uv - centerPos) + centerPos) * size;
-    return length(max(pos - size + radius*(1.0+_thickness), 0.0)) - radius;
+    return length(max(pos - size + radius, 0.0)) - radius;
 }
 
 void main(){
@@ -39,9 +39,8 @@ void main(){
 
     vec3 _color = color;
     float _alpha = alpha;
-    float distance1 = getDistance(0.0);
-    float distance2 = getDistance(thickness);
-    if(distance1 > 0.0 || distance2 < 0.0)
+    float distance = getDistance();
+    if(distance > 0.0 || distance < -(thickness*aspect))
         _alpha = 0.0;
     frag_color = vec4(_color, _alpha);  
 }

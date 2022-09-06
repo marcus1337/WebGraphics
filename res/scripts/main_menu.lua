@@ -37,11 +37,11 @@ function init()
     fsBtn = getFSButton()
 
     rect = Rect()
-    rect:setSize(1520,900)
+    rect:setSize(1520,880)
     rect:setColor(vec3(0.6,0.5,0.2))
     rect:setPosition(200,100)
-    rect:setThickness(0.05)
-    rect:setRadius(0.2)
+    rect:setThickness(0.01)
+    rect:setRadius(0.3)
 end
 
 function update()
