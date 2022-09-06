@@ -15,6 +15,8 @@ void ImageShader::setCustomUniforms() {
     glUniform1f(glGetUniformLocation(programID, "fade"), fade);
     glUniform1f(glGetUniformLocation(programID, "thickness"), thickness);
     glUniform1f(glGetUniformLocation(programID, "aspect"), scale.x/scale.y);
+    glUniform1f(glGetUniformLocation(programID, "width"), scale.x);
+    glUniform1f(glGetUniformLocation(programID, "height"), scale.y);
     setClippingUniforms();
     setTextureUniforms();
 }
