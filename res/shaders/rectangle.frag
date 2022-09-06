@@ -11,11 +11,13 @@ uniform float aspect;
 uniform float thickness;
 out vec4 frag_color;
 
-float getDistance(float radius){
+float getDistance(){
+    float radius = 0.5;
     vec2 centerPos = vec2(0.5,0.5);
-    vec2 size = vec2(500,250);
-    vec2 pos = (abs(uv_frag - centerPos) + 0.5) * size;
-    return length(max(pos - (size - radius), 0.0));
+    vec2 uv = uv_frag;
+    vec2 size = vec2(aspect, 1.0);
+    vec2 pos = (abs(uv - centerPos) + centerPos) * size;
+    return length(max(pos - size + radius, 0.0)) - radius;
 }
 
 void main(){
@@ -23,20 +25,9 @@ void main(){
     if(alpha == 0.0)
         discard;
 
-    float maxX = 1.0 - thickness / aspect;
-    float minX = thickness / aspect;
-    float maxY = 1.0 - thickness;
-    float minY = thickness;
-    vec2 uv = uv_frag;
-
-    float radius = 60.0;
-    float distLimit = 50.0;
-    float distance = getDistance(radius);
-    
-    //if(uv.x > minX && uv.x < maxX && uv.y > minY && uv.y < maxY)
-    //    discard;
     vec3 _color = color;
-    if(distance > distLimit)
-        _color = vec3(0.0,distance,0.0);
-    frag_color = vec4(_color, alpha);  
+    float _alpha = 1.0;
+    if(getDistance() > 0.0)
+        _alpha = 0.5;
+    frag_color = vec4(_color, _alpha);  
 }
