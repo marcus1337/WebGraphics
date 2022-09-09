@@ -18,6 +18,10 @@ end
 
 exitButton = getExitButton()
 settingsButton = getSettingsButton()
+backgroundImage = Image("background1.png")
+backgroundImage:setTexture("background3.png")
+backgroundImage:setPosition(0,0)
+backgroundImage:setSize(1920,1080)
 
 function update()
     exitButton:update()
@@ -25,6 +29,7 @@ function update()
 end
 
 function render()
+    backgroundImage:render()
     exitButton:render()
     settingsButton:render()
 end

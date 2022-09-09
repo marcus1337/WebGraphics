@@ -1,4 +1,3 @@
-
 #include "Engine/Engine.h"
 #include <string>
 #include <vector>
@@ -6,17 +5,17 @@
 #include <UI/Button.h>
 #include <UI/UIScript.h>
 
-#ifndef MAINMENU_H
-#define MAINMENU_H
 
-class MainMenu : public Panel {
-    UIScript uiScript;
-    void onQuit();
+#ifndef SETTINGSPANEL_H
+#define SETTINGSPANEL_H
+
+class SettingsPanel : public Panel {
+
     virtual void onEnter() override;
 public:
-    MainMenu(Engine& _engine);
+    SettingsPanel(Engine& _engine);
     void update() override;
     void render() override;
 };
 
-#endif // !MAINMENU_H
+#endif // !SETTINGSPANEL_

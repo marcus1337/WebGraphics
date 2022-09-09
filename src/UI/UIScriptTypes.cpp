@@ -72,8 +72,8 @@ void UIScriptTypes::addButton() {
 }
 
 void UIScriptTypes::addImage() {
-    auto imgFactory = sol::factories([&engine = engine]() {
-        std::unique_ptr<Image> img = std::make_unique<Image>(engine, "background2.png");
+    auto imgFactory = sol::factories([&engine = engine](std::string textureName) {
+        std::unique_ptr<Image> img = std::make_unique<Image>(engine, textureName);
         img->setSize(300, 150);
         img->setPosition(500, 500);
         return img;
@@ -81,6 +81,7 @@ void UIScriptTypes::addImage() {
     lua.new_usertype<Image>("Image",
         sol::meta_function::construct, imgFactory,
         sol::call_constructor, imgFactory,
+        "setTexture", &Image::setTexture,
         sol::base_classes, sol::bases<Drawable>());
 }
 

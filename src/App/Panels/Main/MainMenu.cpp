@@ -2,8 +2,7 @@
 #include <iostream>
 
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine), backgroundImage(_engine, "background3.png"), uiScript("main_menu", _engine) {
-    backgroundImage.setSize(1920, 1080);
+MainMenu::MainMenu(Engine& _engine) : Panel(_engine), uiScript("main_menu", _engine) {
     uiScript.addMethod("onQuit", std::bind(&MainMenu::onQuit, this));
 }
 
@@ -12,7 +11,6 @@ void MainMenu::update() {
 }
 
 void MainMenu::render() {
-    backgroundImage.render();
     uiScript.render();
 }
 

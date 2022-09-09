@@ -10,6 +10,7 @@ class Image : public Drawable {
     ImageShader imageShader;
 public:
     Image(Engine& _engine, std::string _texture);
+    void setTexture(std::string textureName);
     virtual void render() override;
 
 };

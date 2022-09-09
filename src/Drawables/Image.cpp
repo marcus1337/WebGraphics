@@ -9,3 +9,8 @@ Image::Image(Engine& _engine, std::string _texture) : Drawable(_engine, imageSha
 void Image::render() {
     graphics.imageObject.draw(imageShader);
 }
+
+void Image::setTexture(std::string textureName) {
+    imageShader.setTexture(textureName);
+}
+
