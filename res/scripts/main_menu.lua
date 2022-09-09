@@ -13,6 +13,7 @@ function getSettingsButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(20 + miniBtnSize + 5, 1010)
     btn:setImage("icons/settings.png")
+    btn.onPressCallback = onSettings
     return btn
 end
 

@@ -13,17 +13,18 @@ private:
     void onQuit();
     void onCancel();
     bool done = false;
-    UIScript uiScript;
 protected:
+    UIScript uiScript;
     Engine& engine;
     Graphics& graphics;
+    bool canSetChildPanel();
     void setChildPanel(Panel* _panel);
 public:
     Panel(Engine& _engine, std::string uiScriptName);
     bool isDone();
     virtual ~Panel() = default;
-    virtual void update() = 0;
-    virtual void render() = 0;
+    virtual void update();
+    virtual void render();
     void updateUI();
     void renderUI();
     virtual void onEnter();

@@ -21,6 +21,10 @@ Panel* Panel::getChildPanel() {
     return _panel;
 }
 
+bool Panel::canSetChildPanel() {
+    return childPanel == nullptr;
+}
+
 void Panel::setChildPanel(Panel* _panel) {
     assert(childPanel == nullptr);
     childPanel = _panel;
@@ -42,4 +46,11 @@ void Panel::updateUI() {
 
 void Panel::renderUI() {
     uiScript.render();
+}
+
+void Panel::update() {
+
+}
+void Panel::render() {
+
 }

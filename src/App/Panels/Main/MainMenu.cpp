@@ -1,17 +1,12 @@
 #include "MainMenu.h"
 #include <iostream>
-
+#include "SettingsPanel.h"
 
 MainMenu::MainMenu(Engine& _engine) : Panel(_engine, "main_menu") {
-
-}
-
-void MainMenu::update() {
-
-}
-
-void MainMenu::render() {
-
+    uiScript.addMethod("onSettings", [&]() {
+        if (canSetChildPanel())
+            setChildPanel(new SettingsPanel(engine));
+        });
 }
 
 void MainMenu::onEnter() {
@@ -19,7 +14,12 @@ void MainMenu::onEnter() {
 
 }
 
+void MainMenu::update() {
 
+}
+void MainMenu::render() {
+
+}
 
 
 

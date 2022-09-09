@@ -10,12 +10,9 @@
 #define SETTINGSPANEL_H
 
 class SettingsPanel : public Panel {
-
     virtual void onEnter() override;
 public:
     SettingsPanel(Engine& _engine);
-    void update() override;
-    void render() override;
 };
 
 #endif // !SETTINGSPANEL_

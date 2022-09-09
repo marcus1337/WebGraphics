@@ -5,14 +5,8 @@ SettingsPanel::SettingsPanel(Engine& _engine) : Panel(_engine, "settings") {
 }
 
 void SettingsPanel::onEnter() {
+    std::cout << "onEnter() Settings\n";
 
 }
 
-void SettingsPanel::update() {
-
-}
-
-void SettingsPanel::render() {
-
-}
 
