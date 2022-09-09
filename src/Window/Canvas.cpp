@@ -140,8 +140,8 @@ void Canvas::setFullScreen(bool _fullScreen) {
     else {
         int xOffset = 200;
         int yOffset = 150;
-        int _w = max(mode->width - xOffset * 2, 10);
-        int _h = max(mode->height - yOffset * 2, 10);
+        int _w = std::max<int>(mode->width - xOffset * 2, 10);
+        int _h = std::max<int>(mode->height - yOffset * 2, 10);
         glfwSetWindowMonitor(window, NULL, xOffset, yOffset, _w, _h, 0);
     }
 
