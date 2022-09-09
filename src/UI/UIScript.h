@@ -5,6 +5,7 @@
 #include <IO/Files/FileChecker.h>
 #include "UIScriptTypes.h"
 #include "UIScriptMethods.h"
+#include <functional>
 
 #ifndef UISCRIPT_H
 #define UISCRIPT_H
@@ -34,6 +35,7 @@ public:
     ~UIScript();
     void render();
     void update();
+    void addMethod(std::string methodName, std::function<void(void)> func);
 
 };
 

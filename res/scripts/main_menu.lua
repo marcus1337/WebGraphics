@@ -5,7 +5,7 @@ function getExitButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(20, 1010)
     btn:setImage("icons/cancel.png")
-    --btn.onPressCallback = foo
+    btn.onPressCallback = onQuit
     return btn
 end
 

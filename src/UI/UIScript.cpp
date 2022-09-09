@@ -89,3 +89,9 @@ void UIScript::update()
         scriptUpdate();
     }
 }
+
+void UIScript::addMethod(std::string methodName, std::function<void(void)> func) {
+    lua[methodName] = func;
+    loaded = load();
+}
+
