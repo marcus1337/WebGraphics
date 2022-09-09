@@ -9,7 +9,7 @@ View::~View() {
 }
 
 void View::clear() {
-    frameBuffer.clear();
+    frameBuffer.clear(0.0f);
 }
 
 void View::paint(Drawable& drawable) {

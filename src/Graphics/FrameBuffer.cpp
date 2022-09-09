@@ -23,7 +23,7 @@ void FrameBuffer::setBuffers() {
 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     setTextureScaleType(GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
@@ -44,8 +44,8 @@ void FrameBuffer::use()
     glViewport(0, 0, width, height);
 }
 
-void FrameBuffer::clear() {
-    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
+void FrameBuffer::clear(float _alpha) {
     use();
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, _alpha);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }

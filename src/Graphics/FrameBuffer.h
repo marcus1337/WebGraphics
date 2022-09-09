@@ -19,7 +19,7 @@ public:
     ~FrameBuffer();
     FrameBuffer(GLData& gldata, int _width, int _height);
     void use();
-    void clear();
+    void clear(float _alpha = 1.0f);
 
 };
 
