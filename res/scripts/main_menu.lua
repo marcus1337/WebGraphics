@@ -5,7 +5,7 @@ function getExitButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(20, 1010)
     btn:setImage("icons/cancel.png")
-    --btn.onPressCallback = toggleFullScreen
+    --btn.onPressCallback = foo
     return btn
 end
 
@@ -13,16 +13,11 @@ function getSettingsButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(20 + miniBtnSize + 5, 1010)
     btn:setImage("icons/settings.png")
-    --btn.onPressCallback = toggleFullScreen
     return btn
 end
 
 exitButton = getExitButton()
 settingsButton = getSettingsButton()
-
-function init()
-    print('main_menu: init()')
-end
 
 function update()
     exitButton:update()

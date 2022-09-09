@@ -45,9 +45,6 @@ sol::protected_function_result UIScript::testScriptValidity() {
     sol::protected_function_result result = script();
     if (!result.valid())
         return result;
-    result = lua["init"]();
-    if (!result.valid())
-        return result;
     result = lua["update"]();
     if (!result.valid())
         return result;
