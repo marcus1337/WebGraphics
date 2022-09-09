@@ -12,11 +12,11 @@ private:
     Panel* childPanel = nullptr;
     void onQuit();
     void onCancel();
-protected:
+    bool done = false;
     UIScript uiScript;
+protected:
     Engine& engine;
     Graphics& graphics;
-    bool done = false;
     void setChildPanel(Panel* _panel);
 public:
     Panel(Engine& _engine, std::string uiScriptName);
@@ -24,6 +24,8 @@ public:
     virtual ~Panel() = default;
     virtual void update() = 0;
     virtual void render() = 0;
+    void updateUI();
+    void renderUI();
     virtual void onEnter();
     Panel* getChildPanel();
 };

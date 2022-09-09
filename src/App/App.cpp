@@ -58,10 +58,12 @@ void App::update() {
 
 void App::updateLogic() {
     panels.top()->update();
+    panels.top()->updateUI();
 }
 
 void App::render() {
     engine.graphics.clearView();
     panels.top()->render();
+    panels.top()->renderUI();
     engine.graphics.display();
 }

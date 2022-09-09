@@ -36,3 +36,10 @@ void Panel::onQuit() {
     exit(0);
 }
 
+void Panel::updateUI() {
+    uiScript.update();
+}
+
+void Panel::renderUI() {
+    uiScript.render();
+}
