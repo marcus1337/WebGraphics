@@ -10,6 +10,7 @@ class Audio {
 
 public:
     Audio();
+    ~Audio();
     void playMusic(std::string musicName);
     void playEffect(std::string effectName);
 
