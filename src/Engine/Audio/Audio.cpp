@@ -6,25 +6,25 @@
 #include "soloud/soloud.h"
 #include "soloud/soloud_wav.h"
 
-SoLoud::Soloud soloud;
-SoLoud::Wav wav;
+//SoLoud::Soloud soloud;
+//SoLoud::Wav wav;
 
 Audio::Audio() {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
         std::cout << "Failed to load SDL_INIT\n";
 
-    soloud.init();
+   // soloud.init();
 
-    wav.load(getMusicFilePath("sample").c_str());
-    wav.setLooping(1);                        
-    int handle1 = soloud.play(wav);           
-    soloud.setVolume(handle1, 0.5f);           
-    soloud.setPan(handle1, -0.2f);
-    soloud.setRelativePlaySpeed(handle1, 0.6f); 
+   // wav.load(getMusicFilePath("sample").c_str());
+    //wav.setLooping(1);                        
+   // int handle1 = soloud.play(wav);           
+   // soloud.setVolume(handle1, 0.5f);           
+   // soloud.setPan(handle1, -0.2f);
+   // soloud.setRelativePlaySpeed(handle1, 0.6f); 
 }
 
 Audio::~Audio() {
-    soloud.deinit();
+   // soloud.deinit();
     SDL_CloseAudio();
     SDL_Quit();
 }
