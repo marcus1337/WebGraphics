@@ -33,6 +33,7 @@ private:
     void drawMainView();
     FrameBuffer mainView;
     AspectRatio aspectRatio;
+    void setGLSettings();
 
 public:
     ImageObject imageObject;

@@ -70,3 +70,11 @@ std::string FolderPaths::getScriptsPath(){
     return std::filesystem::current_path().string() + "//res//scripts//";
 #endif
 }
+
+std::string FolderPaths::getAudioPath() {
+#ifdef EMSCRIPTEN
+    return "./res/audio/";
+#else
+    return std::filesystem::current_path().string() + "//res//audio//";
+#endif
+}

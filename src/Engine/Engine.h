@@ -1,5 +1,5 @@
-
 #include "Graphics.h"
+#include "Audio/Audio.h"
 
 #ifndef ENGINE_H
 #define ENGINE_H
@@ -8,10 +8,8 @@ class Engine {
 public:
     Canvas window;
     Graphics graphics;
-private:
-    void setGLSettings();
+    Audio audio;
 
-public:
     Engine();
     ~Engine();
 };

@@ -15,6 +15,7 @@ static std::string getSavesPath();
 static std::string getResPath();
 static std::string getLogsPath();
 static std::string getScriptsPath();
+static std::string getAudioPath();
 
 };
 

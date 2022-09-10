@@ -7,6 +7,7 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine, "main_menu") {
         if (canSetChildPanel())
             setChildPanel(new SettingsPanel(engine));
         });
+    engine.audio.playMusic("sample");
 }
 
 void MainMenu::onEnter() {
