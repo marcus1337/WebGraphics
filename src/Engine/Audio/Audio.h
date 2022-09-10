@@ -5,6 +5,9 @@
 
 class Audio {
 
+    std::string getMusicFilePath(std::string name);
+    std::string getEffectFilePath(std::string name);
+
 public:
     Audio();
     void playMusic(std::string musicName);
