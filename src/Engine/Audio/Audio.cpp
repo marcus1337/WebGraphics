@@ -4,22 +4,16 @@
 
 #include <SDL2/SDL.h>
 #include "soloud/soloud.h"
-#include "soloud/soloud_speech.h"
-#include "soloud/soloud_thread.h"
-#include "soloud/soloud_openmpt.h"
 #include "soloud/soloud_wav.h"
 
 SoLoud::Soloud soloud;
-SoLoud::Speech speech;
 SoLoud::Wav wav;
 
 Audio::Audio() {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
         std::cout << "Failed to load SDL_INIT\n";
 
-    speech.setText("1 2 3   1 2 3   Hello world. Welcome to So-Loud.");
     soloud.init();
-    //soloud.play(speech);
 
     wav.load(getMusicFilePath("sample").c_str());
     wav.setLooping(1);                        

@@ -14,7 +14,7 @@ var Module = {
 function resize() {
   const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-  Module.resizeWindow(width - 1, height);
+  //Module.resizeWindow(width - 1, height);
 }
 document.getElementsByTagName("body")[0].onresize = resize;
 

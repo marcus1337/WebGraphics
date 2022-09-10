@@ -17,6 +17,10 @@ if(WIN32)
 	target_link_libraries(engine io window utility graphics)
 endif()
 
-if(NOT WIN32)
+if(NOT EMSCRIPTEN AND UNIX)
 	target_link_libraries(engine io window utility graphics GL GLU glut GLEW -lpthread -lSDL2)
+endif()
+
+if(EMSCRIPTEN)
+	target_link_libraries(engine io window utility graphics GL GLU glut GLEW)
 endif()

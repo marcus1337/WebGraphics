@@ -15,7 +15,7 @@ list(APPEND EXTRA_LINK_DIRS glm)
 
 if(EMSCRIPTEN)
     message("COMPILING WITH EMSCRIPTEN")
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind --embed-file res -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument")
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind --embed-file res -g -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument")
     list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
     list(APPEND EXTRA_LIB_DIRS "../external/lib/emscripten")
     list(APPEND EXTRA_LINK_DIRS lua)
