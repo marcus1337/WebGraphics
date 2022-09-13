@@ -16,6 +16,7 @@ apt-get install libglfw3-dev
 apt-get install libxinerama-dev
 apt-get install libxcursor-dev 
 apt-get install libxi-dev 
+apt-get install libsdl2-dev
 git submodule update --init --recursive 
 mkdir Build && cd Build 
 cmake ../src/ && make
