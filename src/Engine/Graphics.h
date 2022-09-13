@@ -49,6 +49,7 @@ public:
     void clearView();
     void display();
     std::pair<int, int> getPixelPosition(int _x, int _y);
+    std::pair<int, int> getMousePixelPosition();
 };
 
 #endif // !GRAPHICS_H

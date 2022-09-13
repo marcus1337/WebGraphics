@@ -9,6 +9,7 @@
 #include <Drawables/Line.h>
 #include <Drawables/Circle.h>
 #include "Button.h"
+#include "Slider.h"
 
 UIScriptTypes::UIScriptTypes(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
 
@@ -23,6 +24,7 @@ void UIScriptTypes::setUserTypes() {
     addRect();
     addView();
     addButton();
+    addSlider();
     addLine();
     addCircle();
 }
@@ -69,6 +71,23 @@ void UIScriptTypes::addButton() {
         "setText", &Button::setText,
         "setImage", &Button::setImage,
         "onPressCallback", &Button::onPressCallback);
+}
+
+void UIScriptTypes::addSlider() {
+    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
+        std::unique_ptr<Slider> slider = std::make_unique<Slider>(engine, pixelWidth, pixelHeight);
+        return slider; });
+    lua.new_usertype<Slider>("Slider",
+        sol::meta_function::construct, btnFactory,
+        sol::call_constructor, btnFactory,
+        "setPosition", &Slider::setPosition,
+        "update", &Slider::update,
+        "render", &Slider::render,
+        "setBoxColor", &Slider::setBoxColor,
+        "setLineColor", &Slider::setLineColor,
+        "setBackgroundColor", &Slider::setBackgroundColor,
+        "setBackgroundAlpha", &Slider::setBackgroundAlpha,
+        "onValueChangeCallback", &Slider::onValueChangeCallback);
 }
 
 void UIScriptTypes::addImage() {

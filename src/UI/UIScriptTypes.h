@@ -15,6 +15,7 @@ class UIScriptTypes {
     void addVec();
     void addDrawable();
     void addButton();
+    void addSlider();
     void addImage();
     void addText();
     void addView();

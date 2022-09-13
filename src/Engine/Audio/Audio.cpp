@@ -3,30 +3,34 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
+
+#ifndef EMSCRIPTEN
 #include "soloud/soloud.h"
 #include "soloud/soloud_wav.h"
-
-//SoLoud::Soloud soloud;
-//SoLoud::Wav wav;
+SoLoud::Soloud soloud;
+SoLoud::Wav wav;
+#endif 
 
 Audio::Audio() {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
         std::cout << "Failed to load SDL_INIT\n";
 
-    //soloud.init();
-
-   // wav.load(getMusicFilePath("sample").c_str());
+#ifndef EMSCRIPTEN
+    soloud.init();
+    wav.load(getMusicFilePath("sample").c_str());
+#endif 
 }
 
 Audio::~Audio() {
-   // soloud.deinit();
+#ifndef EMSCRIPTEN
+    soloud.deinit();
+#endif 
     SDL_CloseAudio();
     SDL_Quit();
 }
 
 std::string Audio::getMusicFilePath(std::string name) {
     return FolderPaths::getAudioPath() + "music//" + name + ".wav";
-
 }
 
 std::string Audio::getEffectFilePath(std::string name) {
@@ -36,13 +40,35 @@ std::string Audio::getEffectFilePath(std::string name) {
 void Audio::playMusic(std::string musicName) {
     std::string filePath = getMusicFilePath(musicName);
     std::cout << "playing: " << filePath << "\n";
-
-   // wav.setLooping(1);                        
-   // int handle1 = soloud.play(wav);           
-   // soloud.setVolume(handle1, 0.5f);           
-   // soloud.setPan(handle1, -0.2f);
-   // soloud.setRelativePlaySpeed(handle1, 0.6f); 
+#ifndef EMSCRIPTEN                    
+     int handle1 = soloud.play(wav);           
+     soloud.setVolume(handle1, 1.0f);           
+#endif
 }
 void Audio::playEffect(std::string effectName) {
 
 }
+float Audio::getMusicVolume() {
+    return 0.0f;
+}
+void Audio::setMusicVolume(float volumePercentage) {
+
+}
+float Audio::getEffectVolume() {
+    return 0.0f;
+}
+void Audio::setEffectVolume(float volumePercentage) {
+
+}
+void Audio::muteSound() {
+
+}
+void Audio::unmuteSound() {
+
+}
+
+bool Audio::isMuted() {
+
+    return muted;
+}
+

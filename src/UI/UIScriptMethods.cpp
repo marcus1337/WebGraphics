@@ -13,4 +13,25 @@ void UIScriptMethods::setMethods() {
     lua["setFullScreen"] = [&engine = engine](bool _fullScreen) {
         engine.window.setFullScreen(_fullScreen);
     };
+    lua["muteSound"] = [&audio = engine.audio]() {
+        audio.muteSound();
+    };
+    lua["unmuteSound"] = [&audio = engine.audio]() {
+        audio.unmuteSound();
+    };
+    lua["isSoundMuted"] = [&audio = engine.audio]() {
+        return audio.isMuted();
+    };
+    lua["getMusicVolume"] = [&audio = engine.audio]() {
+        return audio.getMusicVolume();
+    };
+    lua["setMusicVolume"] = [&audio = engine.audio](float volume) {
+        audio.setMusicVolume(volume);
+    };
+    lua["getEffectVolume"] = [&audio = engine.audio]() {
+        return audio.getEffectVolume();
+    };
+    lua["setEffectVolume"] = [&audio = engine.audio](float volume) {
+        audio.setEffectVolume(volume);
+    };
 }

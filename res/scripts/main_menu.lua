@@ -23,15 +23,28 @@ backgroundImage = Image("background1.png")
 backgroundImage:setTexture("background3.png")
 backgroundImage:setPosition(0,0)
 backgroundImage:setSize(1920,1080)
+slider = Slider(250, 30)
+slider.onValueChangeCallback = sliderFunction
+slider:setPosition(200,200)
+slider:setBoxColor(vec3(0.2,0.0,0.0))
+slider:setLineColor(vec3(0.3,0.4,0.3))
+slider:setBackgroundColor(vec3(0.7,0.3,0.5))
+slider:setBackgroundAlpha(0.6)
+
+function sliderFunction(value)
+    print("slider value: " .. value)
+end
 
 function update()
     exitButton:update()
     settingsButton:update()
+    slider:update()
 end
 
 function render()
     backgroundImage:render()
     exitButton:render()
     settingsButton:render()
+    slider:render()
 end
 

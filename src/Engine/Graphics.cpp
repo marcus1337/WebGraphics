@@ -73,3 +73,6 @@ std::pair<int, int> Graphics::getPixelPosition(int _x, int _y) {
     return std::make_pair((int)(relX * mainView.width), (int)(relY * mainView.height));
 }
 
+std::pair<int, int> Graphics::getMousePixelPosition() {
+    return getPixelPosition(window.mouse.x, window.mouse.y);
+}
