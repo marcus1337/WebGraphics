@@ -1,0 +1,5 @@
+build/
+build2/
+.vscode/
+.vs/
+res/saves/canvasSettings.bin
