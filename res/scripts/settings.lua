@@ -1,6 +1,14 @@
 
 miniBtnSize = 50
 
+function getFullScreenButton()
+    local btn = Button.new(miniBtnSize, miniBtnSize)
+    btn:setPosition(140, 1010)
+    btn:setImage(getScreenButtonImageStr())
+    btn.onPressCallback = onScreenButtonClick
+    return btn
+end
+
 function getCancelButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(20, 1010)
@@ -17,12 +25,25 @@ function getSoundButton()
     return btn
 end
 
+function getScreenButtonImageStr()
+    if isFullScreen() then
+        return "icons/retract.png"
+    else
+        return "icons/expand.png"
+    end
+end
+
 function getSoundButtonImageStr()
     if isSoundMuted() then
         return "icons/soundr.png"
     else
         return "icons/sound.png"
     end
+end
+
+function onScreenButtonClick()
+    setFullScreen(not isFullScreen())
+    fullScreenButton:setImage(getScreenButtonImageStr())
 end
 
 function onSoundButtonClick()
@@ -43,6 +64,7 @@ function getVolumeSlider()
     return slider
 end
 
+fullScreenButton = getFullScreenButton()
 cancelButton = getCancelButton()
 soundButton = getSoundButton()
 backgroundImage = Image("background2.png")
@@ -90,6 +112,7 @@ function update()
     soundButton:update()
     musicVolumeSlider:update()
     effectVolumeSlider:update()
+    fullScreenButton:update()
 end
 
 function render()
@@ -100,6 +123,7 @@ function render()
     effectVolumeSlider:render()
     musicVolumeText:render()
     effectVolumeText:render()
+    fullScreenButton:render()
 
     local effectVolumePercentageText = getVolumeText(getEffectVolume())
     effectVolumePercentageText:setPosition(1130, 550)
