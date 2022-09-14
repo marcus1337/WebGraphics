@@ -83,6 +83,8 @@ void UIScriptTypes::addSlider() {
         "setPosition", &Slider::setPosition,
         "update", &Slider::update,
         "render", &Slider::render,
+        "setValue", &Slider::setValue,
+        "getValue", &Slider::getValue,
         "setBoxColor", &Slider::setBoxColor,
         "setLineColor", &Slider::setLineColor,
         "setBackgroundColor", &Slider::setBackgroundColor,
