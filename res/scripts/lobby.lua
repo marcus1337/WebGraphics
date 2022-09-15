@@ -1,30 +1,17 @@
-miniBtnSize = 50
 
-function getExitButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
-    btn:setPosition(20, 1010)
-    btn:setImage("icons/cancel.png")
-    btn.onPressCallback = onCancel
-    return btn
-end
+titleText = TitleText:new{textStr = "Lobby"}
 
-function getSettingsButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
-    btn:setPosition(80, 1010)
-    btn:setImage("icons/settings.png")
-    btn.onPressCallback = onSettings
-    return btn
-end
-
-exitButton = getExitButton()
-settingsButton = getSettingsButton()
+uiElements = {getCancelButton(), getSettingsButton()}
 
 function update()
-    exitButton:update()
-    settingsButton:update()
+    for k, v in pairs(uiElements) do 
+        v:update()
+    end
 end
 
 function render()
-    exitButton:render()
-    settingsButton:render()
+    for k, v in pairs(uiElements) do 
+        v:render()
+    end
+    titleText:render()
 end
