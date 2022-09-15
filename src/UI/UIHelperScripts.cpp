@@ -1,10 +1,12 @@
 #include "UIHelperScripts.h"
 #include <IO/Files/FolderPaths.h>
 #include <iostream>
+#include <filesystem>
 
 UIHelperScripts::UIHelperScripts(sol::state& _lua) : lua(_lua) {
-    fileCheckers.push_back(FileChecker(getScriptFilePath("utils")));
-    fileCheckers.push_back(FileChecker(getScriptFilePath("utils2")));
+    for (std::string path : getScriptFilePaths()) {
+        fileCheckers.push_back(FileChecker(path));
+    }
 }
 void UIHelperScripts::load() {
     for (FileChecker& fileChecker : fileCheckers) {
@@ -24,8 +26,11 @@ void UIHelperScripts::load() {
     }
 }
 
-std::string UIHelperScripts::getScriptFilePath(std::string scriptName) {
-    return FolderPaths::getScriptsPath() + "ui_utils//" + scriptName + ".lua";
+std::vector<std::string> UIHelperScripts::getScriptFilePaths() {
+    std::vector<std::string> paths;
+    for (const auto& entry : std::filesystem::directory_iterator(FolderPaths::getScriptsPath() + "ui_utils//"))
+        paths.push_back(entry.path().string());
+    return paths;
 }
 
 bool UIHelperScripts::isAnyScriptChanged() {

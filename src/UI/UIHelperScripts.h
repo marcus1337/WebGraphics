@@ -16,7 +16,7 @@ class UIHelperScripts {
     std::vector<FileChecker> fileCheckers;
     void printError(sol::protected_function_result& result);
     void printError(sol::load_result& result);
-    std::string getScriptFilePath(std::string scriptName);
+    std::vector<std::string> getScriptFilePaths();
 
 public:
     UIHelperScripts(sol::state& _lua);
