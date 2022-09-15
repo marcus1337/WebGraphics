@@ -45,3 +45,5 @@ function render()
     lobbyButton:render()
 end
 
+test()
+print("woah " .. tostring(testVariable))
