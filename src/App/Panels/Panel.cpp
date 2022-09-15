@@ -37,7 +37,9 @@ void Panel::onCancel() {
 
 void Panel::onQuit() {
     std::cout << "onQuit()\n";
+#ifndef EMSCRIPTEN
     exit(0);
+#endif // !EMSCRIPTEN
 }
 
 void Panel::updateUI() {

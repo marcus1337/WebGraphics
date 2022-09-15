@@ -7,10 +7,10 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-class MainMenu : public Panel {
+class MainMenuPanel : public Panel {
     virtual void onEnter() override;
 public:
-    MainMenu(Engine& _engine);
+    MainMenuPanel(Engine& _engine);
     void update() override;
     void render() override;
 };

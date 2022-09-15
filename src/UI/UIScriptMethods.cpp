@@ -11,7 +11,11 @@ void UIScriptMethods::setMethods() {
         return engine.window.isFullScreen();
     };
     lua["setFullScreen"] = [&engine = engine](bool _fullScreen) {
+#ifndef EMSCRIPTEN
         engine.window.setFullScreen(_fullScreen);
+#else
+        std::cout << "warning: setFullScreen() not implemented in Emscripten.\n";
+#endif
     };
     lua["muteSound"] = [&audio = engine.audio]() {
         audio.muteSound();

@@ -1,10 +1,10 @@
 
 #include "App.h"
 #include <iostream>
-#include "App/Panels/Main/MainMenu.h"
+#include "App/Panels/Main/MainMenuPanel.h"
 
 App::App() : devController(engine) {
-    panels.push(new MainMenu(engine));
+    panels.push(new MainMenuPanel(engine));
     panels.top()->onEnter();
 }
 

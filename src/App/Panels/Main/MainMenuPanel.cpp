@@ -1,9 +1,9 @@
-#include "MainMenu.h"
+#include "MainMenuPanel.h"
 #include <iostream>
 #include "SettingsPanel.h"
 #include "LobbyPanel.h"
 
-MainMenu::MainMenu(Engine& _engine) : Panel(_engine, "main_menu") {
+MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onSettings", [&]() {
         if (canSetChildPanel())
             setChildPanel(new SettingsPanel(engine));
@@ -14,15 +14,15 @@ MainMenu::MainMenu(Engine& _engine) : Panel(_engine, "main_menu") {
         });
 }
 
-void MainMenu::onEnter() {
+void MainMenuPanel::onEnter() {
     std::cout << "onEnter() MainMenu\n";
 
 }
 
-void MainMenu::update() {
+void MainMenuPanel::update() {
 
 }
-void MainMenu::render() {
+void MainMenuPanel::render() {
 
 }
 
