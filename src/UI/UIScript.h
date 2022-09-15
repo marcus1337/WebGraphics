@@ -6,6 +6,7 @@
 #include "UIScriptTypes.h"
 #include "UIScriptMethods.h"
 #include <functional>
+#include "UIHelperScripts.h"
 
 #ifndef UISCRIPT_H
 #define UISCRIPT_H
@@ -17,13 +18,14 @@ class UIScript
 
     UIScriptTypes scriptTypes;
     UIScriptMethods scriptMethods;
+    UIHelperScripts uiHelperScripts;
     sol::state lua;
     sol::load_result script;
     sol::function scriptUpdate, scriptRender;
 
     std::string scriptFileName;
     FileChecker fileChecker;
-    std::string getScriptFilePath();
+    std::string getScriptFilePath(std::string scriptName);
     bool loaded = false;
     bool load();
     void printError(sol::protected_function_result& result);

@@ -22,3 +22,7 @@ uint64_t FileChecker::getMostRecentEditTime() {
     uint64_t timeSinceEpoch = std::max<uint64_t>(ftime.time_since_epoch().count(), std::numeric_limits<uint64_t>::min());
     return timeSinceEpoch;
 }
+
+std::string FileChecker::getFilePath() {
+    return filePath;
+}

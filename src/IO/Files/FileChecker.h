@@ -13,6 +13,7 @@ public:
     FileChecker(std::string _filePath);
     bool isChanged();
     void setUnchanged();
+    std::string getFilePath();
 };
 
 #endif

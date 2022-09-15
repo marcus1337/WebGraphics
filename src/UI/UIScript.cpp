@@ -11,11 +11,12 @@
 #include "Button.h"
 
 
-UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath()), engine(_engine), graphics(_engine.graphics), scriptTypes(lua, _engine), scriptMethods(lua, _engine)
+UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath(_scriptFileName)), engine(_engine), graphics(_engine.graphics), scriptTypes(lua, _engine), scriptMethods(lua, _engine), uiHelperScripts(lua)
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
     scriptTypes.setUserTypes();
     scriptMethods.setMethods();
+    uiHelperScripts.load();
     loaded = load();
 }
 
@@ -25,7 +26,8 @@ UIScript::~UIScript()
 
 bool UIScript::load()
 {
-    script = lua.load_file(getScriptFilePath());
+    fileChecker.setUnchanged();
+    script = lua.load_file(getScriptFilePath(scriptFileName));
     if (!script.valid())
     {
         printError(script);
@@ -61,14 +63,14 @@ void UIScript::printError(sol::protected_function_result& result) {
 }
 
 void UIScript::printError(sol::load_result& result) {
-    sol::error err = script;
+    sol::error err = result;
     std::string what = err.what();
     std::cout << "Error loading script: " << what << "\n";
 }
 
-std::string UIScript::getScriptFilePath()
+std::string UIScript::getScriptFilePath(std::string scriptName)
 {
-    return FolderPaths::getScriptsPath() + scriptFileName + ".lua";
+    return FolderPaths::getScriptsPath() + scriptName + ".lua";
 }
 
 void UIScript::render()
@@ -80,8 +82,12 @@ void UIScript::render()
 
 void UIScript::update()
 {
+    if (uiHelperScripts.isAnyScriptChanged()) {
+        uiHelperScripts.load();
+        std::cout << "Helper script was edited.\n";
+        loaded = load();
+    }
     if (fileChecker.isChanged()) {
-        fileChecker.setUnchanged();
         loaded = load();
         std::cout << "Script was edited.\n";
     }
