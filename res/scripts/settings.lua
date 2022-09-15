@@ -1,19 +1,9 @@
 
-miniBtnSize = 50
-
 function getFullScreenButton()
     local btn = Button.new(miniBtnSize, miniBtnSize)
     btn:setPosition(140, 1010)
     btn:setImage(getScreenButtonImageStr())
     btn.onPressCallback = onScreenButtonClick
-    return btn
-end
-
-function getCancelButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
-    btn:setPosition(20, 1010)
-    btn:setImage("icons/cancel.png")
-    btn.onPressCallback = onCancel
     return btn
 end
 
@@ -55,31 +45,26 @@ function onSoundButtonClick()
     soundButton:setImage(getSoundButtonImageStr())
 end
 
-function getVolumeSlider()
+function getVolumeSlider(value, onValueChange)
     local slider = Slider(500, 30)
     slider:setBoxColor(vec3(0.7,0.7,0.7))
     slider:setLineColor(vec3(0.5,0.5,0.5))
     slider:setBackgroundColor(vec3(0.6,0.5,0.6))
     slider:setBackgroundAlpha(0.7)
+    slider.onValueChangeCallback = onValueChange
+    slider:setValue(value)
     return slider
 end
 
 fullScreenButton = getFullScreenButton()
 cancelButton = getCancelButton()
 soundButton = getSoundButton()
-backgroundImage = Image("background2.png")
-backgroundImage:setPosition(0,0)
-backgroundImage:setSize(1920,1080)
+backgroundImage = getBackgroundImage("background2.png")
 
-musicVolumeSlider = getVolumeSlider()
-musicVolumeSlider.onValueChangeCallback = musicVolumeChange
+musicVolumeSlider = getVolumeSlider(getMusicVolume(), musicVolumeChange)
 musicVolumeSlider:setPosition(600,700)
-musicVolumeSlider:setValue(getMusicVolume())
-
-effectVolumeSlider = getVolumeSlider()
-effectVolumeSlider.onValueChangeCallback = effectVolumeChange
+effectVolumeSlider = getVolumeSlider(getEffectVolume(), effectVolumeChange)
 effectVolumeSlider:setPosition(600,550)
-effectVolumeSlider:setValue(getEffectVolume())
 
 musicVolumeText = Text("Music Volume")
 musicVolumeText:setPosition(740, 750)
