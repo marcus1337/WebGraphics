@@ -22,6 +22,7 @@ class UIScriptTypes {
     void addRect();
     void addLine();
     void addCircle();
+    void addUIElement();
 
 public:
 

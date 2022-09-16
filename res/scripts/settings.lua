@@ -45,7 +45,10 @@ function onSoundButtonClick()
     soundButton:setImage(getSoundButtonImageStr())
 end
 
-function getVolumeSlider(value, onValueChange)
+VolumeSlider = {}
+VolumeSlider.__index = VolumeSlider
+
+function VolumeSlider:getSlider(value, onValueChange)
     local slider = Slider(500, 30)
     slider:setBoxColor(vec3(0.7,0.7,0.7))
     slider:setLineColor(vec3(0.5,0.5,0.5))
@@ -56,28 +59,18 @@ function getVolumeSlider(value, onValueChange)
     return slider
 end
 
-fullScreenButton = getFullScreenButton()
-cancelButton = getCancelButton()
-soundButton = getSoundButton()
-backgroundImage = getBackgroundImage("background2.png")
+function VolumeSlider:new(o)
+    o = o or {}
+    o.x = o.x or 0
+    o.y = o.y or 0
+    setmetatable(o, self)
+    o.slider = self:getSlider(o.valueGetter(), o.onValueChange)
+    o.slider:setPosition(o.x, o.y)
+    return o
+end
 
-musicVolumeSlider = getVolumeSlider(getMusicVolume(), musicVolumeChange)
-musicVolumeSlider:setPosition(600,700)
-effectVolumeSlider = getVolumeSlider(getEffectVolume(), effectVolumeChange)
-effectVolumeSlider:setPosition(600,550)
-
-musicVolumeText = Text("Music Volume")
-musicVolumeText:setPosition(740, 750)
-musicVolumeText:setPixelHeight(36)
-musicVolumeText:setColor(vec3(0.8,0.8,0.8))
-
-effectVolumeText = Text("Effect Volume")
-effectVolumeText:setPosition(740, 605)
-effectVolumeText:setPixelHeight(36)
-effectVolumeText:setColor(vec3(0.8,0.8,0.8))
-
-function getVolumeText(value)
-    value = value * 100.0
+function VolumeSlider:getVolumeText()
+    local value = self.valueGetter() * 100.0
     local valueStr = string.format("%.1f%%", value)
     local txt = Text(valueStr)
     txt:setPixelHeight(40)
@@ -85,37 +78,39 @@ function getVolumeText(value)
     return txt
 end
 
-function musicVolumeChange(value)
-    setMusicVolume(value)
-end
-function effectVolumeChange(value)
-    setEffectVolume(value)
+function VolumeSlider:update()
+    self.slider:update()
 end
 
+function VolumeSlider:render()
+    self.slider:render()
+    local volumePercentageText = self:getVolumeText()
+    volumePercentageText:setPosition(self.slider:getX() + self.slider:getWidth() + 10, self.slider:getY())
+    volumePercentageText:render()
+
+    local titleText = Text(self.title or "")
+    titleText:setPosition(self.slider:getX() + math.floor(self.slider:getWidth()/2 - titleText:getPixelWidth()/4), self.slider:getY() + 50)
+    titleText:setPixelHeight(36)
+    titleText:setColor(vec3(0.8,0.8,0.8))
+    titleText:render()
+end
+
+backgroundImage = getBackgroundImage("background2.png")
+musicVolumeSlider = VolumeSlider:new{valueGetter = getMusicVolume, onValueChange = setMusicVolume, x = 700, y = 550, title = "Music Volume"}
+effectVolumeSlider = VolumeSlider:new{valueGetter = getEffectVolume, onValueChange = setEffectVolume, x = 700, y = 400, title = "Effect Volume"}
+
+soundButton = getSoundButton()
+fullScreenButton = getFullScreenButton()
+titleText = TitleText:new{textStr = "Settings"}
+setUIElements{getCancelButton(), fullScreenButton, soundButton, musicVolumeSlider, effectVolumeSlider}
+
 function update()
-    cancelButton:update()
-    soundButton:update()
-    musicVolumeSlider:update()
-    effectVolumeSlider:update()
-    fullScreenButton:update()
+    updateUIElements()
 end
 
 function render()
     backgroundImage:render()
-    cancelButton:render()
-    soundButton:render()
-    musicVolumeSlider:render()
-    effectVolumeSlider:render()
-    musicVolumeText:render()
-    effectVolumeText:render()
-    fullScreenButton:render()
-
-    local effectVolumePercentageText = getVolumeText(getEffectVolume())
-    effectVolumePercentageText:setPosition(1130, 550)
-    effectVolumePercentageText:render()
-
-    local musicVolumePercentageText = getVolumeText(getMusicVolume())
-    musicVolumePercentageText:setPosition(1130, 700)
-    musicVolumePercentageText:render()
+    renderUIElements()
+    titleText:render()
 end
 

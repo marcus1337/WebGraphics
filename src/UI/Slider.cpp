@@ -2,8 +2,9 @@
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
 
-Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : engine(_engine), graphics(_engine.graphics), view(_engine, pixelWidth, pixelHeight), mouse(_engine.window.mouse) {
-
+Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
+    width = pixelWidth;
+    height = pixelHeight;
 }
 void Slider::render() {
     view.clear();
@@ -58,6 +59,8 @@ bool Slider::isPointerInside() {
 
 void Slider::setPosition(int _x, int _y) {
     view.setPosition(_x, _y);
+    x = _x;
+    y = _y;
 }
 void Slider::setBoxColor(glm::vec3 _color) {
     boxColor = _color;

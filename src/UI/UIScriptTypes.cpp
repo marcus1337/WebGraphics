@@ -23,10 +23,12 @@ void UIScriptTypes::setUserTypes() {
     addText();
     addRect();
     addView();
-    addButton();
-    addSlider();
     addLine();
     addCircle();
+
+    addUIElement();
+    addButton();
+    addSlider();
 }
 
 void UIScriptTypes::addVec() {
@@ -56,40 +58,6 @@ void UIScriptTypes::addDrawable() {
         "getHeight", &Drawable::getHeight,
         "setShaderProgram", &Drawable::setShaderProgram,
         "render", &Drawable::render);
-}
-
-void UIScriptTypes::addButton() {
-    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
-        std::unique_ptr<Button> btn = std::make_unique<Button>(engine, pixelWidth, pixelHeight);
-        return btn; });
-    lua.new_usertype<Button>("Button",
-        sol::meta_function::construct, btnFactory,
-        sol::call_constructor, btnFactory,
-        "setPosition", &Button::setPosition,
-        "update", &Button::update,
-        "render", &Button::render,
-        "setText", &Button::setText,
-        "setImage", &Button::setImage,
-        "onPressCallback", &Button::onPressCallback);
-}
-
-void UIScriptTypes::addSlider() {
-    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
-        std::unique_ptr<Slider> slider = std::make_unique<Slider>(engine, pixelWidth, pixelHeight);
-        return slider; });
-    lua.new_usertype<Slider>("Slider",
-        sol::meta_function::construct, btnFactory,
-        sol::call_constructor, btnFactory,
-        "setPosition", &Slider::setPosition,
-        "update", &Slider::update,
-        "render", &Slider::render,
-        "setValue", &Slider::setValue,
-        "getValue", &Slider::getValue,
-        "setBoxColor", &Slider::setBoxColor,
-        "setLineColor", &Slider::setLineColor,
-        "setBackgroundColor", &Slider::setBackgroundColor,
-        "setBackgroundAlpha", &Slider::setBackgroundAlpha,
-        "onValueChangeCallback", &Slider::onValueChangeCallback);
 }
 
 void UIScriptTypes::addImage() {
@@ -177,5 +145,47 @@ void UIScriptTypes::addCircle() {
         "setFade", &Circle::setFade,
         "setThickness", &Circle::setThickness,
         sol::base_classes, sol::bases<Drawable>());
+}
+
+void UIScriptTypes::addUIElement() {
+    lua.new_usertype<UIElement>("UIElement",
+        "getX", &UIElement::getX,
+        "getY", &UIElement::getY,
+        "getWidth", &UIElement::getWidth,
+        "getHeight", &UIElement::getHeight,
+        "update", &UIElement::update,
+        "render", &UIElement::render);
+}
+
+void UIScriptTypes::addButton() {
+    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
+        std::unique_ptr<Button> btn = std::make_unique<Button>(engine, pixelWidth, pixelHeight);
+        return btn; });
+    lua.new_usertype<Button>("Button",
+        sol::meta_function::construct, btnFactory,
+        sol::call_constructor, btnFactory,
+        "setPosition", &Button::setPosition,
+        "setText", &Button::setText,
+        "setImage", &Button::setImage,
+        "onPressCallback", &Button::onPressCallback,
+        sol::base_classes, sol::bases<UIElement>());
+}
+
+void UIScriptTypes::addSlider() {
+    auto sliderFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
+        std::unique_ptr<Slider> slider = std::make_unique<Slider>(engine, pixelWidth, pixelHeight);
+        return slider; });
+    lua.new_usertype<Slider>("Slider",
+        sol::meta_function::construct, sliderFactory,
+        sol::call_constructor, sliderFactory,
+        "setPosition", &Slider::setPosition,
+        "setValue", &Slider::setValue,
+        "getValue", &Slider::getValue,
+        "setBoxColor", &Slider::setBoxColor,
+        "setLineColor", &Slider::setLineColor,
+        "setBackgroundColor", &Slider::setBackgroundColor,
+        "setBackgroundAlpha", &Slider::setBackgroundAlpha,
+        "onValueChangeCallback", &Slider::onValueChangeCallback,
+        sol::base_classes, sol::bases<UIElement>());
 }
 

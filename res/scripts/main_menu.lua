@@ -1,22 +1,20 @@
 
-exitButton = getExitButton()
-settingsButton = getSettingsButton()
+
 backgroundImage = getBackgroundImage("background3.png")
 
-lobbyButton = getMenuButton("Lobby", onLobby)
-lobbyButton:setPosition(800, 600)
+lobbyButton = MenuButton:new{btnText = "Lobby", onPressCallback = onLobby, y = 700}
+titleText = TitleText:new{textStr = "Menu"}
+
+setUIElements{getExitButton(), getSettingsButton(), lobbyButton}
 
 function update()
-    exitButton:update()
-    settingsButton:update()
-    lobbyButton:update()
+    updateUIElements()
 end
 
 function render()
     backgroundImage:render()
-    exitButton:render()
-    settingsButton:render()
-    lobbyButton:render()
+    titleText:render()
+    renderUIElements()
 end
 
 

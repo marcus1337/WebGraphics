@@ -1,17 +1,13 @@
 
 titleText = TitleText:new{textStr = "Lobby"}
 
-uiElements = {getCancelButton(), getSettingsButton()}
+setUIElements{getCancelButton(), getSettingsButton()}
 
 function update()
-    for k, v in pairs(uiElements) do 
-        v:update()
-    end
+    updateUIElements()
 end
 
 function render()
-    for k, v in pairs(uiElements) do 
-        v:render()
-    end
+    renderUIElements()
     titleText:render()
 end

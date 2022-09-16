@@ -1,13 +1,15 @@
 #include "Button.h"
 #include <utility>
 
-Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : engine(_engine), graphics(_engine.graphics), view(_engine, pixelWidth, pixelHeight) {
+Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
     Text text(engine);
     text.setText("Button");
     text.setPixelHeight(40);
     text.setColor({ 0.9,0.9,0.9 });
     setText(text);
     view.setShaderProgram("button");
+    width = pixelWidth;
+    height = pixelHeight;
 }
 
 void Button::render() {
@@ -33,6 +35,8 @@ void Button::update() {
 
 void Button::setPosition(int _x, int _y) {
     view.setPosition(_x, _y);
+    x = _x;
+    y = _y;
 }
 
 bool Button::isPointerInside() {
@@ -50,7 +54,7 @@ void Button::onRelease() {
 
 void Button::setText(Text& _text){
     paintImage();
-    _text.center(0, 0, view.getWidth(), view.getHeight()); 
+    _text.center(_text.getX(), _text.getY(), view.getWidth(), view.getHeight());
     view.paint(_text);
 }
 

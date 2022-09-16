@@ -4,14 +4,12 @@
 #include <Drawables/Image.h>
 #include <Drawables/Text.h>
 #include <functional>
+#include "UIElement.h"
 
 #ifndef SLIDER_H
 #define SLIDER_H
 
-class Slider {
-    Engine& engine;
-    Graphics& graphics;
-    Mouse& mouse;
+class Slider : public UIElement {
     View view;
     float value = 0.5f;
     bool isPointerInside();
@@ -23,8 +21,8 @@ class Slider {
 
 public:
     Slider(Engine& _engine, int pixelWidth, int pixelHeight);
-    void render();
-    void update();
+    virtual void render() override;
+    virtual void update() override;
     void setValue(float _value);
     float getValue();
     std::function<void(float)> onValueChangeCallback;

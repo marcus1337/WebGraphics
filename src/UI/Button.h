@@ -5,17 +5,14 @@
 #include <Drawables/Text.h>
 #include <Drawables/ShaderTimer.h>
 #include <functional>
+#include "UIElement.h"
 
 #ifndef BUTTON_H
 #define BUTTON_H
 
-class Button {
-    ShaderTimer shaderTimer;
-    Engine& engine;
-    Graphics& graphics;
+class Button : public UIElement {
     View view;
     bool pressed = false;
-
     bool isPointerInside();
     void onRelease();
     std::string imageName = "button1.png";
@@ -24,8 +21,8 @@ class Button {
 public:
 
     Button(Engine& _engine, int pixelWidth, int pixelHeight);
-    void render();
-    void update();
+    virtual void render() override;
+    virtual void update() override;
     void setText(Text& _text);
     void setPosition(int _x, int _y);
     void setImage(std::string _imageName);
