@@ -62,5 +62,10 @@ function Seat:render()
     view:paint(self.background2)
     view:paint(self.descriptionText)
     view:paint(self.playerText)
+
+    if isMousePointerInside(view:getX(), view:getY(), view:getWidth(), view:getHeight()) then
+        print("Role: " .. self.role .. " Team: " .. tostring(self.team))
+    end
+
     view:render()
 end
