@@ -29,6 +29,9 @@ void Slider::render() {
     view.render();
 }
 void Slider::update() {
+    if (!active)
+        return;
+
     if (onValueChangeCallback && pressed && mouse.deltaX != 0.0) {
         auto mousePos = engine.graphics.getMousePixelPosition();
         value = ((float)std::get<0>(mousePos) - (float)view.getX())/(float)view.getWidth();
@@ -75,3 +78,12 @@ void Slider::setBackgroundAlpha(float _alpha) {
     backgroundAlpha = _alpha;
 }
 
+void Slider::setActive() {
+    active = true;
+    view.setAlpha(1.0f);
+}
+
+void Slider::setInactive() {
+    active = false;
+    view.setAlpha(0.7f);
+}

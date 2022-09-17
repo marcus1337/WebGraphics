@@ -149,6 +149,8 @@ void UIScriptTypes::addCircle() {
 
 void UIScriptTypes::addUIElement() {
     lua.new_usertype<UIElement>("UIElement",
+        "setActive", &UIElement::setActive,
+        "setInactive", &UIElement::setInactive,
         "getX", &UIElement::getX,
         "getY", &UIElement::getY,
         "getWidth", &UIElement::getWidth,

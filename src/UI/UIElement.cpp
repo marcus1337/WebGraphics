@@ -16,3 +16,10 @@ int UIElement::getWidth() {
 int UIElement::getHeight() {
     return height;
 }
+
+void UIElement::setActive() {
+
+}
+void UIElement::setInactive() {
+
+}

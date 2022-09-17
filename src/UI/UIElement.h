@@ -31,6 +31,8 @@ public:
     int getWidth();
     int getHeight();
 
+    virtual void setActive();
+    virtual void setInactive();
     virtual void update() = 0;
     virtual void render() = 0;
 };

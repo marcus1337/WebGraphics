@@ -39,8 +39,12 @@ end
 function onSoundButtonClick()
     if isSoundMuted() then
         unmuteSound()
+        musicVolumeSlider.slider:setActive()
+        effectVolumeSlider.slider:setActive()
     else
         muteSound()
+        musicVolumeSlider.slider:setInactive()
+        effectVolumeSlider.slider:setInactive()
     end
     musicVolumeSlider:updatePointer()
     effectVolumeSlider:updatePointer()

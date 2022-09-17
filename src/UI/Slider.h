@@ -18,6 +18,7 @@ class Slider : public UIElement {
     glm::vec3 boxColor = { 0.8f, 0.0f, 0.0f };
     glm::vec3 backgroundColor = { 0.5f,0.5f,0.5f };
     float backgroundAlpha = 0.6f;
+    bool active = true;
 
 public:
     Slider(Engine& _engine, int pixelWidth, int pixelHeight);
@@ -31,8 +32,9 @@ public:
     void setLineColor(glm::vec3 _color);
     void setBackgroundColor(glm::vec3 _color);
     void setBackgroundAlpha(float _alpha);
+    virtual void setActive() override;
+    virtual void setInactive() override;
     
-
 };
 
 #endif
