@@ -42,11 +42,17 @@ function onSoundButtonClick()
     else
         muteSound()
     end
+    musicVolumeSlider:updatePointer()
+    effectVolumeSlider:updatePointer()
     soundButton:setImage(getSoundButtonImageStr())
 end
 
 VolumeSlider = {}
 VolumeSlider.__index = VolumeSlider
+
+function VolumeSlider:updatePointer()
+    self.slider:setValue(self.valueGetter())
+end
 
 function VolumeSlider:getSlider(value, onValueChange)
     local slider = Slider(500, 30)
@@ -64,7 +70,11 @@ function VolumeSlider:new(o)
     o.x = o.x or 0
     o.y = o.y or 0
     setmetatable(o, self)
-    o.slider = self:getSlider(o.valueGetter(), o.onValueChange)
+    local sliderValue = o.valueGetter()
+    if not isAudioInitialized() then
+        sliderValue = 1.0
+    end
+    o.slider = self:getSlider(sliderValue, o.onValueChange)
     o.slider:setPosition(o.x, o.y)
     return o
 end

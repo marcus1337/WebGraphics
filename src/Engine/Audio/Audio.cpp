@@ -83,12 +83,13 @@ void Audio::setEffectVolume(float volumePercentage) {
 }
 
 void Audio::muteSound() {
-    soloud.pause();
+    soloud.stopAll();
     muted = true;
 }
 
 void Audio::unmuteSound() {
-    soloud.resume();
+    musicBusHandle = soloud.play(musicBus);
+    effectBusHandle = soloud.play(effectBus);
     muted = false;
 }
 
@@ -96,4 +97,6 @@ bool Audio::isMuted() {
     return muted;
 }
 
-
+bool Audio::isInitialized() {
+    return inited;
+}

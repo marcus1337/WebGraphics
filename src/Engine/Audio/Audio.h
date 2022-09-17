@@ -8,12 +8,13 @@ class Audio {
 
     std::string getMusicFilePath(std::string name);
     std::string getEffectFilePath(std::string name);
-    bool muted = true;
+    bool muted = false;
     bool inited = false;
+    void init();
 public:
     Audio();
     ~Audio();
-    void init();
+    bool isInitialized();
     void playMusic(std::string musicName);
     void playEffect(std::string effectName);
 

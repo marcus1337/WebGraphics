@@ -35,6 +35,9 @@ void UIScriptMethods::setMethods() {
     lua["getEffectVolume"] = [&audio = engine.audio]() {
         return audio.getEffectVolume();
     };
+    lua["isAudioInitialized"] = [&audio = engine.audio]() {
+        return audio.isInitialized();
+    };
     lua["setEffectVolume"] = [&audio = engine.audio](float volume) {
         audio.setEffectVolume(volume);
     };
