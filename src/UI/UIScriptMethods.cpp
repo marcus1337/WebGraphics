@@ -1,6 +1,6 @@
 
 #include "UIScriptMethods.h"
-
+#include <tuple>
 
 UIScriptMethods::UIScriptMethods(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
 
@@ -40,5 +40,17 @@ void UIScriptMethods::setMethods() {
     };
     lua["setEffectVolume"] = [&audio = engine.audio](float volume) {
         audio.setEffectVolume(volume);
+    };
+    lua["isMousePointerInside"] = [&engine = engine](int _x, int _y, int _width, int _height) {
+        auto mousePos = engine.graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+        int mouseX = std::get<0>(mousePos);
+        int mouseY = std::get<1>(mousePos);
+        return mouseX >= _x && mouseX <= _x + _width && mouseY >= _y && mouseY <= _y + _height;
+    };
+    lua["isMousePress"] = [&mouse = engine.window.mouse]() {
+        return mouse.isLeftPress;
+    };
+    lua["isMouseRelease"] = [&mouse = engine.window.mouse]() {
+        return mouse.isLeftReleased;
     };
 }
