@@ -14,7 +14,7 @@ Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_en
 
 void Button::render() {
     shaderTimer.updateEffectInterpolation();
-    view.setEffect(shaderTimer.effectInterpolation);
+    view.setEffect(shaderTimer.getEffect());
     view.render();
 }
 
@@ -23,10 +23,12 @@ void Button::update() {
         pressed = true;
     if (engine.window.mouse.isLeftReleased)
         onRelease();
-    shaderTimer.forwardAnimation = isPointerInside();
-    shaderTimer.backAnimation = !shaderTimer.forwardAnimation;
+    if (isPointerInside())
+        shaderTimer.setAnimationForward();
+    else
+        shaderTimer.setAnimationBackward();
     if (pressed) {
-        view.setColor({ 0.1f,0.1f,0.1f }); //
+        view.setColor({ 0.1f,0.1f,0.1f }); 
     }
     else {
         view.setColor({ 0,0,0 });

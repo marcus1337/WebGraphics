@@ -15,11 +15,18 @@ float ShaderTimer::getDeltaTimeSeconds() {
 void ShaderTimer::updateEffectInterpolation() {
     float deltaTime = getDeltaTimeSeconds();
     float deltaUnitInterval = deltaTime / animationTimeSeconds;
-    if (forwardAnimation) {
+    if (animateForward)
         effectInterpolation += deltaUnitInterval;
-    }
-    if (backAnimation) {
+    else
         effectInterpolation -= deltaUnitInterval;
-    }
     effectInterpolation = std::clamp<float>(effectInterpolation, 0.0f, 1.0f);
+}
+void ShaderTimer::setAnimationForward() {
+    animateForward = true;
+}
+void ShaderTimer::setAnimationBackward() {
+    animateForward = false;
+}
+float ShaderTimer::getEffect() {
+    return effectInterpolation;
 }

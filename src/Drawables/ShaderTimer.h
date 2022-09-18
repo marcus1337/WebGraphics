@@ -5,16 +5,17 @@
 #define SHADERTIMER_H
 
 class ShaderTimer {
+    bool animateForward = false;
+    float effectInterpolation = 0.0f;
+    float animationTimeSeconds = 0.35f;
+    std::chrono::time_point<std::chrono::system_clock> lastUpdateTime;
+    float getDeltaTimeSeconds();
 
 public:
-    bool forwardAnimation = false;
-    bool backAnimation = false;
-    float effectInterpolation = 0.0f; //0...1
-    float animationTimeSeconds = 0.35f; 
+    void setAnimationForward();
+    void setAnimationBackward();
     void updateEffectInterpolation();
-    float getDeltaTimeSeconds();
-    std::chrono::time_point<std::chrono::system_clock> lastUpdateTime;
-
+    float getEffect();
 };
 
 #endif
