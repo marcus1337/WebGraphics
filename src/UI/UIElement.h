@@ -12,6 +12,7 @@
 class UIElement {
 
 protected:
+    bool pressed = false;
     int x = 0;
     int y = 0;
     int width = 0;
@@ -30,6 +31,7 @@ public:
     int getY();
     int getWidth();
     int getHeight();
+    bool isPressed();
 
     virtual void setActive();
     virtual void setInactive();

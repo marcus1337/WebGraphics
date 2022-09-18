@@ -23,3 +23,7 @@ void UIElement::setActive() {
 void UIElement::setInactive() {
 
 }
+
+bool UIElement::isPressed() {
+    return pressed;
+}

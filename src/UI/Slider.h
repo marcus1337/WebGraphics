@@ -13,7 +13,6 @@ class Slider : public UIElement {
     View view;
     float value = 0.5f;
     bool isPointerInside();
-    bool pressed = false;
     glm::vec3 lineColor = { 0,0,0 };
     glm::vec3 boxColor = { 0.8f, 0.0f, 0.0f };
     glm::vec3 backgroundColor = { 0.5f,0.5f,0.5f };

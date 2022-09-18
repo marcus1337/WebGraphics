@@ -17,6 +17,14 @@ void UIScriptMethods::setMethods() {
         std::cout << "warning: setFullScreen() not implemented in Emscripten.\n";
 #endif
     };
+
+    lua["queueMusic"] = [&audio = engine.audio](std::string musicName, int maxQueueLimit) {
+        audio.queueMusic(musicName, maxQueueLimit);
+    };
+    lua["queueEffect"] = [&audio = engine.audio](std::string effectName, int maxQueueLimit) {
+        audio.queueEffect(effectName, maxQueueLimit);
+    };
+
     lua["muteSound"] = [&audio = engine.audio]() {
         audio.muteSound();
     };

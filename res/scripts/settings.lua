@@ -94,6 +94,12 @@ end
 
 function VolumeSlider:update()
     self.slider:update()
+    if self.title == "Music Volume" and self.slider:isPressed() then
+       queueMusic("sample", 1)
+    end
+    if self.title == "Effect Volume" and self.slider:isPressed() then
+       queueEffect("boom1", 1)
+    end
 end
 
 function VolumeSlider:render()

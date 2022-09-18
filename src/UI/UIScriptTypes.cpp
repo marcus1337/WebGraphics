@@ -155,6 +155,7 @@ void UIScriptTypes::addUIElement() {
         "getY", &UIElement::getY,
         "getWidth", &UIElement::getWidth,
         "getHeight", &UIElement::getHeight,
+        "isPressed", &UIElement::isPressed,
         "update", &UIElement::update,
         "render", &UIElement::render);
 }

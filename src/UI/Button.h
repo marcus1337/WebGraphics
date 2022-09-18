@@ -12,7 +12,6 @@
 
 class Button : public UIElement {
     View view;
-    bool pressed = false;
     bool isPointerInside();
     void onRelease();
     std::string imageName = "button1.png";
