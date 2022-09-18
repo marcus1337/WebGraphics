@@ -36,8 +36,6 @@ void Audio::init(){
         soloud.init();
         musicBusHandle = soloud.play(musicBus);
         effectBusHandle = soloud.play(effectBus);
-        musicBus.play(musicQueue);
-        effectBus.play(effectQueue);
     }
 }
 
