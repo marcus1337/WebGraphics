@@ -26,6 +26,8 @@ public:
     void setText(Text& _text);
     void setPosition(int _x, int _y);
     void setImage(std::string _imageName);
+    void paint(Drawable& drawable);
+    void clearView();
     std::function<void(void)> onPressCallback;
 
 };

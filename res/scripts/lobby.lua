@@ -12,6 +12,13 @@ team1seat3 = Seat:new {team = 1, x = 100, y = 600, role = "Attacker"}
 
 function update()
     updateUIElements()
+    team2seat1:update()
+    team2seat2:update()
+    team2seat3:update()
+
+    team1seat1:update()
+    team1seat2:update()
+    team1seat3:update()
 end
 
 function render()

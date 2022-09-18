@@ -1,21 +1,15 @@
-SimpleButton = {x = 0, y = 0, width = 700, height = 150}
+SimpleButton = {x = 0, y = 0, width = 700, height = 150, button = Button(200,100)}
 
 function SimpleButton:update()
+    self.button:update()
 end
 function SimpleButton:paintView()
 end
 function SimpleButton:render()
-    if self.view == nil then
-        return
-    end
-    local view = self.view
-    view:setPosition(self.x, self.y)
-    if isMousePointerInside(view:getX(), view:getY(), view:getWidth(), view:getHeight()) then
-
-    end
-    view:render()
+    local button = self.button
+    button:setPosition(self.x, self.y)
+    button:render()
 end
-
 
 Seat = SimpleButton
 
@@ -35,6 +29,10 @@ function Seat:getTeamBackground2Color(team)
     end
 end
 
+function Seat:onPress()
+    print("Seat pressed")
+end
+
 function Seat:new(o)
     o = o or {}
     setmetatable(o, self)
@@ -43,7 +41,9 @@ function Seat:new(o)
     o.role = o.role or "???"
 
     o:setViewComponents()
-    o.view = View.new(self.width, self.height)
+    o.button = Button.new(self.width, self.height)
+    o.button:setPosition(self.x, self.y)
+    o.button.onPressCallback = o.onPress
     o:paintView()
     return o
 end
@@ -79,12 +79,12 @@ function Seat:setViewComponents()
 end
 
 function Seat:paintView()
-    local view = self.view
-    view:setPosition(self.x, self.y)
-    view:paint(self.background)
-    view:paint(self.background2)
-    view:paint(self.descriptionText)
-    view:paint(self.playerText)
+    local button = self.button
+    button:clearView()
+    button:paint(self.background)
+    button:paint(self.background2)
+    button:paint(self.descriptionText)
+    button:paint(self.playerText)
 end
 
 

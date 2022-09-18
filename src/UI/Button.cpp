@@ -71,3 +71,11 @@ void Button::setImage(std::string _imageName) {
     imageName = _imageName;
     paintImage();
 }
+
+void Button::paint(Drawable& drawable) {
+    view.paint(drawable);
+}
+
+void Button::clearView() {
+    view.clear();
+}

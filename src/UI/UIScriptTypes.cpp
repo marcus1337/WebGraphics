@@ -169,6 +169,8 @@ void UIScriptTypes::addButton() {
         "setPosition", &Button::setPosition,
         "setText", &Button::setText,
         "setImage", &Button::setImage,
+        "paint", &Button::paint,
+        "clearView", &Button::clearView,
         "onPressCallback", &Button::onPressCallback,
         sol::base_classes, sol::bases<UIElement>());
 }
