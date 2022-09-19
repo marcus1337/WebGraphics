@@ -5,6 +5,17 @@ GameView::GameView(Engine& _engine, Game& _game) : engine(_engine), game(_game),
 }
 
 void GameView::render() {
+    int cameraWidth = 500;
+    int cameraHeight = 400;
+    int mapWidth = 2000;
+    int mapHeight = 1000;
+    int zoomAdjustedCameraWidth = (int)((float)cameraWidth * zoom);
+    int zoomAdjustedCameraHeight = (int)((float)cameraHeight * zoom);
+    cameraLowerLeftX = game.getPlayerX() - zoomAdjustedCameraWidth / 2;
+    cameraLowerLeftY = game.getPlayerY() - zoomAdjustedCameraHeight / 2;
+    cameraLowerLeftX = std::clamp(cameraLowerLeftX, 0, mapWidth - zoomAdjustedCameraWidth / 2);
+    cameraLowerLeftY = std::clamp(cameraLowerLeftY, 0, mapHeight - zoomAdjustedCameraHeight / 2);
+
     view.clear();
     paint();
     view.render();
@@ -16,7 +27,13 @@ void GameView::addZoomStep(float _zoom) {
     if (_zoom < 0)
         zoom = zoom - 0.5f;
     zoom = std::clamp<float>(zoom, 0.5f, 5.0f);
-    //std::cout << "zoom: " << zoom << "\n";
+}
+
+int GameView::getXOffset(int _x) {
+    return _x - cameraLowerLeftX;
+}
+int GameView::getYOffset(int _y) {
+    return _y - cameraLowerLeftY;
 }
 
 void GameView::resetZoom() {
@@ -31,11 +48,15 @@ void GameView::paint() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 70; j++) {
             Rect rect(engine);
-            rect.setSize((int)(100.f*zoom), (int)(100.f*zoom));
+            int width = 100;
+            int height = 100;
+            int adjustedWidth = (int)((float)width * zoom);
+            int adjustedHeight = (int)((float)height * zoom);
+            rect.setSize(adjustedWidth, adjustedHeight);
             rect.setColor(glm::vec3(r, g, b));
-            float xPos = (float)(i * 100 + game.getPlayerX());
-            float yPos = (float)(j * 100 + game.getPlayerY());
-            rect.setPosition((int)(zoom*xPos), (int)(zoom*yPos));
+            int xPos = getXOffset(i * 100*zoom);
+            int yPos = getYOffset(j * 100*zoom);
+            rect.setPosition((int)xPos, (int)yPos);
             rect.setRadius(0.2f);
             view.paint(rect);
             r += 0.001f;

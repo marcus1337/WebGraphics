@@ -13,6 +13,10 @@ class GameView {
 
     void paint();
     float zoom = 1.0f;
+    int cameraLowerLeftX = 0;
+    int cameraLowerLeftY = 0;
+    int getXOffset(int _x);
+    int getYOffset(int _y);
 public:
     GameView(Engine& _engine, Game& _game);
     void render();
