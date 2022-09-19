@@ -4,19 +4,10 @@
 
 #include <SDL2/SDL.h>
 
-#include "soloud/soloud.h"
-#include "soloud/soloud_wav.h"
-SoLoud::Soloud soloud;
-SoLoud::Bus musicBus;
-SoLoud::Bus effectBus;
-SoLoud::Queue musicQueue;
-SoLoud::Queue effectQueue;
-std::map<std::string, SoLoud::Wav*> soundMap;
-
 Audio::Audio() {
 }
 
-void* Audio::getWavPointer(std::string name, std::string path) {
+SoLoud::Wav* Audio::getWavPointer(std::string name, std::string path) {
     init();
     std::cout << "Sound: " << name << "\n";
     if (!soundMap.contains(name)) {
@@ -48,18 +39,25 @@ Audio::~Audio() {
     SDL_Quit();
 }
 
+SoLoud::Wav* Audio::getWavPointer(std::string name, SoundType soundType) {
+    SoLoud::Wav* wavPtr = nullptr;
+    if (soundType == SoundType::MUSIC)
+        wavPtr = getWavPointer(name, getMusicFilePath(name));
+    if (soundType == SoundType::FX)
+        wavPtr = getWavPointer(name, getEffectFilePath(name));
+    return wavPtr;
+}
+
 void Audio::queueMusic(std::string musicName, int maxQueueSize) {
     if (musicQueue.getQueueCount() < maxQueueSize) {
-        SoLoud::Wav* wavPtr = (SoLoud::Wav*)getWavPointer(musicName, getMusicFilePath(musicName));
         musicBus.play(musicQueue);
-        musicQueue.play(*wavPtr);
+        musicQueue.play(*getWavPointer(musicName, SoundType::MUSIC));
     }
 }
 void Audio::queueEffect(std::string effectName, int maxQueueSize) {
     if (effectQueue.getQueueCount() < maxQueueSize) {
-        SoLoud::Wav* wavPtr = (SoLoud::Wav*)getWavPointer(effectName, getEffectFilePath(effectName));
         effectBus.play(effectQueue);
-        effectQueue.play(*wavPtr);
+        effectQueue.play(*getWavPointer(effectName, SoundType::FX));
     }
 }
 
@@ -71,37 +69,41 @@ std::string Audio::getEffectFilePath(std::string name) {
 }
 
 void Audio::playMusic(std::string musicName) {
-    SoLoud::Wav* wavPtr = (SoLoud::Wav*) getWavPointer(musicName, getMusicFilePath(musicName));
-    musicBus.play(*wavPtr);
+    musicBus.play(*getWavPointer(musicName, SoundType::MUSIC));
 }
 
 void Audio::playEffect(std::string effectName) {
-    SoLoud::Wav* wavPtr = (SoLoud::Wav* )getWavPointer(effectName, getEffectFilePath(effectName));
-    effectBus.play(*wavPtr);
+    effectBus.play(*getWavPointer(effectName, SoundType::FX));
 }
 
 float Audio::getMusicVolume() {
+    init();
     return soloud.getVolume(musicBusHandle);
 }
 
 void Audio::setMusicVolume(float volumePercentage) {
+    init();
     soloud.setVolume(musicBusHandle, volumePercentage);
 }
 
 float Audio::getEffectVolume() {
+    init();
     return soloud.getVolume(effectBusHandle);
 }
 
 void Audio::setEffectVolume(float volumePercentage) {
+    init();
     soloud.setVolume(effectBusHandle, volumePercentage);
 }
 
 void Audio::muteSound() {
+    init();
     soloud.stopAll();
     muted = true;
 }
 
 void Audio::unmuteSound() {
+    init();
     musicBusHandle = soloud.play(musicBus);
     effectBusHandle = soloud.play(effectBus);
     effectBus.play(effectQueue);
