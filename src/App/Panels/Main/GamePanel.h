@@ -9,6 +9,8 @@ class GamePanel : public Panel {
     virtual void onEnter() override;
     GameView gameView;
     GameDemo game;
+
+    int x = 0; int y = 0;
 public:
     GamePanel(Engine& _engine);
     void update() override;

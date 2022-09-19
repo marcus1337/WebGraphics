@@ -1,28 +1,26 @@
 #include "GameView.h"
 #include <Drawables/Rect.h>
 
-GameView::GameView(Engine& _engine, Game& _game) : engine(_engine), game(_game), view(_engine, 1000, 700) {
-    paint();
+GameView::GameView(Engine& _engine, Game& _game) : engine(_engine), game(_game), view(_engine, 1920, 1080) {
 }
 
 void GameView::render() {
+    view.clear();
+    paint();
     view.render();
 }
 
-void GameView::setCenterPosition(int _x, int _y) {
-    view.setPosition(_x + view.getWidth() / 2, _y + view.getHeight() / 2);
+void GameView::addZoomStep(float _zoom) {
+    if (_zoom > 0)
+        zoom = zoom + 0.5f;
+    if (_zoom < 0)
+        zoom = zoom - 0.5f;
+    zoom = std::clamp<float>(zoom, -0.5f, 5.0f);
 }
 
-void GameView::setZoom(float _zoom) {
-    zoom = _zoom;
-    view.setSize((1.0f + zoom) * view.getPixelWidth(), (1.0f + zoom) * view.getPixelHeight());
-}
-void GameView::addZoom(float _zoom) {
-    zoom += _zoom;
-    view.setSize((1.0f + zoom) * view.getPixelWidth(), (1.0f + zoom) * view.getPixelHeight());
-}
 void GameView::resetZoom() {
-    setZoom(0.0f);
+    zoom = 1.0f;
+    view.setSize(zoom * view.getPixelWidth(), zoom * view.getPixelHeight());
 }
 
 void GameView::paint() {
@@ -34,7 +32,7 @@ void GameView::paint() {
             Rect rect(engine);
             rect.setSize(100, 100);
             rect.setColor(glm::vec3(r, g, b));
-            rect.setPosition(i * 100, j * 100);
+            rect.setPosition(i * 100 + game.getPlayerX(), j * 100 + game.getPlayerY());
             rect.setRadius(0.2f);
             view.paint(rect);
             r += 0.001f;
