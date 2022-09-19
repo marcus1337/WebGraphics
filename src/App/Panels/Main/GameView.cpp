@@ -14,7 +14,15 @@ void GameView::setCenterPosition(int _x, int _y) {
 }
 
 void GameView::setZoom(float _zoom) {
-    view.setSize(1.0f + _zoom, 1.0f + _zoom);
+    zoom = _zoom;
+    view.setSize((1.0f + zoom) * view.getPixelWidth(), (1.0f + zoom) * view.getPixelHeight());
+}
+void GameView::addZoom(float _zoom) {
+    zoom += _zoom;
+    view.setSize((1.0f + zoom) * view.getPixelWidth(), (1.0f + zoom) * view.getPixelHeight());
+}
+void GameView::resetZoom() {
+    setZoom(0.0f);
 }
 
 void GameView::paint() {
