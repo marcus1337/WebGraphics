@@ -9,13 +9,14 @@ void GameView::render() {
     int cameraHeight = 400;
     int mapWidth = 2000;
     int mapHeight = 1000;
-    int zoomAdjustedCameraWidth = (int)((float)cameraWidth * zoom);
-    int zoomAdjustedCameraHeight = (int)((float)cameraHeight * zoom);
+    int zoomAdjustedCameraWidth = (int)((float)cameraWidth / zoom);
+    int zoomAdjustedCameraHeight = (int)((float)cameraHeight / zoom);
     cameraLowerLeftX = game.getPlayerX() - zoomAdjustedCameraWidth / 2;
     cameraLowerLeftY = game.getPlayerY() - zoomAdjustedCameraHeight / 2;
     cameraLowerLeftX = std::clamp(cameraLowerLeftX, 0, mapWidth - zoomAdjustedCameraWidth / 2);
     cameraLowerLeftY = std::clamp(cameraLowerLeftY, 0, mapHeight - zoomAdjustedCameraHeight / 2);
 
+    std::cout << "cx " << cameraLowerLeftX << " cy " << cameraLowerLeftY << " px " << game.getPlayerX() << " py " << game.getPlayerY() << "\n";
     view.clear();
     paint();
     view.render();
@@ -64,4 +65,17 @@ void GameView::paint() {
             b += 0.005f;
         }
     }
+
+    Rect playerRect(engine);
+    int w = 50;
+    int h = 50;
+    int adjustedW = (int)((float)w * zoom);
+    int adjustedH = (int)((float)h * zoom);
+    playerRect.setColor(glm::vec3(1.0f, 0.0f, 0.0f));
+    playerRect.setSize(adjustedW, adjustedH);
+    int _x = game.getPlayerX() - adjustedW/2;
+    int _y = game.getPlayerY() - adjustedH/2;
+    playerRect.setPosition(_x, _y);
+    view.paint(playerRect);
+    //TODO: draw everything without zoom -- then zoom on view instead.
 }
