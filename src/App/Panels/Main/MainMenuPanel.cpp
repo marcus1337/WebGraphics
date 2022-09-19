@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SettingsPanel.h"
 #include "LobbyPanel.h"
+#include "GamePanel.h"
 
 MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onSettings", [&]() {
@@ -11,6 +12,10 @@ MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onLobby", [&]() {
         if (canSetChildPanel())
             setChildPanel(new LobbyPanel(engine));
+        });
+    uiScript.addMethod("onGame", [&]() {
+        if (canSetChildPanel())
+            setChildPanel(new GamePanel(engine));
         });
 }
 

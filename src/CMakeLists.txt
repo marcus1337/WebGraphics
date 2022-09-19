@@ -72,6 +72,11 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
+add_subdirectory(Game)
+list(APPEND EXTRA_LIB_DIRS "Game")
+list(APPEND EXTRA_INCLUDE_DIRS "Game")
+list(APPEND EXTRA_LINK_DIRS game)
+
 add_subdirectory(Utility)
 list(APPEND EXTRA_LIB_DIRS "Utility")
 list(APPEND EXTRA_INCLUDE_DIRS "Utility")
