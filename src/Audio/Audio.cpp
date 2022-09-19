@@ -84,6 +84,7 @@ float Audio::getMusicVolume() {
 void Audio::setMusicVolume(float volumePercentage) {
     init();
     soloud.setVolume(musicBusHandle, volumePercentage);
+    prevMusicVolume = volumePercentage;
 }
 
 float Audio::getEffectVolume() {
@@ -94,6 +95,7 @@ float Audio::getEffectVolume() {
 void Audio::setEffectVolume(float volumePercentage) {
     init();
     soloud.setVolume(effectBusHandle, volumePercentage);
+    prevEffectVolume = volumePercentage;
 }
 
 void Audio::muteSound() {
@@ -108,6 +110,8 @@ void Audio::unmuteSound() {
     effectBusHandle = soloud.play(effectBus);
     effectBus.play(effectQueue);
     musicBus.play(musicQueue);
+    setMusicVolume(prevMusicVolume);
+    setEffectVolume(prevEffectVolume);
     muted = false;
 }
 

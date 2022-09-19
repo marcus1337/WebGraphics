@@ -13,6 +13,8 @@ class Audio {
         FX
     };
     int musicBusHandle, effectBusHandle;
+    float prevEffectVolume = 0.0f;
+    float prevMusicVolume = 0.0f;
 
     std::string getMusicFilePath(std::string name);
     std::string getEffectFilePath(std::string name);
