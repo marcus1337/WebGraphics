@@ -77,7 +77,7 @@ void Audio::playMusic(std::string musicName) {
 
 void Audio::playEffect(std::string effectName) {
     SoLoud::Wav* wavPtr = (SoLoud::Wav* )getWavPointer(effectName, getEffectFilePath(effectName));
-    musicBus.play(*wavPtr);
+    effectBus.play(*wavPtr);
 }
 
 float Audio::getMusicVolume() {
@@ -104,6 +104,8 @@ void Audio::muteSound() {
 void Audio::unmuteSound() {
     musicBusHandle = soloud.play(musicBus);
     effectBusHandle = soloud.play(effectBus);
+    effectBus.play(effectQueue);
+    musicBus.play(musicQueue);
     muted = false;
 }
 
