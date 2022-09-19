@@ -1,6 +1,6 @@
 
 
-setUIElements({})
+setUIElements({MiniButtonPanel:new{hasCancel = true, hasSettings = true}})
 
 function update()
     updateUIElements()

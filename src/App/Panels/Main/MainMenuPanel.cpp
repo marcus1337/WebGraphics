@@ -4,6 +4,7 @@
 #include "LobbyPanel.h"
 #include "GamePanel.h"
 #include "LobbySearchPanel.h"
+#include "InstructionsPanel.h"
 
 MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onSettings", [&]() {
@@ -21,6 +22,10 @@ MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onFindLobby", [&]() {
         if (canSetChildPanel())
             setChildPanel(new LobbySearchPanel(engine));
+        });
+    uiScript.addMethod("onInstructions", [&]() {
+        if (canSetChildPanel())
+            setChildPanel(new InstructionsPanel(engine));
         });
 }
 

@@ -1,5 +1,5 @@
 
-titleText = TitleText:new { textStr = "Lobby Search" }
+titleText = TitleText:new { textStr = "Instructions" }
 setUIElements({MiniButtonPanel:new{hasCancel = true}})
 
 function update()
