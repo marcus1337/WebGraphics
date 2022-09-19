@@ -29,7 +29,6 @@ void GamePanel::update() {
     double scrollDelta = engine.window.mouse.scrollDelta;
     if (scrollDelta != 0.0f) {
         float scrollValue = scrollDelta / 100.0f;
-        std::cout << "scroll: " << scrollValue << "\n";
         gameView.addZoomStep(scrollValue);
     }
 

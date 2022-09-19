@@ -15,7 +15,8 @@ void GameView::addZoomStep(float _zoom) {
         zoom = zoom + 0.5f;
     if (_zoom < 0)
         zoom = zoom - 0.5f;
-    zoom = std::clamp<float>(zoom, -0.5f, 5.0f);
+    zoom = std::clamp<float>(zoom, 0.5f, 5.0f);
+    //std::cout << "zoom: " << zoom << "\n";
 }
 
 void GameView::resetZoom() {
@@ -30,9 +31,11 @@ void GameView::paint() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 70; j++) {
             Rect rect(engine);
-            rect.setSize(100, 100);
+            rect.setSize((int)(100.f*zoom), (int)(100.f*zoom));
             rect.setColor(glm::vec3(r, g, b));
-            rect.setPosition(i * 100 + game.getPlayerX(), j * 100 + game.getPlayerY());
+            float xPos = (float)(i * 100 + game.getPlayerX());
+            float yPos = (float)(j * 100 + game.getPlayerY());
+            rect.setPosition((int)(zoom*xPos), (int)(zoom*yPos));
             rect.setRadius(0.2f);
             view.paint(rect);
             r += 0.001f;
