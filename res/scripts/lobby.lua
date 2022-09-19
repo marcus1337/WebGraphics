@@ -1,6 +1,6 @@
 
 titleText = TitleText:new { textStr = "Lobby" }
-setUIElements { getCancelButton(), getSettingsButton() }
+setUIElements { MiniButtonPanel:new{hasCancel = true, hasSettings = true} }
 
 team2seat1 = Seat:new {team = 2, x = 1110, y = 200, role = "Goalie"}
 team2seat2 = Seat:new {team = 2, x = 1110, y = 400, role = "Defender"}

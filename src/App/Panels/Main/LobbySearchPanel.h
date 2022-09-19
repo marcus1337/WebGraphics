@@ -3,7 +3,7 @@
 #ifndef LOBBYSEARCHPANEL_H
 #define LOBBYSEARCHPANEL_H
 
-class LobbySearchPanel : Panel {
+class LobbySearchPanel : public Panel {
     virtual void onEnter() override;
 public:
     LobbySearchPanel(Engine& _engine);

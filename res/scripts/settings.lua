@@ -1,56 +1,4 @@
 
-function getFullScreenButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
-    btn:setPosition(140, 1010)
-    btn:setImage(getScreenButtonImageStr())
-    btn.onPressCallback = onScreenButtonClick
-    return btn
-end
-
-function getSoundButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
-    btn:setPosition(80, 1010)
-    btn:setImage(getSoundButtonImageStr())
-    btn.onPressCallback = onSoundButtonClick
-    return btn
-end
-
-function getScreenButtonImageStr()
-    if isFullScreen() then
-        return "icons/retract.png"
-    else
-        return "icons/expand.png"
-    end
-end
-
-function getSoundButtonImageStr()
-    if isSoundMuted() then
-        return "icons/soundr.png"
-    else
-        return "icons/sound.png"
-    end
-end
-
-function onScreenButtonClick()
-    setFullScreen(not isFullScreen())
-    fullScreenButton:setImage(getScreenButtonImageStr())
-end
-
-function onSoundButtonClick()
-    if isSoundMuted() then
-        unmuteSound()
-        musicVolumeSlider.slider:setActive()
-        effectVolumeSlider.slider:setActive()
-    else
-        muteSound()
-        musicVolumeSlider.slider:setInactive()
-        effectVolumeSlider.slider:setInactive()
-    end
-    musicVolumeSlider:updatePointer()
-    effectVolumeSlider:updatePointer()
-    soundButton:setImage(getSoundButtonImageStr())
-end
-
 VolumeSlider = {}
 VolumeSlider.__index = VolumeSlider
 
@@ -119,10 +67,8 @@ backgroundImage = getBackgroundImage("background2.png")
 musicVolumeSlider = VolumeSlider:new{valueGetter = getMusicVolume, onValueChange = setMusicVolume, x = 700, y = 550, title = "Music Volume"}
 effectVolumeSlider = VolumeSlider:new{valueGetter = getEffectVolume, onValueChange = setEffectVolume, x = 700, y = 400, title = "Effect Volume"}
 
-soundButton = getSoundButton()
-fullScreenButton = getFullScreenButton()
 titleText = TitleText:new{textStr = "Settings"}
-setUIElements{getCancelButton(), fullScreenButton, soundButton, musicVolumeSlider, effectVolumeSlider}
+setUIElements{musicVolumeSlider, effectVolumeSlider, MiniButtonPanel:new{hasCancel = true, hasSound = true , hasScreen = true}}
 
 function update()
     updateUIElements()

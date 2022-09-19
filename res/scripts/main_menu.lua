@@ -9,7 +9,7 @@ instructionsButton = MenuButton:new{btnText = "Instructions", onPressCallback = 
 exitButton = MenuButton:new{btnText = "Exit", onPressCallback = onQuit, y = 200}
 titleText = TitleText:new{textStr = "Menu"}
 
-setUIElements{exitButton, getSettingsButton(), createLobbyButton, findLobbyButton, instructionsButton, gameButton}
+setUIElements{exitButton, createLobbyButton, findLobbyButton, instructionsButton, gameButton, MiniButtonPanel:new{hasSettings = true}}
 
 function update()
     updateUIElements()
