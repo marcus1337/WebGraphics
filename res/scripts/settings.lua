@@ -48,6 +48,15 @@ function VolumeSlider:update()
     if self.title == "Effect Volume" and self.slider:isPressed() then
        queueEffect("boom1", 1)
     end
+    if not isSoundMuted() then
+        musicVolumeSlider.slider:setActive()
+        effectVolumeSlider.slider:setActive()
+    else
+        musicVolumeSlider.slider:setInactive()
+        effectVolumeSlider.slider:setInactive()
+    end
+    musicVolumeSlider:updatePointer()
+    effectVolumeSlider:updatePointer()
 end
 
 function VolumeSlider:render()

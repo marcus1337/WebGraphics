@@ -14,7 +14,12 @@ function MiniButtonPanel:new(o)
         o:addButton(getSettingsButton())
     end
     if o.hasSound then
-        o:addButton(getSoundButton())
+        local btn = getSoundButton()
+        btn.onPressCallback = function() 
+            o:soundClick()
+        end
+        o.soundButton = btn
+        o:addButton(btn)
     end
     if o.hasScreen then
         o:addButton(getFullScreenButton())
@@ -26,6 +31,15 @@ function MiniButtonPanel:addButton(btn)
     local btnIndex = #self.buttons
     btn:setPosition(btnIndex*60 + 20, 1010)
     self.buttons[btnIndex+1] = btn
+end
+
+function MiniButtonPanel:soundClick()
+    if isSoundMuted() then
+        unmuteSound()
+    else
+        muteSound()
+    end
+    self.soundButton:setImage(getSoundButtonImageStr())
 end
 
 function MiniButtonPanel:update()
@@ -93,17 +107,3 @@ function onScreenButtonClick()
     fullScreenButton:setImage(getScreenButtonImageStr())
 end
 
-function onSoundButtonClick()
-    if isSoundMuted() then
-        unmuteSound()
-        musicVolumeSlider.slider:setActive()
-        effectVolumeSlider.slider:setActive()
-    else
-        muteSound()
-        musicVolumeSlider.slider:setInactive()
-        effectVolumeSlider.slider:setInactive()
-    end
-    musicVolumeSlider:updatePointer()
-    effectVolumeSlider:updatePointer()
-    soundButton:setImage(getSoundButtonImageStr())
-end
