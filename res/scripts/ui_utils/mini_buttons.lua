@@ -1,7 +1,9 @@
-miniBtnSize = 50
-
-MiniButtonPanel = {}
+MiniButtonPanel = { btnSize = 50}
 MiniButtonPanel.__index = MiniButtonPanel
+
+function MiniButtonPanel:makeButton()
+    return Button.new(self.btnSize, self.btnSize)
+end
 
 function MiniButtonPanel:new(o)
     o = o or {}
@@ -55,7 +57,7 @@ function MiniButtonPanel:render()
 end
 
 function getCancelButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
+    local btn = MiniButtonPanel:makeButton()
     btn:setPosition(20, 1010)
     btn:setImage("icons/cancel.png")
     btn.onPressCallback = onCancel
@@ -63,7 +65,7 @@ function getCancelButton()
 end
 
 function getSettingsButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
+    local btn = MiniButtonPanel:makeButton()
     btn:setPosition(80, 1010)
     btn:setImage("icons/settings.png")
     btn.onPressCallback = onSettings
@@ -71,15 +73,17 @@ function getSettingsButton()
 end
 
 function getFullScreenButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
+    local btn = MiniButtonPanel:makeButton()
     btn:setPosition(140, 1010)
     btn:setImage(getScreenButtonImageStr())
-    btn.onPressCallback = onScreenButtonClick
+    btn.onPressCallback = function() 
+        onScreenButtonClick(btn) 
+    end
     return btn
 end
 
 function getSoundButton()
-    local btn = Button.new(miniBtnSize, miniBtnSize)
+    local btn = MiniButtonPanel:makeButton()
     btn:setPosition(80, 1010)
     btn:setImage(getSoundButtonImageStr())
     btn.onPressCallback = onSoundButtonClick
@@ -102,8 +106,8 @@ function getSoundButtonImageStr()
     end
 end
 
-function onScreenButtonClick()
+function onScreenButtonClick(btn)
     setFullScreen(not isFullScreen())
-    fullScreenButton:setImage(getScreenButtonImageStr())
+    btn:setImage(getScreenButtonImageStr())
 end
 

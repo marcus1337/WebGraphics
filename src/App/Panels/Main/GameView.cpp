@@ -16,7 +16,7 @@ void GameView::render() {
     cameraLowerLeftX = std::clamp(cameraLowerLeftX, 0, mapWidth - zoomAdjustedCameraWidth / 2);
     cameraLowerLeftY = std::clamp(cameraLowerLeftY, 0, mapHeight - zoomAdjustedCameraHeight / 2);
 
-    std::cout << "cx " << cameraLowerLeftX << " cy " << cameraLowerLeftY << " px " << game.getPlayerX() << " py " << game.getPlayerY() << "\n";
+    //std::cout << "cx " << cameraLowerLeftX << " cy " << cameraLowerLeftY << " px " << game.getPlayerX() << " py " << game.getPlayerY() << "\n";
     view.clear();
     paint();
     view.render();
