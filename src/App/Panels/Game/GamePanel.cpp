@@ -3,7 +3,7 @@
 
 
 void GamePanel::onEnter() {
-
+    std::cout << "onEnter() GamePanel" << std::endl;
 }
 GamePanel::GamePanel(Engine& _engine) : Panel(_engine, "game"), gameView(_engine, game), gameController(_engine, game, gameCamera) {
     uiScript.addMethod("onSettings", [&]() {
@@ -13,7 +13,6 @@ GamePanel::GamePanel(Engine& _engine) : Panel(_engine, "game"), gameView(_engine
 }
 void GamePanel::update() {
     gameController.update();
-    game.tick();
     game.tick();
     gameCamera.addZoomStep(engine.window.mouse.scrollDelta / 100.0f);
 }

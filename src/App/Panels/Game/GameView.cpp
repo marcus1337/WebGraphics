@@ -1,7 +1,7 @@
 #include "GameView.h"
 #include <Drawables/Rect.h>
 
-GameView::GameView(Engine& _engine, Game& _game) : engine(_engine), game(_game), view(_engine, _game.getMapWidth(), _game.getMapHeight()) {
+GameView::GameView(Engine& _engine, GameDemo& _game) : engine(_engine), game(_game), view(_engine, _game.getMapWidth(), _game.getMapHeight()) {
 }
 
 void GameView::paintBackground() {
@@ -13,11 +13,11 @@ void GameView::paintBackground() {
 }
 
 void GameView::paintPlayer() {
-    Rect playerRect(engine);
-    playerRect.setColor(glm::vec3(1.0f, 0.0f, 0.0f));
-    playerRect.setSize(game.getPlayerDiameter(), game.getPlayerDiameter());
-    playerRect.setPosition(game.getPlayerX() - game.getPlayerRadius(), game.getPlayerY() - game.getPlayerRadius());
-    view.paint(playerRect);
+    Rect rect(engine);
+    rect.setColor(glm::vec3(1.0f, 0.0f, 0.0f));
+    rect.setSize(game.player.getDiameter(), game.player.getDiameter());
+    rect.setPosition(game.player.getX() - rect.getWidth()/2, game.player.getY() - rect.getHeight()/2);
+    view.paint(rect);
 }
 
 void GameView::paint() {

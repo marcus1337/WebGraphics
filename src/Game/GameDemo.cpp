@@ -1,45 +1,23 @@
 #include "GameDemo.h"
 #include <algorithm>
 
+GameDemo::GameDemo() {
+    player.setPosition(100, 100);
+}
+
 void GameDemo::tick() {
     ticks++;
-    int playerXVelocity = 0;
-    int playerYVelocity = 0;
+    
+    player.move();
+    int clampedPlayerXPosition = std::clamp<int>(player.getX(), 0, getMapWidth());
+    int clampedPlayerYPosition = std::clamp<int>(player.getY(), 0, getMapHeight());
+    player.setPosition(clampedPlayerXPosition, clampedPlayerYPosition);
+}
 
-    if (playerMoveAction == MoveAction::NONE) {
 
-    }
-    if (playerMoveAction == MoveAction::LEFT) {
-        playerXVelocity -= 1;
-    }
-    if (playerMoveAction == MoveAction::LEFT_DOWN) {
-        playerXVelocity -= 1;
-        playerYVelocity -= 1;
-    }
-    if (playerMoveAction == MoveAction::LEFT_UP) {
-        playerXVelocity -= 1;
-        playerYVelocity += 1;
-    }
-    if (playerMoveAction == MoveAction::UP) {
-        playerYVelocity += 1;
-    }
-    if (playerMoveAction == MoveAction::DOWN) {
-        playerYVelocity -= 1;
-    }
-    if (playerMoveAction == MoveAction::RIGHT) {
-        playerXVelocity += 1;
-    }
-    if (playerMoveAction == MoveAction::RIGHT_DOWN) {
-        playerXVelocity += 1;
-        playerYVelocity -= 1;
-    }
-    if (playerMoveAction == MoveAction::RIGHT_UP) {
-        playerXVelocity += 1;
-        playerYVelocity += 1;
-    }
-
-    playerX += playerXVelocity;
-    playerY += playerYVelocity;
-    playerX = std::clamp<int>(playerX, 0, getMapWidth());
-    playerY = std::clamp<int>(playerY, 0, getMapHeight());
+int GameDemo::getMapWidth() {
+    return 1200;
+}
+int GameDemo::getMapHeight() {
+    return 800;
 }

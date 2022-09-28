@@ -1,5 +1,5 @@
 #include <Engine/Engine.h>
-#include <Game/Game.h>
+#include <Game/GameDemo.h>
 #include <Drawables/View.h>
 #include "GameCamera.h"
 
@@ -9,17 +9,12 @@
 class GameView {
 
     Engine& engine;
-    Game& game;
-
-    //GameCamera& gameCamera;
-    //void offsetPosition(Drawable& drawable);
-    //void setZoomSize(Drawable& drawable);
-    //void adjustToCameraAndPaint(Drawable& drawable);
+    GameDemo& game;
     
     void paintBackground();
     void paintPlayer();
 public:
-    GameView(Engine& _engine, Game& _game);
+    GameView(Engine& _engine, GameDemo& _game);
     void paint();
     View view;
 };

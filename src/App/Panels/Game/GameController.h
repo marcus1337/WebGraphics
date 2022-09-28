@@ -1,5 +1,5 @@
 #include <Engine/Engine.h>
-#include <Game/Game.h>
+#include <Game/GameDemo.h>
 #include <Drawables/View.h>
 #include "GameCamera.h"
 
@@ -9,11 +9,15 @@
 class GameController {
 
     Engine& engine;
-    Game& game;
+    GameDemo& game;
     GameCamera& gameCamera;
+    Keyboard& keyboard;
+    Mouse& mouse;
+
+    MoveAction getMoveAction();
 
 public:
-    GameController(Engine& _engine, Game& _game, GameCamera& _gameCamera);
+    GameController(Engine& _engine, GameDemo& _game, GameCamera& _gameCamera);
     void update();
 
 };
