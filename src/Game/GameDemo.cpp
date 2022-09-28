@@ -9,8 +9,8 @@ void GameDemo::tick() {
     ticks++;
     
     player.move();
-    int clampedPlayerXPosition = std::clamp<int>(player.getX(), 0, getMapWidth());
-    int clampedPlayerYPosition = std::clamp<int>(player.getY(), 0, getMapHeight());
+    int clampedPlayerXPosition = std::clamp<int>(player.getX(), player.getRadius(), getMapWidth() - player.getRadius());
+    int clampedPlayerYPosition = std::clamp<int>(player.getY(), player.getRadius(), getMapHeight() - player.getRadius());
     player.setPosition(clampedPlayerXPosition, clampedPlayerYPosition);
 }
 
