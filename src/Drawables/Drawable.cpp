@@ -7,6 +7,9 @@ Drawable::~Drawable() {
 
 }
 
+void Drawable::setCenterPosition(int _x, int _y) {
+    shader->setPosition(_x - getWidth()/2, _y - getHeight() / 2);
+}
 void Drawable::setPosition(int _x, int _y) {
     shader->setPosition(_x, _y);
 }

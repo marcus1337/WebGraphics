@@ -23,6 +23,7 @@ public:
     virtual void render() = 0;
 
     void setEffect(float _effect);
+    void setCenterPosition(int _x, int _y);
     void setPosition(int _x, int _y);
     void setSize(int _width, int _height);
     void setColor(glm::vec3 _color);

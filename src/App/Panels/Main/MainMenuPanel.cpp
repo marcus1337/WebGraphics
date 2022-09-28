@@ -1,9 +1,9 @@
 #include "MainMenuPanel.h"
 #include <iostream>
 #include "SettingsPanel.h"
-#include "LobbyPanel.h"
-#include "GamePanel.h"
-#include "LobbySearchPanel.h"
+#include "App/Panels/Lobby/LobbyPanel.h"
+#include "App/Panels/Game/GamePanel.h"
+#include "App/Panels/Lobby/LobbySearchPanel.h"
 #include "InstructionsPanel.h"
 
 MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {

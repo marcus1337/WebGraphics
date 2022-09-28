@@ -1,5 +1,5 @@
 #include "LobbyPanel.h"
-#include "SettingsPanel.h"
+#include "App/Panels/Main/SettingsPanel.h"
 
 void LobbyPanel::onEnter() {
     std::cout << "onEnter() Lobby\n";
