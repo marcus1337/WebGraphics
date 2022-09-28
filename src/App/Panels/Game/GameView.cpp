@@ -4,24 +4,6 @@
 GameView::GameView(Engine& _engine, Game& _game) : engine(_engine), game(_game), view(_engine, _game.getMapWidth(), _game.getMapHeight()) {
 }
 
-/*void GameView::offsetPosition(Drawable& drawable) {
-    int x = gameCamera.getXOffset(drawable.getX());
-    int y = gameCamera.getYOffset(drawable.getY());
-    drawable.setCenterPosition(x, y);
-}
-
-void GameView::setZoomSize(Drawable& drawable) {
-    int w = drawable.getWidth();
-    int h = drawable.getHeight();
-    drawable.setSize(gameCamera.getZoomedWidth(w), gameCamera.getZoomedHeight(h));
-}
-
-void GameView::adjustToCameraAndPaint(Drawable& drawable) {
-    setZoomSize(drawable);
-    offsetPosition(drawable);
-    cameraView.paint(drawable);
-}*/
-
 void GameView::paintBackground() {
     Rect rect(engine);
     rect.setRadius(0.08f);
