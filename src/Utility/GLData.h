@@ -11,6 +11,7 @@
 #include "IO/Files/ShaderData.h"
 #include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
+#include "ShaderCompiler.h"
 
 #ifndef GLDATA_H
 #define GLDATA_H
@@ -18,17 +19,7 @@
 class GLData
 {
 private:
-    //Raw IO functions
-    void printCompileError(GLuint shader);
-    void printLinkError(GLuint program);
-    bool wasShaderCompiled(GLuint shader);
-    GLuint linkProgram(std::vector<GLuint> shaders);
-    GLuint compileShader(const ShaderCode& shaderInfo);
-    std::vector<GLuint> compileShaders(std::vector<ShaderCode>& shaderInfos);
-    GLuint loadShaderProgram(std::vector<ShaderCode>& shaders);
-    GLuint load2DTexture(const TextureData& textureData);
-
-    //Main functions
+    ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
     std::map<std::string, GLuint> textures;
     GLuint makeTexture(TextureData &textureData);
