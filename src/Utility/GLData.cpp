@@ -18,13 +18,26 @@ void GLData::loadShaderCodeStrings() {
     }
 }
 
-GLuint GLData::getProgram(std::string name){
-    for(auto& shader : shaders){
-        if(shader.name == name)
-            return getProgram(shader);
+ShaderData GLData::getShaderData(std::string name) {
+    for (auto& shader : shaders) {
+        if (shader.name == name)
+            return shader;
     }
     std::cout << "Error: shader not found (" << name << ")\n";
-    return 0;
+    return ShaderData();
+}
+bool GLData::shaderExists(std::string name) {
+    for (auto& shader : shaders) {
+        if (shader.name == name)
+            return true;
+    }
+    return false;
+}
+
+GLuint GLData::getProgram(std::string name){
+    if(!shaderExists(name))
+        std::cout << "Error: shader not found (" << name << ")\n";
+    return getProgram(getShaderData(name));
 }
 
 GLuint GLData::makeProgram(ShaderData &shaders)
@@ -37,7 +50,7 @@ GLuint GLData::makeProgram(ShaderData &shaders)
 }
 
 
-GLuint GLData::getProgram(ShaderData &shaders)
+GLuint GLData::getProgram(ShaderData shaders)
 {
     if (programs.contains(shaders.name))
         return programs[shaders.name];

@@ -28,7 +28,9 @@ private:
 
     std::vector<ShaderData> shaders;
 
-    GLuint getProgram(ShaderData &shaders);
+    GLuint getProgram(ShaderData shaders);
+    ShaderData getShaderData(std::string name);
+    bool shaderExists(std::string name);
 
 public:
     GLData();
