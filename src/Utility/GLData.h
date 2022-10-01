@@ -12,6 +12,7 @@
 #include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
 #include "ShaderCompiler.h"
+#include "ShaderPrograms.h"
 
 #ifndef GLDATA_H
 #define GLDATA_H
@@ -19,21 +20,13 @@
 class GLData
 {
 private:
-    ShaderCompiler shaderCompiler;
-    std::map<std::string, GLuint> programs;
-    GLuint makeProgram(ShaderData &shaders);
-
-    IOShader ioshader;
+    ShaderPrograms programs;
     IOTexture iotexture;
-
-    GLuint getProgram(ShaderData shaders);
-
 public:
     GLData();
-    ~GLData();
     GLuint getProgram(std::string name);
     GLuint getTexture(std::string name);
-    void loadShaderCodeStrings();
+    void reload();
 };
 
 #endif

@@ -18,7 +18,7 @@ void ShaderUpdater::update() {
 
     if (autoUpdateShaders && wasAnyShaderFileModified()) {
         std::cout << "auto-shader-update to be implemented here........\n";
-        engine.graphics.glData.loadShaderCodeStrings();
+        engine.graphics.glData.reload();
     }
 }
 
