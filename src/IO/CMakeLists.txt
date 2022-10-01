@@ -12,4 +12,4 @@ Controller/Mouse.h Controller/Mouse.cpp Controller/Keyboard.h Controller/Keyboar
 include_directories("${PROJECT_SOURCE_DIR}/IO/Bitsery")
 add_subdirectory(Bitsery)
 
-target_link_libraries(io utility bitsery glm glfw)
+target_link_libraries(io bitsery glm glfw)

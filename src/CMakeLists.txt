@@ -77,11 +77,6 @@ list(APPEND EXTRA_LIB_DIRS "Game")
 list(APPEND EXTRA_INCLUDE_DIRS "Game")
 list(APPEND EXTRA_LINK_DIRS game)
 
-add_subdirectory(Utility)
-list(APPEND EXTRA_LIB_DIRS "Utility")
-list(APPEND EXTRA_INCLUDE_DIRS "Utility")
-list(APPEND EXTRA_LINK_DIRS utility)
-
 add_subdirectory(IO)
 list(APPEND EXTRA_LIB_DIRS "IO")
 list(APPEND EXTRA_INCLUDE_DIRS "IO")

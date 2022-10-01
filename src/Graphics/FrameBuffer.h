@@ -2,7 +2,7 @@
 #include <functional>
 #include "Shaders/Shader.h"
 #include "Shaders/ImageShader.h"
-#include <Utility/ShaderPrograms.h>
+#include "Graphics/Shaders/ShaderPrograms.h"
 #include "IO/Files/IOTexture.h"
 
 #ifndef FRAMEBUFFER_H

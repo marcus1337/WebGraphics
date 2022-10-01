@@ -7,7 +7,7 @@
 #include <glm/common.hpp>
 #include "glm/glm.hpp"
 #include <string>
-#include <Utility/ShaderPrograms.h>
+#include "Graphics/Shaders/ShaderPrograms.h"
 
 #ifndef SHADER_H
 #define SHADER_H
