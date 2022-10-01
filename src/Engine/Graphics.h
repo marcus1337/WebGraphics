@@ -3,7 +3,6 @@
 #include "AspectRatio.h"
 
 #include "Graphics/Objects/ImageObject.h"
-#include "Utility/MatrixData.h"
 #include "Graphics/Shaders/Shader.h"
 #include "Graphics/Shaders/ImageShader.h"
 #include "Graphics/Objects/TextObject.h"

@@ -1,6 +1,31 @@
 #include "Shader.h"
 #include <iostream>
-#include "Graphics/Camera.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+
+glm::mat4 Shader::getViewMatrix()
+{
+    glm::vec3 Position = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 front;
+    const float Yaw = -90.0f;
+    const float Pitch = 0.0f;
+    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    front.y = sin(glm::radians(Pitch));
+    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    glm::vec3 Front = glm::normalize(front);
+    return glm::lookAt(Position, Position + Front, Up);
+}
+
+glm::mat4 Shader::getOrthographicProjectionMatrix(int windowWidth, int windowHeight)
+{
+    return glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight, 0.01f, 100.0f);
+}
+
+glm::mat4 Shader::getUIViewProjectionMatrix(int windowWidth, int windowHeight) {
+    return getOrthographicProjectionMatrix(windowWidth, windowHeight) * getViewMatrix();
+}
 
 Shader::Shader(GLData& _glData, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), glData(_glData) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -62,9 +87,10 @@ void Shader::setPosition(int _x, int _y)
 }
 
 void Shader::setViewProjectionMatrix(int _width, int _height) {
-    Camera camera;
-    MatrixData matrixdata = camera.getMatrixData(_width, _height);
-    setViewProjectionMatrix(matrixdata.VP, matrixdata.V, matrixdata.P);
+    glm::mat4 _VP = getUIViewProjectionMatrix(_width, _height);
+    glm::mat4 _P = getOrthographicProjectionMatrix(_width, _height);
+    glm::mat4 _V = getViewMatrix();
+    setViewProjectionMatrix(_VP, _V, _P);
 }
 
 void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P)

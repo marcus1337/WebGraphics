@@ -1,7 +1,6 @@
 #include <Engine/Engine.h>
 #include <Game/GameDemo.h>
 #include <Drawables/View.h>
-#include "GameCamera.h"
 
 #ifndef GAMEVIEW_H
 #define GAMEVIEW_H

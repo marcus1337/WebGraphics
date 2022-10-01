@@ -14,6 +14,10 @@
 
 class Shader{
 
+    glm::mat4 getViewMatrix();
+    glm::mat4 getOrthographicProjectionMatrix(int windowWidth, int windowHeight);
+    glm::mat4 getUIViewProjectionMatrix(int windowWidth, int windowHeight);
+
 protected:
     GLData& glData;
     int screenWidth = 1920;

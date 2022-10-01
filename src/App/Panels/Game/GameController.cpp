@@ -1,6 +1,6 @@
 #include "GameController.h"
 
-GameController::GameController(Engine& _engine, GameDemo& _game, GameCamera& _gameCamera) : engine(_engine), game(_game), gameCamera(_gameCamera), keyboard(_engine.window.keyboard), mouse(_engine.window.mouse) {
+GameController::GameController(Engine& _engine, GameDemo& _game) : engine(_engine), game(_game), keyboard(_engine.window.keyboard), mouse(_engine.window.mouse) {
 
 }
 

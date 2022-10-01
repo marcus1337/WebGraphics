@@ -2,7 +2,6 @@
 #include "GameView.h"
 #include "Game/GameDemo.h"
 #include "GameController.h"
-#include "GameCamera.h"
 
 #ifndef GAMEPANEL_H
 #define GAMEPANEL_H
@@ -12,7 +11,6 @@ class GamePanel : public Panel {
     GameView gameView;
     GameDemo game;
     GameController gameController;
-    GameCamera gameCamera;
 
 public:
     GamePanel(Engine& _engine);
