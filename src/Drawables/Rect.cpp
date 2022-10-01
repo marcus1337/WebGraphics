@@ -1,6 +1,6 @@
 #include "Rect.h"
 
-Rect::Rect(Engine& _engine) : Drawable(_engine, imageShader), imageShader(_engine.graphics.glData) {
+Rect::Rect(Engine& _engine) : Drawable(_engine, imageShader), imageShader(_engine.graphics.shaderPrograms, _engine.graphics.iotexture) {
     imageShader.setProgram("rectangle");
     setThickness(1.0f);
 }

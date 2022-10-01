@@ -1,13 +1,12 @@
 #include "FrameBuffer.h"
 #include <iostream>
 
-FrameBuffer::FrameBuffer(GLData& glData, int _width, int _height) : width(_width), height(_height), shader(glData)
+FrameBuffer::FrameBuffer(ShaderPrograms& shaderPrograms, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(shaderPrograms, _iotexture)
 {
     setBuffers();
     shader.setProgram("postimage");
     shader.setTexture(texture);
     shader.setScale(width, height);
-    //shader.setViewProjectionMatrix(width, height);
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
 }
 

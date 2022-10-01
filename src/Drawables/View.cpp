@@ -2,7 +2,7 @@
 #include "Rect.h"
 
 View::View(Engine& _engine, int _pixelWidth, int _pixelHeight) : Drawable(_engine, frameBuffer.shader),
-frameBuffer(engine.graphics.glData, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
+frameBuffer(engine.graphics.shaderPrograms, engine.graphics.iotexture, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
 }
 
 View::~View() {

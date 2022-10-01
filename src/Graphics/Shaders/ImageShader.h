@@ -1,11 +1,12 @@
 #include "Shader.h"
-
+#include "IO/Files/IOTexture.h"
 
 #ifndef IMAGESHADER_H
 #define IMAGESHADER_H
 
 class ImageShader : public Shader {
 
+    IOTexture& iotexture;
     virtual void setCustomUniforms() override;
     GLuint textureID;
     GLuint normalID;
@@ -15,7 +16,7 @@ class ImageShader : public Shader {
 
 public:
 
-    ImageShader(GLData& _glData);
+    ImageShader(ShaderPrograms& _shaderPrograms, IOTexture& _iotexture);
 
     glm::vec3 defaultColor;
     bool image = true;

@@ -1,6 +1,6 @@
 #include "Image.h"
 
-Image::Image(Engine& _engine, std::string _texture) : Drawable(_engine, imageShader), imageShader(_engine.graphics.glData) {
+Image::Image(Engine& _engine, std::string _texture) : Drawable(_engine, imageShader), imageShader(_engine.graphics.shaderPrograms, _engine.graphics.iotexture) {
     imageShader.rotation = 180.0f;
     imageShader.setTexture(_texture);
     imageShader.mirror = true;

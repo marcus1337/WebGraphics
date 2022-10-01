@@ -7,7 +7,7 @@
 #include <glm/common.hpp>
 #include "glm/glm.hpp"
 #include <string>
-#include <Utility/GLData.h>
+#include <Utility/ShaderPrograms.h>
 
 #ifndef SHADER_H
 #define SHADER_H
@@ -19,7 +19,7 @@ class Shader{
     glm::mat4 getUIViewProjectionMatrix(int windowWidth, int windowHeight);
 
 protected:
-    GLData& glData;
+    ShaderPrograms& shaderPrograms;
     int screenWidth = 1920;
     int screenHeight = 1080;
 
@@ -42,7 +42,7 @@ public:
     bool mirror = false;
     float effect = 0.0f;
 
-    Shader(GLData& _glData, std::string programName);
+    Shader(ShaderPrograms& _shaderPrograms, std::string programName);
     virtual ~Shader();
 
     void setProgram(std::string _programName);

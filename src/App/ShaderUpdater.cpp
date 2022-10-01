@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <limits>
 
+//Move to ShaderPrograms class?
 ShaderUpdater::ShaderUpdater(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse), keyboard(_engine.window.keyboard) {
     IOShader ioshader;
     trackedShaderFilePaths = ioshader.getShaderFilePaths();
@@ -18,7 +19,7 @@ void ShaderUpdater::update() {
 
     if (autoUpdateShaders && wasAnyShaderFileModified()) {
         std::cout << "auto-shader-update to be implemented here........\n";
-        engine.graphics.glData.reload();
+        engine.graphics.shaderPrograms.reload();
     }
 }
 

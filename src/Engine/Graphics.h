@@ -1,4 +1,5 @@
-#include "Utility/GLData.h"
+#include "Utility/ShaderPrograms.h"
+#include "IO/Files/IOTexture.h"
 #include "Window/Canvas.h"
 #include "AspectRatio.h"
 
@@ -25,7 +26,8 @@
 
 class Graphics {
 public:
-    GLData glData;
+    ShaderPrograms shaderPrograms;
+    IOTexture iotexture;
 
 private:
     Canvas& window;

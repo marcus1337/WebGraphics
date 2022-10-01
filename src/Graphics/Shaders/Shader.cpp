@@ -27,7 +27,7 @@ glm::mat4 Shader::getUIViewProjectionMatrix(int windowWidth, int windowHeight) {
     return getOrthographicProjectionMatrix(windowWidth, windowHeight) * getViewMatrix();
 }
 
-Shader::Shader(GLData& _glData, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), glData(_glData) {
+Shader::Shader(ShaderPrograms& _shaderPrograms, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), shaderPrograms(_shaderPrograms) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
     setProgram(programName);
@@ -72,7 +72,7 @@ void Shader::setRotation(float _rotation) {
 }
 
 void Shader::setUniforms() {
-    GLuint programID = glData.getProgram(programName);
+    GLuint programID = shaderPrograms.get(programName);
     glUseProgram(programID);
     setMatrixUniforms();
     setColorUniforms();
@@ -102,14 +102,14 @@ void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _
 
 void Shader::setColorUniforms()
 {
-    GLuint programID = glData.getProgram(programName);
+    GLuint programID = shaderPrograms.get(programName);
     glUniform1f(glGetUniformLocation(programID, "alpha"), alpha);
     glUniform3fv(glGetUniformLocation(programID, "color"), 1, &color[0]);
 }
 
 void Shader::setMatrixUniforms()
 {
-    GLuint programID = glData.getProgram(programName);
+    GLuint programID = shaderPrograms.get(programName);
     glm::mat4 M = getModel();
     glm::mat4 MVP = VP * M;
     glm::mat4 MV = V * M;

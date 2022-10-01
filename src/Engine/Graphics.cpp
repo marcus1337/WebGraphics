@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-Graphics::Graphics(Canvas& _window) : window(_window), mainView(glData, 1920, 1080)
+Graphics::Graphics(Canvas& _window) : window(_window), mainView(shaderPrograms, iotexture, 1920, 1080)
 {
     setGLSettings();
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);

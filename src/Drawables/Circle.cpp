@@ -1,7 +1,7 @@
 
 #include "Circle.h"
 
-Circle::Circle(Engine& _engine) : Drawable(_engine, imageShader), imageShader(_engine.graphics.glData) {
+Circle::Circle(Engine& _engine) : Drawable(_engine, imageShader), imageShader(_engine.graphics.shaderPrograms, _engine.graphics.iotexture) {
     imageShader.setProgram("circle");
 }
 
