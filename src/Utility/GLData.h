@@ -21,19 +21,14 @@ class GLData
 private:
     ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
-    std::map<std::string, GLuint> textures;
-    GLuint makeTexture(TextureData &textureData);
     GLuint makeProgram(ShaderData &shaders);
 
     IOShader ioshader;
     IOTexture iotexture;
 
     std::vector<ShaderData> shaders;
-    std::vector<TextureData> textureInfos;
 
     GLuint getProgram(ShaderData &shaders);
-    GLuint getTexture(TextureData &textureData);
-    void preloadTextures();
 
 public:
     GLData();

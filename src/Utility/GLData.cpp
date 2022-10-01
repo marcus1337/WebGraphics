@@ -3,7 +3,7 @@
 
 GLData::GLData()
 {
-    preloadTextures();
+    iotexture.preloadTextures();
     loadShaderCodeStrings();
     std::cout << "GLData()\n";
 }
@@ -27,15 +27,6 @@ GLuint GLData::getProgram(std::string name){
     return 0;
 }
 
-GLuint GLData::makeTexture(TextureData &textureData)
-{
-    GLuint textID = 0;
-    textID = iotexture.load2DTexture(textureData);
-    textureData.data.clear(); //free up some RAM
-    if (textID != 0)
-        textures[textureData.fileName] = textID;
-    return textID;
-}
 GLuint GLData::makeProgram(ShaderData &shaders)
 {
     GLuint programID = 0;
@@ -45,25 +36,6 @@ GLuint GLData::makeProgram(ShaderData &shaders)
     return programID;
 }
 
-GLuint GLData::getTexture(TextureData &textureData)
-{
-    if (textures.contains(textureData.fileName))
-        return textures[textureData.fileName];
-    return makeTexture(textureData);
-}
-
-GLuint GLData::getTexture(std::string name){
-    for(TextureData& textureInfo : textureInfos){
-        if(textureInfo.fileName == name)
-            return getTexture(textureInfo);
-    }
-    TextureData textureInfo = iotexture.getTextureData(name);
-    if (textureInfo.error != 0) {
-        return 0;
-    }
-    textureInfos.push_back(textureInfo);
-    return getTexture(textureInfo);
-}
 
 GLuint GLData::getProgram(ShaderData &shaders)
 {
@@ -76,14 +48,8 @@ GLData::~GLData()
 {
     for (auto &programObj : programs)
         glDeleteProgram(std::get<1>(programObj));
-    for (auto &textureObj : textures)
-        glDeleteTextures(1, &std::get<1>(textureObj));
 }
 
-void GLData::preloadTextures() {
-    std::vector<std::string> textureNames = iotexture.getAllTextureNames();
-    for (std::string textureName : textureNames) {
-        getTexture(textureName);
-       // std::cout << "loaded: " << textureName << "\n";
-    }
+GLuint GLData::getTexture(std::string name) {
+    return iotexture.getTexture(name);
 }

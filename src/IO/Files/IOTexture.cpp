@@ -17,6 +17,11 @@ IOTexture::IOTexture()
 
 }
 
+IOTexture::~IOTexture() {
+    for (auto& textureObj : textures)
+        glDeleteTextures(1, &std::get<1>(textureObj));
+}
+
 std::vector<std::string> IOTexture::getAllTextureNames() {
     std::string rootFolder = FolderPaths::getTexturesPath();
     std::vector<std::string> texturePaths;
@@ -78,3 +83,42 @@ GLuint IOTexture::load2DTexture(const TextureData& textureData)
     glBindTexture(GL_TEXTURE_2D, 0);
     return texture;
 }
+
+void IOTexture::preloadTextures() {
+    std::vector<std::string> textureNames = getAllTextureNames();
+    for (std::string textureName : textureNames) {
+        getTexture(textureName);
+        // std::cout << "loaded: " << textureName << "\n";
+    }
+}
+
+GLuint IOTexture::getTexture(TextureData& textureData)
+{
+    if (textures.contains(textureData.fileName))
+        return textures[textureData.fileName];
+    return makeTexture(textureData);
+}
+
+GLuint IOTexture::getTexture(std::string name) {
+    for (TextureData& textureInfo : textureInfos) {
+        if (textureInfo.fileName == name)
+            return getTexture(textureInfo);
+    }
+    TextureData textureInfo = getTextureData(name);
+    if (textureInfo.error != 0) {
+        return 0;
+    }
+    textureInfos.push_back(textureInfo);
+    return getTexture(textureInfo);
+}
+
+GLuint IOTexture::makeTexture(TextureData& textureData)
+{
+    GLuint textID = 0;
+    textID = load2DTexture(textureData);
+    textureData.data.clear(); //free up some RAM
+    if (textID != 0)
+        textures[textureData.fileName] = textID;
+    return textID;
+}
+

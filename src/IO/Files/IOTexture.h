@@ -19,12 +19,22 @@
 
 class IOTexture
 {
-public:
-    IOTexture();
     std::vector<std::string> getAllTextureNames();
-    GLFWimage loadIconImage(const std::string& fileName);
+    std::vector<TextureData> textureInfos;
+    std::map<std::string, GLuint> textures;
+    GLuint makeTexture(TextureData& textureData);
+    GLuint getTexture(TextureData& textureData);
+
     TextureData getTextureData(const std::string& fileName);
     GLuint load2DTexture(const TextureData& textureData);
+
+public:
+    IOTexture();
+    ~IOTexture();
+    GLFWimage loadIconImage(const std::string& fileName);
+
+    void preloadTextures();
+    GLuint getTexture(std::string name);
 };
 
 #endif
