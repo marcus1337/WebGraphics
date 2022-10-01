@@ -1,12 +1,6 @@
 
 #include "GLData.h"
 
-GLData::GLData()
-{
-    iotexture.preloadTextures();
-    programs.reload();
-    std::cout << "GLData()\n";
-}
 
 void GLData::reload() {
     programs.reload();

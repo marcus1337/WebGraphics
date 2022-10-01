@@ -14,7 +14,7 @@
 
 IOTexture::IOTexture()
 {
-
+    preloadTextures();
 }
 
 IOTexture::~IOTexture() {

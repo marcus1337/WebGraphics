@@ -23,7 +23,6 @@ private:
     ShaderPrograms programs;
     IOTexture iotexture;
 public:
-    GLData();
     GLuint getProgram(std::string name);
     GLuint getTexture(std::string name);
     void reload();
