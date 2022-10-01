@@ -1,10 +1,8 @@
 #include "ShaderUpdater.h"
 #include <iostream>
-#include "IO/Files/IOShader.h"
 #include <filesystem>
 #include <limits>
 
-//Move to ShaderPrograms class?
 ShaderUpdater::ShaderUpdater(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse), keyboard(_engine.window.keyboard) {
     IOShader ioshader;
     trackedShaderFilePaths = ioshader.getShaderFilePaths();
