@@ -8,7 +8,7 @@
 #ifndef DEVCONTROLLER_H
 #define DEVCONTROLLER_H
 
-class DevController {
+class ShaderUpdater {
 
     Engine& engine;
     Graphics& graphics;
@@ -21,7 +21,7 @@ class DevController {
 
 public:
 
-    DevController(Engine& _engine);
+    ShaderUpdater(Engine& _engine);
     void update();
     bool wasAnyShaderFileModified();
 

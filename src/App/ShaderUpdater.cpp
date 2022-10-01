@@ -1,16 +1,16 @@
-#include "DevController.h"
+#include "ShaderUpdater.h"
 #include <iostream>
 #include "IO/Files/IOShader.h"
 #include <filesystem>
 #include <limits>
 
-DevController::DevController(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse), keyboard(_engine.window.keyboard) {
+ShaderUpdater::ShaderUpdater(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse), keyboard(_engine.window.keyboard) {
     IOShader ioshader;
     trackedShaderFilePaths = ioshader.getShaderFilePaths();
     mostRecentShaderEditTime = getMostRecentEditTime(trackedShaderFilePaths);
 }
 
-void DevController::update() {
+void ShaderUpdater::update() {
     if (keyboard.isDownClick[GLFW_KEY_P]) {
         autoUpdateShaders = !autoUpdateShaders;
         std::cout << "auto updating shaders: " << autoUpdateShaders << "\n";
@@ -22,7 +22,7 @@ void DevController::update() {
     }
 }
 
-uint64_t DevController::getMostRecentEditTime(std::vector<std::string> paths) {
+uint64_t ShaderUpdater::getMostRecentEditTime(std::vector<std::string> paths) {
     std::filesystem::file_time_type ftime;
     uint64_t timeSinceEpoch = std::numeric_limits<uint64_t>::min();
     for (std::string path : paths) {
@@ -32,7 +32,7 @@ uint64_t DevController::getMostRecentEditTime(std::vector<std::string> paths) {
     return timeSinceEpoch;
 }
 
-bool DevController::wasAnyShaderFileModified() {
+bool ShaderUpdater::wasAnyShaderFileModified() {
     uint64_t tmpMostRecentShaderEditTime = getMostRecentEditTime(trackedShaderFilePaths);
     if (tmpMostRecentShaderEditTime != mostRecentShaderEditTime) {
         mostRecentShaderEditTime = tmpMostRecentShaderEditTime;

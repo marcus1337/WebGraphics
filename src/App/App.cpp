@@ -3,7 +3,7 @@
 #include <iostream>
 #include "App/Panels/Main/MainMenuPanel.h"
 
-App::App() : devController(engine) {
+App::App() : shaderUpdater(engine) {
     panels.push(new MainMenuPanel(engine));
     panels.top()->onEnter();
 }
@@ -51,7 +51,7 @@ void App::update() {
     if (updateTimer.isLogicUpdate()) {
         updateLogic();
         engine.window.pollEvents();
-        devController.update();
+        shaderUpdater.update();
     }
     render();
 }

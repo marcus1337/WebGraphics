@@ -1,5 +1,5 @@
 
-add_library(utility GLData.cpp GLUtils.cpp GLData.h GLUtils.h )
+add_library(utility GLData.cpp  GLData.h  )
 
 target_link_libraries(utility glm io)
 
