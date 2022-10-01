@@ -30,7 +30,12 @@ public:
     std::vector<std::string> getShaderFilePaths();
 
     IOShader();
-    std::vector<ShaderData> getShaderData();
+
+    void loadData();
+    std::vector<ShaderData> getShaderDataArray();
+    std::vector<ShaderData> shaderDataArray;
+    ShaderData getShaderData(std::string name);
+    bool shaderDataExists(std::string name);
 };
 
 #endif
