@@ -5,7 +5,7 @@
 #include "UpdateTimer.h"
 #include <string>
 
-#include "Panels/Panel.h"
+#include "Panels/PanelHandler.h"
 #include <stack>
 #include "ShaderUpdater.h"
 
@@ -16,12 +16,9 @@ class App
 {
     UpdateTimer updateTimer;
     Engine engine;
-    std::stack<Panel*> panels;
+    PanelHandler panelHandler;
     ShaderUpdater shaderUpdater;
-
-    void updateLogic();
     void render();
-    void handlePanelChange();
 
 public:
     App();
