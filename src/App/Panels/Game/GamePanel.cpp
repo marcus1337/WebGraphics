@@ -7,9 +7,7 @@ void GamePanel::onEnter() {
 }
 GamePanel::GamePanel(Engine& _engine) : Panel(_engine, "game"), gameView(_engine, game), gameController(_engine, game) {
     uiScript.addMethod("onSettings", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new SettingsPanel(engine));
-        });
+        setChildPanel(PanelType::SETTINGS); });
 }
 void GamePanel::update() {
     gameController.update();

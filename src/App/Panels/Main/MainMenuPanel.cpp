@@ -8,24 +8,19 @@
 
 MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
     uiScript.addMethod("onSettings", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new SettingsPanel(engine));
+        setChildPanel(PanelType::SETTINGS);
         });
     uiScript.addMethod("onLobby", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new LobbyPanel(engine));
+        setChildPanel(PanelType::LOBBY_HOST);
         });
     uiScript.addMethod("onGame", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new GamePanel(engine));
+        setChildPanel(PanelType::GAME);
         });
     uiScript.addMethod("onFindLobby", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new LobbySearchPanel(engine));
+        setChildPanel(PanelType::LOBBY_SEARCH);
         });
     uiScript.addMethod("onInstructions", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new InstructionsPanel(engine));
+        setChildPanel(PanelType::INSTRUCTIONS);
         });
 }
 

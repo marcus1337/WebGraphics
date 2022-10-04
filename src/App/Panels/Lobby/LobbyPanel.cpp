@@ -6,12 +6,7 @@ void LobbyPanel::onEnter() {
 }
 LobbyPanel::LobbyPanel(Engine& _engine) : Panel(_engine, "lobby") {
     uiScript.addMethod("onSettings", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new SettingsPanel(engine));
-        });
-    uiScript.addMethod("onLobby", [&]() {
-        if (canSetChildPanel())
-            setChildPanel(new LobbyPanel(engine));
+        setChildPanel(PanelType::SETTINGS);
         });
 }
 void LobbyPanel::update() {

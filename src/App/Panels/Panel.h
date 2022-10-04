@@ -6,9 +6,13 @@
 #ifndef PANEL_H
 #define PANEL_H
 
+enum class PanelType {
+    NONE = 0, SETTINGS, INSTRUCTIONS, LOBBY_HOST, LOBBY_SEARCH, GAME
+};
+
 class Panel {
 private:
-    Panel* childPanel = nullptr;
+    PanelType childPanel = PanelType::NONE;
     void onQuit();
     void onCancel();
     bool done = false;
@@ -16,8 +20,6 @@ protected:
     UIScript uiScript;
     Engine& engine;
     Graphics& graphics;
-    bool canSetChildPanel();
-    void setChildPanel(Panel* _panel);
 public:
     Panel(Engine& _engine, std::string uiScriptName);
     bool isDone();
@@ -27,7 +29,8 @@ public:
     void updateUI();
     void renderUI();
     virtual void onEnter();
-    Panel* getChildPanel();
+    PanelType getChildPanel();
+    void setChildPanel(PanelType panelType);
 };
 
 #endif

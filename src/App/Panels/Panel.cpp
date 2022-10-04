@@ -15,19 +15,11 @@ bool Panel::isDone() {
     return done;
 }
 
-Panel* Panel::getChildPanel() {
-    Panel* _panel = childPanel;
-    childPanel = nullptr;
-    return _panel;
+PanelType Panel::getChildPanel() {
+    return childPanel;
 }
-
-bool Panel::canSetChildPanel() {
-    return childPanel == nullptr;
-}
-
-void Panel::setChildPanel(Panel* _panel) {
-    assert(childPanel == nullptr);
-    childPanel = _panel;
+void Panel::setChildPanel(PanelType panelType) {
+    childPanel = panelType;
 }
 
 void Panel::onCancel() {
