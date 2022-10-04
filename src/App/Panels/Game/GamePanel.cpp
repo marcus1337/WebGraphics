@@ -6,8 +6,6 @@ void GamePanel::onEnter() {
     std::cout << "onEnter() GamePanel" << std::endl;
 }
 GamePanel::GamePanel(Engine& _engine) : Panel(_engine, "game"), gameView(_engine, game), gameController(_engine, game) {
-    uiScript.addMethod("onSettings", [&]() {
-        setChildPanel(PanelType::SETTINGS); });
 }
 void GamePanel::update() {
     gameController.update();

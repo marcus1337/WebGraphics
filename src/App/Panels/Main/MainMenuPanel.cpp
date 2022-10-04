@@ -7,21 +7,6 @@
 #include "InstructionsPanel.h"
 
 MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
-    uiScript.addMethod("onSettings", [&]() {
-        setChildPanel(PanelType::SETTINGS);
-        });
-    uiScript.addMethod("onLobby", [&]() {
-        setChildPanel(PanelType::LOBBY_HOST);
-        });
-    uiScript.addMethod("onGame", [&]() {
-        setChildPanel(PanelType::GAME);
-        });
-    uiScript.addMethod("onFindLobby", [&]() {
-        setChildPanel(PanelType::LOBBY_SEARCH);
-        });
-    uiScript.addMethod("onInstructions", [&]() {
-        setChildPanel(PanelType::INSTRUCTIONS);
-        });
 }
 
 void MainMenuPanel::onEnter() {

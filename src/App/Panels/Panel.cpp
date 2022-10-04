@@ -5,6 +5,22 @@ Panel::Panel(Engine &_engine, std::string uiScriptName) : engine(_engine), graph
 {
     uiScript.addMethod("onQuit", std::bind(&Panel::onQuit, this));
     uiScript.addMethod("onCancel", std::bind(&Panel::onCancel, this));
+
+    uiScript.addMethod("onSettings", [&]() {
+        setChildPanel(PanelType::SETTINGS);
+        });
+    uiScript.addMethod("onLobby", [&]() {
+        setChildPanel(PanelType::LOBBY_HOST);
+        });
+    uiScript.addMethod("onGame", [&]() {
+        setChildPanel(PanelType::GAME);
+        });
+    uiScript.addMethod("onFindLobby", [&]() {
+        setChildPanel(PanelType::LOBBY_SEARCH);
+        });
+    uiScript.addMethod("onInstructions", [&]() {
+        setChildPanel(PanelType::INSTRUCTIONS);
+        });
 }
 
 void Panel::onEnter()
