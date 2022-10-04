@@ -23,8 +23,8 @@ class App
 public:
     App();
     ~App();
-    void run();
-    void update();
+    void loop();
+    void loopStep();
     void resizeWindow(int _width, int _height);
 };
 

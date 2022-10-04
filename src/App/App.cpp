@@ -9,12 +9,11 @@ App::App() : shaderUpdater(engine), panelHandler(engine) {
 App::~App() {
 }
 
-void App::run()
+void App::loop()
 {
     while (!engine.window.hasQuit())
     {
-        if (updateTimer.isRenderUpdate())
-            update();
+        loopStep();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
@@ -24,13 +23,16 @@ void App::resizeWindow(int _width, int _height)
     engine.window.resizeWindow(_width, _height);
 }
 
-void App::update() { 
+void App::loopStep() {
     if (updateTimer.isLogicUpdate()) {
         panelHandler.update();
         engine.window.pollEvents();
         shaderUpdater.update();
     }
-    render();
+#ifndef EMSCRIPTEN 
+    if (updateTimer.isRenderUpdate())
+#endif
+        render();
 }
 
 void App::render() {
