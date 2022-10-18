@@ -7,18 +7,5 @@ function getBackgroundImage(name)
 	return image
 end
 
-uiElements = {}
-function setUIElements(elements)
-    uiElements = elements
-end
-function updateUIElements()
-    for k, v in pairs(uiElements) do 
-        v:update()
-    end
-end
-function renderUIElements()
-    for k, v in pairs(uiElements) do 
-        v:render()
-    end
-end
+
 

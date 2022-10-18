@@ -7,16 +7,16 @@ instructionsButton = MenuButton:new{btnText = "Instructions", onPressCallback = 
 exitButton = MenuButton:new{btnText = "Exit", onPressCallback = onQuit, y = 200}
 titleText = TitleText:new{textStr = "Menu"}
 
-setUIElements{exitButton, createLobbyButton, findLobbyButton, instructionsButton, gameButton, MiniButtonPanel:new{hasSettings = true}}
+elements = Elements:new{list = {exitButton, createLobbyButton, findLobbyButton, instructionsButton, gameButton, MiniButtonPanel:new{hasSettings = true}}}
 
 function update()
-    updateUIElements()
+    elements:update()
 end
 
 function render()
     backgroundImage:render()
     titleText:render()
-    renderUIElements()
+    elements:render()
 end
 
 

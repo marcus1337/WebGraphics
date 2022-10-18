@@ -77,15 +77,16 @@ musicVolumeSlider = VolumeSlider:new{valueGetter = getMusicVolume, onValueChange
 effectVolumeSlider = VolumeSlider:new{valueGetter = getEffectVolume, onValueChange = setEffectVolume, x = 700, y = 400, title = "Effect Volume"}
 
 titleText = TitleText:new{textStr = "Settings"}
-setUIElements{musicVolumeSlider, effectVolumeSlider, MiniButtonPanel:new{hasCancel = true, hasSound = true , hasScreen = true}}
+miniBtnPanel = MiniButtonPanel:new{hasCancel = true, hasSound = true , hasScreen = true}
+elements = Elements:new{list = {musicVolumeSlider, effectVolumeSlider, miniBtnPanel }}
 
 function update()
-    updateUIElements()
+    elements:update()
 end
 
 function render()
     backgroundImage:render()
-    renderUIElements()
+    elements:render()
     titleText:render()
 end
 

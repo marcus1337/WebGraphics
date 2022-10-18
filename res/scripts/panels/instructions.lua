@@ -1,12 +1,14 @@
 
 titleText = TitleText:new { textStr = "Instructions" }
-setUIElements({MiniButtonPanel:new{hasCancel = true}})
+
+miniBtnPanel = MiniButtonPanel:new{hasCancel = true}
+elements = Elements:new{list = {miniBtnPanel} }
 
 function update()
-    updateUIElements()
+    elements:update()
 end
 
 function render()
     titleText:render()
-    renderUIElements()
+    elements:render()
 end
