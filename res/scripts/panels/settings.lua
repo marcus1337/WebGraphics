@@ -23,9 +23,6 @@ function VolumeSlider:new(o)
     o.y = o.y or 0
     setmetatable(o, self)
     local sliderValue = o.valueGetter()
-    if not isAudioInitialized() then
-        sliderValue = 1.0
-    end
     o.slider = self:getSlider(sliderValue, o.onValueChange)
     o.slider:setPosition(o.x, o.y)
     return o

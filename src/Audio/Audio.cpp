@@ -1,124 +1,67 @@
 #include "Audio.h"
-#include <IO/Files/FolderPaths.h>
 #include <iostream>
 
-#include <SDL2/SDL.h>
-
 Audio::Audio() {
-}
 
-SoLoud::Wav* Audio::getWavPointer(std::string name, std::string path) {
-    init();
-    std::cout << "Sound: " << name << "\n";
-    if (!soundMap.contains(name)) {
-        SoLoud::Wav* wav = new  SoLoud::Wav();
-        wav->load(path.c_str());
-        soundMap[name] = wav;
-    }
-    return soundMap[name];
 }
-
-void Audio::init(){
-    if(!inited){
-        std::cout << "initializing audio...\n";
-        inited = true;
-        if (SDL_Init(SDL_INIT_AUDIO) < 0)
-            std::cout << "Failed to load SDL_INIT\n";
-        soloud.init();
-        musicBusHandle = soloud.play(musicBus);
-        effectBusHandle = soloud.play(effectBus);
-    }
-}
-
 Audio::~Audio() {
-    for (const auto& [key, value] : soundMap) {
-        delete value;
-    }
-    soloud.deinit();
-    SDL_CloseAudio();
-    SDL_Quit();
-}
 
-SoLoud::Wav* Audio::getWavPointer(std::string name, SoundType soundType) {
-    SoLoud::Wav* wavPtr = nullptr;
-    if (soundType == SoundType::MUSIC)
-        wavPtr = getWavPointer(name, getMusicFilePath(name));
-    if (soundType == SoundType::FX)
-        wavPtr = getWavPointer(name, getEffectFilePath(name));
-    return wavPtr;
-}
-
-void Audio::queueMusic(std::string musicName, int maxQueueSize) {
-    if (musicQueue.getQueueCount() < maxQueueSize) {
-        musicBus.play(musicQueue);
-        musicQueue.play(*getWavPointer(musicName, SoundType::MUSIC));
-    }
-}
-void Audio::queueEffect(std::string effectName, int maxQueueSize) {
-    if (effectQueue.getQueueCount() < maxQueueSize) {
-        effectBus.play(effectQueue);
-        effectQueue.play(*getWavPointer(effectName, SoundType::FX));
-    }
-}
-
-std::string Audio::getMusicFilePath(std::string name) {
-    return FolderPaths::getAudioPath() + "music//" + name + ".wav";
-}
-std::string Audio::getEffectFilePath(std::string name) {
-    return FolderPaths::getAudioPath() + "fx//" + name + ".wav";
 }
 
 void Audio::playMusic(std::string musicName) {
-    musicBus.play(*getWavPointer(musicName, SoundType::MUSIC));
+    if (isMuted())
+        return;
+    audio.playMusic(musicName);
 }
-
 void Audio::playEffect(std::string effectName) {
-    effectBus.play(*getWavPointer(effectName, SoundType::FX));
+    if (isMuted())
+        return;
+    audio.playEffect(effectName);
 }
-
+void Audio::queueMusic(std::string musicName, int maxQueueSize) {
+    if (isMuted())
+        return;
+    audio.queueMusic(musicName, maxQueueSize);
+}
+void Audio::queueEffect(std::string effectName, int maxQueueSize) {
+    if (isMuted())
+        return;
+    audio.queueEffect(effectName, maxQueueSize);
+}
 float Audio::getMusicVolume() {
-    init();
-    return soloud.getVolume(musicBusHandle);
+    if (isMuted())
+        return 0.0f;
+    return audio.getMusicVolume();
 }
-
 void Audio::setMusicVolume(float volumePercentage) {
-    init();
-    soloud.setVolume(musicBusHandle, volumePercentage);
-    prevMusicVolume = volumePercentage;
+    if (isMuted())
+        return;
+    audio.setMusicVolume(volumePercentage);
 }
-
 float Audio::getEffectVolume() {
-    init();
-    return soloud.getVolume(effectBusHandle);
+    if (isMuted())
+        return 0.0f;
+    return audio.getEffectVolume();
 }
-
 void Audio::setEffectVolume(float volumePercentage) {
-    init();
-    soloud.setVolume(effectBusHandle, volumePercentage);
-    prevEffectVolume = volumePercentage;
+    if (isMuted())
+        return;
+    audio.setEffectVolume(volumePercentage);
 }
-
 void Audio::muteSound() {
-    init();
-    soloud.stopAll();
-    muted = true;
+    if (isMuted())
+        return;
+    audio.muteSound();
 }
-
 void Audio::unmuteSound() {
-    init();
-    musicBusHandle = soloud.play(musicBus);
-    effectBusHandle = soloud.play(effectBus);
-    effectBus.play(effectQueue);
-    musicBus.play(musicQueue);
-    setMusicVolume(prevMusicVolume);
-    setEffectVolume(prevEffectVolume);
+    if (!audio.isInitialized())
+        audio.init();
     muted = false;
+    if (audio.isMuted())
+        audio.unmuteSound();
 }
-
 bool Audio::isMuted() {
-    return muted;
-}
-
-bool Audio::isInitialized() {
-    return inited;
+    if (muted)
+        return true;
+    return audio.isMuted();
 }

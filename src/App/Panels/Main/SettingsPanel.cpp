@@ -6,7 +6,6 @@ SettingsPanel::SettingsPanel(Engine& _engine, PanelContext& _panelContext) : Pan
 
 void SettingsPanel::onEnter() {
     std::cout << "onEnter() Settings\n";
-    engine.audio.init();
 }
 
 

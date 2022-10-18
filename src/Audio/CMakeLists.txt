@@ -10,5 +10,5 @@ file(GLOB soloud_SRC
      "soloud/filter/*.cpp"
 )
 
-add_library(audio "Audio.h" "Audio.cpp" ${soloud_SRC})
+add_library(audio "Audio.h" "Audio.cpp" ${soloud_SRC} "SoloudAudio.h" "SoloudAudio.cpp")
 
