@@ -10,7 +10,7 @@
 class MainMenuPanel : public Panel {
     virtual void onEnter() override;
 public:
-    MainMenuPanel(Engine& _engine);
+    MainMenuPanel(Engine& _engine, PanelContext& _panelContext);
     void update() override;
     void render() override;
 };

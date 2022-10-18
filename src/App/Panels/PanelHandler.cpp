@@ -1,8 +1,7 @@
 #include "PanelHandler.h"
-#include "App/Panels/Main/MainMenuPanel.h"
 
 PanelHandler::PanelHandler(Engine& _engine) : engine(_engine), panelFactory(_engine) {
-    panels.push(new MainMenuPanel(engine));
+    panels.push(panelFactory.getNewPanel(PanelType::MAIN_MENU));
     panels.top()->onEnter();
 }
 

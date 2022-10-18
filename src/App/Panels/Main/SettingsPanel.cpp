@@ -1,7 +1,7 @@
 #include "SettingsPanel.h"
 
-SettingsPanel::SettingsPanel(Engine& _engine) : Panel(_engine, "settings") {
-
+SettingsPanel::SettingsPanel(Engine& _engine, PanelContext& _panelContext) : Panel(_engine, "settings", _panelContext) {
+    uiScript.load();
 }
 
 void SettingsPanel::onEnter() {

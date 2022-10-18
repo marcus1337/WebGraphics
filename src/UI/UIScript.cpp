@@ -16,31 +16,32 @@ UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileNam
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
     scriptTypes.setUserTypes();
     scriptMethods.setMethods();
-    uiHelperScripts.load();
-    loaded = load();
 }
 
 UIScript::~UIScript()
 {
 }
 
-bool UIScript::load()
+void UIScript::load()
 {
+    loaded = false;
+    uiHelperScripts.load();
+
     fileChecker.setUnchanged();
     script = lua.load_file(getScriptFilePath(scriptFileName));
     if (!script.valid())
     {
         printError(script);
-        return false;
+        return;
     }
     sol::protected_function_result result = testScriptValidity();
     if (!result.valid()) {
         printError(result);
-        return false;
+        return;
     }
     scriptUpdate = lua["update"];
     scriptRender = lua["render"];
-    return true;
+    loaded = true;
 }
 
 sol::protected_function_result UIScript::testScriptValidity() {
@@ -70,7 +71,7 @@ void UIScript::printError(sol::load_result& result) {
 
 std::string UIScript::getScriptFilePath(std::string scriptName)
 {
-    return FolderPaths::getScriptsPath() + scriptName + ".lua";
+    return FolderPaths::getScriptsPath() + "panels//" + scriptName + ".lua";
 }
 
 void UIScript::render()
@@ -85,10 +86,10 @@ void UIScript::update()
     if (uiHelperScripts.isAnyScriptChanged()) {
         uiHelperScripts.load();
         std::cout << "Helper script was edited.\n";
-        loaded = load();
+        load();
     }
     if (fileChecker.isChanged()) {
-        loaded = load();
+        load();
         std::cout << "Script was edited.\n";
     }
     if (loaded) {
@@ -96,8 +97,5 @@ void UIScript::update()
     }
 }
 
-void UIScript::addMethod(std::string methodName, std::function<void(void)> func) {
-    lua[methodName] = func;
-    loaded = load();
-}
+
 

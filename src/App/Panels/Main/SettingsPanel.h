@@ -12,7 +12,7 @@
 class SettingsPanel : public Panel {
     virtual void onEnter() override;
 public:
-    SettingsPanel(Engine& _engine);
+    SettingsPanel(Engine& _engine, PanelContext& _panelContext);
 };
 
 #endif // !SETTINGSPANEL_

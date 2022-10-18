@@ -27,17 +27,21 @@ class UIScript
     FileChecker fileChecker;
     std::string getScriptFilePath(std::string scriptName);
     bool loaded = false;
-    bool load();
     void printError(sol::protected_function_result& result);
     void printError(sol::load_result& result);
     sol::protected_function_result testScriptValidity();
 
 public:
     UIScript(std::string _scriptFileName, Engine& _engine);
+    void load();
     ~UIScript();
     void render();
     void update();
-    void addMethod(std::string methodName, std::function<void(void)> func);
+
+    template<typename F>
+    void addMethod(std::string methodName, F func) {
+        lua[methodName] = func;
+    }
 
 };
 

@@ -9,7 +9,7 @@
 class InstructionsPanel : public Panel {
     virtual void onEnter() override;
 public:
-    InstructionsPanel(Engine& _engine);
+    InstructionsPanel(Engine& _engine, PanelContext& _panelContext);
     void update() override;
     void render() override;
 };

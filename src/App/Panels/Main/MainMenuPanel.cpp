@@ -1,12 +1,8 @@
 #include "MainMenuPanel.h"
 #include <iostream>
-#include "SettingsPanel.h"
-#include "App/Panels/Lobby/LobbyPanel.h"
-#include "App/Panels/Game/GamePanel.h"
-#include "App/Panels/Lobby/LobbySearchPanel.h"
-#include "InstructionsPanel.h"
 
-MainMenuPanel::MainMenuPanel(Engine& _engine) : Panel(_engine, "main_menu") {
+MainMenuPanel::MainMenuPanel(Engine& _engine, PanelContext& _panelContext) : Panel(_engine, "main_menu", _panelContext) {
+    uiScript.load();
 }
 
 void MainMenuPanel::onEnter() {
