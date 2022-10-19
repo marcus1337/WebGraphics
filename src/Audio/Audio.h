@@ -10,7 +10,6 @@
 class Audio {
 
     SoloudAudio audio;
-    bool muted = true;
 
 public:
     Audio();

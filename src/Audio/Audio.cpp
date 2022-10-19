@@ -56,12 +56,11 @@ void Audio::muteSound() {
 void Audio::unmuteSound() {
     if (!audio.isInitialized())
         audio.init();
-    muted = false;
     if (audio.isMuted())
         audio.unmuteSound();
 }
 bool Audio::isMuted() {
-    if (muted)
+    if (!audio.isInitialized())
         return true;
     return audio.isMuted();
 }

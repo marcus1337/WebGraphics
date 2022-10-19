@@ -1,4 +1,4 @@
 
 
-add_library(game "Game.h" "Game.cpp"     )
+add_library(game "Chess.h" "Chess.cpp"      "Board.h" "Board.cpp")
 
