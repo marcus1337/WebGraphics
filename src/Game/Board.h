@@ -15,6 +15,7 @@ enum class PieceColor {
 
 class Board {
     std::array<std::array<char, 8>, 8> board; //board[FILE][RANK]
+    void setStartPieces(PieceColor pieceColor);
 
 public:
     Board();

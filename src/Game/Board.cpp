@@ -1,13 +1,31 @@
 #include "Board.h"
 #include <iostream>
+#include <iomanip>
 
 Board::Board() {
     reset();
 }
 
+void Board::setStartPieces(PieceColor pieceColor) {
+    char pawnsRank = pieceColor == PieceColor::WHITE ? 1 : 6;
+    char heavyPiecesRank = pieceColor == PieceColor::WHITE ? 0 : 7;
+    for (int file = 0; file < 8; file++)
+        setPiece(file, pawnsRank, Piece::PAWN, pieceColor);
+    setPiece(0, heavyPiecesRank, Piece::ROOK, pieceColor);
+    setPiece(7, heavyPiecesRank, Piece::ROOK, pieceColor);
+    setPiece(1, heavyPiecesRank, Piece::KNIGHT, pieceColor);
+    setPiece(6, heavyPiecesRank, Piece::KNIGHT, pieceColor);
+    setPiece(2, heavyPiecesRank, Piece::BISHOP, pieceColor);
+    setPiece(5, heavyPiecesRank, Piece::BISHOP, pieceColor);
+    setPiece(3, heavyPiecesRank, Piece::QUEEN, pieceColor);
+    setPiece(4, heavyPiecesRank, Piece::KING, pieceColor);
+}
+
 void Board::reset() {
     std::cout << "Board: reset()\n";
     clear();
+    setStartPieces(PieceColor::WHITE);
+    setStartPieces(PieceColor::BLACK);
 }
 
 void Board::clear() {
@@ -17,11 +35,11 @@ void Board::clear() {
 }
 
 void Board::print() {
-    std::cout << "----Board Values----\n";
-    for (char rank = 0; rank < 8; rank++) {
+    std::cout << "----Board----\n";
+    for (char rank = 7; rank >= 0; rank--) {
         std::cout << (rank+1) << ": ";
         for (char file = 0; file < 8; file++) {
-            std::cout << "[" << getTilePieceName(file, rank) << "] ";
+            std::cout << "[ " << std::setw(9) << std::left << getTilePieceName(file, rank) << "] ";
         }
         std::cout << "\n";
     }
