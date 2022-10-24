@@ -12,12 +12,12 @@ void Board::setStartPieces(PieceColor pieceColor) {
 }
 
 void Board::setStartLightPieces(PieceColor pieceColor) {
-    char rank = pieceColor == PieceColor::WHITE ? 1 : 6;
+    int rank = pieceColor == PieceColor::WHITE ? 1 : 6;
     for (int file = 0; file < 8; file++)
         setPiece(file, rank, PieceType::PAWN, pieceColor);
 }
 void Board::setStartHeavyPieces(PieceColor pieceColor) {
-    char rank = pieceColor == PieceColor::WHITE ? 0 : 7;
+    int rank = pieceColor == PieceColor::WHITE ? 0 : 7;
     setPiece(0, rank, PieceType::ROOK, pieceColor);
     setPiece(7, rank, PieceType::ROOK, pieceColor);
     setPiece(1, rank, PieceType::KNIGHT, pieceColor);
@@ -36,25 +36,42 @@ void Board::reset() {
 }
 
 void Board::clear() {
-    for (char rank = 0; rank < 8; rank++)
-        for (char file = 0; file < 8; file++)
+    for (int rank = 0; rank < 8; rank++)
+        for (int file = 0; file < 8; file++)
             clearTile(file, rank);
 }
 
 void Board::print() {
-    for (char rank = 7; rank >= 0; rank--) {
+    for (int rank = 7; rank >= 0; rank--) {
         std::cout << (rank+1) << ": ";
-        for (char file = 0; file < 8; file++)
-            std::cout << "[ " << std::setw(9) << std::left << board[file][rank].toString() << "] ";
+        for (int file = 0; file < 8; file++)
+            std::cout << "[ " << std::setw(9) << std::left << getTile(file, rank).toString() << "] ";
         std::cout << "\n";
     }
 }
 
-void Board::clearTile(char file, char rank) {
+void Board::clearTile(int file, int rank) {
     board[file][rank] = Tile();
 }
 
-void Board::setPiece(char file, char rank, PieceType pieceType, PieceColor pieceColor) {
+void Board::setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor) {
     board[file][rank].piece = Piece{ pieceType, pieceColor };
     board[file][rank].occupied = true;
+}
+
+Tile Board::getTile(int file, int rank) {
+    return board[file][rank];
+}
+
+void Board::clearPassant() {
+    for (int rank = 0; rank < 8; rank++)
+        for (int file = 0; file < 8; file++)
+            board[file][rank].passantPawn = false;
+}
+
+void Board::makeMove(Move move) {
+    board[move.from.file][move.from.rank].occupied = false;
+    board[move.from.file][move.from.rank].movedPiece = true;
+    board[move.to.file][move.to.rank].movedPiece = true;
+    board[move.to.file][move.to.rank].piece = move.piece;
 }

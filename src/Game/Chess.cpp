@@ -9,3 +9,10 @@ PieceColor Chess::getPlayerTurn() {
         return PieceColor::BLACK;
     return PieceColor::WHITE;
 }
+
+bool isDraw() {
+    return false;
+}
+bool isCheckMate() {
+    return false;
+}

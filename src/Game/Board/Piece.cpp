@@ -27,3 +27,68 @@ std::string Piece::toString() {
     }
     return str;
 }
+
+std::vector<Point> Piece::getDefaultMovePoints() {
+    std::vector<Point> movePoints;
+    switch (type) {
+    case PieceType::PAWN:
+        if (color == PieceColor::WHITE)
+            movePoints.push_back(Point{ 0,1 });
+        else
+            movePoints.push_back(Point{ 0,-1 });
+        break;
+    case PieceType::KNIGHT:
+        movePoints.push_back(Point{ 1,  -2 });
+        movePoints.push_back(Point{ -1, -2 });
+        movePoints.push_back(Point{ 1,  2 });
+        movePoints.push_back(Point{ -1, 2 });
+        movePoints.push_back(Point{ -2, 1 });
+        movePoints.push_back(Point{ -2, -1 });
+        movePoints.push_back(Point{ 2,  1 });
+        movePoints.push_back(Point{ 2,  -1 });
+        break;
+    case PieceType::BISHOP:
+        for (int i = 0; i < 7; i++) {
+            movePoints.push_back(Point{ i,i });
+            movePoints.push_back(Point{ -i,-i });
+            movePoints.push_back(Point{ -i,i });
+            movePoints.push_back(Point{ i,-i });
+        }
+        break;
+    case PieceType::ROOK:
+        for (int i = 0; i < 7; i++) {
+            movePoints.push_back(Point{ 0,i });
+            movePoints.push_back(Point{ 0,-i });
+            movePoints.push_back(Point{ i,0 });
+            movePoints.push_back(Point{ -i,0 });
+        }
+        break;
+    case PieceType::QUEEN:
+        for (int i = 0; i < 7; i++) {
+            movePoints.push_back(Point{ i,i });
+            movePoints.push_back(Point{ -i,-i });
+            movePoints.push_back(Point{ -i,i });
+            movePoints.push_back(Point{ i,-i });
+
+            movePoints.push_back(Point{ 0,i });
+            movePoints.push_back(Point{ 0,-i });
+            movePoints.push_back(Point{ i,0 });
+            movePoints.push_back(Point{ -i,0 });
+        }
+        break;
+    case PieceType::KING:
+        movePoints.push_back(Point{ -1,-1 });
+        movePoints.push_back(Point{ -1,0 });
+        movePoints.push_back(Point{ 0,-1 });
+        movePoints.push_back(Point{ 1,1 });
+        movePoints.push_back(Point{ 1,0 });
+        movePoints.push_back(Point{ 0,1 });
+        movePoints.push_back(Point{ -1,1 });
+        movePoints.push_back(Point{ 1,-1 });
+        break;
+    default:
+        break;
+    }
+
+    return movePoints;
+}

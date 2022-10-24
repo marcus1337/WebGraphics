@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include "Point.h"
 
 #ifndef PIECE_H
 #define PIECE_H
@@ -16,6 +17,7 @@ struct Piece {
     PieceType type;
     PieceColor color;
     std::string toString();
+    std::vector<Point> getDefaultMovePoints();
 };
 
 

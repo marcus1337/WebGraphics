@@ -13,6 +13,9 @@ public:
     Board board;
     int getTurn();
     PieceColor getPlayerTurn();
+
+    bool isDraw();
+    bool isCheckMate();
    
 };
 

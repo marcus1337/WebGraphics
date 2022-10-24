@@ -12,16 +12,18 @@ class Board {
     void setStartPieces(PieceColor pieceColor);
     void setStartLightPieces(PieceColor pieceColor);
     void setStartHeavyPieces(PieceColor pieceColor);
+    void clearTile(int file, int rank);
 
 public:
     Board();
     void clear();
     void reset();
     void print();
-    void clearTile(char file, char rank);
 
-    void setPiece(char file, char rank, PieceType pieceType, PieceColor pieceColor);
-    Tile getTile(char file, char rank);
+    void setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor);
+    Tile getTile(int file, int rank);
+    void clearPassant();
+    void makeMove(Move move);
     
 };
 
