@@ -44,7 +44,8 @@ public:
 
     bool isLastMovePawnTwoStep(PieceColor lastMoveColor);
     void setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value);
-    void setTwoSteppedFile(int file);
+    void setTwoSteppedPawnFile(int file);
+    int getTwoSteppedPawnFile();
     
 };
 

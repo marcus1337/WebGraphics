@@ -114,6 +114,12 @@ void Board::setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value) {
     else if (value && lastMoveColor == PieceColor::BLACK)
         blackPawnTwoStepped = true;
 }
-void Board::setTwoSteppedFile(int file) {
+
+void Board::setTwoSteppedPawnFile(int file) {
     pawnTwoSteppedFile = file;
 }
+
+int Board::getTwoSteppedPawnFile() {
+    return pawnTwoSteppedFile;
+}
+
