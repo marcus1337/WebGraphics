@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "Board.h"
+#include "Board/Board.h"
 
 #ifndef CHESS_H
 #define CHESS_H
@@ -12,6 +12,7 @@ public:
 
     Board board;
     int getTurn();
+    PieceColor getPlayerTurn();
    
 };
 

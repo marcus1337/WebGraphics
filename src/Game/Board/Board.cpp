@@ -35,7 +35,6 @@ void Board::clear() {
 }
 
 void Board::print() {
-    std::cout << "----Board----\n";
     for (char rank = 7; rank >= 0; rank--) {
         std::cout << (rank+1) << ": ";
         for (char file = 0; file < 8; file++) {

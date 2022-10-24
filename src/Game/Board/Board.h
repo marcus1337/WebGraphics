@@ -1,17 +1,10 @@
 
 #include <array>
 #include <string>
+#include "Piece.h"
 
 #ifndef BOARD_H
 #define BOARD_H
-
-enum class Piece {
-    PAWN = 1, KNIGHT, BISHOP, ROOK, QUEEN, KING
-};
-
-enum class PieceColor {
-    WHITE = 0, BLACK
-};
 
 class Board {
     std::array<std::array<char, 8>, 8> board; //board[FILE][RANK]
