@@ -3,8 +3,7 @@
 #define POINT_H
 
 struct Point {
-    char file;
-    char rank;
+    char file, rank;
 };
 
-#endif // !POINT_H
+#endif
