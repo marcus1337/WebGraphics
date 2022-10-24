@@ -37,12 +37,8 @@ void Board::clear() {
 void Board::print() {
     for (char rank = 7; rank >= 0; rank--) {
         std::cout << (rank+1) << ": ";
-        for (char file = 0; file < 8; file++) {
-            std::string pieceStr = "None";
-            if (board[file][rank].occupied)
-                pieceStr = board[file][rank].piece.toString();
-            std::cout << "[ " << std::setw(9) << std::left << pieceStr << "] ";
-        }
+        for (char file = 0; file < 8; file++)
+            std::cout << "[ " << std::setw(9) << std::left << board[file][rank].toString() << "] ";
         std::cout << "\n";
     }
 }

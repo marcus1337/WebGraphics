@@ -13,6 +13,7 @@ struct Tile {
     bool movedPiece = false;
     bool passantPawn = false;
  
+    std::string toString();
 
 };
 
