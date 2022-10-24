@@ -10,6 +10,8 @@
 class Board {
     std::array<std::array<Tile, 8>, 8> board; //board[FILE][RANK]
     void setStartPieces(PieceColor pieceColor);
+    void setStartLightPieces(PieceColor pieceColor);
+    void setStartHeavyPieces(PieceColor pieceColor);
 
 public:
     Board();
