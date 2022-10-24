@@ -63,15 +63,36 @@ Tile Board::getTile(int file, int rank) {
     return board[file][rank];
 }
 
-void Board::clearPassant() {
-    for (int rank = 0; rank < 8; rank++)
-        for (int file = 0; file < 8; file++)
-            board[file][rank].passantPawn = false;
+bool Board::isKingMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        return whiteKingMoved;
+    return blackKingMoved;
 }
-
-void Board::makeMove(Move move) {
-    board[move.from.file][move.from.rank].occupied = false;
-    board[move.from.file][move.from.rank].movedPiece = true;
-    board[move.to.file][move.to.rank].movedPiece = true;
-    board[move.to.file][move.to.rank].piece = move.piece;
+bool Board::isQueenSideRookMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        return whiteQueenSideRookMoved;
+    return blackQueenSideRookMoved;
+}
+bool Board::isKingSideRookMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        return whiteKingSideRookMoved;
+    return blackKingSideRookMoved;
+}
+void Board::setKingMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        whiteKingMoved = true;
+    else
+        blackKingMoved = true;
+}
+void Board::setKingSideRookMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        whiteKingSideRookMoved = true;
+    else
+        blackKingSideRookMoved = true;
+}
+void Board::setQueenSideRookMoved(PieceColor color) {
+    if (color == PieceColor::WHITE)
+        whiteQueenSideRookMoved = true;
+    else
+        blackQueenSideRookMoved = true;
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include "Piece.h"
 #include "Tile.h"
+#include "Point.h"
 
 #ifndef BOARD_H
 #define BOARD_H
@@ -14,6 +15,13 @@ class Board {
     void setStartHeavyPieces(PieceColor pieceColor);
     void clearTile(int file, int rank);
 
+    bool blackKingMoved = false;
+    bool blackQueenSideRookMoved = false;
+    bool blackKingSideRookMoved = false;
+    bool whiteKingMoved = false;
+    bool whiteQueenSideRookMoved = false;
+    bool whiteKingSideRookMoved = false;
+
 public:
     Board();
     void clear();
@@ -22,8 +30,13 @@ public:
 
     void setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor);
     Tile getTile(int file, int rank);
-    void clearPassant();
-    void makeMove(Move move);
+
+    bool isKingMoved(PieceColor color);
+    bool isQueenSideRookMoved(PieceColor color);
+    bool isKingSideRookMoved(PieceColor color);
+    void setKingMoved(PieceColor color);
+    void setKingSideRookMoved(PieceColor color);
+    void setQueenSideRookMoved(PieceColor color);
     
 };
 
