@@ -22,6 +22,10 @@ class Board {
     bool whiteQueenSideRookMoved = false;
     bool whiteKingSideRookMoved = false;
 
+    bool whitePawnTwoStepped = false;
+    bool blackPawnTwoStepped = false;
+    int pawnTwoSteppedFile = -1;
+
 public:
     Board();
     void clear();
@@ -37,6 +41,10 @@ public:
     void setKingMoved(PieceColor color);
     void setKingSideRookMoved(PieceColor color);
     void setQueenSideRookMoved(PieceColor color);
+
+    bool isLastMovePawnTwoStep(PieceColor lastMoveColor);
+    void setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value);
+    void setTwoSteppedFile(int file);
     
 };
 

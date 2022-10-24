@@ -66,17 +66,20 @@ Tile Board::getTile(int file, int rank) {
 bool Board::isKingMoved(PieceColor color) {
     if (color == PieceColor::WHITE)
         return whiteKingMoved;
-    return blackKingMoved;
+    else
+        return blackKingMoved;
 }
 bool Board::isQueenSideRookMoved(PieceColor color) {
     if (color == PieceColor::WHITE)
         return whiteQueenSideRookMoved;
-    return blackQueenSideRookMoved;
+    else
+        return blackQueenSideRookMoved;
 }
 bool Board::isKingSideRookMoved(PieceColor color) {
     if (color == PieceColor::WHITE)
         return whiteKingSideRookMoved;
-    return blackKingSideRookMoved;
+    else
+        return blackKingSideRookMoved;
 }
 void Board::setKingMoved(PieceColor color) {
     if (color == PieceColor::WHITE)
@@ -95,4 +98,22 @@ void Board::setQueenSideRookMoved(PieceColor color) {
         whiteQueenSideRookMoved = true;
     else
         blackQueenSideRookMoved = true;
+}
+
+bool Board::isLastMovePawnTwoStep(PieceColor lastMoveColor) {
+    if (lastMoveColor == PieceColor::WHITE)
+        return whitePawnTwoStepped;
+    else
+        return blackPawnTwoStepped;
+}
+void Board::setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value) {
+    whitePawnTwoStepped = false;
+    blackPawnTwoStepped = false;
+    if (value && lastMoveColor == PieceColor::WHITE)
+        whitePawnTwoStepped = true;
+    else if (value && lastMoveColor == PieceColor::BLACK)
+        blackPawnTwoStepped = true;
+}
+void Board::setTwoSteppedFile(int file) {
+    pawnTwoSteppedFile = file;
 }
