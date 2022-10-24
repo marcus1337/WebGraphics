@@ -46,6 +46,14 @@ public:
     void setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value);
     void setTwoSteppedPawnFile(int file);
     int getTwoSteppedPawnFile();
+
+    
+    //-----put in other class?
+    //bool isChecked(PieceColor color);
+    //bool canPromotePawn(PieceColor color, int file);
+    //bool canCastle(PieceColor color);
+    //bool canCastleKingSide(PieceColor color);
+    //bool canCastleQueenSide(PieceColor color);
     
 };
 

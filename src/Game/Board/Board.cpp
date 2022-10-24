@@ -123,3 +123,4 @@ int Board::getTwoSteppedPawnFile() {
     return pawnTwoSteppedFile;
 }
 
+
