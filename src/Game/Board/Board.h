@@ -29,13 +29,8 @@ public:
     Castle whiteCastle, blackCastle;
     EnPassant whitePassant, blackPassant;
 
-    //std::array<std::array<bool, 8>, 8> getThreatenedTiles(PieceColor attackColor);
     //-----put in other class?
-    //bool isChecked(PieceColor color);
     //bool canPromotePawn(PieceColor color, int file);
-    //bool canCastle(PieceColor color);
-    //bool canCastleKingSide(PieceColor color);
-    //bool canCastleQueenSide(PieceColor color);
     
 };
 

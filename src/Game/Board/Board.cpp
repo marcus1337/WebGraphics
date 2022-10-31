@@ -36,6 +36,10 @@ void Board::reset() {
 }
 
 void Board::clear() {
+    whiteCastle = Castle();
+    blackCastle = Castle();
+    whitePassant = EnPassant();
+    blackPassant = EnPassant();
     for (int rank = 0; rank < 8; rank++)
         for (int file = 0; file < 8; file++)
             clearTile(file, rank);
@@ -62,8 +66,5 @@ void Board::setPiece(int file, int rank, PieceType pieceType, PieceColor pieceCo
 Tile Board::getTile(int file, int rank) {
     return board[file][rank];
 }
-
-
-
 
 
