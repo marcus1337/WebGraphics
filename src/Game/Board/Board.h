@@ -4,6 +4,8 @@
 #include "Piece.h"
 #include "Tile.h"
 #include "Point.h"
+#include "Castle.h"
+#include "EnPassant.h"
 
 #ifndef BOARD_H
 #define BOARD_H
@@ -14,40 +16,20 @@ class Board {
     void setStartLightPieces(PieceColor pieceColor);
     void setStartHeavyPieces(PieceColor pieceColor);
     void clearTile(int file, int rank);
-
-    bool blackKingMoved = false;
-    bool blackQueenSideRookMoved = false;
-    bool blackKingSideRookMoved = false;
-    bool whiteKingMoved = false;
-    bool whiteQueenSideRookMoved = false;
-    bool whiteKingSideRookMoved = false;
-
-    bool whitePawnTwoStepped = false;
-    bool blackPawnTwoStepped = false;
-    int pawnTwoSteppedFile = -1;
+    void clear();
 
 public:
     Board();
-    void clear();
     void reset();
     void print();
 
     void setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor);
     Tile getTile(int file, int rank);
 
-    bool isKingMoved(PieceColor color);
-    bool isQueenSideRookMoved(PieceColor color);
-    bool isKingSideRookMoved(PieceColor color);
-    void setKingMoved(PieceColor color);
-    void setKingSideRookMoved(PieceColor color);
-    void setQueenSideRookMoved(PieceColor color);
+    Castle whiteCastle, blackCastle;
+    EnPassant whitePassant, blackPassant;
 
-    bool isLastMovePawnTwoStep(PieceColor lastMoveColor);
-    void setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value);
-    void setTwoSteppedPawnFile(int file);
-    int getTwoSteppedPawnFile();
-
-    
+    //std::array<std::array<bool, 8>, 8> getThreatenedTiles(PieceColor attackColor);
     //-----put in other class?
     //bool isChecked(PieceColor color);
     //bool canPromotePawn(PieceColor color, int file);

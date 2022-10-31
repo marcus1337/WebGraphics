@@ -5,5 +5,5 @@ add_library(game "Chess.h" "Chess.cpp"
   
 "Board/Piece.h" "Board/Piece.cpp" 
 "Board/Tile.h" "Board/Tile.cpp" 
-"Board/Point.h"   )
+"Board/Point.h"    "Board/Castle.h" "Board/Castle.cpp" "Board/EnPassant.h" "Board/EnPassant.cpp")
 

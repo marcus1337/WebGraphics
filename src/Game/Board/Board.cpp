@@ -55,72 +55,15 @@ void Board::clearTile(int file, int rank) {
 }
 
 void Board::setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor) {
-    board[file][rank].piece = Piece{ pieceType, pieceColor };
-    board[file][rank].occupied = true;
+    board[file][rank].setPiece(Piece{ pieceType, pieceColor });
+    board[file][rank].setOccupied(true);
 }
 
 Tile Board::getTile(int file, int rank) {
     return board[file][rank];
 }
 
-bool Board::isKingMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        return whiteKingMoved;
-    else
-        return blackKingMoved;
-}
-bool Board::isQueenSideRookMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        return whiteQueenSideRookMoved;
-    else
-        return blackQueenSideRookMoved;
-}
-bool Board::isKingSideRookMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        return whiteKingSideRookMoved;
-    else
-        return blackKingSideRookMoved;
-}
-void Board::setKingMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        whiteKingMoved = true;
-    else
-        blackKingMoved = true;
-}
-void Board::setKingSideRookMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        whiteKingSideRookMoved = true;
-    else
-        blackKingSideRookMoved = true;
-}
-void Board::setQueenSideRookMoved(PieceColor color) {
-    if (color == PieceColor::WHITE)
-        whiteQueenSideRookMoved = true;
-    else
-        blackQueenSideRookMoved = true;
-}
 
-bool Board::isLastMovePawnTwoStep(PieceColor lastMoveColor) {
-    if (lastMoveColor == PieceColor::WHITE)
-        return whitePawnTwoStepped;
-    else
-        return blackPawnTwoStepped;
-}
-void Board::setLastMovePawnTwoStep(PieceColor lastMoveColor, bool value) {
-    whitePawnTwoStepped = false;
-    blackPawnTwoStepped = false;
-    if (value && lastMoveColor == PieceColor::WHITE)
-        whitePawnTwoStepped = true;
-    else if (value && lastMoveColor == PieceColor::BLACK)
-        blackPawnTwoStepped = true;
-}
 
-void Board::setTwoSteppedPawnFile(int file) {
-    pawnTwoSteppedFile = file;
-}
-
-int Board::getTwoSteppedPawnFile() {
-    return pawnTwoSteppedFile;
-}
 
 
