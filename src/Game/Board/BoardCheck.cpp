@@ -49,7 +49,7 @@ bool BoardCheck::isBlockablePiece(Piece piece) {
 void BoardCheck::setChecks(Point from, Piece piece) {
     std::vector<Point> points = piece.getNormalMoves();
     if (piece.type == PieceType::PAWN)
-        points = piece.getPawnNormalAttacks();
+        points = Piece::getPawnNormalAttacks(piece.color);
     for (Point point : points) {
         Point to = point + from;
         if (isPlaceableTile(to))

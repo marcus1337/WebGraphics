@@ -28,9 +28,9 @@ std::string Piece::toString() {
     return str;
 }
 
-std::vector<Point> Piece::getPawnNormalAttacks() {
+std::vector<Point> Piece::getPawnNormalAttacks(PieceColor _color) {
     std::vector<Point> points;
-    if (color == PieceColor::WHITE) {
+    if (_color == PieceColor::WHITE) {
         points.push_back(Point{ 1,1 });
         points.push_back(Point{ -1,1 });
     }
