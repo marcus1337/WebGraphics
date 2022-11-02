@@ -18,8 +18,8 @@ class BoardCheck {
 public:
 
     BoardCheck(Board _board, PieceColor _checkColor);
-    bool isChecked(Point point);
-
+    bool isPointChecked(Point point);
+    bool isKingChecked();
 };
 
 #endif

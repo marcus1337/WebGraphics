@@ -27,7 +27,7 @@ void BoardCheck::setChecks() {
         }
     }
 }
-bool BoardCheck::isChecked(Point point) {
+bool BoardCheck::isPointChecked(Point point) {
     return checks[point.file][point.rank];
 }
 
@@ -55,6 +55,19 @@ void BoardCheck::setChecks(Point from, Piece piece) {
         if (isPlaceableTile(to))
             checks[to.file][to.rank] = !isPathBlocked(from, to, piece);
     }
+}
+
+bool BoardCheck::isKingChecked() {
+    for (int file = 0; file < 8; file++) {
+        for (int rank = 0; rank < 8; rank++) {
+            Tile tile = board.getTile(file, rank);
+            Piece piece = tile.getPiece();
+            if (tile.isOccupied() && piece.color == checkColor && piece.type == PieceType::KING) {
+                return checks[file][rank];
+            }
+        }
+    }
+    return false;
 }
 
 
