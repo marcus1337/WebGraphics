@@ -1,6 +1,6 @@
 #include "BoardCheck.h"
 
-BoardCheck::BoardCheck(Board _board, PieceColor _checkColor) : board(_board), checkColor(_checkColor), checks{false} {
+BoardCheck::BoardCheck(Board _board, PieceColor _checkColor) : board(_board), checkColor(_checkColor), checks{ false } {
     setChecks();
 }
 
@@ -31,12 +31,26 @@ bool BoardCheck::isChecked(Point point) {
     return checks[point.file][point.rank];
 }
 
+bool BoardCheck::isPathBlocked(Point from, Point to, Piece piece) {
+    if (!isBlockablePiece(piece))
+        return false;
+    while (from != to) {
+        from.closeDistance(to);
+        if (from != to && board.getTile(from).isOccupied())
+            return true;
+    }
+    return false;
+}
+
+bool BoardCheck::isBlockablePiece(Piece piece) {
+    return piece.type == PieceType::BISHOP || piece.type == PieceType::QUEEN || piece.type == PieceType::ROOK;
+}
+
 void BoardCheck::setChecks(Point from, Piece piece) {
-    std::vector<Point> points = piece.getNormalMoves();
-    for (Point point : points) {
+    for (Point point : piece.getNormalMoves()) {
         Point to = point + from;
         if (isPlaceableTile(to))
-            checks[to.file][to.rank] = true;
+            checks[to.file][to.rank] = !isPathBlocked(from, to, piece);
     }
 }
 
