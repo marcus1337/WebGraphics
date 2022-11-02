@@ -67,4 +67,7 @@ Tile Board::getTile(int file, int rank) {
     return board[file][rank];
 }
 
+Tile Board::getTile(Point point) {
+    return getTile(point.file, point.rank);
+}
 

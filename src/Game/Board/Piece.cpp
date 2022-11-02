@@ -28,7 +28,7 @@ std::string Piece::toString() {
     return str;
 }
 
-std::vector<Point> Piece::getDefaultMovePoints() {
+std::vector<Point> Piece::getNormalMoves() {
     std::vector<Point> movePoints;
     switch (type) {
     case PieceType::PAWN:

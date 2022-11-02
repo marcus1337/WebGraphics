@@ -31,42 +31,16 @@ bool BoardCheck::isChecked(Point point) {
     return checks[point.file][point.rank];
 }
 
-void BoardCheck::setChecks(Point fromPoint, Piece piece) {
-    if (piece.type == PieceType::PAWN)
-        setPawnChecks(fromPoint);
-    if (piece.type == PieceType::KING)
-        setKingChecks(fromPoint);
-    if (piece.type == PieceType::KNIGHT)
-        setKnightChecks(fromPoint);
-    if (piece.type == PieceType::BISHOP)
-        setDiagonalChecks(fromPoint);
-    if (piece.type == PieceType::ROOK)
-        setStraightChecks(fromPoint);
-    if (piece.type == PieceType::QUEEN) {
-        setDiagonalChecks(fromPoint);
-        setStraightChecks(fromPoint);
+void BoardCheck::setChecks(Point from, Piece piece) {
+    std::vector<Point> points = piece.getNormalMoves();
+    for (Point point : points) {
+        Point to = point + from;
+        if (isPlaceableTile(to))
+            checks[to.file][to.rank] = true;
     }
 }
 
-void BoardCheck::setPawnChecks(Point fromPoint) {
 
-}
-
-void BoardCheck::setKnightChecks(Point fromPoint) {
-
-}
-
-void BoardCheck::setDiagonalChecks(Point fromPoint) {
-
-}
-
-void BoardCheck::setStraightChecks(Point fromPoint) {
-
-}
-
-void BoardCheck::setKingChecks(Point fromPoint) {
-
-}
 
 
 

@@ -25,6 +25,7 @@ public:
 
     void setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor);
     Tile getTile(int file, int rank);
+    Tile getTile(Point point);
 
     Castle whiteCastle, blackCastle;
     EnPassant whitePassant, blackPassant;

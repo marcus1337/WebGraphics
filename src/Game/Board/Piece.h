@@ -17,7 +17,7 @@ struct Piece {
     PieceType type;
     PieceColor color;
     std::string toString();
-    std::vector<Point> getDefaultMovePoints();
+    std::vector<Point> getNormalMoves();
 };
 
 
