@@ -28,6 +28,19 @@ std::string Piece::toString() {
     return str;
 }
 
+std::vector<Point> Piece::getPawnNormalAttacks() {
+    std::vector<Point> points;
+    if (color == PieceColor::WHITE) {
+        points.push_back(Point{ 1,1 });
+        points.push_back(Point{ -1,1 });
+    }
+    else {
+        points.push_back(Point{ 1,-1 });
+        points.push_back(Point{ -1,-1 });
+    }
+    return points;
+}
+
 std::vector<Point> Piece::getNormalMoves() {
     std::vector<Point> movePoints;
     switch (type) {

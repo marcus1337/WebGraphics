@@ -47,7 +47,10 @@ bool BoardCheck::isBlockablePiece(Piece piece) {
 }
 
 void BoardCheck::setChecks(Point from, Piece piece) {
-    for (Point point : piece.getNormalMoves()) {
+    std::vector<Point> points = piece.getNormalMoves();
+    if (piece.type == PieceType::PAWN)
+        points = piece.getPawnNormalAttacks();
+    for (Point point : points) {
         Point to = point + from;
         if (isPlaceableTile(to))
             checks[to.file][to.rank] = !isPathBlocked(from, to, piece);

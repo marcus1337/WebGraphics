@@ -18,6 +18,7 @@ struct Piece {
     PieceColor color;
     std::string toString();
     std::vector<Point> getNormalMoves();
+    std::vector<Point> getPawnNormalAttacks();
 };
 
 
