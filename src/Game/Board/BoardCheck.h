@@ -12,10 +12,10 @@ class BoardCheck {
     void clearChecks();
     bool isPlaceableTile(Point toPoint);
     void setChecks(Point fromPoint, Piece piece);
+    void setChecks();
 public:
 
     BoardCheck(Board _board, PieceColor _checkColor);
-    void setChecks();
     bool isChecked(Point point);
 
 };

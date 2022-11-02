@@ -1,7 +1,7 @@
 #include "BoardCheck.h"
 
-BoardCheck::BoardCheck(Board _board, PieceColor _checkColor) : board(_board), checkColor(_checkColor) {
-
+BoardCheck::BoardCheck(Board _board, PieceColor _checkColor) : board(_board), checkColor(_checkColor), checks{false} {
+    setChecks();
 }
 
 void BoardCheck::clearChecks() {
