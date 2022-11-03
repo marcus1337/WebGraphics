@@ -15,6 +15,7 @@ struct Point {
     bool operator==(Point const& rhs) const { return file == rhs.file && rank == rhs.rank; }
 
     void closeDistance(Point to);
+    bool isInsideBoard();
 
 };
 

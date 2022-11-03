@@ -12,3 +12,6 @@ void Point::closeDistance(Point to) {
         rank--;
 }
 
+bool Point::isInsideBoard() {
+    return file >= 0 && file <= 7 && rank >= 0 && rank <= 7;
+}

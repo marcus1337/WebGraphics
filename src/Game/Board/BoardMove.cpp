@@ -38,6 +38,14 @@ std::vector<Point> BoardMove::getPawnMoves(Point from) {
 }
 
 std::vector<Point> BoardMove::getOtherMoves(Point from) {
-    std::vector<Point> points;
-    return points;
+    Piece piece = board.getTile(from).getPiece();
+    std::vector<Point> moves;
+    for (Point point : piece.getNormalMoves()) {
+        Point moveTo = from + point;
+        if(moveTo.isInsideBoard())
+            moves.push_back(moveTo);
+    }
+    return moves;
 }
+
+
