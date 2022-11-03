@@ -22,6 +22,8 @@ class Board {
     bool isKingSideRook(Point from, PieceColor color);
     void setCastleState(Point fromMove);
     void setPassantState(Point fromMove, Point toMove);
+    bool isPromoteMove(Point toMove);
+    PieceType getPromoteType(int toRank);
 
 public:
     Board();

@@ -102,17 +102,46 @@ void Board::setPassantState(Point from, Point to) {
     passant.setPawnTwoStepped(false);
     if (piece.type != PieceType::PAWN)
         return;
-    if (to.rank < 0 || to.rank > 7) //Special "Promote moves".
+    if (isPromoteMove(to))
         return;
     int rankSteps = std::abs(from.rank - to.rank);
     if (rankSteps == 2)
         passant.setPawnTwoStepped(true);
 }
 
+bool Board::isPromoteMove(Point toMove) {
+    return toMove.rank < 0 || toMove.rank > 7;
+}
+
+PieceType Board::getPromoteType(int toRank) {
+    int value;
+    if (toRank > 0)
+        value = toRank - 8;
+    else
+        value = std::abs(toRank);
+    if (value == 0)
+        return PieceType::KNIGHT;
+    else if (value == 1)
+        return PieceType::BISHOP;
+    else if (value == 2)
+        return PieceType::ROOK;
+    else
+        return PieceType::QUEEN;
+}
+
 void Board::movePiece(Point from, Point to) {
     setCastleState(from);
     setPassantState(from, to);
+
     Piece piece = getTile(from).getPiece();
+    clearTile(from.file, from.rank);
+
+    if (isPromoteMove(to)) {
+        int promoteRank = piece.color == PieceColor::WHITE ? 7 : 0;
+        setPiece(to.file, promoteRank, Piece{ getPromoteType(to.rank), piece.color });
+    }
+    else
+        setPiece(to.file, to.rank, piece);
 }
 
 void Board::castleKingSide(PieceColor color) {
