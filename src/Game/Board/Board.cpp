@@ -156,3 +156,30 @@ void Board::castleQueenSide(PieceColor color) {
     movePiece(Point{ 4, rank }, Point{ 2, rank });
 }
 
+bool Board::isPlaceableTile(Point toPoint, PieceColor newColor) {
+    bool insideBoard = toPoint.file >= 0 && toPoint.file <= 7 && toPoint.rank >= 0 && toPoint.rank <= 7;
+    if (!insideBoard)
+        return false;
+    Tile tile = getTile(toPoint.file, toPoint.rank);
+    return !tile.isOccupied() || tile.getPiece().color != newColor;
+}
+
+bool Board::isPathBlocked(Point from, Point to, Piece piece) {
+    if (!isBlockablePiece(piece))
+        return false;
+    while (from != to) {
+        from.closeDistance(to);
+        if (from != to && getTile(from).isOccupied())
+            return true;
+    }
+    return false;
+}
+
+bool Board::isBlockablePiece(Piece piece) {
+    return piece.type == PieceType::BISHOP || piece.type == PieceType::QUEEN || piece.type == PieceType::ROOK;
+}
+
+bool Board::isTileOccupiedByColor(Point point, PieceColor color) {
+    Tile tile = getTile(point);
+    return tile.isOccupied() && tile.getPiece().color == color;
+}

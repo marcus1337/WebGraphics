@@ -8,14 +8,6 @@ void BoardCheck::clearChecks() {
     checks = std::array<std::array<bool, 8>, 8>{false};
 }
 
-bool BoardCheck::isPlaceableTile(Point toPoint) {
-    bool insideBoard = toPoint.file >= 0 && toPoint.file <= 7 && toPoint.rank >= 0 && toPoint.rank <= 7;
-    if (!insideBoard)
-        return false;
-    Tile tile = board.getTile(toPoint.file, toPoint.rank);
-    return !tile.isOccupied() || tile.getPiece().color != checkColor;
-}
-
 void BoardCheck::setChecks() {
     clearChecks();
     for (int rank = 0; rank < 8; rank++) {
@@ -31,29 +23,14 @@ bool BoardCheck::isPointChecked(Point point) {
     return checks[point.file][point.rank];
 }
 
-bool BoardCheck::isPathBlocked(Point from, Point to, Piece piece) {
-    if (!isBlockablePiece(piece))
-        return false;
-    while (from != to) {
-        from.closeDistance(to);
-        if (from != to && board.getTile(from).isOccupied())
-            return true;
-    }
-    return false;
-}
-
-bool BoardCheck::isBlockablePiece(Piece piece) {
-    return piece.type == PieceType::BISHOP || piece.type == PieceType::QUEEN || piece.type == PieceType::ROOK;
-}
-
 void BoardCheck::setChecks(Point from, Piece piece) {
     std::vector<Point> points = piece.getNormalMoves();
     if (piece.type == PieceType::PAWN)
         points = Piece::getPawnNormalAttacks(piece.color);
     for (Point point : points) {
         Point to = point + from;
-        if (isPlaceableTile(to))
-            checks[to.file][to.rank] = !isPathBlocked(from, to, piece);
+        if (board.isPlaceableTile(to, checkColor))
+            checks[to.file][to.rank] = !board.isPathBlocked(from, to, piece);
     }
 }
 

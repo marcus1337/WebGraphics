@@ -24,6 +24,7 @@ class Board {
     void setPassantState(Point fromMove, Point toMove);
     bool isPromoteMove(Point toMove);
     PieceType getPromoteType(int toRank);
+    bool isBlockablePiece(Piece piece);
 
 public:
     Board();
@@ -37,9 +38,13 @@ public:
 
     Tile getTile(int file, int rank);
     Tile getTile(Point point);
+    bool isTileOccupiedByColor(Point point, PieceColor color);
 
     Castle whiteCastle, blackCastle;
     EnPassant whitePassant, blackPassant;
+
+    bool isPlaceableTile(Point toPoint, PieceColor newColor);
+    bool isPathBlocked(Point from, Point to, Piece piece);
     
 };
 

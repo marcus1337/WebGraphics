@@ -9,11 +9,16 @@ class BoardMove {
     BoardCheck boardCheck;
     PieceColor moveColor;
 
+    std::vector<Point> getUnverifiedMoves(Point from);
+    std::vector<Point> getPawnMoves(Point from);
+    std::vector<Point> getOtherMoves(Point from);
+
+    bool isMoveCausingSelfCheck(Point from, Point to);
+
 public:
 
     BoardMove(Board _board, PieceColor _moveColor);
     std::vector<Point> getMoves(Point from);
-    std::vector<Point> getPawnMoves(Point from);
 
 };
 
