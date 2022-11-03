@@ -30,11 +30,37 @@ bool BoardMove::isMoveCausingSelfCheck(Point from, Point to) {
     return boardCopyCheck.isKingChecked();
 }
 
+bool BoardMove::canPawnTake(Point to, PieceColor pawnColor) {
+    return canPawnNormalTake(to, pawnColor) || canPawnPassantTake(to, pawnColor);
+}
+
+bool BoardMove::canPawnPassantTake(Point to, PieceColor pawnColor) {
+    int passantRank = pawnColor == PieceColor::WHITE ? 5 : 2;
+    EnPassant& passant = pawnColor == PieceColor::WHITE ? board.whitePassant : board.blackPassant;
+    if (!passant.isPawnTwoStepped())
+        return false;
+    if (to.file != passant.getTwoSteppedPawnFile())
+        return false;
+    return to.rank == passantRank;
+}
+
+bool BoardMove::canPawnNormalTake(Point to, PieceColor pawnColor) {
+    Tile tile = board.getTile(to);
+    return tile.isOccupied() && tile.getPiece().color != pawnColor;
+}
+
 std::vector<Point> BoardMove::getPawnMoves(Point from) {
-    std::vector<Point> points;
+    PieceColor color = board.getTile(from).getPiece().color;
+    std::vector<Point> attackMoves;
+    for (Point point : Piece::getPawnNormalAttacks(color)) {
+        Point moveTo = point + from;
+        if (moveTo.isInsideBoard() && canPawnTake(moveTo, color))
+            attackMoves.push_back(moveTo);
+    }
+    
 
-
-    return points;
+    std::vector<Point> allMoves;
+    return allMoves;
 }
 
 std::vector<Point> BoardMove::getOtherMoves(Point from) {
