@@ -16,6 +16,7 @@ class BoardMove {
     bool canPawnTake(Point to, PieceColor pawnColor);
     bool canPawnPassantTake(Point to, PieceColor pawnColor);
     bool canPawnNormalTake(Point to, PieceColor pawnColor);
+    bool canPawnTwoStep(Point from);
 
     bool isMoveCausingSelfCheck(Point from, Point to);
 
@@ -23,6 +24,7 @@ public:
 
     BoardMove(Board _board, PieceColor _moveColor);
     std::vector<Point> getMoves(Point from);
+    bool canMove();
 
 };
 
