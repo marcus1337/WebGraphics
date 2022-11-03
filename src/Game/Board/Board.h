@@ -18,20 +18,26 @@ class Board {
     void clearTile(int file, int rank);
     void clear();
 
+    bool isQueenSideRook(Point from, PieceColor color);
+    bool isKingSideRook(Point from, PieceColor color);
+    void setCastleState(Point fromMove);
+    void setPassantState(Point fromMove, Point toMove);
+
 public:
     Board();
     void reset();
     void print();
 
-    void setPiece(int file, int rank, PieceType pieceType, PieceColor pieceColor);
+    void setPiece(int file, int rank, Piece piece);
+    void movePiece(Point from, Point to);
+    void castleKingSide(PieceColor color);
+    void castleQueenSide(PieceColor color);
+
     Tile getTile(int file, int rank);
     Tile getTile(Point point);
 
     Castle whiteCastle, blackCastle;
     EnPassant whitePassant, blackPassant;
-
-    //-----put in other class?
-    //bool canPromotePawn(PieceColor color, int file);
     
 };
 
