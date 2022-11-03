@@ -4,12 +4,6 @@ BoardMove::BoardMove(Board _board, PieceColor _moveColor) : board(_board), moveC
 
 }
 
-bool BoardMove::canKingSideCastle() {
-    return false;
-}
-bool BoardMove::canQueenSideCastle() {
-    return false;
-}
 std::vector<Point> BoardMove::getMoves(Point from) {
     if (!board.getTile(from).isOccupied())
         return {};

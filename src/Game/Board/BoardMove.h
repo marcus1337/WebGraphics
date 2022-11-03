@@ -10,10 +10,8 @@ class BoardMove {
     PieceColor moveColor;
 
 public:
-    BoardMove(Board _board, PieceColor _moveColor);
 
-    bool canKingSideCastle();
-    bool canQueenSideCastle();
+    BoardMove(Board _board, PieceColor _moveColor);
     std::vector<Point> getMoves(Point from);
     std::vector<Point> getPawnMoves(Point from);
 

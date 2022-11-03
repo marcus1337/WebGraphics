@@ -20,6 +20,8 @@ public:
     BoardCheck(Board _board, PieceColor _checkColor);
     bool isPointChecked(Point point);
     bool isKingChecked();
+    bool canKingSideCastle();
+    bool canQueenSideCastle();
 };
 
 #endif

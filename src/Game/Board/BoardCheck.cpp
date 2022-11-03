@@ -70,6 +70,23 @@ bool BoardCheck::isKingChecked() {
     return false;
 }
 
+bool BoardCheck::canKingSideCastle() {
+    Castle& castle = checkColor == PieceColor::WHITE ? board.whiteCastle : board.blackCastle;
+    int rank = checkColor == PieceColor::WHITE ? 0 : 7;
+    for (int file = 4; file < 7; file++)
+        if (isPointChecked(Point{ file, rank }))
+            return false;
+    return !castle.isKingMoved() && !castle.isKingSideRookMoved();
+}
+
+bool BoardCheck::canQueenSideCastle() {
+    Castle& castle = checkColor == PieceColor::WHITE ? board.whiteCastle : board.blackCastle;
+    int rank = checkColor == PieceColor::WHITE ? 0 : 7;
+    for (int file = 4; file >= 2; file--)
+        if (isPointChecked(Point{ file, rank }))
+            return false;
+    return !castle.isKingMoved() && !castle.isQueenSideRookMoved();
+}
 
 
 
