@@ -129,19 +129,29 @@ PieceType Board::getPromoteType(int toRank) {
         return PieceType::QUEEN;
 }
 
+bool Board::isPassantMove(Point from, Point to) {
+    Piece piece = getTile(from).getPiece();
+    return piece.type == PieceType::PAWN && !getTile(to).isOccupied() && from.file != to.file;
+}
+
 void Board::movePiece(Point from, Point to) {
     setCastleState(from);
     setPassantState(from, to);
 
     Piece piece = getTile(from).getPiece();
-    clearTile(from.file, from.rank);
+    PieceColor color = piece.color;
 
-    if (isPromoteMove(to)) {
-        int promoteRank = piece.color == PieceColor::WHITE ? 7 : 0;
-        setPiece(to.file, promoteRank, Piece{ getPromoteType(to.rank), piece.color });
+    if (isPassantMove(from, to)) {
+        int takeRank = color == PieceColor::WHITE ? 5 : 2;
+        clearTile(to.file, takeRank);
+    }else if (isPromoteMove(to)) {
+        int promoteRank = color == PieceColor::WHITE ? 7 : 0;
+        piece = Piece{ getPromoteType(to.rank), color };
+        to = Point{ to.file, promoteRank };
     }
-    else
-        setPiece(to.file, to.rank, piece);
+    
+    setPiece(to.file, to.rank, piece);
+    clearTile(from.file, from.rank);
 }
 
 void Board::castleKingSide(PieceColor color) {

@@ -25,6 +25,7 @@ class Board {
     bool isPromoteMove(Point toMove);
     PieceType getPromoteType(int toRank);
     bool isBlockablePiece(Piece piece);
+    bool isPassantMove(Point from, Point to);
 
 public:
     Board();
