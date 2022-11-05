@@ -14,7 +14,7 @@ void Chess::setBoardChecks() {
 }
 
 PieceColor Chess::getTurnColor() {
-    if (isWhiteTurn())
+    if (getTurn() % 2 == 0)
         return PieceColor::WHITE;
     else
         return PieceColor::BLACK;
@@ -28,13 +28,6 @@ void Chess::reset() {
 
 int Chess::getTurn() {
     return turn;
-}
-
-bool Chess::isWhiteTurn() {
-    return getTurn() % 2 == 0;
-}
-bool Chess::isBlackTurn() {
-    return !isWhiteTurn();
 }
 
 bool Chess::isDraw() {

@@ -1,3 +1,47 @@
+BoardController = {}
+function BoardController:new(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+
+    o.from = nil
+
+    return o
+end
+
+function BoardController:getMoves()
+    local moves = {}
+    local chess = getChessRef()
+    if self:isToSelect() then
+        local moveVec = chess:getMoves(self.from)
+        for k=1,#moveVec do
+            moves[#moves+1] = moveVec[k]
+        end
+    end
+    return moves
+end
+
+function BoardController:setFrom(from)
+    self.from = from
+end
+
+function BoardController:setTo(to)
+    print("moving...")
+    local chess = getChessRef()
+    chess:move(self.from, to)
+    print("moved...")
+    self.from = nil
+end
+
+function BoardController:isFromSelect()
+    return self.from == nil
+end
+
+function BoardController:isToSelect()
+    return self:isFromSelect() == false
+end
+
+
 Tile = {}
 function Tile:new(o)
     o = o or {}
@@ -17,7 +61,69 @@ function Tile:new(o)
     rect:setColor(o:getColor())
     o.rect = rect
 
+    local btn = Button.new(o.width, o.width)
+    btn:setPosition(o.x, o.y)
+    btn:clearView()
+    btn.onPressCallback = function ()
+        o:onClick()
+    end
+    o.btn = btn
+
     return o
+end
+
+function Tile:update()
+    self.btn:update()
+end
+
+function Tile:get()
+    local chess = getChessRef()
+    return chess:getTile(Point:new(self.file, self.rank))
+end
+
+function Tile:isSelectable()
+    local tileInfo = self:get()
+    local chess = getChessRef()
+    local tmp = tileInfo:getPiece().color
+    if self.controller:isFromSelect() and tileInfo:isOccupied() and chess:getTurnColor() == tileInfo:getPiece().color then
+        return true
+    end
+    if self.controller:isToSelect() then
+        return self:isTarget()
+    end
+    return false
+end
+
+function Tile:isTarget()
+    local moves = self.controller:getMoves()
+    local validMove = false
+    for k, v in pairs(moves) do
+        if v.file == self.file and v.rank == self.rank then
+            validMove = true
+        end
+    end
+    return validMove
+end
+
+function Tile:getPoint()
+    return Point:new(self.file, self.rank)
+end
+
+function Tile:onClick()
+    print("Tile(" .. tostring(self.file) .. "," .. tostring(self.rank) .. ") selectable? " .. tostring(self:isSelectable()) )
+    if self:isSelectable() then
+        print(tostring(self.file) .. " " .. tostring(self.rank))
+        if self.controller:isFromSelect() then
+            print("from...")
+            self.controller:setFrom(self:getPoint())
+        elseif self.controller:isToSelect() then
+            print("to...")
+            self.controller:setTo(self:getPoint())
+        end
+    else
+        print("cancel...")
+        self.controller:setFrom(nil)
+    end
 end
 
 function Tile:getColor()
@@ -55,6 +161,7 @@ function Board:new(o)
     local tileWidth = math.floor(o.width/8)
     o.x = o.x or 500
     o.y = o.y or 50
+    o.controller = BoardController:new()
     setmetatable(o, self)
     self.__index = self
 
@@ -70,7 +177,7 @@ function Board:new(o)
             local width = math.floor(o.width/8)
             local x = file * width + o.x
             local y = rank * width + o.y
-            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth}
+            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth, controller = o.controller}
             tiles[#tiles+1] = tile
         end
     end
@@ -79,6 +186,9 @@ function Board:new(o)
 end
 
 function Board:update()
+    for k, v in pairs(self.tiles) do
+        v:update()
+    end
 end
 
 function Board:render()

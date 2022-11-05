@@ -6,6 +6,7 @@ board = Board:new{}
 
 function update()
     elements:update()
+    board:update()
 end
 
 function render()

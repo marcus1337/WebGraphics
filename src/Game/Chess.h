@@ -13,7 +13,6 @@ protected:
     Board board;
     BoardMove boardMove;
     BoardCheck boardCheck;
-    PieceColor getTurnColor();
     void setBoardChecks();
 
 public:
@@ -23,8 +22,7 @@ public:
     void print();
 
     int getTurn();
-    bool isWhiteTurn();
-    bool isBlackTurn();
+    PieceColor getTurnColor();
 
     bool isDraw();
     bool isCheckMate();
