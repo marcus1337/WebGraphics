@@ -28,7 +28,16 @@ void UIHelperScripts::load() {
 
 std::vector<std::string> UIHelperScripts::getScriptFilePaths() {
     std::vector<std::string> paths;
-    for (const auto& entry : std::filesystem::directory_iterator(FolderPaths::getScriptsPath() + "ui_utils//"))
+    for (std::string path : getScriptFilePathsInDirectory(FolderPaths::getScriptsPath() + "ui_utils//"))
+        paths.push_back(path);
+    for (std::string path : getScriptFilePathsInDirectory(FolderPaths::getScriptsPath() + "ui_game//"))
+        paths.push_back(path);
+    return paths;
+}
+
+std::vector<std::string> UIHelperScripts::getScriptFilePathsInDirectory(std::string directoryPath) {
+    std::vector<std::string> paths;
+    for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
         paths.push_back(entry.path().string());
     return paths;
 }
