@@ -5,6 +5,9 @@
 struct Point {
     int file, rank;
 
+    Point();
+    Point(int _file, int _rank);
+
     Point operator+(const Point& first) {
         return Point{ file + first.file, rank + first.rank };
     }

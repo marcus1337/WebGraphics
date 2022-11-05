@@ -8,6 +8,8 @@ class GamePanel : public Panel {
     virtual void onEnter() override;
     Chess chess;
 
+    void addChessTypesToLua(sol::state& lua);
+
 public:
     GamePanel(Engine& _engine, PanelContext& _panelContext);
     void update() override;

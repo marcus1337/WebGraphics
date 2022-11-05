@@ -43,6 +43,10 @@ public:
         lua[methodName] = func;
     }
 
+    sol::state& getStateRef() {
+        return lua;
+    }
+
 };
 
 #endif
