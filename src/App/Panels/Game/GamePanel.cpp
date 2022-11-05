@@ -6,7 +6,7 @@ void GamePanel::onEnter() {
 GamePanel::GamePanel(Engine& _engine, PanelContext& _panelContext) : Panel(_engine, "game", _panelContext) {
     uiScript.load();
 
-    chess.board.print();
+    chess.print();
 }
 void GamePanel::update() {
 
