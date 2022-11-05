@@ -71,6 +71,9 @@ function Board:new(o)
     return o
 end
 
+function Board:update()
+end
+
 function Board:render()
     self.backround:render()    
     for k, v in pairs(self.tiles) do

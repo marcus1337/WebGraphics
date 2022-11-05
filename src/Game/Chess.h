@@ -30,11 +30,6 @@ public:
     bool isCheckMate();
     bool isCheck();
 
-    bool canCastleQueenSide();
-    bool canCastleKingSide();
-    void castleQueenSide();
-    void castleKingSide();
-
     void move(Point from, Point to);
     std::vector<Point> getMoves(Point from);
     bool isOccupied(Point tilePosition);

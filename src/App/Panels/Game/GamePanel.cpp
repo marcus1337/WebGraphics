@@ -48,12 +48,6 @@ void GamePanel::addChessTypesToLua(sol::state& lua) {
         "isDraw", &Chess::isDraw,
         "isOccupied", &Chess::isOccupied,
         "isCheckMate", &Chess::isCheckMate,
-
-        "canCastleKingSide", &Chess::canCastleKingSide,
-        "canCastleQueenSide", &Chess::canCastleQueenSide,
-        "castleKingSide", & Chess::castleKingSide,
-        "castleQueenSide", & Chess::castleQueenSide,
-        
         "move", &Chess::move,
         "getMoves", &Chess::getMoves,
         "getPiece", &Chess::getPiece,

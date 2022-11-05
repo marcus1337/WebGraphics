@@ -129,9 +129,16 @@ PieceType Board::getPromoteType(int toRank) {
         return PieceType::QUEEN;
 }
 
+bool Board::isCastleKingSideMove(Point from, Point to) {
+    return getTile(from).getPiece().type == PieceType::KING && from.file - to.file < -1;
+}
+bool Board::isCastleQueenSideMove(Point from, Point to) {
+    return getTile(from).getPiece().type == PieceType::KING && from.file - to.file > 1;
+}
+
 bool Board::isPassantMove(Point from, Point to) {
     Piece piece = getTile(from).getPiece();
-    return piece.type == PieceType::PAWN && !getTile(to).isOccupied() && from.file != to.file;
+    return piece.type == PieceType::PAWN && !getTile(to).isOccupied() && from.file != to.file && (to.rank == 2 || to.rank == 5);
 }
 
 void Board::movePiece(Point from, Point to) {
@@ -141,7 +148,11 @@ void Board::movePiece(Point from, Point to) {
     Piece piece = getTile(from).getPiece();
     PieceColor color = piece.color;
 
-    if (isPassantMove(from, to)) {
+    if (isCastleKingSideMove(from, to))
+        castleKingSide(color);
+    else if (isCastleQueenSideMove(from, to))
+        castleQueenSide(color);
+    else if (isPassantMove(from, to)) {
         int takeRank = color == PieceColor::WHITE ? 5 : 2;
         clearTile(to.file, takeRank);
     }else if (isPromoteMove(to)) {

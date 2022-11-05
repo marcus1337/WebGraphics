@@ -10,6 +10,8 @@ std::vector<Point> BoardMove::getUnverifiedMoves(Point from) {
     Piece piece = board.getTile(from).getPiece();
     if (piece.type == PieceType::PAWN)
         return getPawnMoves(from);
+    else if (piece.type == PieceType::KING)
+        return getKingMoves(from);
     else
         return getOtherMoves(from);
 }
@@ -49,38 +51,79 @@ bool BoardMove::canPawnNormalTake(Point to, PieceColor pawnColor) {
     return tile.isOccupied() && tile.getPiece().color != pawnColor;
 }
 
-std::vector<Point> BoardMove::getPawnMoves(Point from) {
-    Piece piece = board.getTile(from).getPiece();
-    PieceColor color = piece.color;
+std::vector<Point> BoardMove::getKingMoves(Point from) {
     std::vector<Point> moves;
-    for (Point point : Piece::getPawnNormalAttacks(color)) {
-        Point moveTo = point + from;
-        if (moveTo.isInsideBoard() && canPawnTake(moveTo, color))
+    for (Point point : board.getTile(from).getPiece().getNormalMoves()) {
+        Point moveTo = from + point;
+        if (moveTo.isInsideBoard())
             moves.push_back(moveTo);
     }
-    if (canPawnTwoStep(from)) {
-        int rankDiff = color == PieceColor::WHITE ? 2 : -2;
-        moves.push_back(from + Point{ 0, rankDiff });
-    }
+    if(boardCheck.canKingSideCastle())
+        moves.push_back(from + Point{2,0});
+    if (boardCheck.canQueenSideCastle())
+        moves.push_back(from + Point{ 2,0 });
 
-    for (Point point : piece.getNormalMoves()) {
+    return moves;
+}
+
+bool BoardMove::isPawnPromoteMove(Point to) {
+    return to.rank == 0 || to.rank == 7;
+}
+std::vector<Point> BoardMove::getPawnPromoteMoves(Point to) {
+    PieceColor color = to.rank == 7 ? PieceColor::WHITE : PieceColor::BLACK;
+    int knightRank = color == PieceColor::WHITE ? 8 : -1;
+    int bishopRank = color == PieceColor::WHITE ? 9 : -2;
+    int rookRank = color == PieceColor::WHITE ? 10 : -3;
+    int queenRank = color == PieceColor::WHITE ? 11 : -4;
+    return { Point{to.file, knightRank}, Point{to.file, bishopRank},
+        Point{to.file, rookRank}, Point{to.file, queenRank} };
+}
+
+std::vector<Point> BoardMove::getPawnNormalMoves(Point from) {
+    std::vector<Point> moves;
+    for (Point point : board.getTile(from).getPiece().getNormalMoves()) {
         Point move = point + from;
         if (!board.getTile(move).isOccupied()) {
-            int promoteRank = color == PieceColor::WHITE ? 7 : 0;
-            int knightPromoteRank = color == PieceColor::WHITE ? 8 : -1;
-            int bishopPromoteRank = color == PieceColor::WHITE ? 9 : -2;
-            int rookPromoteRank = color == PieceColor::WHITE ? 10 : -3;
-            int queenPromoteRank = color == PieceColor::WHITE ? 11 : -4;
-            if (move.rank == promoteRank) {
-                moves.push_back(Point{ move.file, knightPromoteRank });
-                moves.push_back(Point{ move.file, bishopPromoteRank });
-                moves.push_back(Point{ move.file, rookPromoteRank });
-                moves.push_back(Point{ move.file, queenPromoteRank });
-            }
+            if (isPawnPromoteMove(move))
+                for (Point promoteMove : getPawnPromoteMoves(move))
+                    moves.push_back(promoteMove);
             else
                 moves.push_back(move);
         }
     }
+    return moves;
+}
+std::vector<Point> BoardMove::getPawnAttackMoves(Point from) {
+    PieceColor color = board.getTile(from).getPiece().color;
+    std::vector<Point> moves;
+    for (Point point : Piece::getPawnNormalAttacks(color)) {
+        Point moveTo = point + from;
+        if (moveTo.isInsideBoard() && canPawnTake(moveTo, color)) {
+            if (isPawnPromoteMove(moveTo))
+                for (Point point : getPawnPromoteMoves(moveTo))
+                    moves.push_back(point);
+            else
+                moves.push_back(moveTo);
+        }
+    }
+    return moves;
+}
+
+std::vector<Point> BoardMove::getPawnMoves(Point from) {
+    std::vector<Point> moves;
+
+    for (Point move : getPawnAttackMoves(from))
+        moves.push_back(move);
+
+    if (canPawnTwoStep(from)) {
+        Piece piece = board.getTile(from).getPiece();
+        int rankDiff = piece.color == PieceColor::WHITE ? 2 : -2;
+        moves.push_back(from + Point{ 0, rankDiff });
+    }
+
+    for (Point move : getPawnNormalMoves(from))
+        moves.push_back(move);
+
     return moves;
 }
 

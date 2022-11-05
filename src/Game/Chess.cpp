@@ -49,22 +49,6 @@ bool Chess::isCheck() {
     return boardCheck.isKingChecked();
 }
 
-bool Chess::canCastleQueenSide() {
-    return boardCheck.canQueenSideCastle();
-}
-
-bool Chess::canCastleKingSide() {
-    return boardCheck.canKingSideCastle();
-}
-
-void Chess::castleQueenSide() {
-    board.castleQueenSide(getTurnColor());
-}
-
-void Chess::castleKingSide() {
-    board.castleKingSide(getTurnColor());
-}
-
 void Chess::move(Point from, Point to) {
     board.movePiece(from, to);
     turn++;

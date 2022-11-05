@@ -11,6 +11,11 @@ class BoardMove {
 
     std::vector<Point> getUnverifiedMoves(Point from);
     std::vector<Point> getPawnMoves(Point from);
+    std::vector<Point> getPawnNormalMoves(Point from);
+    std::vector<Point> getPawnAttackMoves(Point from);
+    bool isPawnPromoteMove(Point to);
+    std::vector<Point> getPawnPromoteMoves(Point to);
+    std::vector<Point> getKingMoves(Point from);
     std::vector<Point> getOtherMoves(Point from);
 
     bool canPawnTake(Point to, PieceColor pawnColor);
