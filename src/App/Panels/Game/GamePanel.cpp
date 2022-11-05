@@ -39,6 +39,10 @@ void GamePanel::addChessTypesToLua(sol::state& lua) {
         "type", &Piece::type,
         "color", &Piece::color);
 
+    lua.new_usertype<Tile>("Tile",
+        "isOccupied", &Tile::isOccupied,
+        "getPiece", &Tile::getPiece);
+
     lua.new_usertype<Chess>("Chess",
         "reset", &Chess::reset,
         "print", &Chess::print,
@@ -46,11 +50,10 @@ void GamePanel::addChessTypesToLua(sol::state& lua) {
         "isBlackTurn", &Chess::isBlackTurn,
         "isCheck", &Chess::isCheck,
         "isDraw", &Chess::isDraw,
-        "isOccupied", &Chess::isOccupied,
         "isCheckMate", &Chess::isCheckMate,
         "move", &Chess::move,
         "getMoves", &Chess::getMoves,
-        "getPiece", &Chess::getPiece,
+        "getTile", &Chess::getTile,
         "getTurn", &Chess::getTurn);
 }
 

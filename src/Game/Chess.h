@@ -32,8 +32,7 @@ public:
 
     void move(Point from, Point to);
     std::vector<Point> getMoves(Point from);
-    bool isOccupied(Point tilePosition);
-    Piece getPiece(Point tilePosition);
+    Tile getTile(Point point);
     
 };
 

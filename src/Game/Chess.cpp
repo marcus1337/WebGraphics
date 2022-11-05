@@ -58,11 +58,7 @@ std::vector<Point> Chess::getMoves(Point from) {
     return boardMove.getMoves(from);
 }
 
-bool Chess::isOccupied(Point tilePosition) {
-    return board.getTile(tilePosition).isOccupied();
-}
-
-Piece Chess::getPiece(Point tilePosition) {
-    return board.getTile(tilePosition).getPiece();
+Tile Chess::getTile(Point point) {
+    return board.getTile(point);
 }
 

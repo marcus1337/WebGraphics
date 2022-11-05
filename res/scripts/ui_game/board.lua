@@ -38,6 +38,13 @@ end
 
 function Tile:render()
     self.rect:render()
+    local chess = getChessRef()
+    local tileInfo = chess:getTile(Point:new(self.file, self.rank))
+    if tileInfo:isOccupied() then
+        local piece = tileInfo:getPiece()
+        pieceView = Piece:new{x = self.x, y = self.y, width = self.width, type = piece.type, color = piece.color}
+        pieceView:render()
+    end
 end
 
 Board = {}
