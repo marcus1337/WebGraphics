@@ -21,7 +21,8 @@ void GamePanel::addChessTypesToLua(sol::state& lua) {
     lua.new_usertype<Point>("Point",
         sol::constructors<Point(), Point(int, int)>(),
         "file", &Point::file,
-        "rank", &Point::rank);
+        "rank", &Point::rank,
+        "toString", &Point::toString);
 
     lua.new_enum<PieceType>("PieceType", {
         {"PAWN", PieceType::PAWN},

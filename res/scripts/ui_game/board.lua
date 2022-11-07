@@ -26,10 +26,8 @@ function BoardController:setFrom(from)
 end
 
 function BoardController:setTo(to)
-    print("moving...")
     local chess = getChessRef()
     chess:move(self.from, to)
-    print("moved...")
     self.from = nil
 end
 
@@ -84,20 +82,21 @@ end
 function Tile:isSelectable()
     local tileInfo = self:get()
     local chess = getChessRef()
-    local tmp = tileInfo:getPiece().color
     if self.controller:isFromSelect() and tileInfo:isOccupied() and chess:getTurnColor() == tileInfo:getPiece().color then
         return true
     end
-    if self.controller:isToSelect() then
-        return self:isTarget()
+    if self.controller:isToSelect() and self:isTarget() then
+        return true
     end
     return false
 end
 
 function Tile:isTarget()
+    print("isTarget()")
     local moves = self.controller:getMoves()
     local validMove = false
     for k, v in pairs(moves) do
+        print( v:toString())
         if v.file == self.file and v.rank == self.rank then
             validMove = true
         end
@@ -111,18 +110,15 @@ end
 
 function Tile:onClick()
     print("Tile(" .. tostring(self.file) .. "," .. tostring(self.rank) .. ") selectable? " .. tostring(self:isSelectable()) )
-    if self:isSelectable() then
-        print(tostring(self.file) .. " " .. tostring(self.rank))
-        if self.controller:isFromSelect() then
-            print("from...")
-            self.controller:setFrom(self:getPoint())
-        elseif self.controller:isToSelect() then
-            print("to...")
-            self.controller:setTo(self:getPoint())
-        end
-    else
-        print("cancel...")
+    if not self:isSelectable() then
         self.controller:setFrom(nil)
+        return
+    end
+
+    if self.controller:isFromSelect() then
+        self.controller:setFrom(self:getPoint())
+    elseif self.controller:isToSelect() then
+        self.controller:setTo(self:getPoint())
     end
 end
 
@@ -197,3 +193,4 @@ function Board:render()
         v:render()
     end
 end
+

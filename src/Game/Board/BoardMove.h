@@ -18,9 +18,9 @@ class BoardMove {
     std::vector<Point> getKingMoves(Point from);
     std::vector<Point> getOtherMoves(Point from);
 
-    bool canPawnTake(Point to, PieceColor pawnColor);
-    bool canPawnPassantTake(Point to, PieceColor pawnColor);
-    bool canPawnNormalTake(Point to, PieceColor pawnColor);
+    bool canPawnTake(Point to);
+    bool canPawnPassantTake(Point to);
+    bool canPawnNormalTake(Point to);
     bool canPawnTwoStep(Point from);
 
     bool isMoveCausingSelfCheck(Point from, Point to);

@@ -138,43 +138,56 @@ bool Board::isCastleQueenSideMove(Point from, Point to) {
 
 bool Board::isPassantMove(Point from, Point to) {
     Piece piece = getTile(from).getPiece();
-    return piece.type == PieceType::PAWN && !getTile(to).isOccupied() && from.file != to.file && (to.rank == 2 || to.rank == 5);
+    return to.isInsideBoard() && piece.type == PieceType::PAWN && !getTile(to).isOccupied() && 
+        from.file != to.file && (to.rank == 2 || to.rank == 5);
 }
 
 void Board::movePiece(Point from, Point to) {
+    std::cout << "movePiece(): " << from.toString() << ", " << to.toString() << "\n";
     setCastleState(from);
     setPassantState(from, to);
 
     Piece piece = getTile(from).getPiece();
     PieceColor color = piece.color;
 
-    if (isCastleKingSideMove(from, to))
+    if (isCastleKingSideMove(from, to)) {
         castleKingSide(color);
-    else if (isCastleQueenSideMove(from, to))
+    }
+    else if (isCastleQueenSideMove(from, to)) {
         castleQueenSide(color);
+    }
     else if (isPassantMove(from, to)) {
-        int takeRank = color == PieceColor::WHITE ? 5 : 2;
+        int takeRank = color == PieceColor::WHITE ? 4 : 3;
         clearTile(to.file, takeRank);
+        setPiece(to.file, to.rank, piece);
+        clearTile(from.file, from.rank);
     }else if (isPromoteMove(to)) {
         int promoteRank = color == PieceColor::WHITE ? 7 : 0;
         piece = Piece{ getPromoteType(to.rank), color };
         to = Point{ to.file, promoteRank };
+        setPiece(to.file, to.rank, piece);
+        clearTile(from.file, from.rank);
     }
-    
-    setPiece(to.file, to.rank, piece);
-    clearTile(from.file, from.rank);
+    else {
+        setPiece(to.file, to.rank, piece);
+        clearTile(from.file, from.rank);
+    }
 }
 
 void Board::castleKingSide(PieceColor color) {
     int rank = color == PieceColor::WHITE ? 0 : 7;
-    movePiece(Point{ 4, rank }, Point{ 6, rank });
-    movePiece(Point{ 7, rank }, Point{ 5, rank });
+    clearTile(4, rank);
+    clearTile(7, rank);
+    setPiece(6, rank, Piece{PieceType::KING, color});
+    setPiece(5, rank, Piece{PieceType::ROOK, color});
 }
 
 void Board::castleQueenSide(PieceColor color) {
     int rank = color == PieceColor::WHITE ? 0 : 7;
-    movePiece(Point{ 0, rank }, Point{ 3, rank });
-    movePiece(Point{ 4, rank }, Point{ 2, rank });
+    clearTile(0, rank);
+    clearTile(4, rank);
+    setPiece(2, rank, Piece{ PieceType::KING, color });
+    setPiece(3, rank, Piece{ PieceType::ROOK, color });
 }
 
 bool Board::isPlaceableTile(Point toPoint, PieceColor newColor) {

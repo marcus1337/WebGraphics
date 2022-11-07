@@ -1,4 +1,5 @@
 #include "BoardMove.h"
+#include <iostream>
 
 BoardMove::BoardMove(Board _board, PieceColor _moveColor) : board(_board), moveColor(_moveColor), boardCheck(_board, _moveColor) {
 
@@ -8,6 +9,8 @@ std::vector<Point> BoardMove::getUnverifiedMoves(Point from) {
     if (!board.getTile(from).isOccupied())
         return {};
     Piece piece = board.getTile(from).getPiece();
+    if (piece.color != moveColor)
+        return {};
     if (piece.type == PieceType::PAWN)
         return getPawnMoves(from);
     else if (piece.type == PieceType::KING)
@@ -32,13 +35,13 @@ bool BoardMove::isMoveCausingSelfCheck(Point from, Point to) {
     return boardCopyCheck.isKingChecked();
 }
 
-bool BoardMove::canPawnTake(Point to, PieceColor pawnColor) {
-    return canPawnNormalTake(to, pawnColor) || canPawnPassantTake(to, pawnColor);
+bool BoardMove::canPawnTake(Point to) {
+    return canPawnNormalTake(to) || canPawnPassantTake(to);
 }
 
-bool BoardMove::canPawnPassantTake(Point to, PieceColor pawnColor) {
-    int passantRank = pawnColor == PieceColor::WHITE ? 5 : 2;
-    EnPassant& passant = pawnColor == PieceColor::WHITE ? board.whitePassant : board.blackPassant;
+bool BoardMove::canPawnPassantTake(Point to) {
+    int passantRank = moveColor == PieceColor::WHITE ? 5 : 2;
+    EnPassant& passant = moveColor == PieceColor::BLACK ? board.whitePassant : board.blackPassant;
     if (!passant.isPawnTwoStepped())
         return false;
     if (to.file != passant.getTwoSteppedPawnFile())
@@ -46,9 +49,9 @@ bool BoardMove::canPawnPassantTake(Point to, PieceColor pawnColor) {
     return to.rank == passantRank;
 }
 
-bool BoardMove::canPawnNormalTake(Point to, PieceColor pawnColor) {
+bool BoardMove::canPawnNormalTake(Point to) {
     Tile tile = board.getTile(to);
-    return tile.isOccupied() && tile.getPiece().color != pawnColor;
+    return tile.isOccupied() && tile.getPiece().color != moveColor;
 }
 
 std::vector<Point> BoardMove::getKingMoves(Point from) {
@@ -98,7 +101,7 @@ std::vector<Point> BoardMove::getPawnAttackMoves(Point from) {
     std::vector<Point> moves;
     for (Point point : Piece::getPawnNormalAttacks(color)) {
         Point moveTo = point + from;
-        if (moveTo.isInsideBoard() && canPawnTake(moveTo, color)) {
+        if (moveTo.isInsideBoard() && canPawnTake(moveTo)) {
             if (isPawnPromoteMove(moveTo))
                 for (Point point : getPawnPromoteMoves(moveTo))
                     moves.push_back(point);

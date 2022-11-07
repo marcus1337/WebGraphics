@@ -1,3 +1,4 @@
+#include <string>
 
 #ifndef POINT_H
 #define POINT_H
@@ -19,6 +20,8 @@ struct Point {
 
     void closeDistance(Point to);
     bool isInsideBoard();
+
+    std::string toString();
 
 };
 

@@ -22,3 +22,7 @@ Point::Point() : file(0), rank(0) {
 Point::Point(int _file, int _rank) : file(_file) , rank(_rank) {
 
 }
+
+std::string Point::toString() {
+    return "{" + std::to_string(file) + "," + std::to_string(rank) + "}";
+}
