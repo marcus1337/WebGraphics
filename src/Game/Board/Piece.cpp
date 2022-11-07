@@ -61,7 +61,7 @@ std::vector<Point> Piece::getNormalMoves() {
         movePoints.push_back(Point{ 2,  -1 });
         break;
     case PieceType::BISHOP:
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i <= 7; i++) {
             movePoints.push_back(Point{ i,i });
             movePoints.push_back(Point{ -i,-i });
             movePoints.push_back(Point{ -i,i });
@@ -69,7 +69,7 @@ std::vector<Point> Piece::getNormalMoves() {
         }
         break;
     case PieceType::ROOK:
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i <= 7; i++) {
             movePoints.push_back(Point{ 0,i });
             movePoints.push_back(Point{ 0,-i });
             movePoints.push_back(Point{ i,0 });
@@ -77,7 +77,7 @@ std::vector<Point> Piece::getNormalMoves() {
         }
         break;
     case PieceType::QUEEN:
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i <= 7; i++) {
             movePoints.push_back(Point{ i,i });
             movePoints.push_back(Point{ -i,-i });
             movePoints.push_back(Point{ -i,i });

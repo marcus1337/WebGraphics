@@ -46,7 +46,6 @@ public:
     Castle whiteCastle, blackCastle;
     EnPassant whitePassant, blackPassant;
 
-    bool isPlaceableTile(Point toPoint, PieceColor newColor);
     bool isPathBlocked(Point from, Point to, Piece piece);
     
 };

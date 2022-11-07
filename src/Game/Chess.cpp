@@ -1,4 +1,5 @@
 #include "Chess.h"
+#include <iostream>
 
 Chess::Chess() : board(), boardCheck(board, PieceColor::WHITE), boardMove(board, PieceColor::WHITE) {
 
@@ -6,6 +7,8 @@ Chess::Chess() : board(), boardCheck(board, PieceColor::WHITE), boardMove(board,
 
 void Chess::print() {
     board.print();
+    std::cout << "-------------\n";
+    boardCheck.print();
 }
 
 void Chess::setBoardChecks() {
@@ -46,6 +49,7 @@ void Chess::move(Point from, Point to) {
     board.movePiece(from, to);
     turn++;
     setBoardChecks();
+    print();
 }
 
 std::vector<Point> Chess::getMoves(Point from) {

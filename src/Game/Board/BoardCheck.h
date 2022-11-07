@@ -19,6 +19,7 @@ public:
     bool isKingChecked();
     bool canKingSideCastle();
     bool canQueenSideCastle();
+    void print();
 };
 
 #endif

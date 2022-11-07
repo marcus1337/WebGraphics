@@ -1,4 +1,5 @@
 #include "BoardCheck.h"
+#include <iostream>
 
 BoardCheck::BoardCheck(Board _board, PieceColor _checkColor) : board(_board), checkColor(_checkColor), checks{ false } {
     setChecks();
@@ -13,7 +14,7 @@ void BoardCheck::setChecks() {
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
             Tile tile = board.getTile(file, rank);
-            if (tile.isOccupied() && tile.getPiece().color == checkColor) {
+            if (tile.isOccupied() && tile.getPiece().color != checkColor) {
                 setChecks(Point{ file, rank }, tile.getPiece());
             }
         }
@@ -29,8 +30,8 @@ void BoardCheck::setChecks(Point from, Piece piece) {
         points = Piece::getPawnNormalAttacks(piece.color);
     for (Point point : points) {
         Point to = point + from;
-        if (board.isPlaceableTile(to, checkColor))
-            checks[to.file][to.rank] = !board.isPathBlocked(from, to, piece);
+        if (to.isInsideBoard() && !board.isPathBlocked(from, to, piece))
+            checks[to.file][to.rank] = true;
     }
 }
 
@@ -65,6 +66,18 @@ bool BoardCheck::canQueenSideCastle() {
     return !castle.isKingMoved() && !castle.isQueenSideRookMoved();
 }
 
-
+void BoardCheck::print() {
+    for (int rank = 7; rank >= 0; rank--) {
+        std::cout << (rank + 1) << ": ";
+        for (int file = 0; file < 8; file++)
+        {
+            if (checks[file][rank])
+                std::cout << "[X]";
+            else
+                std::cout << "[ ]";
+        }
+        std::cout << "\n";
+    }
+}
 
 
