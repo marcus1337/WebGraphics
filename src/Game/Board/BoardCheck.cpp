@@ -54,6 +54,9 @@ bool BoardCheck::canKingSideCastle() {
     for (int file = 4; file < 7; file++)
         if (isPointChecked(Point{ file, rank }))
             return false;
+    for (int file = 5; file < 7; file++)
+        if (board.getTile(file, rank).isOccupied())
+            return false;
     return !castle.isKingMoved() && !castle.isKingSideRookMoved();
 }
 
@@ -62,6 +65,9 @@ bool BoardCheck::canQueenSideCastle() {
     int rank = checkColor == PieceColor::WHITE ? 0 : 7;
     for (int file = 4; file >= 2; file--)
         if (isPointChecked(Point{ file, rank }))
+            return false;
+    for (int file = 1; file < 4; file++)
+        if (board.getTile(file, rank).isOccupied())
             return false;
     return !castle.isKingMoved() && !castle.isQueenSideRookMoved();
 }

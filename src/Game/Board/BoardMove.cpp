@@ -64,7 +64,7 @@ std::vector<Point> BoardMove::getKingMoves(Point from) {
     if(boardCheck.canKingSideCastle())
         moves.push_back(from + Point{2,0});
     if (boardCheck.canQueenSideCastle())
-        moves.push_back(from + Point{ 2,0 });
+        moves.push_back(from + Point{ -2,0 });
 
     return moves;
 }
