@@ -37,6 +37,8 @@ public:
     virtual void setInactive();
     virtual void update() = 0;
     virtual void render() = 0;
+
+    bool isHovered();
 };
 
 #endif

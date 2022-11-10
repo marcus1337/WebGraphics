@@ -83,7 +83,11 @@ function Tile:onClick()
     elseif self:isPossibleTarget() then
         self.controller:setTo(self:getPoint())
     else
+        local oldSelectFrom = self.controller.from
         self.controller:setFrom(nil)
+        if self:isSelectAction() and oldSelectFrom ~= self:getPoint() then
+            self.controller:setFrom(self:getPoint())
+        end
     end
 end
 
@@ -130,6 +134,24 @@ function Tile:isOccupied()
     return getChessRef():getTile(self:getPoint()):isOccupied()
 end
 
+function Tile:isSelected()
+
+end
+
+function Tile:renderHighlight()
+    local rect = Rect()
+    rect:setSize(self.width, self.width)
+    rect:setPosition(self.x, self.y)
+    rect:setColor(vec3(0.5,0.5,0.0))
+    rect:setThickness(0.05)
+    rect:setRadius(0.1)
+    rect:render()
+end
+
+function Tile:isHighlighted()
+    return self.btn:isHovered() and (self:isSelectAction() or self:isPossibleTarget()) 
+end
+
 function Tile:render()
     self.rect:render()
     if self:isOccupied() then
@@ -137,5 +159,8 @@ function Tile:render()
     end
     if self:isPossibleTarget() then  
         self:renderTarget()
+    end
+    if self:isHighlighted() then
+        self:renderHighlight()
     end
 end
