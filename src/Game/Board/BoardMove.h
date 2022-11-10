@@ -22,8 +22,9 @@ class BoardMove {
     bool canPawnPassantTake(Point to);
     bool canPawnNormalTake(Point to);
     bool canPawnTwoStep(Point from);
-
     bool isMoveCausingSelfCheck(Point from, Point to);
+
+    bool canMove(Point from, Point to);
 
 public:
 

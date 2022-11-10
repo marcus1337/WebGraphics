@@ -103,14 +103,39 @@ function Tile:getColor()
     return nil
 end
 
+function Tile:getPieceView()
+    local tileInfo = getChessRef():getTile(self:getPoint())
+    local piece = tileInfo:getPiece()
+    return Piece:new{x = self.x, y = self.y, width = self.width, type = piece.type, color = piece.color}
+end
+
+function Tile:renderPiece()
+    self:getPieceView():render()
+end
+
+function Tile:renderTarget()
+   local dot = Circle.new()
+   local radius = math.floor(self.width/2.5)
+   local x = math.floor(self.x + self.width/2 - radius/2)
+   local y = math.floor(self.y + self.width/2 - radius/2)
+   dot:setPosition(x, y)
+   dot:setColor(vec3(0.7,0.5,0.2))
+   dot:setAlpha(0.5)
+   dot:setSize(radius, radius)
+   dot:setThickness(1.0)
+   dot:render()
+end
+
+function Tile:isOccupied()
+    return getChessRef():getTile(self:getPoint()):isOccupied()
+end
+
 function Tile:render()
     self.rect:render()
-    local chess = getChessRef()
-    local tileInfo = chess:getTile(Point:new(self.file, self.rank))
-    if tileInfo:isOccupied() then
-        local piece = tileInfo:getPiece()
-        pieceView = Piece:new{x = self.x, y = self.y, width = self.width, type = piece.type, color = piece.color}
-        pieceView:render()
+    if self:isOccupied() then
+        self:renderPiece()
     end
-
+    if self:isPossibleTarget() then  
+        self:renderTarget()
+    end
 end

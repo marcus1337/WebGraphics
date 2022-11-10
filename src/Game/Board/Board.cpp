@@ -143,7 +143,7 @@ bool Board::isPassantMove(Point from, Point to) {
 }
 
 void Board::movePiece(Point from, Point to) {
-    std::cout << "movePiece(): " << from.toString() << ", " << to.toString() << "\n";
+    //std::cout << "movePiece(): " << from.toString() << ", " << to.toString() << "\n";
     setCastleState(from);
     setPassantState(from, to);
 

@@ -22,7 +22,7 @@ std::vector<Point> BoardMove::getUnverifiedMoves(Point from) {
 std::vector<Point> BoardMove::getMoves(Point from) {
     std::vector<Point> verifiedMoves;
     for (Point to : getUnverifiedMoves(from)) {
-        if (!isMoveCausingSelfCheck(from, to))
+        if (canMove(from, to))
             verifiedMoves.push_back(to);
     }
     return verifiedMoves;
@@ -61,8 +61,8 @@ std::vector<Point> BoardMove::getKingMoves(Point from) {
         if (moveTo.isInsideBoard())
             moves.push_back(moveTo);
     }
-    if(boardCheck.canKingSideCastle())
-        moves.push_back(from + Point{2,0});
+    if (boardCheck.canKingSideCastle())
+        moves.push_back(from + Point{ 2,0 });
     if (boardCheck.canQueenSideCastle())
         moves.push_back(from + Point{ -2,0 });
 
@@ -151,6 +151,14 @@ std::vector<Point> BoardMove::getOtherMoves(Point from) {
             moves.push_back(moveTo);
     }
     return moves;
+}
+
+bool BoardMove::canMove(Point from, Point to) {
+    Tile toTile = board.getTile(to);
+    Piece fromPiece = board.getTile(from).getPiece();
+    if (toTile.isOccupied() && toTile.getPiece().color == moveColor)
+        return false;
+    return !board.isPathBlocked(from, to, fromPiece) && !isMoveCausingSelfCheck(from, to);
 }
 
 bool BoardMove::canMove() {
