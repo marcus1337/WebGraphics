@@ -6,6 +6,7 @@ function TileState:new(o)
     self.clicked = false
     self.selected = false
     self.target = false
+    self.highlightable = true
     return o
 end
 

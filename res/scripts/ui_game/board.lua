@@ -88,6 +88,13 @@ function Board:setTileTargetStates(fromTile)
     end
 end
 
+function Board:setTileHighlightStates()
+    local selectedTile = self:getSelectedTile()
+    for k, tile in pairs(self.tiles) do
+        tile.state.highlightable = selectedTile == nil or tile.state.target
+    end
+end
+
 function Board:handleTileClick()
     local tile = self:getClickedTile()
     if tile == nil then
@@ -107,6 +114,7 @@ function Board:handleTileClick()
         self:clearTileSelectStates()
         self:clearTileTargetStates()
     end
+    self:setTileHighlightStates()
 end
 
 

@@ -107,7 +107,7 @@ function Tile:isHovered()
 end
 
 function Tile:isHighlighted()
-    return self:isHovered() and ((not self.state.selected and self:isSelectable()) or self.state.target)
+    return self.state.highlightable and self:isHovered() and ((not self.state.selected and self:isSelectable()) or self.state.target)
 end
 
 ----------------------Rendering------------------------------
