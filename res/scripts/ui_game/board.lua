@@ -92,7 +92,7 @@ end
 function Board:setTileHighlightStates()
     local selectedTile = self:getSelectedTile()
     for k, tile in pairs(self.tiles) do
-        tile.state.highlightable = selectedTile == nil or tile.state.target
+        tile.state.highlightable = (selectedTile == nil or tile.state.target) and not self.move.promoting
     end
 end
 
@@ -104,10 +104,11 @@ function Board:handleTileClick()
     tile.state.clicked = false
     if tile.state.target then
         if self.move:isPromoteMove(self:getSelectedTile(), tile) then
-            print("is promote move.....")
+            print("Promote move.....")
+            self.move.promoting = true
+        else
+            getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint())
         end
-
-        getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint()) --move function - handle promote moves as 2 steps
         self:clearTileSelectStates()
         self:clearTileTargetStates()
     elseif tile:isSelectable() and not tile.state.selected then
