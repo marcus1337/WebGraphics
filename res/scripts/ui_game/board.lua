@@ -6,10 +6,8 @@ function Board:new(o)
     o.width = o.width or 8*115
     o.x = o.x or 500
     o.y = o.y or 50
-    o.controller = BoardController:new()
     setmetatable(o, self)
     self.__index = self
-
     Board:setBackground(o)
     Board:setTiles(o)
 
@@ -33,7 +31,7 @@ function Board:setTiles(o)
             local width = math.floor(o.width/8)
             local x = file * width + o.x
             local y = rank * width + o.y
-            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth, controller = o.controller}
+            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth}
             tiles[#tiles+1] = tile
         end
     end
@@ -41,6 +39,7 @@ function Board:setTiles(o)
 end
 
 function Board:update()
+    self:handleTileClick()
     for k, v in pairs(self.tiles) do
         v:update()
     end
@@ -52,4 +51,63 @@ function Board:render()
         v:render()
     end
 end
+
+function Board:getClickedTile()
+    for k, tile in pairs(self.tiles) do
+        if tile.state.clicked then
+            return tile
+        end
+    end
+    return nil
+end
+
+function Board:getSelectedTile()
+    for k, tile in pairs(self.tiles) do
+        if tile.state.selected then
+            return tile
+        end
+    end
+    return nil
+end
+
+function Board:clearTileSelectStates()
+    for k, tile in pairs(self.tiles) do
+        tile.state.selected = false
+    end
+end
+
+function Board:clearTileTargetStates()
+    for k, tile in pairs(self.tiles) do
+        tile.state.target = false
+    end
+end
+
+function Board:setTileTargetStates(fromTile)
+    for k, tile in pairs(self.tiles) do
+        tile.state.target = tile:canMoveTo(fromTile:getPoint())
+    end
+end
+
+function Board:handleTileClick()
+    local tile = self:getClickedTile()
+    if tile == nil then
+        return
+    end
+    tile.state.clicked = false
+
+    if tile.state.target then
+        getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint())
+        self:clearTileSelectStates()
+        self:clearTileTargetStates()
+    elseif tile:isSelectable() and not tile.state.selected then
+        self:clearTileSelectStates()
+        tile.state.selected = true
+        self:setTileTargetStates(tile)
+    else
+        self:clearTileSelectStates()
+        self:clearTileTargetStates()
+    end
+end
+
+
 

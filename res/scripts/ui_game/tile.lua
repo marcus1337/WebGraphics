@@ -9,14 +9,14 @@ function Tile:new(o)
     setmetatable(o, self)
     self.__index = self
 
-    local rect = Rect()
-    rect:setRadius(0)
-    rect:setAlpha(0.5)
-    rect:setPosition(o.x,o.y)
-    rect:setSize(o.width, o.width)
-    rect:setColor(o:getColor())
-    o.rect = rect
+    o.state = TileState:new()
+    Tile:setBackgroundRect(o)
+    Tile:setButton(o)
 
+    return o
+end
+
+function Tile:setButton(o)
     local btn = Button.new(o.width, o.width)
     btn:setPosition(o.x, o.y)
     btn:clearView()
@@ -24,71 +24,16 @@ function Tile:new(o)
         o:onClick()
     end
     o.btn = btn
-
-    return o
 end
 
-function Tile:update()
-    self.btn:update()
-end
-
-function Tile:getPoint()
-    return Point:new(self.file, self.rank)
-end
-
-function Tile:get()
-    return getChessRef():getTile(self:getPoint())
-end
-
-function Tile:isSelectAction()
-    local tileInfo = self:get()
-    if self.controller:isFromSelect() and tileInfo:isOccupied() and getChessRef():getTurnColor() == tileInfo:getPiece().color and #self:getMoves() > 0 then
-        return true
-    end
-    return false
-end
-
-function Tile:getMoves(from)
-    from = from or self:getPoint()
-    local moves = {}
-    local moveVec = getChessRef():getMoves(from)
-    for k=1,#moveVec do
-        moves[#moves+1] = moveVec[k]
-    end
-    return moves
-end
-
-function Tile:isPossibleTarget()
-    return self:canMoveTo(self.controller.from) 
-end
-
-function Tile:canMoveTo(from)
-    local moves = self:getMoves(from)
-    for k, v in pairs(moves) do
-        if v.file == self.file and v.rank == self.rank then
-            return true
-        end
-    end
-    return false
-end
-
-function Tile:getPoint()
-    return Point:new(self.file, self.rank)
-end
-
-function Tile:onClick()
-    print("Tile(" .. tostring(self.file) .. "," .. tostring(self.rank) .. ")")
-    if self:isSelectAction() then
-        self.controller:setFrom(self:getPoint())
-    elseif self:isPossibleTarget() then
-        self.controller:setTo(self:getPoint())
-    else
-        local oldSelectFrom = self.controller.from
-        self.controller:setFrom(nil)
-        if self:isSelectAction() and oldSelectFrom ~= self:getPoint() then
-            self.controller:setFrom(self:getPoint())
-        end
-    end
+function Tile:setBackgroundRect(o)
+    local rect = Rect()
+    rect:setRadius(0)
+    rect:setAlpha(0.5)
+    rect:setPosition(o.x,o.y)
+    rect:setSize(o.width, o.width)
+    rect:setColor(o:getColor())
+    o.rect = rect
 end
 
 function Tile:getColor()
@@ -107,10 +52,87 @@ function Tile:getColor()
     return nil
 end
 
-function Tile:getPieceView()
-    local tileInfo = getChessRef():getTile(self:getPoint())
-    local piece = tileInfo:getPiece()
-    return Piece:new{x = self.x, y = self.y, width = self.width, type = piece.type, color = piece.color}
+function Tile:update()
+    self.btn:update()
+end
+
+function Tile:getPoint()
+    return Point:new(self.file, self.rank)
+end
+
+function Tile:get()
+    return getChessRef():getTile(self:getPoint())
+end
+
+function Tile:isSelectable()
+    local tileInfo = self:get()
+    return tileInfo:isOccupied() and getChessRef():getTurnColor() == tileInfo:getPiece().color and #self:getMoves() > 0
+end
+
+function Tile:getMoves(from)
+    from = from or self:getPoint()
+    local moves = {}
+    local moveVec = getChessRef():getMoves(from)
+    for k=1,#moveVec do
+        moves[#moves+1] = moveVec[k]
+    end
+    return moves
+end
+
+function Tile:canMoveTo(from)
+    local moves = self:getMoves(from)
+    for k, v in pairs(moves) do
+        if v.file == self.file and v.rank == self.rank then
+            return true
+        end
+    end
+    return false
+end
+
+function Tile:getPoint()
+    return Point:new(self.file, self.rank)
+end
+
+function Tile:onClick()
+    print("Tile(" .. tostring(self.file) .. "," .. tostring(self.rank) .. ")")
+    self.state.clicked = true
+end
+
+function Tile:isOccupied()
+    return getChessRef():getTile(self:getPoint()):isOccupied()
+end
+
+function Tile:isHovered()
+    return self.btn:isHovered()
+end
+
+function Tile:isHighlighted()
+    return self:isHovered() and ((not self.state.selected and self:isSelectable()) or self.state.target)
+end
+
+----------------------Rendering------------------------------
+
+function Tile:render()
+    self.rect:render()
+    if self:isOccupied() then
+        self:renderPiece()
+    end
+    if self.state.target then  
+        self:renderTarget()
+    end
+    if self:isHighlighted() then
+        self:renderHighlight()
+    end
+end
+
+function Tile:renderHighlight()
+    local rect = Rect()
+    rect:setSize(self.width, self.width)
+    rect:setPosition(self.x, self.y)
+    rect:setColor(vec3(0.5,0.5,0.0))
+    rect:setThickness(0.05)
+    rect:setRadius(0.1)
+    rect:render()
 end
 
 function Tile:renderPiece()
@@ -130,37 +152,10 @@ function Tile:renderTarget()
    dot:render()
 end
 
-function Tile:isOccupied()
-    return getChessRef():getTile(self:getPoint()):isOccupied()
+function Tile:getPieceView()
+    local tileInfo = getChessRef():getTile(self:getPoint())
+    local piece = tileInfo:getPiece()
+    return Piece:new{x = self.x, y = self.y, width = self.width, type = piece.type, color = piece.color}
 end
 
-function Tile:isSelected()
 
-end
-
-function Tile:renderHighlight()
-    local rect = Rect()
-    rect:setSize(self.width, self.width)
-    rect:setPosition(self.x, self.y)
-    rect:setColor(vec3(0.5,0.5,0.0))
-    rect:setThickness(0.05)
-    rect:setRadius(0.1)
-    rect:render()
-end
-
-function Tile:isHighlighted()
-    return self.btn:isHovered() and (self:isSelectAction() or self:isPossibleTarget()) 
-end
-
-function Tile:render()
-    self.rect:render()
-    if self:isOccupied() then
-        self:renderPiece()
-    end
-    if self:isPossibleTarget() then  
-        self:renderTarget()
-    end
-    if self:isHighlighted() then
-        self:renderHighlight()
-    end
-end
