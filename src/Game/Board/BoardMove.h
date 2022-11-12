@@ -25,6 +25,8 @@ class BoardMove {
     bool isMoveCausingSelfCheck(Point from, Point to);
 
     bool canMove(Point from, Point to);
+    bool isTargetBlocked(Point to);
+
 
 public:
 

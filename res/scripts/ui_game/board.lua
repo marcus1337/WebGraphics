@@ -84,7 +84,7 @@ end
 
 function Board:setTileTargetStates(fromTile)
     for k, tile in pairs(self.tiles) do
-        tile.state.target = tile:canMoveTo(fromTile:getPoint())
+        tile.state.target = tile:canMoveTo(fromTile:getPoint()) --remove promote moves... Move class?
     end
 end
 
@@ -103,7 +103,7 @@ function Board:handleTileClick()
     tile.state.clicked = false
 
     if tile.state.target then
-        getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint())
+        getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint()) --move function - handle promote moves as 2 steps
         self:clearTileSelectStates()
         self:clearTileTargetStates()
     elseif tile:isSelectable() and not tile.state.selected then

@@ -154,11 +154,15 @@ std::vector<Point> BoardMove::getOtherMoves(Point from) {
 }
 
 bool BoardMove::canMove(Point from, Point to) {
-    Tile toTile = board.getTile(to);
     Piece fromPiece = board.getTile(from).getPiece();
-    if (toTile.isOccupied() && toTile.getPiece().color == moveColor)
-        return false;
-    return !board.isPathBlocked(from, to, fromPiece) && !isMoveCausingSelfCheck(from, to);
+    return !isTargetBlocked(to) && !board.isPathBlocked(from, to, fromPiece) && !isMoveCausingSelfCheck(from, to);
+}
+
+bool BoardMove::isTargetBlocked(Point to) {
+    if (to.rank > 7 || to.rank < 0)
+        to.rank = to.rank > 7 ? 7 : 0;
+    Tile toTile = board.getTile(to);
+    return toTile.isOccupied() && toTile.getPiece().color == moveColor;
 }
 
 bool BoardMove::canMove() {
