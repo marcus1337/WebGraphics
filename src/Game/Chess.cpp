@@ -49,7 +49,6 @@ void Chess::move(Point from, Point to) {
     board.movePiece(from, to);
     turn++;
     setBoardChecks();
-    print();
 }
 
 std::vector<Point> Chess::getMoves(Point from) {

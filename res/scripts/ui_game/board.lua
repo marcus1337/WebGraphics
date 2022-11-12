@@ -8,6 +8,7 @@ function Board:new(o)
     o.y = o.y or 50
     setmetatable(o, self)
     self.__index = self
+    o.move = Move:new()
     Board:setBackground(o)
     Board:setTiles(o)
 
@@ -83,8 +84,8 @@ function Board:clearTileTargetStates()
 end
 
 function Board:setTileTargetStates(fromTile)
-    for k, tile in pairs(self.tiles) do
-        tile.state.target = tile:canMoveTo(fromTile:getPoint()) --remove promote moves... Move class?
+    for k, toTile in pairs(self.tiles) do
+        toTile.state.target = self.move:canMove(fromTile, toTile)
     end
 end
 
@@ -101,8 +102,11 @@ function Board:handleTileClick()
         return
     end
     tile.state.clicked = false
-
     if tile.state.target then
+        if self.move:isPromoteMove(self:getSelectedTile(), tile) then
+            print("is promote move.....")
+        end
+
         getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint()) --move function - handle promote moves as 2 steps
         self:clearTileSelectStates()
         self:clearTileTargetStates()

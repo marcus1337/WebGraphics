@@ -79,16 +79,6 @@ function Tile:getMoves(from)
     return moves
 end
 
-function Tile:canMoveTo(from)
-    local moves = self:getMoves(from)
-    for k, v in pairs(moves) do
-        if v.file == self.file and v.rank == self.rank then
-            return true
-        end
-    end
-    return false
-end
-
 function Tile:getPoint()
     return Point:new(self.file, self.rank)
 end
