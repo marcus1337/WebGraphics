@@ -2,14 +2,52 @@ Move = {}
 
 function Move:new(o)
     o = o or {}
-    --if o.tiles == nil then
-    --    print("Error Move:new(); missing tiles input parameter.")
-    --    return
-    --end
     setmetatable(o, self)
     self.__index = self
-    o.promoting = false
+    o.fromPoint = nil
+    o.toPoint = nil
+    o.promoteType = nil
     return o
+end
+
+function Move:getPromoteTypeValue(promoteType)
+    if promoteType == PieceType.KNIGHT then
+        return 1
+    elseif promoteType == PieceType.BISHOP then
+        return 2
+    elseif promoteType == PieceType.ROOK then
+        return 3
+    elseif promoteType == PieceType.QUEEN then
+        return 4
+    else 
+        return 0
+    end
+end
+
+function Move:getPromotePoint(point, promoteType)
+    if point.rank == 7 then
+        point.rank = point.rank + self:getPromoteTypeValue(self.promoteType)
+    end
+    if point.rank == 0 then
+        point.rank = point.rank - self:getPromoteTypeValue(self.promoteType)
+    end
+    return point
+end
+
+function Move:clear()
+    self.fromPoint = nil
+    self.toPoint = nil
+    self.promoteType = nil
+end
+
+function Move:promote()
+    if self.fromPoint == nil or self.toPoint == nil or self.promoteType == nil then
+        print("promote(): nil error.")
+    end
+    local chess = getChessRef()
+    local toPoint = self:getPromotePoint(self.toPoint, self.promoteType)
+    chess:move(self.fromPoint, toPoint)
+    self:clear()
 end
 
 function Move:isPromoteMove(fromTile, toTile)

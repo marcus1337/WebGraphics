@@ -9,6 +9,7 @@ function Board:new(o)
     setmetatable(o, self)
     self.__index = self
     o.move = Move:new()
+    o.promoteView = PromoteView:new({x = 100, y = 100, width = 600, pieceColor = PieceColor.WHITE })
     Board:setBackground(o)
     Board:setTiles(o)
 
@@ -40,10 +41,20 @@ function Board:setTiles(o)
 end
 
 function Board:update()
-    self:handleTileClick()
+
+    if self.promoteView.visible and self.promoteView:wasClicked() then
+        self:handlePromoteClick()
+    end
+
+    if self:getClickedTile() ~= nil then 
+        self:handleTileClick()
+    end
+
     for k, v in pairs(self.tiles) do
         v:update()
     end
+
+    self.promoteView:update()
 end
 
 function Board:render()
@@ -51,6 +62,7 @@ function Board:render()
     for k, v in pairs(self.tiles) do
         v:render()
     end
+    self.promoteView:render()
 end
 
 function Board:getClickedTile()
@@ -96,16 +108,26 @@ function Board:setTileHighlightStates()
     end
 end
 
+function Board:handlePromoteClick()
+    self.promoteView.visible = false
+    local promoteType = self.promoteView:getChosenPieceType()
+    self.promoteView:clearClicks()
+    self.move.promoteType = promoteType
+    self.move:promote()
+
+end
+
 function Board:handleTileClick()
+
     local tile = self:getClickedTile()
-    if tile == nil then
-        return
-    end
     tile.state.clicked = false
+
     if tile.state.target then
         if self.move:isPromoteMove(self:getSelectedTile(), tile) then
             print("Promote move.....")
-            self.move.promoting = true
+            self.promoteView.visible = true
+            self.move.fromPoint = self:getSelectedTile():getPoint()
+            self.move.toPoint = tile:getPoint()
         else
             getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint())
         end
