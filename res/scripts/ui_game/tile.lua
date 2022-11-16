@@ -45,7 +45,7 @@ function Tile:isSelectable()
 end
 
 function Tile:isTarget(fromTile)
-    for _, point in pairs(getChessRef():getHumanMoves(fromTile:getPoint())) do
+    for _, point in pairs(self:getMoves(fromTile:getPoint())) do
         if self:isPoint(point) then
             return true
         end
@@ -53,14 +53,9 @@ function Tile:isTarget(fromTile)
     return false
 end
 
-function Tile:getMoves(from)
-    from = from or self:getPoint()
-    local moves = {}
-    local moveVec = getChessRef():getMoves(from)
-    for k=1,#moveVec do
-        moves[#moves+1] = moveVec[k]
-    end
-    return moves
+function Tile:getMoves(fromPoint)
+    fromPoint = fromPoint or self:getPoint()
+    return getChessRef():getHumanMoves(fromPoint)
 end
 
 function Tile:getPoint()
