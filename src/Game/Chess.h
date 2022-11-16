@@ -30,6 +30,10 @@ public:
 
     void move(Point from, Point to);
     std::vector<Point> getMoves(Point from);
+    std::vector<Point> getHumanMoves(Point from);
+    bool isPromoteMove(Point from, Point to);
+    void promote(Point from, Point to, PieceType promoteType);
+
     Tile getTile(Point point);
     
 };

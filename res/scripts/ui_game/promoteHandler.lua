@@ -33,10 +33,10 @@ function PromoteHandler:cancel()
     self.move:clear()
 end
 
-function PromoteHandler:prepareMove(fromTile, toTile)
+function PromoteHandler:prepareMove(fromPoint, toPoint)
     self.promoteView:setVisible(true)
-    self.move.fromPoint = fromTile:getPoint()
-    self.move.toPoint = toTile:getPoint()
+    self.move.fromPoint = fromPoint
+    self.move.toPoint = toPoint
 end
 
 function PromoteHandler:makeMove()

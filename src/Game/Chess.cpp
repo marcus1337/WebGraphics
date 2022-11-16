@@ -59,3 +59,25 @@ Tile Chess::getTile(Point point) {
     return board.getTile(point);
 }
 
+std::vector<Point> Chess::getHumanMoves(Point from) {
+    auto moves = getMoves(from);
+    for (int i = 0; i < moves.size(); i++) {
+        if (moves[i].rank < 0)
+            moves[i].rank = 0;
+        if (moves[i].rank > 7)
+            moves[i].rank = 7;
+    }
+    return moves;
+}
+
+bool Chess::isPromoteMove(Point from, Point to) {
+    return board.getTile(from).getPiece().type == PieceType::PAWN && (to.rank <= 0 || to.rank >= 7);
+}
+
+void Chess::promote(Point from, Point to, PieceType promoteType) {
+    if (to.rank == 7)
+        to.rank += (int)promoteType;
+    else
+        to.rank -= (int)promoteType;
+    move(from, to);
+}

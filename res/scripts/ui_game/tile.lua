@@ -83,6 +83,11 @@ function Tile:getPoint()
     return Point:new(self.file, self.rank)
 end
 
+function Tile:isPoint(otherPoint)
+    local point = self:getPoint()
+    return point.file == otherPoint.file and point.rank == otherPoint.rank
+end
+
 function Tile:onClick()
     print("Tile(" .. tostring(self.file) .. "," .. tostring(self.rank) .. ")")
     self.state.clicked = true

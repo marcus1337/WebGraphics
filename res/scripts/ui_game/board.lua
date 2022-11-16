@@ -100,8 +100,12 @@ function Board:clearTileTargetStates()
 end
 
 function Board:setTileTargetStates(fromTile)
-    for k, toTile in pairs(self.tiles) do
-        toTile.state.target = self.move:canMove(fromTile, toTile)
+    for _, toTile in pairs(self.tiles) do
+        for _, point in pairs(getChessRef():getHumanMoves(fromTile:getPoint())) do
+            if toTile:isPoint(point) then
+                toTile.state.target = true
+            end
+        end
     end
 end
 
@@ -113,11 +117,13 @@ function Board:setTileHighlightStates()
 end
 
 function Board:handleTargetClick(tile)
-    local fromTile = self:getSelectedTile()
-    if self.move:isPromoteMove(fromTile, tile) then
-        self.promoteHandler:prepareMove(fromTile, tile)
+    local fromPoint = self:getSelectedTile():getPoint()
+    local toPoint = tile:getPoint()
+    local chess = getChessRef()
+    if chess:isPromoteMove(fromPoint, toPoint) then
+        self.promoteHandler:prepareMove(fromPoint, toPoint)
     else
-        getChessRef():move(fromTile:getPoint(), tile:getPoint())
+        chess:move(fromPoint, toPoint)
     end
     self:handleTileCancelClick()
 end

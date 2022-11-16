@@ -54,7 +54,11 @@ void GamePanel::addChessTypesToLua(sol::state& lua) {
         "move", &Chess::move,
         "getMoves", &Chess::getMoves,
         "getTile", &Chess::getTile,
-        "getTurn", &Chess::getTurn);
+        "getTurn", &Chess::getTurn,
+        
+        "isPromoteMove", & Chess::isPromoteMove,
+        "getHumanMoves", & Chess::getHumanMoves,
+        "promote", & Chess::promote);
 }
 
 void GamePanel::render() {
