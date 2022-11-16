@@ -75,6 +75,10 @@ function PromoteView:clearClicks()
     end
 end
 
+function PromoteView:isCancelled()
+    return self.visible and isMouseRelease() and not isMousePointerInside(self.x, self.y, self.width, self.width*4)
+end
+
 function PromoteView:wasClicked()
     return self:getClickedPromoteButton() ~= nil
 end

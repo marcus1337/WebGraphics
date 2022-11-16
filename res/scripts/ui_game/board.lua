@@ -11,15 +11,18 @@ function Board:new(o)
     self.__index = self
     o.move = Move:new()
 
-    local promoteWidth = tileWidth * 4
-    local promoteXPosition = math.floor(o.x + o.width / 2.0 - promoteWidth / 2.0)
-    local promoteYPosition = math.floor (o.y + tileWidth * 8 + 10.0) 
-    o.promoteView = PromoteView:new({x = promoteXPosition, y = promoteYPosition, width = promoteWidth, pieceColor = PieceColor.WHITE })
-    --o.promoteView:setVisible(true)
+    self:setPromoteHandler(o, tileWidth)
     Board:setBackground(o)
     Board:setTiles(o)
 
     return o
+end
+
+function Board:setPromoteHandler(o, tileWidth)
+    local promoteWidth = tileWidth * 4
+    local promoteXPosition = math.floor(o.x + o.width / 2.0 - promoteWidth / 2.0)
+    local promoteYPosition = math.floor (o.y + tileWidth * 8 + 10.0) 
+    o.promoteHandler = PromoteHandler:new{x = promoteXPosition, y = promoteYPosition, width = promoteWidth, move = o.move}
 end
 
 function Board:setBackground(o)
@@ -48,23 +51,14 @@ end
 
 function Board:update()
 
-    if self.promoteView.visible and self.promoteView:wasClicked() then
-        self:handlePromoteClick()
-    end
-
-    if self:cancelledPromote() then
-        self:cancelPromote()
-    end
+    self.promoteHandler:update()
 
     if self:getClickedTile() ~= nil then 
         self:handleTileClick()
     end
-
     for k, v in pairs(self.tiles) do
         v:update()
     end
-
-    self.promoteView:update()
 end
 
 function Board:render()
@@ -72,7 +66,7 @@ function Board:render()
     for k, v in pairs(self.tiles) do
         v:render()
     end
-    self.promoteView:render()
+    self.promoteHandler:render()
 end
 
 function Board:getClickedTile()
@@ -118,48 +112,40 @@ function Board:setTileHighlightStates()
     end
 end
 
-function Board:handlePromoteClick()
-    self.promoteView:setVisible(false)
-    local promoteType = self.promoteView:getChosenPieceType()
-    self.promoteView:clearClicks()
-    self.move.promoteType = promoteType
-    self.move:promote()
-
+function Board:handleTargetClick(tile)
+    local fromTile = self:getSelectedTile()
+    if self.move:isPromoteMove(fromTile, tile) then
+        self.promoteHandler:prepareMove(fromTile, tile)
+    else
+        getChessRef():move(fromTile:getPoint(), tile:getPoint())
+    end
+    self:handleTileCancelClick()
 end
 
-function Board:cancelledPromote()
-    local tile = self:getClickedTile()
-    return tile ~= nil and self.promoteView.visible
+function Board:handleSelectClick(tile)
+    self:clearTileSelectStates()
+    tile.state.selected = true
+    self:setTileTargetStates(tile)
 end
 
-function Board:cancelPromote()
-    self.promoteView:setVisible(false)
-    self.move:clear()
+function Board:isSelectClick(tile)
+    return tile:isSelectable() and not tile.state.selected
+end
+
+function Board:handleTileCancelClick()
+    self:clearTileSelectStates()
+    self:clearTileTargetStates()
 end
 
 function Board:handleTileClick()
-
     local tile = self:getClickedTile()
     tile.state.clicked = false
-
     if tile.state.target then
-        if self.move:isPromoteMove(self:getSelectedTile(), tile) then
-            print("Promote move.....")
-            self.promoteView:setVisible(true)
-            self.move.fromPoint = self:getSelectedTile():getPoint()
-            self.move.toPoint = tile:getPoint()
-        else
-            getChessRef():move(self:getSelectedTile():getPoint(), tile:getPoint())
-        end
-        self:clearTileSelectStates()
-        self:clearTileTargetStates()
-    elseif tile:isSelectable() and not tile.state.selected then
-        self:clearTileSelectStates()
-        tile.state.selected = true
-        self:setTileTargetStates(tile)
+        self:handleTargetClick(tile)
+    elseif self:isSelectClick(tile) then
+        self:handleSelectClick(tile)
     else
-        self:clearTileSelectStates()
-        self:clearTileTargetStates()
+        self:handleTileCancelClick()
     end
     self:setTileHighlightStates()
 end
