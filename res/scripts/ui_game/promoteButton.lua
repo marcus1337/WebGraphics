@@ -13,6 +13,7 @@ function PromoteButton:new(o)
     self.__index = self
     PromoteButton:setButton(o)
     PromoteButton:setBackgroundRect(o)
+    PromoteButton:setHoverBackgroundRect(o)
     return o
 end
 
@@ -24,6 +25,16 @@ function PromoteButton:setBackgroundRect(o)
     rect:setSize(o.width, o.width)
     rect:setColor(vec3(0.6,0.6,0.6))
     o.rect = rect
+end
+
+function PromoteButton:setHoverBackgroundRect(o)
+    local hoverRect = Rect()
+    hoverRect:setRadius(0)
+    hoverRect:setAlpha(0.5)
+    hoverRect:setPosition(o.x,o.y)
+    hoverRect:setSize(o.width, o.width)
+    hoverRect:setColor(vec3(0.8,0.8,0.0))
+    o.hoverRect = hoverRect
 end
 
 function PromoteButton:setButton(o)
@@ -48,5 +59,8 @@ end
 
 function PromoteButton:render()
     self.rect:render()
+    if self.btn:isHovered() then
+        self.hoverRect:render()
+    end
     self.piece:render()
 end

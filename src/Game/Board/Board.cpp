@@ -115,10 +115,10 @@ bool Board::isPromoteMove(Point toMove) {
 
 PieceType Board::getPromoteType(int toRank) {
     int value;
-    if (toRank > 0)
-        value = toRank - 8;
+    if (toRank >= 8)
+        value = toRank - 8; //white promote value
     else
-        value = std::abs(toRank);
+        value = std::abs(toRank + 1); //black promote value
     if (value == 0)
         return PieceType::KNIGHT;
     else if (value == 1)

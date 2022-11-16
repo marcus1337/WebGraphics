@@ -3,13 +3,19 @@ Board = {}
 
 function Board:new(o)
     o = o or {}
-    o.width = o.width or 8*115
+    local tileWidth = 115
+    o.width = o.width or 8*tileWidth
     o.x = o.x or 500
-    o.y = o.y or 50
+    o.y = o.y or 25
     setmetatable(o, self)
     self.__index = self
     o.move = Move:new()
-    o.promoteView = PromoteView:new({x = 100, y = 100, width = 600, pieceColor = PieceColor.WHITE })
+
+    local promoteWidth = tileWidth * 4
+    local promoteXPosition = math.floor(o.x + o.width / 2.0 - promoteWidth / 2.0)
+    local promoteYPosition = math.floor (o.y + tileWidth * 8 + 10.0) 
+    o.promoteView = PromoteView:new({x = promoteXPosition, y = promoteYPosition, width = promoteWidth, pieceColor = PieceColor.WHITE })
+    --o.promoteView:setVisible(true)
     Board:setBackground(o)
     Board:setTiles(o)
 
@@ -44,6 +50,10 @@ function Board:update()
 
     if self.promoteView.visible and self.promoteView:wasClicked() then
         self:handlePromoteClick()
+    end
+
+    if self:cancelledPromote() then
+        self:cancelPromote()
     end
 
     if self:getClickedTile() ~= nil then 
@@ -109,12 +119,22 @@ function Board:setTileHighlightStates()
 end
 
 function Board:handlePromoteClick()
-    self.promoteView.visible = false
+    self.promoteView:setVisible(false)
     local promoteType = self.promoteView:getChosenPieceType()
     self.promoteView:clearClicks()
     self.move.promoteType = promoteType
     self.move:promote()
 
+end
+
+function Board:cancelledPromote()
+    local tile = self:getClickedTile()
+    return tile ~= nil and self.promoteView.visible
+end
+
+function Board:cancelPromote()
+    self.promoteView:setVisible(false)
+    self.move:clear()
 end
 
 function Board:handleTileClick()
@@ -125,7 +145,7 @@ function Board:handleTileClick()
     if tile.state.target then
         if self.move:isPromoteMove(self:getSelectedTile(), tile) then
             print("Promote move.....")
-            self.promoteView.visible = true
+            self.promoteView:setVisible(true)
             self.move.fromPoint = self:getSelectedTile():getPoint()
             self.move.toPoint = tile:getPoint()
         else

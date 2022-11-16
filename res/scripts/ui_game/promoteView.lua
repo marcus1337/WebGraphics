@@ -40,6 +40,18 @@ function PromoteView:update()
     end
 end
 
+function PromoteView:setVisible(visible)
+    self:setColor()
+    self.visible = visible
+end
+
+function PromoteView:setColor()
+    local color = getChessRef():getTurnColor()
+    for i = 1, #self.promoteButtons do
+        self.promoteButtons[i].piece.color = color
+    end
+end
+
 function PromoteView:getClickedPromoteButton()
     for i = 1, #self.promoteButtons do
         if self.promoteButtons[i].clicked then
