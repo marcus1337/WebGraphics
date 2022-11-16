@@ -101,10 +101,8 @@ end
 
 function Board:setTileTargetStates(fromTile)
     for _, toTile in pairs(self.tiles) do
-        for _, point in pairs(getChessRef():getHumanMoves(fromTile:getPoint())) do
-            if toTile:isPoint(point) then
-                toTile.state.target = true
-            end
+        if toTile:isTarget(fromTile) then
+            toTile.state.target = true
         end
     end
 end

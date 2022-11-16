@@ -69,6 +69,15 @@ function Tile:isSelectable()
     return tileInfo:isOccupied() and getChessRef():getTurnColor() == tileInfo:getPiece().color and #self:getMoves() > 0
 end
 
+function Tile:isTarget(fromTile)
+    for _, point in pairs(getChessRef():getHumanMoves(fromTile:getPoint())) do
+        if self:isPoint(point) then
+            return true
+        end
+    end
+    return false
+end
+
 function Tile:getMoves(from)
     from = from or self:getPoint()
     local moves = {}
