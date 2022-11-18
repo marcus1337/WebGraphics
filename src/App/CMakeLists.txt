@@ -8,4 +8,4 @@ add_library(app App.h App.cpp UpdateTimer.h UpdateTimer.cpp
     "Panels/PanelFactory.h" "Panels/PanelFactory.cpp" 
     "Panels/PanelContext.cpp" "Panels/PanelContext.h" "Panels/Game/ChessScript.h" "Panels/Game/ChessScript.cpp")
 
-target_link_libraries(app drawables engine io ui)
+target_link_libraries(app drawables engine io ui game)
