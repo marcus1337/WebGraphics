@@ -189,6 +189,7 @@ void UIScriptTypes::addSlider() {
         "getValue", &Slider::getValue,
         "setBoxColor", &Slider::setBoxColor,
         "setLineColor", &Slider::setLineColor,
+        "setMarkedLineColor", &Slider::setMarkedLineColor,
         "setBackgroundColor", &Slider::setBackgroundColor,
         "setBackgroundAlpha", &Slider::setBackgroundAlpha,
         "onValueChangeCallback", &Slider::onValueChangeCallback,

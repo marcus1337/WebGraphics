@@ -14,8 +14,6 @@ void Slider::render() {
     background.setAlpha(backgroundAlpha);
     int padding = std::max<int>(view.getWidth() / 100, 5);
 
-    Line line(engine, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
-    line.setColor(lineColor);
     Rect valueBox(engine);
     valueBox.setSize(padding, view.getHeight());
     valueBox.setPosition((int)(padding + getValue() * (view.getWidth()-padding*2) - valueBox.getWidth() / 2), 0);
@@ -23,8 +21,16 @@ void Slider::render() {
     valueBox.setThickness(1.0f);
     valueBox.setRadius(0.1f);
 
+    Line line(engine, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
+    line.setColor(lineColor);
+
+    Line markedLine(engine, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
+    markedLine.setLineWidth(8);
+    markedLine.setColor(markedLineColor);
+
     view.paint(background);
     view.paint(line);
+    view.paint(markedLine);
     view.paint(valueBox);
     view.render();
 }
@@ -70,6 +76,9 @@ void Slider::setBoxColor(glm::vec3 _color) {
 }
 void Slider::setLineColor(glm::vec3 _color) {
     lineColor = _color;
+}
+void Slider::setMarkedLineColor(glm::vec3 _color) {
+    markedLineColor = _color;
 }
 void Slider::setBackgroundColor(glm::vec3 _color) {
     backgroundColor = _color;

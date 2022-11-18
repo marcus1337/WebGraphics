@@ -14,6 +14,7 @@ class Slider : public UIElement {
     float value = 0.5f;
     bool isPointerInside();
     glm::vec3 lineColor = { 0,0,0 };
+    glm::vec3 markedLineColor = { 0,0,0 };
     glm::vec3 boxColor = { 0.8f, 0.0f, 0.0f };
     glm::vec3 backgroundColor = { 0.5f,0.5f,0.5f };
     float backgroundAlpha = 0.6f;
@@ -29,6 +30,7 @@ public:
     void setPosition(int _x, int _y);
     void setBoxColor(glm::vec3 _color);
     void setLineColor(glm::vec3 _color);
+    void setMarkedLineColor(glm::vec3 _color);
     void setBackgroundColor(glm::vec3 _color);
     void setBackgroundAlpha(float _alpha);
     virtual void setActive() override;

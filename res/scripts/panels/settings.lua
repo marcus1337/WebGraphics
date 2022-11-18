@@ -7,11 +7,12 @@ function VolumeSlider:updatePointer()
 end
 
 function VolumeSlider:getSlider(value, onValueChange)
-    local slider = Slider(500, 30)
-    slider:setBoxColor(vec3(0.7,0.7,0.7))
+    local slider = Slider(600, 30)
+    slider:setBoxColor(vec3(0.5,0.5,0.5))
     slider:setLineColor(vec3(0.5,0.5,0.5))
-    slider:setBackgroundColor(vec3(0.6,0.5,0.6))
-    slider:setBackgroundAlpha(0.7)
+    slider:setMarkedLineColor(vec3(0.5,0.5,0.5))
+    slider:setBackgroundColor(vec3(0.2,0.2,0.2))
+    slider:setBackgroundAlpha(1.0)
     slider.onValueChangeCallback = onValueChange
     slider:setValue(value)
     return slider
@@ -28,15 +29,6 @@ function VolumeSlider:new(o)
     return o
 end
 
-function VolumeSlider:getVolumeText()
-    local value = self.valueGetter() * 100.0
-    local valueStr = string.format("%.1f%%", value)
-    local txt = Text(valueStr)
-    txt:setPixelHeight(40)
-    txt:setColor(vec3(0.8,0.8,0.8))
-    return txt
-end
-
 function VolumeSlider:update()
     self.slider:update()
     if self.title == "Music Volume" and self.slider:isPressed() then
@@ -46,22 +38,15 @@ function VolumeSlider:update()
        queueEffect("boom1", 1)
     end
     if not isSoundMuted() then
-        musicVolumeSlider.slider:setActive()
         effectVolumeSlider.slider:setActive()
     else
-        musicVolumeSlider.slider:setInactive()
         effectVolumeSlider.slider:setInactive()
     end
-    musicVolumeSlider:updatePointer()
     effectVolumeSlider:updatePointer()
 end
 
 function VolumeSlider:render()
     self.slider:render()
-    local volumePercentageText = self:getVolumeText()
-    volumePercentageText:setPosition(self.slider:getX() + self.slider:getWidth() + 10, self.slider:getY())
-    volumePercentageText:render()
-
     local titleText = Text(self.title or "")
     titleText:setPosition(self.slider:getX() + math.floor(self.slider:getWidth()/2 - titleText:getPixelWidth()/4), self.slider:getY() + 50)
     titleText:setPixelHeight(36)
@@ -70,12 +55,49 @@ function VolumeSlider:render()
 end
 
 backgroundImage = getBackgroundImage("background2.png")
-musicVolumeSlider = VolumeSlider:new{valueGetter = getMusicVolume, onValueChange = setMusicVolume, x = 700, y = 550, title = "Music Volume"}
-effectVolumeSlider = VolumeSlider:new{valueGetter = getEffectVolume, onValueChange = setEffectVolume, x = 700, y = 400, title = "Effect Volume"}
+effectVolumeSlider = VolumeSlider:new{valueGetter = getEffectVolume, onValueChange = setEffectVolume, x = 650, y = 600, title = "Sound Volume"}
 
 titleText = TitleText:new{textStr = "Settings"}
 miniBtnPanel = MiniButtonPanel:new{hasCancel = true, hasSound = true , hasScreen = true}
-elements = Elements:new{list = {musicVolumeSlider, effectVolumeSlider, miniBtnPanel }}
+elements = Elements:new{list = {effectVolumeSlider, miniBtnPanel }}
+
+
+
+VolumePanel = {}
+
+function VolumePanel:new(o)
+    o = o or {}
+    o.width = o.width or 800
+    o.height = o.height or 500
+    o.x = o.x or 0
+    o.y = o.y or 0
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+function VolumePanel:render()
+    local backRect = Rect()
+    local radius = 0.15
+    backRect:setPosition(self.x, self.y)
+    backRect:setSize(self.width, self.height)
+    backRect:setRadius(radius)
+    backRect:setAlpha(0.95)
+    backRect:setColor(vec3(0.15,0.1,0.1))
+    backRect:render()
+
+    local backRim = Rect()
+    backRim:setPosition(self.x, self.y)
+    backRim:setSize(self.width, self.height)
+    backRim:setRadius(radius)
+    backRim:setThickness(0.01)
+    backRim:setAlpha(1.0)
+    backRim:setColor(vec3(0.5,0.5,0.4))
+    backRim:render()
+end
+
+local tmpWidth = 800
+volumePanel = VolumePanel:new{x = math.floor(1920/2 - tmpWidth/2), y = 500, width = tmpWidth, height = 250}
 
 function update()
     elements:update()
@@ -83,6 +105,7 @@ end
 
 function render()
     backgroundImage:render()
+    volumePanel:render()
     elements:render()
     titleText:render()
 end
