@@ -21,7 +21,7 @@ public:
     int width = 1280;
     int height = 720;
     bool fullScreen = false;
-    std::string appName = "MyApp";
+    std::string appName = "Chess";
 
 };
 

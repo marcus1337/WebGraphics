@@ -2,12 +2,11 @@
 
 backgroundImage = getBackgroundImage("background3.png")
 
-gameButton = MenuButton:new{btnText = "Game", onPressCallback = onGame, y = 600}
-instructionsButton = MenuButton:new{btnText = "Instructions", onPressCallback = onInstructions, y = 400}
-exitButton = MenuButton:new{btnText = "Exit", onPressCallback = onQuit, y = 200}
-titleText = TitleText:new{textStr = "Menu"}
+gameButton = MenuButton:new{btnText = "Player vs Player", onPressCallback = onGame, y = 570}
+exitButton = MenuButton:new{btnText = "Exit", onPressCallback = onQuit, y = 250}
+titleText = TitleText:new{textStr = "Main Menu"}
 
-elements = Elements:new{list = {exitButton, createLobbyButton, findLobbyButton, instructionsButton, gameButton, MiniButtonPanel:new{hasSettings = true}}}
+elements = Elements:new{list = {exitButton, gameButton, MiniButtonPanel:new{hasSettings = true}}}
 
 function update()
     elements:update()
