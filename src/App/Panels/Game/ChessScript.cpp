@@ -5,7 +5,6 @@ ChessScript::ChessScript(UIScript& uiScript) {
     uiScript.addMethod("getChessRef", [chess = &chess]() {
         return chess;
         });
-    chess.print();
 }
 
 void ChessScript::bindMethods(UIScript& uiScript) {
