@@ -196,3 +196,7 @@ void UIScriptTypes::addSlider() {
         sol::base_classes, sol::bases<UIElement>());
 }
 
+void UIScriptTypes::addTimer() {
+   // lua.new_usertype<ShaderTimer>("Timer",
+   //     "setActive", &UIElement::setActive,);
+}

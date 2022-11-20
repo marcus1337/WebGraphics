@@ -31,3 +31,4 @@ bool UpdateTimer::isRenderUpdate() {
     passedRenderMicroseconds = 0;
     return true;
 }
+

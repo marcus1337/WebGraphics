@@ -3,7 +3,6 @@
 #include <Drawables/View.h>
 #include <Drawables/Image.h>
 #include <Drawables/Text.h>
-#include <Drawables/ShaderTimer.h>
 #include <functional>
 #include "UIElement.h"
 

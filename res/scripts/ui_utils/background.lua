@@ -16,6 +16,8 @@ function Background:new(o)
 	o.view = View(1920, 1080)
 
 	Background:paintRectangles(o.view)
+	o.view:setShaderProgram("settingsBackground")
+	o.view:setEffect(0.1)
 
     return o
 end

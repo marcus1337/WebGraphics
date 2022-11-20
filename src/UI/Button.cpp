@@ -13,7 +13,6 @@ Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_en
 }
 
 void Button::render() {
-    shaderTimer.updateEffectInterpolation();
     view.setEffect(shaderTimer.getEffect());
     view.render();
 }

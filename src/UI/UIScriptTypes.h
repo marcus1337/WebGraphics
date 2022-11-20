@@ -23,6 +23,7 @@ class UIScriptTypes {
     void addLine();
     void addCircle();
     void addUIElement();
+    void addTimer();
 
 public:
 

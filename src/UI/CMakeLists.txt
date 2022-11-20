@@ -3,7 +3,8 @@ add_library(ui "Button.h" "Button.cpp" "UIScript.h" "UIScript.cpp"
 "UIScriptMethods.h" "UIScriptMethods.cpp" 
 "Slider.h" "Slider.cpp" 
 "UIHelperScripts.h" "UIHelperScripts.cpp"
-"UIElement.h" "UIElement.cpp")
+"UIElement.h" "UIElement.cpp"
+"ShaderTimer.h" "ShaderTimer.cpp" "Timer.h" "Timer.cpp")
 
 set(LINUX_EXTRA_LIBS "")
 if(UNIX)
