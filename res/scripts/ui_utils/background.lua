@@ -14,7 +14,7 @@ function Background:new(o)
     setmetatable(o, self)
 	self.__index = self
 	o.view = View(1920, 1080)
-
+	o.timer = Timer.new()
 	Background:paintRectangles(o.view)
 	o.view:setShaderProgram("settingsBackground")
 	o.view:setEffect(0.1)
@@ -70,5 +70,7 @@ function Background:getRectList()
 end
 
 function Background:render()
+	local effect = self.timer:getPassedTimeInterpolationCurve(10000)
+	self.view:setEffect(effect)
 	self.view:render()
 end

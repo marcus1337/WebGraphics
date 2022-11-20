@@ -2,19 +2,17 @@
 #include <IO/Files/FolderPaths.h>
 #include <iostream>
 
-#include <Drawables/Drawable.h>
-#include <Drawables/Image.h>
-#include <Drawables/Text.h>
-#include <Drawables/View.h>
-#include <Drawables/Rect.h>
 #include <memory>
-#include "Button.h"
 
 
-UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), fileChecker(getScriptFilePath(_scriptFileName)), engine(_engine), graphics(_engine.graphics), scriptTypes(lua, _engine), scriptMethods(lua, _engine), uiHelperScripts(lua)
+UIScript::UIScript(std::string _scriptFileName, Engine& _engine) : scriptFileName(_scriptFileName), 
+    fileChecker(getScriptFilePath(_scriptFileName)), engine(_engine), graphics(_engine.graphics), 
+    scriptMethods(lua, _engine), uiHelperScripts(lua)
 {
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package, sol::lib::string, sol::lib::table);
-    scriptTypes.setUserTypes();
+    UIScriptTypes typeSetter(lua, _engine);
+    typeSetter.setTypes();
+
     scriptMethods.setMethods();
 }
 

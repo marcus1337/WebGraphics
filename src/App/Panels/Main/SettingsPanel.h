@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 #include "App/Panels/Panel.h"
-#include <UI/Button.h>
-#include <UI/UIScript.h>
+#include <UI/Widgets/Button.h>
+#include <UI/Script/UIScript.h>
 
 
 #ifndef SETTINGSPANEL_H

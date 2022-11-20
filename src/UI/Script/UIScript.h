@@ -16,7 +16,6 @@ class UIScript
     Engine& engine;
     Graphics& graphics;
 
-    UIScriptTypes scriptTypes;
     UIScriptMethods scriptMethods;
     UIHelperScripts uiHelperScripts;
     sol::state lua;

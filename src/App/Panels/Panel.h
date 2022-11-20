@@ -1,7 +1,7 @@
 #include <Engine/Engine.h>
 #include <stack>
 #include <string>
-#include <UI/UIScript.h>
+#include <UI/Script/UIScript.h>
 #include <functional>
 #include "PanelContext.h"
 

@@ -1,5 +1,4 @@
-
-#include "UIScriptTypes.h"
+#include "DrawableTypes.h"
 
 #include <Drawables/Drawable.h>
 #include <Drawables/Image.h>
@@ -8,15 +7,9 @@
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
 #include <Drawables/Circle.h>
-#include "Button.h"
-#include "Slider.h"
 
-UIScriptTypes::UIScriptTypes(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
+DrawableTypes::DrawableTypes(sol::state& _lua, Engine& _engine) : lua(_lua), engine(_engine), graphics(_engine.graphics) {
 
-
-}
-
-void UIScriptTypes::setUserTypes() {
     addVec();
     addDrawable();
     addImage();
@@ -25,13 +18,13 @@ void UIScriptTypes::setUserTypes() {
     addView();
     addLine();
     addCircle();
-
-    addUIElement();
-    addButton();
-    addSlider();
 }
 
-void UIScriptTypes::addVec() {
+void DrawableTypes::setTypes() {
+
+}
+
+void DrawableTypes::addVec() {
     lua.new_usertype<glm::vec2>("vec2",
         sol::constructors<glm::vec2(), glm::vec2(float), glm::vec2(float, float)>(),
         sol::call_constructor, [](float _x, float _y) {return glm::vec2(_x, _y); });
@@ -43,7 +36,7 @@ void UIScriptTypes::addVec() {
         sol::call_constructor, [](float _x, float _y, float _z, float _a) {return glm::vec4(_x, _y, _z, _a); });
 }
 
-void UIScriptTypes::addDrawable() {
+void DrawableTypes::addDrawable() {
     lua.new_usertype<Drawable>("Drawable",
         "setPosition", &Drawable::setPosition,
         "setEffect", &Drawable::setEffect,
@@ -60,7 +53,7 @@ void UIScriptTypes::addDrawable() {
         "render", &Drawable::render);
 }
 
-void UIScriptTypes::addImage() {
+void DrawableTypes::addImage() {
     auto imgFactory = sol::factories([&engine = engine](std::string textureName) {
         std::unique_ptr<Image> img = std::make_unique<Image>(engine, textureName);
         img->setSize(300, 150);
@@ -74,7 +67,7 @@ void UIScriptTypes::addImage() {
         sol::base_classes, sol::bases<Drawable>());
 }
 
-void UIScriptTypes::addText() {
+void DrawableTypes::addText() {
     auto textFactory = sol::factories([&engine = engine](std::string _str) {
         std::unique_ptr<Text> text = std::make_unique<Text>(engine);
         text->setText(_str);
@@ -92,7 +85,7 @@ void UIScriptTypes::addText() {
         sol::base_classes, sol::bases<Drawable>());
 }
 
-void UIScriptTypes::addView() {
+void DrawableTypes::addView() {
     auto viewFactory = sol::factories([&engine = engine](int _width, int _height) {
         std::unique_ptr<View> view = std::make_unique<View>(engine, _width, _height);
         return view; });
@@ -107,7 +100,7 @@ void UIScriptTypes::addView() {
         sol::base_classes, sol::bases<Drawable>());
 }
 
-void UIScriptTypes::addRect() {
+void DrawableTypes::addRect() {
     auto rectFactory = sol::factories([&engine = engine]() {
         std::unique_ptr<Rect> rect = std::make_unique<Rect>(engine);
         rect->setSize(100, 100);
@@ -122,7 +115,7 @@ void UIScriptTypes::addRect() {
         sol::base_classes, sol::bases<Drawable>());
 }
 
-void UIScriptTypes::addLine() {
+void DrawableTypes::addLine() {
     auto lineFactory = sol::factories([&engine = engine](int fromX, int fromY, int toX, int toY) {
         std::unique_ptr<Line> line = std::make_unique<Line>(engine, fromX, fromY, toX, toY);
         return line;
@@ -133,7 +126,7 @@ void UIScriptTypes::addLine() {
         sol::base_classes, sol::bases<Drawable, Rect>());
 }
 
-void UIScriptTypes::addCircle() {
+void DrawableTypes::addCircle() {
     auto circleFactory = sol::factories([&engine = engine]() {
         std::unique_ptr<Circle> circle = std::make_unique<Circle>(engine);
         circle->setSize(100, 100);
@@ -145,58 +138,4 @@ void UIScriptTypes::addCircle() {
         "setFade", &Circle::setFade,
         "setThickness", &Circle::setThickness,
         sol::base_classes, sol::bases<Drawable>());
-}
-
-void UIScriptTypes::addUIElement() {
-    lua.new_usertype<UIElement>("UIElement",
-        "setActive", &UIElement::setActive,
-        "setInactive", &UIElement::setInactive,
-        "getX", &UIElement::getX,
-        "getY", &UIElement::getY,
-        "getWidth", &UIElement::getWidth,
-        "getHeight", &UIElement::getHeight,
-        "isHovered", &UIElement::isHovered,
-        "isPressed", &UIElement::isPressed,
-        "update", &UIElement::update,
-        "render", &UIElement::render);
-}
-
-void UIScriptTypes::addButton() {
-    auto btnFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
-        std::unique_ptr<Button> btn = std::make_unique<Button>(engine, pixelWidth, pixelHeight);
-        return btn; });
-    lua.new_usertype<Button>("Button",
-        sol::meta_function::construct, btnFactory,
-        sol::call_constructor, btnFactory,
-        "setPosition", &Button::setPosition,
-        "setText", &Button::setText,
-        "setImage", &Button::setImage,
-        "paint", &Button::paint,
-        "clearView", &Button::clearView,
-        "onPressCallback", &Button::onPressCallback,
-        sol::base_classes, sol::bases<UIElement>());
-}
-
-void UIScriptTypes::addSlider() {
-    auto sliderFactory = sol::factories([&engine = engine](int pixelWidth, int pixelHeight) {
-        std::unique_ptr<Slider> slider = std::make_unique<Slider>(engine, pixelWidth, pixelHeight);
-        return slider; });
-    lua.new_usertype<Slider>("Slider",
-        sol::meta_function::construct, sliderFactory,
-        sol::call_constructor, sliderFactory,
-        "setPosition", &Slider::setPosition,
-        "setValue", &Slider::setValue,
-        "getValue", &Slider::getValue,
-        "setBoxColor", &Slider::setBoxColor,
-        "setLineColor", &Slider::setLineColor,
-        "setMarkedLineColor", &Slider::setMarkedLineColor,
-        "setBackgroundColor", &Slider::setBackgroundColor,
-        "setBackgroundAlpha", &Slider::setBackgroundAlpha,
-        "onValueChangeCallback", &Slider::onValueChangeCallback,
-        sol::base_classes, sol::bases<UIElement>());
-}
-
-void UIScriptTypes::addTimer() {
-   // lua.new_usertype<ShaderTimer>("Timer",
-   //     "setActive", &UIElement::setActive,);
 }
