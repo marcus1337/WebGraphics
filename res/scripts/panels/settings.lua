@@ -98,6 +98,7 @@ end
 
 local tmpWidth = 800
 volumePanel = VolumePanel:new{x = math.floor(1920/2 - tmpWidth/2), y = 500, width = tmpWidth, height = 250}
+local background = Background:new({})
 
 function update()
     elements:update()
@@ -105,8 +106,11 @@ end
 
 function render()
     backgroundImage:render()
+    background:render()
+    
     volumePanel:render()
     elements:render()
     titleText:render()
+
 end
 
