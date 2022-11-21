@@ -84,6 +84,13 @@ function Tile:isHighlighted()
     return self.state.highlightable and self:isHovered() and ((not self.state.selected and self:isSelectable()) or self.state.target)
 end
 
+function Tile:isChecked()
+    local chess = getChessRef()
+    local turnColor = chess:getTurnColor()
+    local piece = self:get():getPiece()
+    return self:isOccupied() and piece.color == turnColor and piece.type == PieceType.KING and chess:isCheck()
+end
+
 function Tile:render()
 
     local highlightValue = 0.0
@@ -98,6 +105,16 @@ function Tile:render()
     if self:isOccupied() then
         occupiedValue = 1.0
     end
+    local checkedValue = 0.0
+    if self:isChecked() then
+        checkedValue = 1.0
+    end
+    local darkValue = 0.0
+    if self.view:isDark() then
+        darkValue = 1.0
+    end
+    self.view.view:setUniform("dark", darkValue)
+    self.view.view:setUniform("check", checkedValue)
     self.view.view:setUniform("highlight", highlightValue)
     self.view.view:setUniform("target", targetValue)
     self.view.view:setUniform("occupied", occupiedValue)

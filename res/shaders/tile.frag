@@ -18,6 +18,8 @@ uniform float darken;
 uniform float target;
 uniform float highlight;
 uniform float occupied;
+uniform float check;
+uniform float dark;
 
 out vec4 frag_color;
 
@@ -38,6 +40,10 @@ void main(){
     frag_color.a = min(alpha, frag_color.a);
     if(image == 0.0){
         frag_color = vec4(defaultColor, 1.0);
+    }
+
+    if(check == 1.0){
+        frag_color.rgb = vec3(0.5,0.2,0.2) * 2.0 * (1.0 - getDistance());
     }
 
     vec3 highlightColor = vec3(0.1,0.5,0.1);

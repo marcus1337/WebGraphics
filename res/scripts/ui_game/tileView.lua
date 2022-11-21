@@ -72,7 +72,7 @@ function TileView:getFileLetter()
     if self.rank == 0 then
         local str = string.char(97 + self.file)
         local text = self:getTextLetter(str)
-        text:setPosition(5,5)
+        text:setPosition(5, 5)
         return text
     end
     return nil
@@ -80,16 +80,15 @@ end
 
 function TileView:getRankLetter()
     if self.file == 7 then
-        local str = string.char(48 + self.rank)
+        local str = string.char(48 + self.rank + 1)
         local text = self:getTextLetter(str)
-        text:setPosition(95,85)
+        text:setPosition(95, 85)
         return text
     end
     return nil
 end
 
-function TileView:render()
-    self.view:paint(self.rect)
+function TileView:paintText()
     local txt = self:getFileLetter()
     if txt ~= nil then
         self.view:paint(txt)
@@ -98,7 +97,11 @@ function TileView:render()
     if txt ~= nil then
         self.view:paint(txt)
     end
+end
 
+function TileView:render()
+    self.view:paint(self.rect)
+    self:paintText()
     self.view:render()
 end
 
