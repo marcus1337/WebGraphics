@@ -127,7 +127,7 @@ function Board:handleTargetClick(tile)
 end
 
 function Board:handleSelectClick(tile)
-    self:clearTileSelectStates()
+    self:handleTileCancelClick()
     tile.state.selected = true
     self:setTileTargetStates(tile)
 end

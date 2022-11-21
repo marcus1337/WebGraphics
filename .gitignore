@@ -1,5 +1,6 @@
 build/
 build2/
+enc_temp_folder/
 .vscode
 .vs
 AniLib.*

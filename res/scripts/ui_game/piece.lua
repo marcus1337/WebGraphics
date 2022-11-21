@@ -12,11 +12,15 @@ function Piece:new(o)
     return o
 end
 
-function Piece:render()
+function Piece:getImage()
     local img = Image(self:getImgPath())
     img:setSize(self.width, self.width)
     img:setPosition(self.x, self.y)
-    img:render()
+    return img
+end
+
+function Piece:render()
+    self:getImage():render()
 end
 
 function Piece:getPieceFileName()

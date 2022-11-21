@@ -10,7 +10,13 @@ uniform float alpha;
 uniform float thickness;
 uniform float fade;
 out vec4 frag_color;
+uniform float target;
 
+float getDistance(){
+    vec2 centerPos = vec2(0.5,0.5);
+    vec2 uv = uv_frag;    
+    return distance(centerPos, uv);
+}
 
 void main(){
 
@@ -28,7 +34,16 @@ void main(){
         ringColorIntensity = vec3(1.0 - smoothstep(thickness - fade, thickness, distance));
     if(distance < 0.0 || length(ringColorIntensity) <= 0.0)
         discard; 
+
+    if(target == 1.0){
+        float multiplier = (1.0 - getDistance())*1.4 ;
+        frag_color.rgb = frag_color.rgb * multiplier;
+        if(getDistance() > 0.12){
+            discard;
+        }
+    }else{
+        frag_color.rgb = colorIntensity * ringColorIntensity * color;
+    }
     
-    frag_color.rgb = colorIntensity * ringColorIntensity * color;
 
 }

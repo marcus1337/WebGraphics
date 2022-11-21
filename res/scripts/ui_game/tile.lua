@@ -85,15 +85,32 @@ function Tile:isHighlighted()
 end
 
 function Tile:render()
-    self.view.rect:render()
+
+    local highlightValue = 0.0
+    if self:isHighlighted() then
+        highlightValue = 1.0
+    end
+    local targetValue = 0.0
+    if self.state.target then
+        targetValue = 1.0
+    end
+    local occupiedValue = 0.0
+    if self:isOccupied() then
+        occupiedValue = 1.0
+    end
+    self.view.view:setUniform("highlight", highlightValue)
+    self.view.view:setUniform("target", targetValue)
+    self.view.view:setUniform("occupied", occupiedValue)
+    self.view:render()
+
     if self:isOccupied() then
         self.view:renderPiece()
     end
-    if self.state.target then  
-        self.view:renderTarget()
+    if self.state.target and not self:isOccupied() then  
+        self.view:renderTarget(self:isHighlighted())
     end
     if self:isHighlighted() then
-        self.view:renderHighlight()
+        --self.view:renderHighlight()
     end
 end
 
