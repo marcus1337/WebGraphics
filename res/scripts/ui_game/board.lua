@@ -66,6 +66,14 @@ function Board:update()
     end
 end
 
+function Board:setColorPerspective(color)
+    if self.playerColorPerspective == color then
+        return
+    end
+    self.playerColorPerspective = color
+    Board:setTiles(self)
+end
+
 function Board:render()
     self.backround:render()    
     for k, v in pairs(self.tiles) do
