@@ -11,7 +11,7 @@ function Tile:new(o)
     self.__index = self
 
     o.state = TileState:new()
-    o.view = TileView:new{x = o.x, y = o.y, width = o.width, file = o.file, rank = o.rank}
+    o.view = TileView:new{x = o.x, y = o.y, width = o.width, file = o.file, rank = o.rank, playerColorPerspective = o.playerColorPerspective}
     Tile:setButton(o)
 
     return o

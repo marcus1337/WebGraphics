@@ -10,6 +10,7 @@ function Board:new(o)
     setmetatable(o, self)
     self.__index = self
     o.move = Move:new()
+    o.playerColorPerspective = PieceColor.WHITE
 
     self:setPromoteHandler(o, tileWidth)
     Board:setBackground(o)
@@ -31,7 +32,7 @@ function Board:setBackground(o)
     backround:setColor(vec3(0.5,0.5,0.5))
     backround:setSize(o.width, o.width)
     backround:setPosition(o.x, o.y)
-    self.backround = backround
+    o.backround = backround
 end
 
 function Board:setTiles(o)
@@ -42,11 +43,15 @@ function Board:setTiles(o)
             local width = math.floor(o.width/8)
             local x = file * width + o.x
             local y = rank * width + o.y
-            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth}
+            if o.playerColorPerspective == PieceColor.BLACK then
+                y = (7 - rank) * width + o.y
+                x = (7 - file) * width + o.x
+            end
+            local tile = Tile:new{x = x, y = y, file = file, rank = rank, width = tileWidth, playerColorPerspective = o.playerColorPerspective}
             tiles[#tiles+1] = tile
         end
     end
-    self.tiles = tiles
+    o.tiles = tiles
 end
 
 function Board:update()

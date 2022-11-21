@@ -69,7 +69,7 @@ function TileView:getTextLetter(str)
 end
 
 function TileView:getFileLetter()
-    if self.rank == 0 then
+    if self:hasFileLetter() then
         local str = string.char(97 + self.file)
         local text = self:getTextLetter(str)
         text:setPosition(5, 5)
@@ -78,8 +78,16 @@ function TileView:getFileLetter()
     return nil
 end
 
+function TileView:hasFileLetter()
+    return (self.playerColorPerspective == PieceColor.WHITE and self.rank == 0) or (self.playerColorPerspective == PieceColor.BLACK and self.rank == 7)
+end
+
+function TileView:hasRankLetter()
+    return (self.playerColorPerspective == PieceColor.WHITE and self.file == 7) or (self.playerColorPerspective == PieceColor.BLACK and self.file == 0)
+end
+
 function TileView:getRankLetter()
-    if self.file == 7 then
+    if self:hasRankLetter() then
         local str = string.char(48 + self.rank + 1)
         local text = self:getTextLetter(str)
         text:setPosition(95, 85)

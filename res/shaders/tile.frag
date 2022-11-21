@@ -46,10 +46,13 @@ void main(){
         frag_color.rgb = vec3(0.5,0.2,0.2) * 2.0 * (1.0 - getDistance());
     }
 
-    vec3 highlightColor = vec3(0.1,0.5,0.1);
+    vec3 highlightColor = vec3(0.5,0.5,0.4);
     if(highlight == 1.0 || (target == 1.0 && occupied == 1.0)){
         if(highlight == 1.0){
             highlightColor = vec3(0.5,0.5,0.4);
+        }
+        if(highlight == 1.0 && target == 1.0 && occupied == 1.0){
+            highlightColor = vec3(0.1,0.5,0.1);
         }
         float dist = getDistance();
         if( dist > 0.6){
