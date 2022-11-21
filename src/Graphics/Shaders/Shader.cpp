@@ -77,6 +77,7 @@ void Shader::setUniforms() {
     setMatrixUniforms();
     setColorUniforms();
     setCustomUniforms();
+    setExtraUniforms();
     glUniform1f(glGetUniformLocation(programID, "effect"), effect);
 }
 
@@ -98,6 +99,13 @@ void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _
     VP = _VP;
     V = _V;
     P = _P;
+}
+
+void Shader::setExtraUniforms() {
+    GLuint programID = shaderPrograms.get(programName);
+    for (const auto& [key, value] : extraFloatUniforms) {
+        glUniform1f(glGetUniformLocation(programID, key.c_str()), value);
+    }
 }
 
 void Shader::setColorUniforms()
@@ -129,3 +137,8 @@ int Shader::getWidth() {
 int Shader::getHeight() {
     return scale.y;
 }
+
+void Shader::setFloatUniform(std::string name, float value) {
+    extraFloatUniforms[name] = value;
+}
+

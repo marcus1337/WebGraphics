@@ -46,3 +46,7 @@ void Drawable::setShaderProgram(std::string shaderProgramName) {
 void Drawable::setEffect(float _effect) {
     shader->effect = _effect;
 }
+
+void Drawable::setUniform(std::string key, float value) {
+    shader->setFloatUniform(key, value);
+}

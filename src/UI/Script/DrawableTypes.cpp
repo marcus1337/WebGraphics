@@ -50,6 +50,7 @@ void DrawableTypes::addDrawable() {
         "getWidth", &Drawable::getWidth,
         "getHeight", &Drawable::getHeight,
         "setShaderProgram", &Drawable::setShaderProgram,
+        "setUniform", &Drawable::setUniform,
         "render", &Drawable::render);
 }
 

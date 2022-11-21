@@ -31,7 +31,7 @@ float Timer::getPassedTimeInterpolation(int durationInMilliseconds) {
 
 float Timer::getPassedTimeInterpolationCurve(int durationInMilliseconds) {
     float pi = std::numbers::pi_v<float>;
-    float x = getPassedTimeInterpolation(durationInMilliseconds) * 2.0f;
-    return (std::sinf((x * pi) - (pi / 2.0f)) + 1.0f) / 2.0f;
+    float x = getPassedTimeInterpolation(durationInMilliseconds);
+    return std::sinf(x * pi);
 }
 

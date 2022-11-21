@@ -35,6 +35,8 @@ public:
     int getWidth();
     int getHeight();
     void setShaderProgram(std::string shaderProgramName);
+    void setUniform(std::string key, float value);
+
 };
 
 #endif
