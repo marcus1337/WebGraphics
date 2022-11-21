@@ -51,6 +51,12 @@ void main(){
         }
     }
 
+    if(target == 1.0 && occupied == 0.0 && getDistance() < 0.12){
+        float multiplier = (1.0 - getDistance())*1.4 ;
+        frag_color.rgb = highlightColor * multiplier;
+        frag_color.a = 1.0;
+    }
+
     
 
 }
