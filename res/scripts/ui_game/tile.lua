@@ -106,12 +106,6 @@ function Tile:render()
     if self:isOccupied() then
         self.view:renderPiece()
     end
-    if self.state.target and not self:isOccupied() then  
-        --self.view:renderTarget(self:isHighlighted())
-    end
-    if self:isHighlighted() then
-        --self.view:renderHighlight()
-    end
 end
 
 
