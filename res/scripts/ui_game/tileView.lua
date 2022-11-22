@@ -15,18 +15,38 @@ function TileView:new(o)
     o.view:setAlpha(1.0)
     o.view:setPosition(o.x,o.y)
     TileView:setBackgroundRect(o)
+    TileView:setMovedBackgroundRect(o)
 
     return o
 end
 
-function TileView:setBackgroundRect(o)
+function TileView:getRect(width, color)
     local rect = Rect()
     rect:setRadius(0)
     rect:setAlpha(1.0)
     rect:setPosition(0,0)
-    rect:setSize(o.width, o.width)
-    rect:setColor(o:getColor())
-    o.rect = rect
+    rect:setSize(width, width)
+    rect:setColor(color)
+    return rect
+end
+
+function TileView:isMoved()
+    local chess = getChessRef()
+    if chess:getTurn() == 0 then
+        return false
+    end
+    local lastMove = chess.history:getLastMove()
+    return (lastMove.from.file == self.file and lastMove.from.rank == self.rank) or (lastMove.to.file == self.file and lastMove.to.rank == self.rank) 
+end
+
+function TileView:setMovedBackgroundRect(o)
+    local rect = self:getRect(o.width, vec3(0.9,0.9,0.0))
+    rect:setAlpha(0.25)
+    o.movedRect = rect
+end
+
+function TileView:setBackgroundRect(o)
+    o.rect = self:getRect(o.width, o:getColor())
 end
 
 function TileView:isDark()
@@ -109,6 +129,10 @@ end
 
 function TileView:render()
     self.view:paint(self.rect)
+    if self:isMoved() then
+        self.view:paint(self.movedRect)
+    end
+
     self:paintText()
     self.view:render()
 end
