@@ -9,21 +9,12 @@ function Board:new(o)
     o.y = o.y or 25
     setmetatable(o, self)
     self.__index = self
-    o.move = Move:new()
     o.playerColorPerspective = PieceColor.WHITE
 
-    self:setPromoteHandler(o, tileWidth)
     Board:setBackground(o)
     Board:setTiles(o)
 
     return o
-end
-
-function Board:setPromoteHandler(o, tileWidth)
-    local promoteWidth = tileWidth * 4
-    local promoteXPosition = math.floor(o.x + o.width / 2.0 - promoteWidth / 2.0)
-    local promoteYPosition = math.floor (o.y + tileWidth * 8 + 10.0) 
-    o.promoteHandler = PromoteHandler:new{x = promoteXPosition, y = promoteYPosition, width = promoteWidth, move = o.move}
 end
 
 function Board:setBackground(o)
@@ -56,8 +47,6 @@ end
 
 function Board:update()
 
-    self.promoteHandler:update()
-
     if self:getClickedTile() ~= nil then 
         self:handleTileClick()
     end
@@ -79,7 +68,6 @@ function Board:render()
     for k, v in pairs(self.tiles) do
         v:render()
     end
-    self.promoteHandler:render()
 end
 
 function Board:getClickedTile()
@@ -132,7 +120,7 @@ function Board:handleTargetClick(tile)
     local toPoint = tile:getPoint()
     local chess = getChessRef()
     if chess:isPromoteMove(fromPoint, toPoint) then
-        self.promoteHandler:prepareMove(fromPoint, toPoint)
+        self.move:prepare(fromPoint, toPoint)
     else
         chess:move(fromPoint, toPoint)
     end

@@ -2,9 +2,9 @@ PromoteView = {}
 
 function PromoteView:new(o)
     o = o or {}
-    o.width = o.width or 100
-    o.x = o.x or 0
-    o.y = o.y or 0
+    o.width = o.width or 500
+    o.x = o.x or 500
+    o.y = o.y or 25
     o.pieceColor = o.pieceColor or PieceColor.BLACK
     o.visible = false
     setmetatable(o, self)
@@ -12,7 +12,9 @@ function PromoteView:new(o)
     PromoteButton:setButton(o)
     PromoteButton:setBackgroundRect(o)
 
-    btnWidth = math.floor(o.width/4)
+    local btnWidth = math.floor(o.width/4)
+    o.height = btnWidth
+
     o.knightButton = PromoteButton:new{x = o.x, y = o.y, width = btnWidth, pieceType = PieceType.KNIGHT, pieceColor = o.pieceColor}
     o.bishopButton = PromoteButton:new{x = o.x + btnWidth, y = o.y, width = btnWidth, pieceType = PieceType.BISHOP, pieceColor = o.pieceColor}
     o.rookButton = PromoteButton:new{x = o.x + btnWidth*2, y = o.y, width = btnWidth, pieceType = PieceType.ROOK, pieceColor = o.pieceColor}
@@ -32,12 +34,37 @@ function PromoteView:setBackgroundRect(o)
 end
 
 function PromoteView:update()
+
+    if self.move:isWaitingToPromote() then
+        self:setVisible(true)
+    end
+
+    if self.visible and self:wasClicked() then
+        self:makeMove()
+    end
+    if self:isCancelled() then
+        self:cancel()
+    end
+
     if self.visible then
         self.knightButton:update()
         self.bishopButton:update()
         self.rookButton:update()
         self.queenButton:update()
     end
+end
+
+function PromoteView:cancel()
+    self:setVisible(false)
+    self.move:clear()
+end
+
+function PromoteView:makeMove()
+    self:setVisible(false)
+    local promoteType = self:getChosenPieceType()
+    self:clearClicks()
+    self.move.promoteType = promoteType
+    self.move:promote()
 end
 
 function PromoteView:setVisible(visible)
@@ -76,7 +103,7 @@ function PromoteView:clearClicks()
 end
 
 function PromoteView:isCancelled()
-    return self.visible and isMouseRelease() and not isMousePointerInside(self.x, self.y, self.width, self.width*4)
+    return self.visible and isMouseRelease() and not isMousePointerInside(self.x, self.y, self.width, self.height)
 end
 
 function PromoteView:wasClicked()

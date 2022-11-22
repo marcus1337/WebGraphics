@@ -25,6 +25,14 @@ function Move:promote()
     self:clear()
 end
 
+function Move:isWaitingToPromote()
+    return self.fromPoint ~= nil and self.toPoint ~= nil and getChessRef():isPromoteMove(self.fromPoint, self.toPoint)
+end
+
+function Move:prepare(fromPoint, toPoint)
+    self.fromPoint = fromPoint
+    self.toPoint = toPoint
+end
 
 
 
