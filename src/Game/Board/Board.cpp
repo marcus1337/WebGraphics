@@ -71,107 +71,60 @@ Tile Board::getTile(Point point) {
     return getTile(point.file, point.rank);
 }
 
-bool Board::isQueenSideRook(Point from, PieceColor color) {
-    Tile tile = getTile(from);
-    int rookStartRank = color == PieceColor::WHITE ? 0 : 7;
-    Point queenSideRookStartPosition = Point{ 0, rookStartRank };
-    return tile.isOccupied() && from == queenSideRookStartPosition && tile.getPiece().color == color;
-}
-bool Board::isKingSideRook(Point from, PieceColor color) {
-    Tile tile = getTile(from);
-    int rookStartRank = color == PieceColor::WHITE ? 0 : 7;
-    Point kingSideRookStartPosition = Point{ 7, rookStartRank };
-    return tile.isOccupied() && from == kingSideRookStartPosition && tile.getPiece().color == color;
-}
-
-void Board::setCastleState(Point fromMove) {
-    Piece piece = getTile(fromMove).getPiece();
+void Board::setCastleState(Move move) {
+    Piece piece = move.piece;
     Castle& castle = piece.color == PieceColor::WHITE ? whiteCastle : blackCastle;
+    int rookStartRank = piece.color == PieceColor::WHITE ? 0 : 7;
     if (piece.type == PieceType::KING)
         castle.setKingMoved();
-    if (isQueenSideRook(fromMove, piece.color))
+    if (move.from.rank == rookStartRank && move.from.file == 0)
         castle.setQueenSideRookMoved();
-    if (isKingSideRook(fromMove, piece.color))
+    if (move.from.rank == rookStartRank && move.from.file == 7)
         castle.setKingSideRookMoved();
 }
 
-void Board::setPassantState(Point from, Point to) {
-    Piece piece = getTile(from).getPiece();
+void Board::setPassantState(Move move) {
+    Piece piece = move.piece;
     EnPassant& passant = piece.color == PieceColor::WHITE ? whitePassant : blackPassant;
-    passant.setTwoSteppedPawnFile(from.file);
+    passant.setTwoSteppedPawnFile(move.from.file);
     passant.setPawnTwoStepped(false);
-    if (piece.type != PieceType::PAWN)
+    if (piece.type != PieceType::PAWN || move.isPromote())
         return;
-    if (isPromoteMove(to))
-        return;
-    int rankSteps = std::abs(from.rank - to.rank);
-    if (rankSteps == 2)
+    if (std::abs(move.from.rank - move.to.rank == 2))
         passant.setPawnTwoStepped(true);
 }
 
-bool Board::isPromoteMove(Point toMove) {
-    return toMove.rank < 0 || toMove.rank > 7;
+void Board::movePassant(Move move) {
+    int takeRank = move.piece.color == PieceColor::WHITE ? 4 : 3;
+    clearTile(move.to.file, takeRank);
+    setPiece(move.to.file, move.to.rank, move.piece);
+    clearTile(move.from.file, move.from.rank);
 }
 
-PieceType Board::getPromoteType(int toRank) {
-    int value;
-    if (toRank >= 8)
-        value = toRank - 8; //white promote value
+void Board::movePromote(Move move) {
+    setPiece(move.to.file, move.getPromoteRank(), move.getPromotePiece());
+    clearTile(move.from.file, move.from.rank);
+}
+
+void Board::moveNormal(Move move) {
+    setPiece(move.to.file, move.to.rank, move.piece);
+    clearTile(move.from.file, move.from.rank);
+}
+
+void Board::move(Move move) {
+    setCastleState(move);
+    setPassantState(move);
+
+    if (move.isCastleKingSide())
+        castleKingSide(move.piece.color);
+    else if (move.isCastleQueenSide())
+        castleQueenSide(move.piece.color);
+    else if (move.isPromote())
+        movePromote(move);
+    else if (move.isPassant(getTile(move.to).isOccupied()))
+        movePassant(move);
     else
-        value = std::abs(toRank + 1); //black promote value
-    if (value == 0)
-        return PieceType::KNIGHT;
-    else if (value == 1)
-        return PieceType::BISHOP;
-    else if (value == 2)
-        return PieceType::ROOK;
-    else
-        return PieceType::QUEEN;
-}
-
-bool Board::isCastleKingSideMove(Point from, Point to) {
-    return getTile(from).getPiece().type == PieceType::KING && from.file - to.file < -1;
-}
-bool Board::isCastleQueenSideMove(Point from, Point to) {
-    return getTile(from).getPiece().type == PieceType::KING && from.file - to.file > 1;
-}
-
-bool Board::isPassantMove(Point from, Point to) {
-    Piece piece = getTile(from).getPiece();
-    return to.isInsideBoard() && piece.type == PieceType::PAWN && !getTile(to).isOccupied() && 
-        from.file != to.file && (to.rank == 2 || to.rank == 5);
-}
-
-void Board::movePiece(Point from, Point to) {
-    //std::cout << "movePiece(): " << from.toString() << ", " << to.toString() << "\n";
-    setCastleState(from);
-    setPassantState(from, to);
-
-    Piece piece = getTile(from).getPiece();
-    PieceColor color = piece.color;
-
-    if (isCastleKingSideMove(from, to)) {
-        castleKingSide(color);
-    }
-    else if (isCastleQueenSideMove(from, to)) {
-        castleQueenSide(color);
-    }
-    else if (isPassantMove(from, to)) {
-        int takeRank = color == PieceColor::WHITE ? 4 : 3;
-        clearTile(to.file, takeRank);
-        setPiece(to.file, to.rank, piece);
-        clearTile(from.file, from.rank);
-    }else if (isPromoteMove(to)) {
-        int promoteRank = color == PieceColor::WHITE ? 7 : 0;
-        piece = Piece{ getPromoteType(to.rank), color };
-        to = Point{ to.file, promoteRank };
-        setPiece(to.file, to.rank, piece);
-        clearTile(from.file, from.rank);
-    }
-    else {
-        setPiece(to.file, to.rank, piece);
-        clearTile(from.file, from.rank);
-    }
+        moveNormal(move);
 }
 
 void Board::castleKingSide(PieceColor color) {
@@ -211,3 +164,4 @@ bool Board::isTileOccupiedByColor(Point point, PieceColor color) {
     Tile tile = getTile(point);
     return tile.isOccupied() && tile.getPiece().color == color;
 }
+

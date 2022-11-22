@@ -3,6 +3,7 @@
 #include "Board/Point.h"
 #include "Board/BoardCheck.h"
 #include "Board/BoardMove.h"
+#include "History.h"
 
 #ifndef CHESS_H
 #define CHESS_H
@@ -17,6 +18,7 @@ protected:
 
 public:
 
+    History history;
     Chess();
     void reset();
     void print();

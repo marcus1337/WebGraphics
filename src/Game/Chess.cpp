@@ -46,7 +46,10 @@ bool Chess::isCheck() {
 }
 
 void Chess::move(Point from, Point to) {
-    board.movePiece(from, to);
+    Piece piece = board.getTile(from).getPiece();
+    Move move{ from, to, piece };
+    history.add(move);
+    board.move(move);
     turn++;
     setBoardChecks();
 }

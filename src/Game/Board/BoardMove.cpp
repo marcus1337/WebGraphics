@@ -1,5 +1,6 @@
 #include "BoardMove.h"
 #include <iostream>
+#include "Move.h"
 
 BoardMove::BoardMove(Board _board, PieceColor _moveColor) : board(_board), moveColor(_moveColor), boardCheck(_board, _moveColor) {
 
@@ -30,7 +31,9 @@ std::vector<Point> BoardMove::getMoves(Point from) {
 
 bool BoardMove::isMoveCausingSelfCheck(Point from, Point to) {
     Board boardCopy = board;
-    boardCopy.movePiece(from, to);
+    Piece piece = board.getTile(from).getPiece();
+    Move move{ from, to, piece };
+    boardCopy.move(move);
     BoardCheck boardCopyCheck(boardCopy, moveColor);
     return boardCopyCheck.isKingChecked();
 }
