@@ -31,11 +31,27 @@ void ChessScript::bindMethods(UIScript& uiScript) {
         "type", &Piece::type,
         "color", &Piece::color);
 
+    lua.new_usertype<Move>("Move",
+        "from", &Move::from,
+        "to", &Move::to,
+        "piece", &Move::piece,
+        "getPromotePiece", &Move::getPromotePiece,
+        "getPromotePoint", &Move::getPromotePoint, 
+        "getPromoteRank", &Move::getPromoteRank, 
+        "isCastleKingSide", &Move::isCastleKingSide, 
+        "isCastleQueenSide", &Move::isCastleQueenSide,
+        "isPassant", &Move::isPassant,
+        "isPromote", &Move::isPromote);
+
+    lua.new_usertype<History>("History",
+        "getLastMove", &History::getLastMove);
+
     lua.new_usertype<Tile>("Tile",
         "isOccupied", &Tile::isOccupied,
         "getPiece", &Tile::getPiece);
 
     lua.new_usertype<Chess>("Chess",
+        "history", &Chess::history,
         "reset", &Chess::reset,
         "print", &Chess::print,
         "getTurnColor", &Chess::getTurnColor,

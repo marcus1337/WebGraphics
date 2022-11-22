@@ -40,3 +40,7 @@ int Move::getPromoteRank() {
         return 7;
     return 0;
 }
+
+Point Move::getPromotePoint() {
+    return Point{ to.file, getPromoteRank() };
+}

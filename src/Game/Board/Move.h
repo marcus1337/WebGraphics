@@ -13,6 +13,7 @@ struct Move {
     bool isPassant(bool toTileOccupied);
     bool isCastleKingSide();
     bool isCastleQueenSide();
+    Point getPromotePoint();
     int getPromoteRank();
 
 };
