@@ -15,6 +15,9 @@ function update()
     elements:update()
     board:update()
     promoteView:update()
+    if move:isReady() then
+        move:apply()
+    end
 end
 
 function render()

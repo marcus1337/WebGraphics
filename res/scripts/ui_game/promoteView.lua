@@ -35,14 +35,15 @@ end
 
 function PromoteView:update()
 
-    if self.move:isWaitingToPromote() then
+    if self.move:isWaitingToSetPromotePiece() then
         self:setVisible(true)
     end
 
     if self.visible and self:wasClicked() then
-        self:makeMove()
+        self:setPromoteType()
     end
-    if self:isCancelled() then
+
+    if self.move:isWaitingToSetPromotePiece() and self:isCancelled() then
         self:cancel()
     end
 
@@ -59,12 +60,11 @@ function PromoteView:cancel()
     self.move:clear()
 end
 
-function PromoteView:makeMove()
+function PromoteView:setPromoteType()
     self:setVisible(false)
     local promoteType = self:getChosenPieceType()
     self:clearClicks()
-    self.move.promoteType = promoteType
-    self.move:promote()
+    self.move:setPromoteType(promoteType)
 end
 
 function PromoteView:setVisible(visible)

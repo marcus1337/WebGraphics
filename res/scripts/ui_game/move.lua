@@ -16,22 +16,35 @@ function Move:clear()
     self.promoteType = nil
 end
 
-function Move:promote()
-    if self.fromPoint == nil or self.toPoint == nil or self.promoteType == nil then
-        print("promote(): nil error.")
-    end
-    local chess = getChessRef()
-    chess:promote(self.fromPoint, self.toPoint, self.promoteType)
-    self:clear()
+function Move:isWaitingToSetPromotePiece()
+    return self.fromPoint ~= nil and self.toPoint ~= nil and getChessRef():isPromoteMove(self.fromPoint, self.toPoint)
 end
 
-function Move:isWaitingToPromote()
-    return self.fromPoint ~= nil and self.toPoint ~= nil and getChessRef():isPromoteMove(self.fromPoint, self.toPoint)
+function Move:isReadyToPromote()
+    return self.fromPoint ~= nil and self.toPoint ~= nil and self.promoteType ~= nil
+end
+
+function Move:isReady()
+    return (not self:isWaitingToSetPromotePiece() and self.fromPoint ~= nil and self.toPoint ~= nil) or self:isReadyToPromote()
+end
+
+function Move:apply()
+    local chess = getChessRef()
+    if self:isReadyToPromote() then
+        chess:promote(self.fromPoint, self.toPoint, self.promoteType)
+    else
+        chess:move(self.fromPoint, self.toPoint)
+    end
+    self:clear()
 end
 
 function Move:prepare(fromPoint, toPoint)
     self.fromPoint = fromPoint
     self.toPoint = toPoint
+end
+
+function Move:setPromoteType(promoteType)
+    self.promoteType = promoteType
 end
 
 

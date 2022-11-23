@@ -53,6 +53,7 @@ function Board:update()
     for k, v in pairs(self.tiles) do
         v:update()
     end
+    self:setTileHighlightStates()
 end
 
 function Board:setColorPerspective(color)
@@ -111,19 +112,14 @@ end
 function Board:setTileHighlightStates()
     local selectedTile = self:getSelectedTile()
     for k, tile in pairs(self.tiles) do
-        tile.state.highlightable = (selectedTile == nil or tile.state.target) and not self.move.promoting
+        tile.state.highlightable = (selectedTile == nil or tile.state.target) and not self.move:isWaitingToSetPromotePiece()
     end
 end
 
 function Board:handleTargetClick(tile)
     local fromPoint = self:getSelectedTile():getPoint()
     local toPoint = tile:getPoint()
-    local chess = getChessRef()
-    if chess:isPromoteMove(fromPoint, toPoint) then
-        self.move:prepare(fromPoint, toPoint)
-    else
-        chess:move(fromPoint, toPoint)
-    end
+    self.move:prepare(fromPoint, toPoint)
     self:handleTileCancelClick()
 end
 
@@ -152,7 +148,6 @@ function Board:handleTileClick()
     else
         self:handleTileCancelClick()
     end
-    self:setTileHighlightStates()
 end
 
 
