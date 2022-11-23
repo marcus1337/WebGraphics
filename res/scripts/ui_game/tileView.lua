@@ -36,7 +36,10 @@ function TileView:isMoved()
         return false
     end
     local lastMove = chess.history:getLastMove()
-    return (lastMove.from.file == self.file and lastMove.from.rank == self.rank) or (lastMove.to.file == self.file and lastMove.to.rank == self.rank) or (lastMove.to.file == self.file and lastMove.to.rank > 7 and self.rank == 7) or (lastMove.to.file == self.file and lastMove.to.rank < 0 and self.rank == 0)
+    local fromPoint = lastMove:getFrom()
+    local toPoint = lastMove:getTo()
+    local tilePoint = Point:new(self.file, self.rank)
+    return (fromPoint == tilePoint) or (toPoint == tilePoint) or (toPoint.file == self.file and toPoint.rank > 7 and self.rank == 7) or (toPoint.file == self.file and toPoint.rank < 0 and self.rank == 0)
 end
 
 function TileView:setMovedBackgroundRect(o)

@@ -6,16 +6,19 @@ Piece Move::getPromotePiece() {
         value = to.rank - 8; //white promote value
     else
         value = std::abs(to.rank + 1); //black promote value
-    Piece promotePiece = piece;
+    return Piece{getPromoteType(value), piece.color};
+}
+
+PieceType Move::getPromoteType(int value) {
     if (value == 0)
-        promotePiece.type = PieceType::KNIGHT;
+        return PieceType::KNIGHT;
     else if (value == 1)
-        promotePiece.type = PieceType::BISHOP;
+        return PieceType::BISHOP;
     else if (value == 2)
-        promotePiece.type = PieceType::ROOK;
-    else
-        promotePiece.type = PieceType::QUEEN;
-    return promotePiece;
+        return PieceType::ROOK;
+    else if (value == 3)
+        return PieceType::QUEEN;
+    return PieceType::PAWN;
 }
 
 bool Move::isPromote() {
@@ -106,3 +109,20 @@ void Move::moveNormal(Board& board) {
     board.setPiece(to, piece);
     board.clearTile(from);
 }
+
+bool Move::isPromoteTypeSet() {
+    return isPromote() && getPromotePiece().type != PieceType::PAWN;
+}
+
+Point Move::getFrom() {
+    return from;
+}
+
+Point Move::getTo() {
+    return to;
+}
+
+Piece Move::getPiece() {
+    return piece;
+}
+

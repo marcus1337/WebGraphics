@@ -32,9 +32,10 @@ void ChessScript::bindMethods(UIScript& uiScript) {
         "color", &Piece::color);
 
     lua.new_usertype<Move>("Move",
-        "from", &Move::from,
-        "to", &Move::to,
-        "piece", &Move::piece,
+        "getFrom", &Move::getFrom,
+        "getTo", &Move::getTo,
+        "getPiece", &Move::getPiece,
+        "isPromoteTypeSet", &Move::isPromoteTypeSet,
         "getPromotePiece", &Move::getPromotePiece,
         "getPromotePoint", &Move::getPromotePoint, 
         "getPromoteRank", &Move::getPromoteRank, 

@@ -14,11 +14,11 @@ class Move {
     void moveNormal(Board& board);
     bool toTileOccupied;
     Point getPassantTakePoint();
-
-public:
-
+    PieceType getPromoteType(int value);
     Point from, to;
     Piece piece;
+
+public:
 
     Move(Point _from, Point _to, Board& board);
 
@@ -29,8 +29,12 @@ public:
     bool isCastleQueenSide();
     Point getPromotePoint();
     int getPromoteRank();
-
     void apply(Board& board);
+    bool isPromoteTypeSet();
+
+    Point getFrom();
+    Point getTo();
+    Piece getPiece();
 
 };
 
