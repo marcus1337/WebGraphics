@@ -37,6 +37,7 @@ public:
     void promote(Point from, Point to, PieceType promoteType);
 
     Tile getTile(Point point);
+    Move getMove(Point from, Point to);
     
 };
 

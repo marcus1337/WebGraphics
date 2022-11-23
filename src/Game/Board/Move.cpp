@@ -114,6 +114,13 @@ bool Move::isPromoteTypeSet() {
     return isPromote() && getPromotePiece().type != PieceType::PAWN;
 }
 
+void Move::setPromoteType(PieceType pieceType) {
+    int value = (int) pieceType;
+    if (piece.color == PieceColor::BLACK)
+        value *= -1;
+    to.rank += value;
+}
+
 Point Move::getFrom() {
     return from;
 }
@@ -124,5 +131,9 @@ Point Move::getTo() {
 
 Piece Move::getPiece() {
     return piece;
+}
+
+bool Move::isReady() {
+    return !isPromote() || isPromoteTypeSet();
 }
 

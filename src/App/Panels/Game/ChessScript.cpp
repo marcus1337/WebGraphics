@@ -42,7 +42,11 @@ void ChessScript::bindMethods(UIScript& uiScript) {
         "isCastleKingSide", &Move::isCastleKingSide, 
         "isCastleQueenSide", &Move::isCastleQueenSide,
         "isPassant", &Move::isPassant,
-        "isPromote", &Move::isPromote);
+        "isPromote", &Move::isPromote,
+        
+        "isPromoteTypeSet", &Move::isPromoteTypeSet,
+        "isReady", &Move::isReady,
+        "setPromoteType", &Move::setPromoteType);
 
     lua.new_usertype<History>("History",
         "getLastMove", &History::getLastMove);
@@ -60,6 +64,7 @@ void ChessScript::bindMethods(UIScript& uiScript) {
         "isDraw", &Chess::isDraw,
         "isCheckMate", &Chess::isCheckMate,
         "move", &Chess::move,
+        "getMove", &Chess::getMove,
         "getMoves", &Chess::getMoves,
         "getTile", &Chess::getTile,
         "getTurn", &Chess::getTurn,

@@ -31,6 +31,8 @@ public:
     int getPromoteRank();
     void apply(Board& board);
     bool isPromoteTypeSet();
+    bool isReady();
+    void setPromoteType(PieceType pieceType);
 
     Point getFrom();
     Point getTo();

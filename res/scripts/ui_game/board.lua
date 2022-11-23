@@ -112,14 +112,14 @@ end
 function Board:setTileHighlightStates()
     local selectedTile = self:getSelectedTile()
     for k, tile in pairs(self.tiles) do
-        tile.state.highlightable = (selectedTile == nil or tile.state.target) and not self.move:isWaitingToSetPromotePiece()
+        tile.state.highlightable = (selectedTile == nil or tile.state.target) and not self.mover:isWaitingToSetPromotePiece()
     end
 end
 
 function Board:handleTargetClick(tile)
     local fromPoint = self:getSelectedTile():getPoint()
     local toPoint = tile:getPoint()
-    self.move:prepare(fromPoint, toPoint)
+    self.mover:prepare(fromPoint, toPoint)
     self:handleTileCancelClick()
 end
 

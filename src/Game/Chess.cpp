@@ -46,8 +46,7 @@ bool Chess::isCheck() {
 }
 
 void Chess::move(Point from, Point to) {
-    Piece piece = board.getTile(from).getPiece();
-    Move move(from, to, board);
+    Move move = getMove(from, to);
     history.add(move);
     move.apply(board);
     turn++;
@@ -84,4 +83,8 @@ void Chess::promote(Point from, Point to, PieceType promoteType) {
     else
         to.rank -= (int)promoteType;
     move(from, to);
+}
+
+Move Chess::getMove(Point from, Point to) {
+    return Move(from, to, board);
 }
