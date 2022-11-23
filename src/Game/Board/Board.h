@@ -6,7 +6,6 @@
 #include "Point.h"
 #include "Castle.h"
 #include "EnPassant.h"
-#include "Move.h"
 
 #ifndef BOARD_H
 #define BOARD_H
@@ -16,25 +15,19 @@ class Board {
     void setStartPieces(PieceColor pieceColor);
     void setStartLightPieces(PieceColor pieceColor);
     void setStartHeavyPieces(PieceColor pieceColor);
-    void clearTile(int file, int rank);
     void clear();
-
-    void setCastleState(Move move);
-    void setPassantState(Move move);
     bool isBlockablePiece(Piece piece);
-
-    void movePassant(Move move);
-    void movePromote(Move move);
-    void moveNormal(Move move);
 
 public:
     Board();
     void reset();
     void print();
 
+    void clearTile(int file, int rank);
+    void clearTile(Point point);
     void setPiece(int file, int rank, Piece piece);
+    void setPiece(Point point, Piece piece);
 
-    void move(Move move);
     void castleKingSide(PieceColor color);
     void castleQueenSide(PieceColor color);
 

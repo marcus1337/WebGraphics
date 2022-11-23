@@ -5,7 +5,5 @@ void History::add(Move move) {
 }
 
 Move History::getLastMove() {
-    if (moves.empty())
-        return Move();
     return moves[moves.size() - 1];
 }

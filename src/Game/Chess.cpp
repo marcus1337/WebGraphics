@@ -47,9 +47,9 @@ bool Chess::isCheck() {
 
 void Chess::move(Point from, Point to) {
     Piece piece = board.getTile(from).getPiece();
-    Move move{ from, to, piece };
+    Move move(from, to, board);
     history.add(move);
-    board.move(move);
+    move.apply(board);
     turn++;
     setBoardChecks();
 }
@@ -74,7 +74,8 @@ std::vector<Point> Chess::getHumanMoves(Point from) {
 }
 
 bool Chess::isPromoteMove(Point from, Point to) {
-    return board.getTile(from).getPiece().type == PieceType::PAWN && (to.rank <= 0 || to.rank >= 7);
+    Move move(from, to, board);
+    return move.isPromote();
 }
 
 void Chess::promote(Point from, Point to, PieceType promoteType) {

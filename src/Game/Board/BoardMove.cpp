@@ -32,8 +32,8 @@ std::vector<Point> BoardMove::getMoves(Point from) {
 bool BoardMove::isMoveCausingSelfCheck(Point from, Point to) {
     Board boardCopy = board;
     Piece piece = board.getTile(from).getPiece();
-    Move move{ from, to, piece };
-    boardCopy.move(move);
+    Move move(from, to, boardCopy);
+    move.apply(boardCopy);
     BoardCheck boardCopyCheck(boardCopy, moveColor);
     return boardCopyCheck.isKingChecked();
 }
