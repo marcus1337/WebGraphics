@@ -9,7 +9,7 @@ function Animator:new(o)
 end
 
 function Animator:getAnimationTime(fromPoint, toPoint)
-    local milliSecondsPerTileMove = 90
+    local milliSecondsPerTileMove = 60
     local distance = self:getPointDistance(fromPoint, toPoint)
     local timeMilliSeconds = distance * milliSecondsPerTileMove
     return timeMilliSeconds
@@ -75,8 +75,11 @@ end
 function Animator:getXPos()
     local xFrom = self:getFromX()
     local xTo = self:getToX()
-    local xNow = math.floor(self:getLerp(xFrom, xTo) + 0.5)
-    return xNow
+    local numFrames = 60.0 * (self.animationTime/1000.0)
+    local xDelta = (xTo - xFrom)/numFrames
+    local frame = math.floor(self.unitInterval * numFrames)
+    local xNow = xDelta * frame + xFrom
+    return math.floor(xNow)
 end
 
 function Animator:getYPos()
@@ -94,9 +97,7 @@ function Animator:getPointDistance(fromPoint, toPoint)
 end
 
 function Animator:getPieceView()
-    local distance = (self:getPointDistance(self.fromPoint, self.toPoint)*60.0/60.0) * self.board:getTileWidth()
-    self.unitInterval = math.floor(self:getUnitInterval()*distance + 0.5)/distance
-    --print(tostring(yNow) .. " " .. tostring(yFrom) .. " - " .. tostring(yTo) .. " " .. tostring(self:getLerp(yFrom, yTo) + 0.5))
+    self.unitInterval = self:getUnitInterval()
     local piece = Piece:new({x = self:getXPos(), y = self:getYPos(), width = self.board:getTileWidth(), type = self.piece.type, color = self.piece.color})
     return piece
 end
