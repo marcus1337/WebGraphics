@@ -9,10 +9,8 @@ function Animator:new(o)
 end
 
 function Animator:getAnimationTime(fromPoint, toPoint)
-    local milliSecondsPerTileMove = 100
-    local xDelta = math.abs(fromPoint.file - toPoint.file)
-    local yDelta = math.abs(fromPoint.rank - toPoint.rank)
-    local distance = math.sqrt(xDelta * xDelta + yDelta * yDelta)
+    local milliSecondsPerTileMove = 90
+    local distance = self:getPointDistance(fromPoint, toPoint)
     local timeMilliSeconds = distance * milliSecondsPerTileMove
     return timeMilliSeconds
 end
@@ -70,19 +68,36 @@ function Animator:getUnitInterval()
 end
 
 function Animator:getLerp(from, to)
-    local t = self:getUnitInterval()
+    local t = self.unitInterval
     return from*(1-t) + t*to
 end
 
-function Animator:getPieceView()
+function Animator:getXPos()
     local xFrom = self:getFromX()
     local xTo = self:getToX()
-    local xNow = math.floor(self:getLerp(xFrom, xTo))
-    --print( tostring(xFrom) .. "  " .. tostring(xNow))
+    local xNow = math.floor(self:getLerp(xFrom, xTo) + 0.5)
+    return xNow
+end
+
+function Animator:getYPos()
     local yFrom = self:getFromY()
     local yTo = self:getToY()
-    local yNow = math.floor(self:getLerp(yFrom, yTo))
-    local piece = Piece:new({x = xNow, y = yNow, width = self.board:getTileWidth(), type = self.piece.type, color = self.piece.color})
+    local yNow = math.floor(self:getLerp(yFrom, yTo) + 0.5)
+    return yNow
+end
+
+function Animator:getPointDistance(fromPoint, toPoint)
+    local xDelta = math.abs(fromPoint.file - toPoint.file)
+    local yDelta = math.abs(fromPoint.rank - toPoint.rank)
+    local distance = math.sqrt(xDelta * xDelta + yDelta * yDelta)
+    return distance
+end
+
+function Animator:getPieceView()
+    local distance = (self:getPointDistance(self.fromPoint, self.toPoint)*60.0/60.0) * self.board:getTileWidth()
+    self.unitInterval = math.floor(self:getUnitInterval()*distance + 0.5)/distance
+    --print(tostring(yNow) .. " " .. tostring(yFrom) .. " - " .. tostring(yTo) .. " " .. tostring(self:getLerp(yFrom, yTo) + 0.5))
+    local piece = Piece:new({x = self:getXPos(), y = self:getYPos(), width = self.board:getTileWidth(), type = self.piece.type, color = self.piece.color})
     return piece
 end
 
