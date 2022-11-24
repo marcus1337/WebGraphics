@@ -7,6 +7,7 @@ function TileState:new(o)
     self.selected = false
     self.target = false
     self.highlightable = true
+    self.renderPiece = true
     return o
 end
 

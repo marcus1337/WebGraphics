@@ -120,7 +120,7 @@ function Tile:render()
     self.view.view:setUniform("occupied", occupiedValue)
     self.view:render()
 
-    if self:isOccupied() then
+    if self:isOccupied() and self.state.renderPiece then
         self.view:renderPiece()
     end
 end
