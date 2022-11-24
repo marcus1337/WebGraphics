@@ -6,7 +6,6 @@ function PromoteView:new(o)
     o.x = o.x or 500
     o.y = o.y or 25
     o.pieceColor = o.pieceColor or PieceColor.BLACK
-    o.visible = false
     setmetatable(o, self)
     self.__index = self
     PromoteButton:setButton(o)
@@ -34,20 +33,14 @@ function PromoteView:setBackgroundRect(o)
 end
 
 function PromoteView:update()
-
     if self.mover:isWaitingToSetPromotePiece() then
-        self:setVisible(true)
-    end
-
-    if self.visible and self:wasClicked() then
-        self:setPromoteType()
-    end
-
-    if self.mover:isWaitingToSetPromotePiece() and self:isCancelled() then
-        self:cancel()
-    end
-
-    if self.visible then
+        self:setColor()
+        if self:wasClicked() then
+            self:setPromoteType()
+        end
+        if self:isCancelled() then
+            self:cancel()
+        end
         self.knightButton:update()
         self.bishopButton:update()
         self.rookButton:update()
@@ -56,20 +49,14 @@ function PromoteView:update()
 end
 
 function PromoteView:cancel()
-    self:setVisible(false)
     self.mover:clear()
+    self:clearClicks()
 end
 
 function PromoteView:setPromoteType()
-    self:setVisible(false)
     local promoteType = self:getChosenPieceType()
     self:clearClicks()
     self.mover:setPromoteType(promoteType)
-end
-
-function PromoteView:setVisible(visible)
-    self:setColor()
-    self.visible = visible
 end
 
 function PromoteView:setColor()
@@ -103,7 +90,7 @@ function PromoteView:clearClicks()
 end
 
 function PromoteView:isCancelled()
-    return self.visible and isMouseRelease() and not isMousePointerInside(self.x, self.y, self.width, self.height)
+    return isMouseRelease() and not isMousePointerInside(self.x, self.y, self.width, self.height)
 end
 
 function PromoteView:wasClicked()
@@ -111,7 +98,7 @@ function PromoteView:wasClicked()
 end
 
 function PromoteView:render()
-    if self.visible then
+    if self.mover:isWaitingToSetPromotePiece() then
         self.knightButton:render()
         self.bishopButton:render()
         self.rookButton:render()

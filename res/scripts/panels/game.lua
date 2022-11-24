@@ -15,7 +15,7 @@ function update()
     board:update()
     promoteView:update()
     if mover:isReady() then
-        mover:move()
+        mover:applyMove()
     end
 end
 

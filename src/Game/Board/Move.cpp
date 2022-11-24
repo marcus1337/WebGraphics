@@ -2,21 +2,21 @@
 
 Piece Move::getPromotePiece() {
     int value;
-    if (to.rank >= 8)
-        value = to.rank - 8; //white promote value
+    if (to.rank >= 7)
+        value = to.rank - 7; //white promote value
     else
-        value = std::abs(to.rank + 1); //black promote value
+        value = std::abs(to.rank); //black promote value
     return Piece{getPromoteType(value), piece.color};
 }
 
 PieceType Move::getPromoteType(int value) {
-    if (value == 0)
+    if (value == 1)
         return PieceType::KNIGHT;
-    else if (value == 1)
-        return PieceType::BISHOP;
     else if (value == 2)
-        return PieceType::ROOK;
+        return PieceType::BISHOP;
     else if (value == 3)
+        return PieceType::ROOK;
+    else if (value == 4)
         return PieceType::QUEEN;
     return PieceType::PAWN;
 }

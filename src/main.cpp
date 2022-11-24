@@ -28,5 +28,5 @@ int main(int argc, char *argv[]){
         App app; 
         app.loop(); 
     #endif
-    return 0;//
+    return 0;
 }
