@@ -86,30 +86,30 @@ std::vector<Point> BoardMove::getPawnPromoteMoves(Point to) {
 }
 
 std::vector<Point> BoardMove::getPawnNormalMoves(Point from) {
-    std::vector<Point> moves;
+    std::vector<Point> targets;
     for (Point point : board.getTile(from).getPiece().getNormalMoves()) {
-        Point move = point + from;
-        if (!board.getTile(move).isOccupied()) {
-            if (isPawnPromoteMove(move))
-                for (Point promoteMove : getPawnPromoteMoves(move))
-                    moves.push_back(promoteMove);
+        Point to = point + from;
+        if (!board.getTile(to).isOccupied()) {
+            if (isPawnPromoteMove(to))
+                for (Point promoteMove : getPawnPromoteMoves(to))
+                    targets.push_back(promoteMove);
             else
-                moves.push_back(move);
+                targets.push_back(to);
         }
     }
-    return moves;
+    return targets;
 }
 std::vector<Point> BoardMove::getPawnAttackMoves(Point from) {
     PieceColor color = board.getTile(from).getPiece().color;
     std::vector<Point> moves;
     for (Point point : Piece::getPawnNormalAttacks(color)) {
-        Point moveTo = point + from;
-        if (moveTo.isInsideBoard() && canPawnTake(moveTo)) {
-            if (isPawnPromoteMove(moveTo))
-                for (Point point : getPawnPromoteMoves(moveTo))
+        Point to = point + from;
+        if (to.isInsideBoard() && canPawnTake(to)) {
+            if (isPawnPromoteMove(to))
+                for (Point point : getPawnPromoteMoves(to))
                     moves.push_back(point);
             else
-                moves.push_back(moveTo);
+                moves.push_back(to);
         }
     }
     return moves;

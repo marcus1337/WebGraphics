@@ -86,7 +86,7 @@ void Move::setCastleState(Board& board) {
 void Move::setPassantState(Board& board) {
     EnPassant& passant = piece.color == PieceColor::WHITE ? board.whitePassant : board.blackPassant;
     passant.setTwoSteppedPawnFile(from.file);
-    passant.setPawnTwoStepped(piece.type == PieceType::PAWN && !isPromote() && std::abs(from.rank - to.rank == 2));
+    passant.setPawnTwoStepped(piece.type == PieceType::PAWN && !isPromote() && std::abs(from.rank - to.rank) == 2);
 }
 
 Point Move::getPassantTakePoint() {
