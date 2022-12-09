@@ -67,6 +67,9 @@ void GamePanel::handleAIMove() {
     if (aiDelayCounter > 20) {
         ai.placeMark(ticTacToe);
         aiDelayCounter = 0;
+        for (auto& buttonPtr : boardButtons) {
+            buttonPtr->update();
+        }
     }
 }
 

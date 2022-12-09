@@ -27,14 +27,14 @@ bool TicTacToe::isDraw() {
 Tile TicTacToe::getWinner(std::array<Tile, 3> line) {
     if (line[0] == line[1] && line[1] == line[2])
         return line[0];
-    return Tile::EMPTY();
+    return Tile::EMPTY;
 }
 
 Tile TicTacToe::getWinner() {
     for (auto line : board.getLines())
         if (getWinner(line) != Tile::EMPTY)
             return getWinner(line);
-    return Tile::EMPTY();
+    return Tile::EMPTY;
 }
 
 bool TicTacToe::isGameOver() {
