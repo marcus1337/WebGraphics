@@ -69,19 +69,25 @@ void BoardButton::makeButton() {
 
 void BoardButton::onPress() {
     std::cout << "Tile button (" << row << "," << col << ")\n";
-    button->setActive(false);
     ticTacToe.setTile(row, col);
+    setMarkedVisuals();
+}
+
+void BoardButton::update() {
+    if (button->isActive() && ticTacToe.getTile(row, col) != Tile::EMPTY)
+        setMarkedVisuals();
+    if (ticTacToe.isGameOver())
+        return;
+    button->update();
+}
+
+void BoardButton::setMarkedVisuals() {
     Tile tile = ticTacToe.getTile(row, col);
+    button->setActive(false);
     if (tile == Tile::CROSS)
         setCrossVisuals();
     if (tile == Tile::CIRCLE)
         setCircleVisuals();
-}
-
-void BoardButton::update() {
-    if (ticTacToe.isGameOver())
-        return;
-    button->update();
 }
 
 void BoardButton::render() {

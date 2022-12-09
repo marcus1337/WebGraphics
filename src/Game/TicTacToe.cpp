@@ -13,6 +13,13 @@ int TicTacToe::getTurn() {
     return board.getNumOccupiedTiles();
 }
 
+Tile TicTacToe::getTurnMark() {
+    if (getTurn() % 2 != 0)
+        return Tile::CROSS;
+    else
+        return Tile::CIRCLE;
+}
+
 bool TicTacToe::isDraw() {
     return getTurn() == 9 && getWinner() == Tile::EMPTY;
 }
@@ -39,10 +46,6 @@ Tile TicTacToe::getTile(int row, int col) {
 }
 
 void TicTacToe::setTile(int row, int col) {
-    Tile tile = Tile::CIRCLE;
-    if (getTurn() % 2 != 0)
-        tile = Tile::CROSS;
-    board.setTile(row, col, tile);
+    board.setTile(row, col, getTurnMark());
 }
-
 

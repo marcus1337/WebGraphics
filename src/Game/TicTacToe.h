@@ -14,6 +14,7 @@ public:
     TicTacToe();
     void reset();
     int getTurn();
+    Tile getTurnMark();
 
     bool isDraw();
     Tile getWinner();

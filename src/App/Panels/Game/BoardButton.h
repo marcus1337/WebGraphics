@@ -17,6 +17,7 @@ class BoardButton {
     void setCircleVisuals();
     void setCrossVisuals();
     void makeButton();
+    void setMarkedVisuals();
 
 public:
 

@@ -41,11 +41,33 @@ void GamePanel::setBoardButtons() {
     }
 }
 
-void GamePanel::update() {
-    for (auto& buttonPtr : boardButtons) {
-        buttonPtr->update();
+void GamePanel::updateGame() {
+    if (isPlayerTurn()) {
+        for (auto& buttonPtr : boardButtons) {
+            buttonPtr->update();
+        }
     }
+    else {
+        handleAIMove();
+    }
+}
+
+void GamePanel::update() {
+    if(!ticTacToe.isGameOver())
+        updateGame();
     resetButton->update();
+}
+
+bool GamePanel::isPlayerTurn() {
+    return ticTacToe.getTurnMark() == Tile::CIRCLE;
+}
+
+void GamePanel::handleAIMove() {
+    aiDelayCounter++;
+    if (aiDelayCounter > 20) {
+        ai.placeMark(ticTacToe);
+        aiDelayCounter = 0;
+    }
 }
 
 void GamePanel::render() {
