@@ -1,7 +1,6 @@
 #include <Engine/Engine.h>
 #include <stack>
 #include <string>
-#include <UI/Script/UIScript.h>
 #include <functional>
 #include "PanelContext.h"
 
@@ -9,7 +8,7 @@
 #define PANEL_H
 
 enum class PanelType {
-    NONE = 0, SETTINGS, INSTRUCTIONS, GAME, MAIN_MENU
+    NONE = 0, GAME
 };
 
 class Panel {
@@ -17,7 +16,6 @@ private:
     PanelType childPanel = PanelType::NONE;
     bool done = false;
 protected:
-    UIScript uiScript;
     Engine& engine;
     Graphics& graphics;
     PanelContext& panelContext;
@@ -27,8 +25,6 @@ public:
     virtual ~Panel() = default;
     virtual void update();
     virtual void render();
-    void updateUI();
-    void renderUI();
     virtual void onEnter();
     PanelType getChildPanel();
     void setChildPanel(PanelType panelType);

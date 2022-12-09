@@ -7,7 +7,6 @@
 
 #include "Panels/PanelHandler.h"
 #include <stack>
-#include "ShaderUpdater.h"
 
 #ifndef APP_H
 #define APP_H
@@ -17,7 +16,6 @@ class App
     UpdateTimer updateTimer;
     Engine engine;
     PanelHandler panelHandler;
-    ShaderUpdater shaderUpdater;
     void render();
 
 public:

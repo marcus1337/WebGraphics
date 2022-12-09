@@ -41,7 +41,7 @@ void Button::setPosition(int _x, int _y) {
 }
 
 void Button::onRelease() {
-    if (pressed && isHovered() && onPressCallback)
+    if (isActive() && pressed && isHovered() && onPressCallback)
         onPressCallback();
     pressed = false;
 }

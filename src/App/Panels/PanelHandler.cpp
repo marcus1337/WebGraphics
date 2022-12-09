@@ -1,7 +1,7 @@
 #include "PanelHandler.h"
 
 PanelHandler::PanelHandler(Engine& _engine) : engine(_engine), panelFactory(_engine) {
-    panels.push(panelFactory.getNewPanel(PanelType::MAIN_MENU));
+    panels.push(panelFactory.getNewPanel(PanelType::GAME));
     panels.top()->onEnter();
 }
 
@@ -15,13 +15,11 @@ PanelHandler::~PanelHandler() {
 
 void PanelHandler::update() {
     panels.top()->update();
-    panels.top()->updateUI();
     changePanel();
 }
 
 void PanelHandler::render() {
     panels.top()->render();
-    panels.top()->renderUI();
 }
 
 void PanelHandler::changePanel() {

@@ -17,18 +17,23 @@ int UIElement::getHeight() {
     return height;
 }
 
-void UIElement::setActive() {
-
+void UIElement::setActive(bool _active) {
+    active = _active;
 }
-void UIElement::setInactive() {
 
+bool UIElement::isActive() {
+    return active;
 }
 
 bool UIElement::isPressed() {
+    if (!isActive())
+        return false;
     return pressed;
 }
 
 bool UIElement::isHovered() {
+    if (!isActive())
+        return false;
     auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
     int mouseX = std::get<0>(mousePos);
     int mouseY = std::get<1>(mousePos);

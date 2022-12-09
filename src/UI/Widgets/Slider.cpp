@@ -87,12 +87,12 @@ void Slider::setBackgroundAlpha(float _alpha) {
     backgroundAlpha = _alpha;
 }
 
-void Slider::setActive() {
-    active = true;
-    view.setAlpha(1.0f);
+void Slider::setActive(bool _active) {
+    active = _active;
+    if(active)
+        view.setAlpha(1.0f);
+    else
+        view.setAlpha(0.7f);
 }
 
-void Slider::setInactive() {
-    active = false;
-    view.setAlpha(0.7f);
-}
+

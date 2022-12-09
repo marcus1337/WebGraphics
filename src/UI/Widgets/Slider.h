@@ -33,8 +33,7 @@ public:
     void setMarkedLineColor(glm::vec3 _color);
     void setBackgroundColor(glm::vec3 _color);
     void setBackgroundAlpha(float _alpha);
-    virtual void setActive() override;
-    virtual void setInactive() override;
+    virtual void setActive(bool _active) override;
     
 };
 

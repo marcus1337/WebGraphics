@@ -1,10 +1,4 @@
-add_library(ui "Script/UIScript.h" "Script/UIScript.cpp" 
-"Script/UIScriptTypes.h" "Script/UIScriptTypes.cpp" 
-"Script/UIScriptMethods.h" "Script/UIScriptMethods.cpp" 
-"Script/UIHelperScripts.h" "Script/UIHelperScripts.cpp"
-"Script/UITypes.h" "Script/UITypes.cpp" 
-"Script/DrawableTypes.h" "Script/DrawableTypes.cpp"
-
+add_library(ui   
 "Widgets/Button.h" "Widgets/Button.cpp" 
 "Widgets/Slider.h" "Widgets/Slider.cpp" 
 "Widgets/UIElement.h" "Widgets/UIElement.cpp"

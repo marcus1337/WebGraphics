@@ -2,7 +2,7 @@
 #include "App.h"
 #include <iostream>
 
-App::App() : shaderUpdater(engine), panelHandler(engine) {
+App::App() : panelHandler(engine) {
 }
 
 
@@ -27,7 +27,6 @@ void App::loopStep() {
     if (updateTimer.isLogicUpdate()) {
         panelHandler.update();
         engine.window.pollEvents();
-        shaderUpdater.update();
     }
 #ifndef EMSCRIPTEN 
     if (updateTimer.isRenderUpdate())

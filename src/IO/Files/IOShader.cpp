@@ -115,8 +115,6 @@ std::vector<ShaderData> IOShader::getShaderDataArray()
             shaderData.shaders.push_back(getShaderCode(fileName));
         shaderDataArray.push_back(shaderData);
     }
-    for (auto& shaderData : shaderDataArray)
-        std::cout << "Shader name: " << shaderData.name << "\n";
     return shaderDataArray;
 }
 

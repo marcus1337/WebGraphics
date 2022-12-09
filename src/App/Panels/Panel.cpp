@@ -1,20 +1,9 @@
 #include "App/Panels/Panel.h"
 #include <assert.h>
 
-Panel::Panel(Engine &_engine, std::string uiScriptName, PanelContext& _panelContext) : engine(_engine), graphics(_engine.graphics), uiScript(uiScriptName, _engine), panelContext(_panelContext)
+Panel::Panel(Engine &_engine, std::string uiScriptName, PanelContext& _panelContext) : engine(_engine), graphics(_engine.graphics), panelContext(_panelContext)
 {
-    uiScript.addMethod("onQuit", [panel = this]() {panel->onQuit(); });
-    uiScript.addMethod("onCancel", [panel = this]() {panel->onCancel(); });
 
-    uiScript.addMethod("onSettings", [&]() {
-        setChildPanel(PanelType::SETTINGS);
-        });
-    uiScript.addMethod("onGame", [&]() {
-        setChildPanel(PanelType::GAME);
-        });
-    uiScript.addMethod("onInstructions", [&]() {
-        setChildPanel(PanelType::INSTRUCTIONS);
-        });
 }
 
 void Panel::onEnter()
@@ -42,14 +31,6 @@ void Panel::onQuit() {
 #ifndef EMSCRIPTEN
     exit(0);
 #endif // !EMSCRIPTEN
-}
-
-void Panel::updateUI() {
-    uiScript.update();
-}
-
-void Panel::renderUI() {
-    uiScript.render();
 }
 
 void Panel::update() {

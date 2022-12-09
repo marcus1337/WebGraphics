@@ -35,6 +35,7 @@ void ImageShader::setNormal(GLuint _textureID)
 void ImageShader::setTexture(std::string textureName) {
     setTexture(iotexture.getTexture(textureName));
 }
+
 void ImageShader::setNormal(std::string normalName) {
     setNormal(iotexture.getTexture(normalName));
 }
