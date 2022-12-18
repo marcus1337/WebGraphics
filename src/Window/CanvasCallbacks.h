@@ -2,8 +2,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
-#include "IO/Controller/Mouse.h"
-#include "IO/Controller/Keyboard.h"
+#include "InputDevices/Mouse.h"
+#include "InputDevices/Keyboard.h"
 #include <functional>
 #include "CanvasSettings.h"
 

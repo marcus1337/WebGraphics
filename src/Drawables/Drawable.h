@@ -1,5 +1,4 @@
 #include <functional>
-#include "IO/Controller/Mouse.h"
 #include <Graphics/Graphics.h>
 #include <Engine/Engine.h>
 #include <Graphics/Shaders/Shader.h>
@@ -14,7 +13,6 @@ class Drawable {
 protected:
     Engine& engine;
     Graphics& graphics;
-    Mouse& mouse;
 
 public:
     Drawable(Engine& _engine, Shader& _shader);

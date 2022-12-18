@@ -17,7 +17,7 @@ void View::paint(Drawable& drawable) {
     drawable.setViewProjectionMatrix(pixelWidth, pixelHeight);
     drawable.render();
     engine.graphics.useMainView();
-    drawable.setViewProjectionMatrix(graphics.getScreenWidth(), graphics.getScrenHeight());
+    drawable.setViewProjectionMatrix(graphics.getMainViewWidth(), graphics.getMainViewHeight());
 }
 
 void View::render() {

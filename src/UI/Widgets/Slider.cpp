@@ -39,7 +39,7 @@ void Slider::update() {
         return;
 
     if (onValueChangeCallback && pressed && mouse.deltaX != 0.0) {
-        auto mousePos = engine.graphics.getMousePixelPosition();
+        auto mousePos = engine.graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
         value = ((float)std::get<0>(mousePos) - (float)view.getX())/(float)view.getWidth();
         value = std::clamp<float>(value, 0.0f, 1.0f);
         onValueChangeCallback(value);

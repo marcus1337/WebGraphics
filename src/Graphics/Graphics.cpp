@@ -39,13 +39,6 @@ void Graphics::display() {
     window.display();
 }
 
-int Graphics::getScreenWidth() {
-    return mainView.width;
-}
-int Graphics::getScrenHeight() {
-    return mainView.height;
-}
-
 int Graphics::getMainViewWidth() { //Aspect ratio 16:9
     const int maxViewWidth = 1920;
     const int maxViewHeight = 1080;
@@ -68,18 +61,20 @@ int Graphics::getMainViewHeight() { //Aspect ratio 16:9
     return (int)((getMainViewWidth() / 16.0f) * 9.0f);
 }
 
+int Graphics::getMainViewXPosition() {
+    return (int)((window.getWidth() - getMainViewWidth()) / 2.0f);
+}
+int Graphics::getMainViewYPosition() {
+    return (int)((window.getHeight() - getMainViewHeight()) / 2.0f);
+}
+
 void Graphics::drawMainView() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(outerBackgroundColor.r, outerBackgroundColor.g, outerBackgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    int frameWidth = getMainViewWidth();
-    int frameHeight = getMainViewHeight();
-    float frameXPos = (float)(window.getWidth() - frameWidth) / 2.0f;
-    float frameYPos = (float)(window.getHeight() - frameHeight) / 2.0f;
-
-    mainView.shader.setPosition(frameXPos, frameYPos);
-    mainView.shader.setScale(frameWidth, frameHeight);
+    mainView.shader.setPosition(getMainViewXPosition(), getMainViewYPosition());
+    mainView.shader.setScale(getMainViewWidth(), getMainViewHeight());
     glViewport(0, 0, window.getWidth(), window.getHeight());
     mainView.shader.setViewProjectionMatrix(window.getWidth(), window.getHeight());
     imageObject.draw(mainView.shader);
@@ -95,6 +90,3 @@ std::pair<int, int> Graphics::getPixelPosition(int _x, int _y) {
     return std::make_pair((int)(relX * mainView.width), (int)(relY * mainView.height));
 }
 
-std::pair<int, int> Graphics::getMousePixelPosition() {
-    return getPixelPosition(window.mouse.x, window.mouse.y);
-}

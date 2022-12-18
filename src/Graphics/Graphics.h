@@ -34,9 +34,6 @@ private:
     FrameBuffer mainView;
     void setGLSettings();
 
-    int getMainViewWidth();
-    int getMainViewHeight();
-
 public:
     ImageObject imageObject;
     TextObject textObject;
@@ -45,13 +42,16 @@ public:
     Graphics(Canvas& _window);
     ~Graphics();
 
-    int getScreenWidth();
-    int getScrenHeight();
+    int getMainViewXPosition();
+    int getMainViewYPosition();
+    int getMainViewWidth();
+    int getMainViewHeight();
+
     void useMainView();
     void clearView();
     void display();
     std::pair<int, int> getPixelPosition(int _x, int _y);
-    std::pair<int, int> getMousePixelPosition();
+
 };
 
 #endif // !GRAPHICS_H
