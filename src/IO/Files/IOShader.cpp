@@ -102,32 +102,32 @@ void IOShader::removeExtension(std::string &fileName)
     fileName.erase(fileName.find(tmpExtension), tmpExtension.size());
 }
 
-std::vector<ShaderData> IOShader::getShaderDataArray()
+std::vector<ShaderCodeSet> IOShader::getShaderCodeSets()
 {
-    std::vector<ShaderData> shaderDataArray;
+    std::vector<ShaderCodeSet> _shaderCodeSets;
     std::vector<std::vector<std::string>> shaderGroups = getShaderFilenames();
     for (const auto &group : shaderGroups)
     {
-        ShaderData shaderData;
+        ShaderCodeSet shaderData;
         shaderData.name = group[0];
         removeExtension(shaderData.name);
         for (const std::string &fileName : group)
             shaderData.shaders.push_back(getShaderCode(fileName));
-        shaderDataArray.push_back(shaderData);
+        _shaderCodeSets.push_back(shaderData);
     }
-    return shaderDataArray;
+    return _shaderCodeSets;
 }
 
-ShaderData IOShader::getShaderData(std::string name) {
-    for (auto& shaderData : shaderDataArray) {
+ShaderCodeSet IOShader::getShaderCodeSet(std::string name) {
+    for (auto& shaderData : shaderCodeSets) {
         if (shaderData.name == name)
             return shaderData;
     }
     std::cout << "Error: shader not found (" << name << ")\n";
-    return ShaderData();
+    return ShaderCodeSet();
 }
-bool IOShader::shaderDataExists(std::string name) {
-    for (auto& shaderData : shaderDataArray) {
+bool IOShader::shaderCodeSetExist(std::string name) {
+    for (auto& shaderData : shaderCodeSets) {
         if (shaderData.name == name)
             return true;
     }
@@ -135,5 +135,5 @@ bool IOShader::shaderDataExists(std::string name) {
 }
 
 void IOShader::loadData() {
-    shaderDataArray = getShaderDataArray();
+    shaderCodeSets = getShaderCodeSets();
 }

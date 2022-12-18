@@ -4,11 +4,20 @@
 #include <vector>
 #include <fstream>
 #include <tuple>
-#include "ShaderData.h"
 
 
 #ifndef IOSHADER_H
 #define IOSHADER_H
+
+struct ShaderCode {
+    std::string glslCode;
+    uint32_t shaderType;
+};
+
+struct ShaderCodeSet {
+    std::vector<ShaderCode> shaders;
+    std::string name;
+};
 
 
 class IOShader
@@ -26,16 +35,16 @@ private:
 
     void removeExtension(std::string& fileName);
 
+    std::vector<ShaderCodeSet> shaderCodeSets;
+
 public:
     std::vector<std::string> getShaderFilePaths();
-
     IOShader();
 
     void loadData();
-    std::vector<ShaderData> getShaderDataArray();
-    std::vector<ShaderData> shaderDataArray;
-    ShaderData getShaderData(std::string name);
-    bool shaderDataExists(std::string name);
+    std::vector<ShaderCodeSet> getShaderCodeSets();
+    ShaderCodeSet getShaderCodeSet(std::string name);
+    bool shaderCodeSetExist(std::string name);
 };
 
 #endif

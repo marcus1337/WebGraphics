@@ -65,7 +65,6 @@ GLuint ShaderCompiler::compileShader(const ShaderCode& shaderInfo)
 std::vector<GLuint> ShaderCompiler::compileShaders(std::vector<ShaderCode>& shaderInfos)
 {
     std::vector<GLuint> shaders;
-    shaders.reserve(shaderInfos.size());
     for (std::size_t i = 0; i < shaderInfos.size(); i++)
     {
         GLuint shader = compileShader(shaderInfos[i]);

@@ -53,11 +53,6 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_subdirectory(Game)
-list(APPEND EXTRA_LIB_DIRS "Game")
-list(APPEND EXTRA_INCLUDE_DIRS "Game")
-list(APPEND EXTRA_LINK_DIRS game)
-
 add_subdirectory(IO)
 list(APPEND EXTRA_LIB_DIRS "IO")
 list(APPEND EXTRA_INCLUDE_DIRS "IO")
@@ -92,6 +87,11 @@ add_subdirectory(UI)
 list(APPEND EXTRA_LIB_DIRS "UI")
 list(APPEND EXTRA_INCLUDE_DIRS "UI")
 list(APPEND EXTRA_LINK_DIRS ui)
+
+add_subdirectory(Game)
+list(APPEND EXTRA_LIB_DIRS "Game")
+list(APPEND EXTRA_INCLUDE_DIRS "Game")
+list(APPEND EXTRA_LINK_DIRS game)
 
 add_subdirectory(App)
 list(APPEND EXTRA_LIB_DIRS "App")

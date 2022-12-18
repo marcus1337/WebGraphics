@@ -4,7 +4,7 @@ add_library(io
 Files/IOShader.cpp Files/IOShader.h 
 Files/IOTexture.h Files/IOTexture.cpp 
 Files/IOFonts.h Files/IOFonts.cpp 
-Files/lodepng.cpp Files/lodepng.h Files/TextureData.h Files/ShaderData.h
+Files/lodepng.cpp Files/lodepng.h  
 Files/FolderPaths.h Files/FolderPaths.cpp 
 "Files/IOLogs.h" "Files/IOLogs.cpp"   "Files/IOBinary.h" "Files/IOBinary.cpp")
 

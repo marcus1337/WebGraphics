@@ -7,8 +7,6 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include <map>
-#include "IO/Files/TextureData.h"
-#include "IO/Files/ShaderData.h"
 #include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
 #include "ShaderCompiler.h"
@@ -19,9 +17,9 @@
 class ShaderPrograms {
     ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
-    GLuint makeProgram(ShaderData& shaders);
+    GLuint makeProgram(ShaderCodeSet& shaders);
     IOShader ioshader;
-    GLuint getProgram(ShaderData shaders);
+    GLuint getProgram(ShaderCodeSet shaders);
 
 public:
     ShaderPrograms();

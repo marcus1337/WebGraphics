@@ -12,10 +12,16 @@
 #include <tuple>
 
 #include "GLFW/glfw3.h"
-#include "TextureData.h"
 
 #ifndef IOTEXTURE_H
 #define IOTEXTURE_H
+
+struct TextureData {
+    std::vector<unsigned char> data;
+    unsigned width, height;
+    unsigned error;
+    std::string fileName;
+};
 
 class IOTexture
 {

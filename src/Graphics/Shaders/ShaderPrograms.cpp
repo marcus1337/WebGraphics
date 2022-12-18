@@ -16,7 +16,7 @@ void ShaderPrograms::reload() {
     ioshader.loadData();
 }
 
-GLuint ShaderPrograms::makeProgram(ShaderData& shaders)
+GLuint ShaderPrograms::makeProgram(ShaderCodeSet& shaders)
 {
     GLuint programID = 0;
     programID = shaderCompiler.loadShaderProgram(shaders.shaders);
@@ -26,7 +26,7 @@ GLuint ShaderPrograms::makeProgram(ShaderData& shaders)
 }
 
 
-GLuint ShaderPrograms::getProgram(ShaderData shaders)
+GLuint ShaderPrograms::getProgram(ShaderCodeSet shaders)
 {
     if (programs.contains(shaders.name))
         return programs[shaders.name];
@@ -34,7 +34,7 @@ GLuint ShaderPrograms::getProgram(ShaderData shaders)
 }
 
 GLuint ShaderPrograms::get(std::string name) {
-    if (!ioshader.shaderDataExists(name))
+    if (!ioshader.shaderCodeSetExist(name))
         std::cout << "Error: shader not found (" << name << ")\n";
-    return getProgram(ioshader.getShaderData(name));
+    return getProgram(ioshader.getShaderCodeSet(name));
 }

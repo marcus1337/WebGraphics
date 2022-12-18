@@ -7,7 +7,6 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include <map>
-#include "IO/Files/ShaderData.h"
 #include "IO/Files/IOShader.h"
 
 #ifndef SHADERCOMPILER_H
