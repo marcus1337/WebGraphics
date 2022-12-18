@@ -39,7 +39,7 @@ void Slider::update() {
         return;
 
     if (onValueChangeCallback && pressed && mouse.deltaX != 0.0) {
-        auto mousePos = engine.graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+        auto mousePos = engine.graphics.mainView.getMousePosition();
         value = ((float)std::get<0>(mousePos) - (float)view.getX())/(float)view.getWidth();
         value = std::clamp<float>(value, 0.0f, 1.0f);
         onValueChangeCallback(value);
@@ -60,7 +60,7 @@ float Slider::getValue() {
 }
 
 bool Slider::isPointerInside() {
-    auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+    auto mousePos = graphics.mainView.getMousePosition();
     int mouseX = std::get<0>(mousePos);
     int mouseY = std::get<1>(mousePos);
     return mouseX >= view.getX() && mouseX <= view.getX() + view.getWidth() && mouseY >= view.getY() && mouseY <= view.getY() + view.getHeight();

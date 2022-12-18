@@ -35,7 +35,7 @@ void App::loopStep() {
 }
 
 void App::render() {
-    engine.graphics.clearView();
+    engine.graphics.mainView.clear();
     panelHandler.render();
-    engine.graphics.display();
+    engine.graphics.mainView.display();
 }

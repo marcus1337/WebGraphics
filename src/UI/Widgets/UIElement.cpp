@@ -34,7 +34,7 @@ bool UIElement::isPressed() {
 bool UIElement::isHovered() {
     if (!isActive())
         return false;
-    auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+    auto mousePos = graphics.mainView.getMousePosition();
     int mouseX = std::get<0>(mousePos);
     int mouseY = std::get<1>(mousePos);
     return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();

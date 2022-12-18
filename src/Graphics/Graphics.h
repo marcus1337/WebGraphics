@@ -19,6 +19,8 @@
 #include <vector>
 #include <utility>
 
+#include "MainView.h"
+
 
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
@@ -31,26 +33,15 @@ public:
 private:
     Canvas& window;
     void drawMainView();
-    FrameBuffer mainView;
     void setGLSettings();
 
 public:
     ImageObject imageObject;
     TextObject textObject;
-    glm::vec3 outerBackgroundColor;
+    MainView mainView;
 
     Graphics(Canvas& _window);
     ~Graphics();
-
-    int getMainViewXPosition();
-    int getMainViewYPosition();
-    int getMainViewWidth();
-    int getMainViewHeight();
-
-    void useMainView();
-    void clearView();
-    void display();
-    std::pair<int, int> getPixelPosition(int _x, int _y);
 
 };
 

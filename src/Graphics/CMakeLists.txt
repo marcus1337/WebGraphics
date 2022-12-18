@@ -5,7 +5,7 @@ add_library(graphics "Graphics.h" "Graphics.cpp"
 "Shaders/TextShader.h" "Shaders/TextShader.cpp" "Objects/VertexObject.h" "Objects/VertexObject.cpp"
 "Shaders/ShaderCompiler.h" "Shaders/ShaderCompiler.cpp" 
 "Shaders/ShaderPrograms.h" "Shaders/ShaderPrograms.cpp" 
-)
+ "MainView.h" "MainView.cpp")
 
 set(FREETYPE_LIB "")
 if(UNIX)

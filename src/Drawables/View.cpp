@@ -16,8 +16,8 @@ void View::paint(Drawable& drawable) {
     frameBuffer.use();
     drawable.setViewProjectionMatrix(pixelWidth, pixelHeight);
     drawable.render();
-    engine.graphics.useMainView();
-    drawable.setViewProjectionMatrix(graphics.getMainViewWidth(), graphics.getMainViewHeight());
+    engine.graphics.mainView.use();
+    drawable.setViewProjectionMatrix(graphics.mainView.getWidth(), graphics.mainView.getHeight());
 }
 
 void View::render() {
@@ -41,14 +41,14 @@ void View::setPixel(int _x, int _y, glm::vec4 _color) {
     glClearColor(_color.x, _color.y, _color.z, _color.a);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_SCISSOR_TEST);
-    engine.graphics.useMainView();
+    engine.graphics.mainView.use();
 }
 
 glm::vec4 View::getPixel(int _x, int _y) {
     frameBuffer.use();
     glm::vec4 _color;
     glReadPixels(_x, _y, 1, 1, GL_RGBA, GL_FLOAT, &_color);
-    engine.graphics.useMainView();
+    engine.graphics.mainView.use();
     return _color;
 }
 
