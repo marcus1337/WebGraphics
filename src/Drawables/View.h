@@ -2,7 +2,7 @@
 #include "Graphics/FrameBuffer.h"
 #include <glm/glm.hpp>
 #include <string>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include "Drawable.h"
 
 #ifndef VIEW_H

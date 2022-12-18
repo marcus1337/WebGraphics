@@ -1,5 +1,5 @@
 #include <glm/glm.hpp>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Drawables/Drawable.h>
 
 

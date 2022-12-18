@@ -1,5 +1,5 @@
 #include <Engine/Engine.h>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Drawables/View.h>
 #include <Drawables/Image.h>
 #include <Drawables/Text.h>

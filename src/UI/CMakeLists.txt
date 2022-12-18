@@ -11,4 +11,4 @@ if(UNIX)
 	set(LINUX_EXTRA_LIBS "dl")
 endif()
 
-target_link_libraries(ui graphics drawables engine lua ${LINUX_EXTRA_LIBS} )
+target_link_libraries(ui graphics drawables engine ${LINUX_EXTRA_LIBS} )

@@ -1,5 +1,5 @@
 #include "Audio/Audio.h"
-#include "Graphics.h"
+#include "Graphics/Graphics.h"
 
 #ifndef ENGINE_H
 #define ENGINE_H

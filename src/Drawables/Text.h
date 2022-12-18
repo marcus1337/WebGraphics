@@ -1,6 +1,6 @@
 #include <glm/glm.hpp>
 #include <string>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Engine/Engine.h>
 #include <Drawables/Drawable.h>
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17.4)
 
-if(NOT EMSCRIPTEN AND WIN32)
-    set(VCPKG_PATH "C:/Users/Maccc/Documents/Coding/vcpkg/scripts/buildsystems")
+if(WIN32)
+    set(VCPKG_PATH "C:/Users/Maccc/Documents/Coding/vcpkg/scripts/buildsystems") # <----- insert your own path to "VCPKG" here.
     include("${VCPKG_PATH}/vcpkg.cmake")
 endif()
 
@@ -14,15 +14,9 @@ list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
 list(APPEND EXTRA_LINK_DIRS glm)
 
 if(EMSCRIPTEN)
-    message("COMPILING WITH EMSCRIPTEN")
-
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind --embed-file res -s ALLOW_MEMORY_GROWTH=1 -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument") #Debug-flags (causes problems for external users): -g -s SAFE_HEAP=1 -s STACK_OVERFLOW_CHECK=1
-    list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
-    list(APPEND EXTRA_LIB_DIRS "../external/lib/emscripten")
-    list(APPEND EXTRA_LINK_DIRS lua)
-    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
+    #--embed-file res
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind -s ALLOW_MEMORY_GROWTH=1 -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument") #Debug-flags (causes problems for external users): -g -s SAFE_HEAP=1 -s STACK_OVERFLOW_CHECK=1
 endif(EMSCRIPTEN)
-
 if(NOT EMSCRIPTEN)
     FIND_PACKAGE(SDL2 REQUIRED)
     list(APPEND EXTRA_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS})
@@ -47,14 +41,6 @@ if(NOT EMSCRIPTEN)
     list(APPEND EXTRA_LINK_DIRS ${GLUT_LIBRARIES})
 
     include_directories(${FREETYPE_INCLUDE_DIRS})
-    list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
-    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
-endif()
-
-if(WIN32)
-    find_package(LUA 5.4 REQUIRED)
-    list(APPEND EXTRA_INCLUDE_DIRS ${LUA_INCLUDE_DIRS})
-    list(APPEND EXTRA_LINK_DIRS ${LUA_LIBRARIES})
 endif()
 
 if(NOT EMSCRIPTEN AND UNIX)
@@ -62,12 +48,7 @@ if(NOT EMSCRIPTEN AND UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=unused-value -Wno-error=misleading-indentation -Wno-error=invalid-offsetof -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder -lstdc++fs -std=c++2a -lfreetype")
     set(CMAKE_CXX_FLAGS_DEBUG "-g")
     set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
-    include_directories (/usr/include/freetype2)
-
-    list(APPEND EXTRA_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/../external/include/LUA")
-    list(APPEND EXTRA_LIB_DIRS "../external/lib/linux")
-    list(APPEND EXTRA_LINK_DIRS lua)
-    include_directories("${PROJECT_SOURCE_DIR}/../external/include/LUA")
+    include_directories (/usr/include/freetype2) # <--- download freetype2 with a package manager
 endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
@@ -122,6 +103,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${EXTRA_INCLUDE_DIRS})
 target_link_directories(${PROJECT_NAME} PUBLIC ${EXTRA_LIB_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EXTRA_LINK_DIRS})
 
+
+####### vvvv these should be deleted once directory paths are inserted via code or arguments vvvvv
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
 if(WIN32)
     add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../res $<TARGET_FILE_DIR:${PROJECT_NAME}>/../res)

@@ -1,6 +1,6 @@
 #include <functional>
 #include "IO/Controller/Mouse.h"
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Engine/Engine.h>
 #include <Graphics/Shaders/Shader.h>
 #include <Graphics/Shaders/ImageShader.h>
