@@ -63,14 +63,6 @@ std::string FolderPaths::getLogsPath() {
 #endif
 }
 
-std::string FolderPaths::getScriptsPath(){
-#ifdef EMSCRIPTEN
-    return "./res/scripts/";
-#else
-    return std::filesystem::current_path().string() + "//res//scripts//";
-#endif
-}
-
 std::string FolderPaths::getAudioPath() {
 #ifdef EMSCRIPTEN
     return "./res/audio/";
