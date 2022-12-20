@@ -28,7 +28,7 @@ void GamePanel::makeResetButton() {
 }
 
 void GamePanel::makeBackgroundImage() {
-    backgroundImage = std::make_unique<Image>(engine, "background1.png");
+    backgroundImage = std::make_unique<Image>(engine, "background1");
     backgroundImage->setSize(1920, 1080);
     backgroundImage->setShaderProgram("gameBackground");
 }

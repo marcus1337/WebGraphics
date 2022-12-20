@@ -36,6 +36,7 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
     auto fontFilePaths = filePathContainer.getFilePaths(FileType::TTF);
     auto fontFileNames = filePathContainer.getFileNames(FileType::TTF);
     ioContainer.ioFonts.loadFonts(fontFilePaths, fontFileNames);
+    ioContainer.ioFonts.print();
 
     auto shaderFilePaths = filePathContainer.getFilePaths(FileType::SHADER);
     auto shaderFileNames = filePathContainer.getFileNames(FileType::SHADER);

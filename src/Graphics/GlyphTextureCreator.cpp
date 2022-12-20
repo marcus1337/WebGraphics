@@ -2,11 +2,6 @@
 #include <iostream>
 
 GlyphTextureCreator::GlyphTextureCreator(IOFonts& _ioFonts) : ioFonts(_ioFonts) {
-    std::cout << "GlyphTextureCreator() " << ioFonts.fonts.size() << "\n\n" << std::endl;
-    for (auto keyValue : ioFonts.fonts) {
-        std::cout << "FONT NAME: " << std::get<0>(keyValue) << std::endl;
-    }
-
     createAndAddTextures(60);
 }
 GlyphTextureCreator::~GlyphTextureCreator() {

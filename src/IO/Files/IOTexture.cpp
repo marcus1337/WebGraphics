@@ -32,7 +32,7 @@ void IOTexture::loadTextures(std::vector<std::string> textureFilePaths, std::vec
         std::string textureName = textureNames[i];
         TextureData textureData = getTextureData(textureFilePath, textureName);
 
-        std::cout << "loadTexture " << textureName << " [" << textureFilePath << "]\n";
+        std::cout << "Texture [" << textureName << "] [" << textureFilePath << "] \n";
         makeTexture(textureData);
     }
 }

@@ -27,6 +27,8 @@ private:
     std::array<std::array<float, 4>, 6> getGlyphVertices(float _x, float _y, float _w, float _h);
     std::array<std::array<float, 4>, 6> getGlyphVertices(float& _xOffset, Character ch);
 
+    void setDefaultFont(IOFonts& _ioFonts);
+
 public:
     void setFont(std::string _font);
     void setText(std::string text);

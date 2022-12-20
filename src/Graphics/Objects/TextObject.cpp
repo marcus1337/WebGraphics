@@ -9,7 +9,7 @@
 
 TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
 {
-    setFont("Roboto-Regular");
+    setDefaultFont(_ioFonts);
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -20,6 +20,16 @@ TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void TextObject::setDefaultFont(IOFonts& _ioFonts) {
+    if (_ioFonts.fonts.empty()) {
+        std::cerr << "No fonts loaded! Exiting program... \n";
+        exit(EXIT_FAILURE);
+    }
+    std::string defaultFont = _ioFonts.fonts.begin()->first;
+    std::cout << "Setting default font to: [" << defaultFont << "] \n";
+    setFont(defaultFont);
 }
 
 void TextObject::setTextPixelHeight(unsigned int _pixelHeight) {
@@ -65,7 +75,7 @@ void TextObject::setCharVertices(float& _xOffset, Character ch)
 
 void TextObject::setFont(std::string _font) {
     if (!glyphTextureCreator.fontExists(_font)) {
-        std::cout << "Error: font not found\n";
+        std::cerr << "Error: font [" <<  _font <<"] not found\n";
         return;
     }
     font = _font;

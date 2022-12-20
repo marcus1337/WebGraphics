@@ -7,7 +7,6 @@ endif()
 
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
-add_executable(${PROJECT_NAME} "main.cpp")
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/../external/glm" "${CMAKE_CURRENT_BINARY_DIR}/external/glm")
 list(APPEND EXTRA_INCLUDE_DIRS "external/glm")
@@ -99,6 +98,8 @@ list(APPEND EXTRA_INCLUDE_DIRS "App")
 list(APPEND EXTRA_LINK_DIRS app)
 
 
+
+add_executable(${PROJECT_NAME} "main.cpp")
 target_include_directories(${PROJECT_NAME} PUBLIC ${EXTRA_INCLUDE_DIRS})
 target_link_directories(${PROJECT_NAME} PUBLIC ${EXTRA_LIB_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EXTRA_LINK_DIRS})

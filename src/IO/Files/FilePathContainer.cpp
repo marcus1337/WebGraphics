@@ -7,7 +7,7 @@ void FilePathContainer::addFolderPath(std::string folderPath) {
     std::filesystem::directory_iterator iterator(folderPath);
     for (const auto& entry : iterator) {
         if (entry.is_regular_file()) {
-            std::cout << "Adding path [" << entry.path().string() << "]\n";
+            std::cout << "Adding path [" << entry.path().string() << "] \n";
             filePaths.push_back(FilePath(entry.path().string()));
         }
     }

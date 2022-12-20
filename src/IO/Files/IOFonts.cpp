@@ -38,3 +38,11 @@ IOFonts::~IOFonts()
     }
     FT_Done_FreeType(ft);
 }
+
+void IOFonts::print() {
+    std::cout << "Num fonts: " << fonts.size() << std::endl;
+    std::cout << "Loaded fonts: \n";
+    for (auto keyValue : fonts) {
+        std::cout << std::get<0>(keyValue) << std::endl;
+    }
+}
