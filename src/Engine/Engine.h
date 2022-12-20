@@ -9,8 +9,10 @@
 class Engine {
 
     void loadResourceFiles(std::vector<std::string> resourceFolderPaths);
+    void loadAudioResourceFiles();
     bool areResourcesLoaded();
     void printResourceLoadError();
+    void setIconImage();
 
 public:
     Canvas window;

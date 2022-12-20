@@ -40,15 +40,29 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
     auto shaderFilePaths = filePathContainer.getFilePaths(FileType::SHADER);
     auto shaderFileNames = filePathContainer.getFileNames(FileType::SHADER);
     auto shaderFileExtensions = filePathContainer.getFileExtensions(FileType::SHADER);
-    
     ioContainer.ioShader.loadShaderCode(shaderFilePaths, shaderFileNames, shaderFileExtensions);
 
-    auto iconImageFilePath = filePathContainer.getFilePath("icon256x256", FileType::PNG);
-    ioContainer.ioTexture.loadIconImage(iconImageFilePath);
-    window.setIconImage(ioContainer.ioTexture.iconImage);
+    setIconImage();
+
     auto textureFilePaths = filePathContainer.getFilePaths(FileType::PNG);
     auto textureFileNames = filePathContainer.getFileNames(FileType::PNG);
     ioContainer.ioTexture.loadTextures(textureFilePaths, textureFileNames);
+
+    loadAudioResourceFiles();
+}
+
+void Engine::loadAudioResourceFiles() {
+    auto soundFilePaths = ioContainer.filePathContainer.getFilePaths(FileType::WAV);
+    auto soundFileNames = ioContainer.filePathContainer.getFileNames(FileType::WAV);
+    audio.loadSounds(soundFilePaths, soundFileNames);
+}
+
+void Engine::setIconImage() {
+    auto iconImageFilePath = ioContainer.filePathContainer.getFilePath("icon256x256", FileType::PNG);
+    if (!iconImageFilePath.empty()) {
+        ioContainer.ioTexture.loadIconImage(iconImageFilePath);
+        window.setIconImage(ioContainer.ioTexture.iconImage);
+    }
 }
 
 Engine::~Engine() {
