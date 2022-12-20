@@ -33,7 +33,7 @@ public:
     virtual void draw(Shader& shader) override;
     void setTextPixelHeight(unsigned int _pixelHeight);
     ~TextObject();
-    TextObject();
+    TextObject(IOFonts& _ioFonts);
     int getTextWidth(std::string _text, int _pixelHeight, std::string _font);
 };
 

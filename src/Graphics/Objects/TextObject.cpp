@@ -7,7 +7,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-TextObject::TextObject()
+TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
 {
     setFont("Roboto-Regular");
 

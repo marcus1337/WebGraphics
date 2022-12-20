@@ -21,7 +21,6 @@
 #endif
 
 int main(int argc, char *argv[]){
-
     #ifdef EMSCRIPTEN
         emscripten_set_main_loop(loopStep, 0, 1);
     #else

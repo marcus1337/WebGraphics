@@ -12,7 +12,7 @@ class IOLogs {
 public:
 
     IOLogs();
-    void redirectCoutToFile();
+    void redirectCout(std::string logsFilePath, std::string errorLogsFilePath);
 
 };
 

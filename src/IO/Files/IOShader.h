@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <tuple>
+#include <set>
 
 
 #ifndef IOSHADER_H
@@ -12,6 +13,7 @@
 struct ShaderCode {
     std::string glslCode;
     uint32_t shaderType;
+    std::string name;
 };
 
 struct ShaderCodeSet {
@@ -23,28 +25,23 @@ struct ShaderCodeSet {
 class IOShader
 {
 private:
-    std::vector<std::vector<std::string>> getShaderFilenames();
-    ShaderCode getShaderCode(const std::string& filename);
-    std::string readShaderSource(const std::string& fileName);
-
-    std::string getFileExtension(const std::string& fileName);
+    ShaderCode getShaderCode(std::string shaderFilePath, std::string shaderFileExtension);
+    std::string readShaderSource(const std::string& shaderFilePath);
     bool isShaderFile(const std::string& fileName);
     bool isFragmentShaderExtension(const std::string& extension);
     bool isVertexShaderExtension(const std::string& extension);
     uint32_t getShaderValue(const std::string& extension);
 
-    void removeExtension(std::string& fileName);
-
-    std::vector<ShaderCodeSet> shaderCodeSets;
+    std::vector<ShaderCode> shaderCodes;
+    void loadShaderCodeSets();
+    std::set<std::string> getShaderCodeNames();
+    ShaderCodeSet getShaderCodeSet(std::string shaderName);
 
 public:
-    std::vector<std::string> getShaderFilePaths();
     IOShader();
+    void loadShaderCode(std::vector<std::string> shaderFilePaths, std::vector<std::string> shaderNames, std::vector<std::string> shaderFileExtensions);    
+    std::vector<ShaderCodeSet> shaderCodeSets;
 
-    void loadData();
-    std::vector<ShaderCodeSet> getShaderCodeSets();
-    ShaderCodeSet getShaderCodeSet(std::string name);
-    bool shaderCodeSetExist(std::string name);
 };
 
 #endif

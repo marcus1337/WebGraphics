@@ -54,6 +54,9 @@ void Button::setText(Text& _text){
 
 void Button::paintImage() {
     view.clear();
+    if (imageName.empty())
+        return;
+
     Image img(engine, imageName);
     img.setSize(view.getWidth(), view.getHeight());
     view.paint(img);

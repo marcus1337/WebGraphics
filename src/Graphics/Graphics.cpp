@@ -2,9 +2,10 @@
 #include <algorithm>
 #include <iostream>
 
-Graphics::Graphics(Canvas& _window) : window(_window), mainView(_window, imageObject, shaderPrograms, iotexture)
+Graphics::Graphics(Canvas& _window, IOShader& _ioShader, IOTexture& _ioTexture, IOFonts& _ioFonts) : window(_window), mainView(_window, imageObject, shaderPrograms, _ioTexture), ioTexture(_ioTexture), ioFonts(_ioFonts), textObject(_ioFonts)
 {
     setGLSettings();
+    shaderPrograms.load(_ioShader.shaderCodeSets);
 }
 
 void Graphics::setGLSettings() {

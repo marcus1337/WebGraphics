@@ -13,6 +13,7 @@ GamePanel::GamePanel(Engine& _engine, PanelContext& _panelContext) : Panel(_engi
 
 void GamePanel::makeResetButton() {
     resetButton = std::make_unique<Button>(engine, 300, 100);
+    resetButton->setImage("button1");
     resetButton->setPosition(1250, 700);
     Text resetText(engine);
     resetText.setText("RESET");

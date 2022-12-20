@@ -17,15 +17,13 @@
 class ShaderPrograms {
     ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
-    GLuint makeProgram(ShaderCodeSet& shaders);
-    IOShader ioshader;
-    GLuint getProgram(ShaderCodeSet shaders);
+    void makeProgram(ShaderCodeSet& shaderCodeSet);
+    void deletePrograms();
 
 public:
     ShaderPrograms();
     ~ShaderPrograms();
-
-    void reload();
+    void load(std::vector<ShaderCodeSet> shaderCodeSets);
     GLuint get(std::string name);
 };
 

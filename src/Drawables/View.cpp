@@ -2,7 +2,7 @@
 #include "Rect.h"
 
 View::View(Engine& _engine, int _pixelWidth, int _pixelHeight) : Drawable(_engine, frameBuffer.shader),
-frameBuffer(engine.graphics.shaderPrograms, engine.graphics.iotexture, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
+frameBuffer(engine.graphics->shaderPrograms, engine.ioContainer.ioTexture, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
 }
 
 View::~View() {
@@ -16,7 +16,7 @@ void View::paint(Drawable& drawable) {
     frameBuffer.use();
     drawable.setViewProjectionMatrix(pixelWidth, pixelHeight);
     drawable.render();
-    engine.graphics.mainView.use();
+    engine.graphics->mainView.use();
     drawable.setViewProjectionMatrix(graphics.mainView.getWidth(), graphics.mainView.getHeight());
 }
 
@@ -41,14 +41,14 @@ void View::setPixel(int _x, int _y, glm::vec4 _color) {
     glClearColor(_color.x, _color.y, _color.z, _color.a);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_SCISSOR_TEST);
-    engine.graphics.mainView.use();
+    engine.graphics->mainView.use();
 }
 
 glm::vec4 View::getPixel(int _x, int _y) {
     frameBuffer.use();
     glm::vec4 _color;
     glReadPixels(_x, _y, 1, 1, GL_RGBA, GL_FLOAT, &_color);
-    engine.graphics.mainView.use();
+    engine.graphics->mainView.use();
     return _color;
 }
 

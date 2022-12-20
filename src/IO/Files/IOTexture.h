@@ -19,28 +19,26 @@
 struct TextureData {
     std::vector<unsigned char> data;
     unsigned width, height;
-    unsigned error;
-    std::string fileName;
+    std::string name;
 };
 
 class IOTexture
 {
-    std::vector<std::string> getAllTextureNames();
-    std::vector<TextureData> textureInfos;
-    std::map<std::string, GLuint> textures;
-    GLuint makeTexture(TextureData& textureData);
-    GLuint getTexture(TextureData& textureData);
+    std::vector<TextureData> textureDataVec;
+    std::map<std::string, GLuint> loadedTextureHandles;
+    void makeTexture(TextureData& textureData);
 
-    TextureData getTextureData(const std::string& fileName);
+    TextureData getTextureData(std::string textureFilePath, std::string textureName);
     GLuint load2DTexture(const TextureData& textureData);
+    void deleteTextures();
 
 public:
     IOTexture();
     ~IOTexture();
-    GLFWimage loadIconImage(const std::string& fileName);
-
-    void preloadTextures();
+    void loadTextures(std::vector<std::string> textureFilePaths, std::vector<std::string> textureNames);
+    void loadIconImage(std::string filePath);
     GLuint getTexture(std::string name);
+    GLFWimage iconImage;
 };
 
 #endif

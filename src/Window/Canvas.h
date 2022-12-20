@@ -19,7 +19,6 @@ class Canvas {
 
     bool initGLFW();
     GLFWwindow* window;
-    void setIconImage();
     CanvasCallbacks canvasCallbacks;
     CanvasSettings canvasSettings;
 
@@ -38,6 +37,8 @@ public:
 
     void setFullScreen(bool _fullScreen);
     bool isFullScreen();
+
+    void setIconImage(GLFWimage& image);
 };
 
 #endif

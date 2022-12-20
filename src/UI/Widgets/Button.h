@@ -12,7 +12,7 @@
 class Button : public UIElement {
     View view;
     void onRelease();
-    std::string imageName = "button1.png";
+    std::string imageName = "";
     void paintImage();
 
 public:

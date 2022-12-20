@@ -1,5 +1,5 @@
 #include "FilePath.h"
-
+#include <iostream>
 
 FilePath::FilePath(std::string _path) : path(_path) {
 
@@ -9,6 +9,7 @@ FileType FilePath::getType() {
     std::string extension = getExtension();
     if (extensionMap.contains(extension))
         return extensionMap[extension];
+    std::cout << "Unknown extension [" << extension << "], Name [" << getName() << "], Path [" << getPath() << "]\n";
     return FileType::UNKNOWN;
 }
 
@@ -25,7 +26,7 @@ std::string FilePath::getName() {
     size_t slashIndex = name.find_last_of("/\\");
     if (slashIndex != std::string::npos)
         name = name.substr(slashIndex + 1);
-    name = name.substr(name.length() - getExtension().length());
+    name = name.substr(0, name.length() - getExtension().length());
     return name;
 }
 

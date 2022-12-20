@@ -28,7 +28,8 @@
 class Graphics {
 public:
     ShaderPrograms shaderPrograms;
-    IOTexture iotexture;
+    IOTexture& ioTexture;
+    IOFonts& ioFonts;
 
 private:
     Canvas& window;
@@ -40,7 +41,7 @@ public:
     TextObject textObject;
     MainView mainView;
 
-    Graphics(Canvas& _window);
+    Graphics(Canvas& _window, IOShader& _ioShader, IOTexture& _ioTexture, IOFonts& _ioFonts);
     ~Graphics();
 
 };

@@ -1,7 +1,7 @@
 #include "App/Panels/Panel.h"
 #include <assert.h>
 
-Panel::Panel(Engine &_engine, std::string uiScriptName, PanelContext& _panelContext) : engine(_engine), graphics(_engine.graphics), panelContext(_panelContext)
+Panel::Panel(Engine &_engine, std::string uiScriptName, PanelContext& _panelContext) : engine(_engine), graphics(*_engine.graphics), panelContext(_panelContext)
 {
 
 }

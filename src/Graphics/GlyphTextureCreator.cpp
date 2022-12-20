@@ -1,7 +1,12 @@
 #include "GlyphTextureCreator.h"
 #include <iostream>
 
-GlyphTextureCreator::GlyphTextureCreator() {
+GlyphTextureCreator::GlyphTextureCreator(IOFonts& _ioFonts) : ioFonts(_ioFonts) {
+    std::cout << "GlyphTextureCreator() " << ioFonts.fonts.size() << "\n\n" << std::endl;
+    for (auto keyValue : ioFonts.fonts) {
+        std::cout << "FONT NAME: " << std::get<0>(keyValue) << std::endl;
+    }
+
     createAndAddTextures(60);
 }
 GlyphTextureCreator::~GlyphTextureCreator() {
@@ -24,12 +29,12 @@ const std::map<char, Character>& GlyphTextureCreator::getCharacters(std::string 
 }
 
 bool GlyphTextureCreator::fontExists(std::string font) {
-    return iofonts.fonts.contains(font);
+    return ioFonts.fonts.contains(font);
 }
 
 std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createTextures(unsigned int pixelHeight) {
     std::map<std::string, std::map<char, Character>> characterMap;
-    for (const auto& [key, value] : iofonts.fonts)
+    for (const auto& [key, value] : ioFonts.fonts)
         characterMap[key] = loadGlyphs(value, pixelHeight);
     return characterMap;
 }

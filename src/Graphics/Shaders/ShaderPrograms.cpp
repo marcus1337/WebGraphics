@@ -1,40 +1,35 @@
 #include "ShaderPrograms.h"
 
 ShaderPrograms::ShaderPrograms() {
-    reload();
-    std::cout << "ShaderPrograms()\n";
-}
-ShaderPrograms::~ShaderPrograms() {
-    for (auto& programObj : programs)
-        glDeleteProgram(std::get<1>(programObj));
 }
 
-void ShaderPrograms::reload() {
+ShaderPrograms::~ShaderPrograms() {
+    deletePrograms();
+}
+
+void ShaderPrograms::deletePrograms() {
     for (auto& programObj : programs)
         glDeleteProgram(std::get<1>(programObj));
     programs.clear();
-    ioshader.loadData();
 }
 
-GLuint ShaderPrograms::makeProgram(ShaderCodeSet& shaders)
-{
-    GLuint programID = 0;
-    programID = shaderCompiler.loadShaderProgram(shaders.shaders);
+void ShaderPrograms::load(std::vector<ShaderCodeSet> shaderCodeSets) {
+    deletePrograms();
+    for (ShaderCodeSet& shaderCodeSet : shaderCodeSets) {
+        makeProgram(shaderCodeSet);
+    }
+}
+
+void ShaderPrograms::makeProgram(ShaderCodeSet& shaderCodeSet) {
+    GLuint programID = shaderCompiler.loadShaderProgram(shaderCodeSet.shaders);
     if (programID != 0)
-        programs[shaders.name] = programID;
-    return programID;
-}
-
-
-GLuint ShaderPrograms::getProgram(ShaderCodeSet shaders)
-{
-    if (programs.contains(shaders.name))
-        return programs[shaders.name];
-    return makeProgram(shaders);
+        programs[shaderCodeSet.name] = programID;
 }
 
 GLuint ShaderPrograms::get(std::string name) {
-    if (!ioshader.shaderCodeSetExist(name))
-        std::cout << "Error: shader not found (" << name << ")\n";
-    return getProgram(ioshader.getShaderCodeSet(name));
+    if (!programs.contains(name)) {
+        std::cout << "Error: shader program not found (" << name << ")\n";
+        return 0;
+    }
+    return programs[name];
 }

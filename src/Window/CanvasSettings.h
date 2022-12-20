@@ -10,8 +10,6 @@
 #define CANVASSETTINGS_H
 
 class CanvasSettings {
-    void save();
-    void load();
     std::string fileName = "canvasSettings";
 
 public:
@@ -21,7 +19,7 @@ public:
     int width = 1280;
     int height = 720;
     bool fullScreen = false;
-    std::string appName = "TicTacToe";
+    std::string appName = "MyApp";
 
 };
 

@@ -10,26 +10,11 @@
 #include <map>
 #include <GL/glew.h>
 
-#include "FolderPaths.h"
-
 IOShader::IOShader()
 {
-    loadData();
+
 }
 
-std::string IOShader::getFileExtension(const std::string &fileName)
-{
-    std::size_t i = fileName.rfind('.', fileName.length());
-    if (i != std::string::npos)
-        return (fileName.substr(i, fileName.length() - i));
-    return "";
-}
-
-bool IOShader::isShaderFile(const std::string &fileName)
-{
-    std::string extension = getFileExtension(fileName);
-    return isVertexShaderExtension(extension) || isFragmentShaderExtension(extension);
-}
 bool IOShader::isFragmentShaderExtension(const std::string &extension)
 {
     return extension == ".frag";
@@ -47,93 +32,58 @@ uint32_t IOShader::getShaderValue(const std::string &extension)
     return 0;
 }
 
-std::vector<std::string> IOShader::getShaderFilePaths() {
-    std::vector<std::string> paths;
-    for (const auto& entry : std::filesystem::directory_iterator(FolderPaths::getShaderPath()))
-        paths.push_back(entry.path().string());
-    return paths;
-}
-
-std::vector<std::vector<std::string>> IOShader::getShaderFilenames()
+std::string IOShader::readShaderSource(const std::string & shaderFilePath)
 {
-    std::map<std::string, std::vector<std::string>> shaderGroups;
-    std::vector<std::string> names;
-    for (const auto &entry : std::filesystem::directory_iterator(FolderPaths::getShaderPath()))
-    {
-        const std::string filename = entry.path().filename().string();
-        if (isShaderFile(filename))
-        {
-            std::string name = entry.path().stem().string();
-            if (!shaderGroups.contains(name))
-                shaderGroups[name] = std::vector<std::string>();
-            shaderGroups[name].push_back(filename);
-        }
-    }
-
-    std::vector<std::vector<std::string>> result;
-    for (auto it = shaderGroups.begin(); it != shaderGroups.end(); ++it)
-    {
-        result.push_back(it->second);
-    }
-    return result;
-}
-
-ShaderCode IOShader::getShaderCode(const std::string &fileName)
-{
-    ShaderCode shaderCode;
-    std::string fileExtension = getFileExtension(fileName);
-    shaderCode.glslCode = readShaderSource(fileName);
-    shaderCode.shaderType = getShaderValue(fileExtension);
-    return shaderCode;
-}
-
-std::string IOShader::readShaderSource(const std::string &fileName)
-{
-    std::string filePathAndName = FolderPaths::getShaderPath() + fileName;
-    std::ifstream file(filePathAndName);
+    std::ifstream file(shaderFilePath);
     std::stringstream stream;
     stream << file.rdbuf();
     return stream.str();
 }
 
-void IOShader::removeExtension(std::string &fileName)
-{
-    std::string tmpExtension = getFileExtension(fileName);
-    fileName.erase(fileName.find(tmpExtension), tmpExtension.size());
+ShaderCode IOShader::getShaderCode(std::string shaderFilePath, std::string shaderFileExtension) {
+    ShaderCode shaderCode;
+    shaderCode.glslCode = readShaderSource(shaderFilePath);
+    shaderCode.shaderType = getShaderValue(shaderFileExtension);
+    return shaderCode;
 }
 
-std::vector<ShaderCodeSet> IOShader::getShaderCodeSets()
-{
-    std::vector<ShaderCodeSet> _shaderCodeSets;
-    std::vector<std::vector<std::string>> shaderGroups = getShaderFilenames();
-    for (const auto &group : shaderGroups)
-    {
-        ShaderCodeSet shaderData;
-        shaderData.name = group[0];
-        removeExtension(shaderData.name);
-        for (const std::string &fileName : group)
-            shaderData.shaders.push_back(getShaderCode(fileName));
-        _shaderCodeSets.push_back(shaderData);
+void IOShader::loadShaderCode(std::vector<std::string> shaderFilePaths, std::vector<std::string> shaderNames, std::vector<std::string> shaderFileExtensions) {
+    shaderCodes.clear();
+    for (int i = 0; i < shaderNames.size(); i++) {
+        std::string shaderFilePath = shaderFilePaths[i];
+        std::string shaderName = shaderNames[i];
+        std::string shaderFileExtension = shaderFileExtensions[i];
+        ShaderCode shaderCode = getShaderCode(shaderFilePath, shaderFileExtension);
+        shaderCode.name = shaderName;
+        shaderCodes.push_back(shaderCode);
     }
-    return _shaderCodeSets;
+    std::cout << "Num shader code files: " << shaderCodes.size() << "\n";
+    loadShaderCodeSets();
 }
 
-ShaderCodeSet IOShader::getShaderCodeSet(std::string name) {
-    for (auto& shaderData : shaderCodeSets) {
-        if (shaderData.name == name)
-            return shaderData;
+std::set<std::string> IOShader::getShaderCodeNames() {
+    std::set<std::string> shaderNames;
+    for (auto& shaderCode : shaderCodes) {
+        shaderNames.insert(shaderCode.name);
     }
-    std::cout << "Error: shader not found (" << name << ")\n";
-    return ShaderCodeSet();
-}
-bool IOShader::shaderCodeSetExist(std::string name) {
-    for (auto& shaderData : shaderCodeSets) {
-        if (shaderData.name == name)
-            return true;
-    }
-    return false;
+    return shaderNames;
 }
 
-void IOShader::loadData() {
-    shaderCodeSets = getShaderCodeSets();
+ShaderCodeSet IOShader::getShaderCodeSet(std::string shaderName){
+    ShaderCodeSet shaderCodeSet;
+    shaderCodeSet.name = shaderName;
+    for (ShaderCode shaderCode : shaderCodes) {
+        if (shaderCode.name == shaderName) {
+            shaderCodeSet.shaders.push_back(shaderCode);
+        }
+    }
+    return shaderCodeSet;
 }
+
+void IOShader::loadShaderCodeSets() {
+    shaderCodeSets.clear();
+    for (std::string shaderName : getShaderCodeNames()) {
+        shaderCodeSets.push_back(getShaderCodeSet(shaderName));
+    }
+}
+

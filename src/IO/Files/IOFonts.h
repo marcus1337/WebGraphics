@@ -15,11 +15,12 @@ class IOFonts
 {
 private:
     FT_Library ft;
-    void loadFont(const std::string& fontName);
 
 public:
     IOFonts();
     ~IOFonts();
+
+    void loadFonts(std::vector<std::string> fontFilePaths, std::vector<std::string> fontNames);
 
     std::map<std::string, FT_Face> fonts;
 };

@@ -53,15 +53,15 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_subdirectory(IO)
-list(APPEND EXTRA_LIB_DIRS "IO")
-list(APPEND EXTRA_INCLUDE_DIRS "IO")
-list(APPEND EXTRA_LINK_DIRS io)
-
 add_subdirectory(Audio)
 list(APPEND EXTRA_LIB_DIRS "Audio")
 list(APPEND EXTRA_INCLUDE_DIRS "Audio")
 list(APPEND EXTRA_LINK_DIRS audio)
+
+add_subdirectory(IO)
+list(APPEND EXTRA_LIB_DIRS "IO")
+list(APPEND EXTRA_INCLUDE_DIRS "IO")
+list(APPEND EXTRA_LINK_DIRS io)
 
 add_subdirectory(Window)
 list(APPEND EXTRA_LIB_DIRS "Window")

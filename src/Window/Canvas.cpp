@@ -14,7 +14,6 @@ Canvas::Canvas() {
     if (!initGLFW())
         return;
     SetVSync(true);
-    setIconImage();
 
     if (isFullScreen())
         setFullScreen(true);
@@ -124,10 +123,8 @@ void Canvas::pollEvents() {
     glfwPollEvents();
 }
 
-void Canvas::setIconImage() {
-    IOTexture ioTexture;
-    GLFWimage iconImg = ioTexture.loadIconImage("icons//icon256x256.png");
-    glfwSetWindowIcon(window, 1, &iconImg);
+void Canvas::setIconImage(GLFWimage& image) {
+    glfwSetWindowIcon(window, 1, &image);
 }
 
 void Canvas::setFullScreen(bool _fullScreen) {

@@ -7,6 +7,7 @@
 
 #include "Panels/PanelHandler.h"
 #include <stack>
+#include <vector>
 
 #ifndef APP_H
 #define APP_H
@@ -14,9 +15,11 @@
 class App
 {
     UpdateTimer updateTimer;
-    Engine engine;
-    PanelHandler panelHandler;
+    Engine* engine;
+    PanelHandler* panelHandler;
     void render();
+
+    std::vector<std::string> getResourceFolderPaths();
 
 public:
     App();

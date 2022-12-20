@@ -27,7 +27,7 @@ struct Character
 #ifndef GLYPH_TEXTURE_CREATOR_H
 #define GLYPH_TEXTURE_CREATOR_H
 class GlyphTextureCreator {
-    IOFonts iofonts;
+    IOFonts& ioFonts;
     std::map<char, Character> loadGlyphs(FT_Face face, unsigned int pixelHeight);
     unsigned int makeGlyphTexture(FT_Face& face);
     void addCharacter(char c, unsigned int textureID, FT_Face& face, std::map<char, Character>& _characterMap);
@@ -35,7 +35,7 @@ class GlyphTextureCreator {
     std::map<std::string, std::map<char, Character>> createTextures(unsigned int pixelHeight);
     void createAndAddTextures(unsigned int pixelHeight);
 public:
-    GlyphTextureCreator();
+    GlyphTextureCreator(IOFonts& _ioFonts);
     ~GlyphTextureCreator();
     const std::map<char, Character>& getCharacters(std::string font, unsigned int _pixelHeight);
     bool fontExists(std::string font);
