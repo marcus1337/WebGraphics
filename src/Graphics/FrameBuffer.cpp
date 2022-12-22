@@ -4,7 +4,6 @@
 FrameBuffer::FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(_ioShader, _iotexture)
 {
     setBuffers();
-    shader.setProgram("postimage");
     shader.setTexture(texture);
     shader.setScale(width, height);
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);

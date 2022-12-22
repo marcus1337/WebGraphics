@@ -26,8 +26,6 @@ std::vector<std::string> App::getResourceFolderPaths() {
     paths.push_back(resourceFolderPath + "textures//");
     paths.push_back(resourceFolderPath + "textures//icons//");
     paths.push_back(resourceFolderPath + "fonts//");
-    paths.push_back(resourceFolderPath + "saves//");
-    paths.push_back(resourceFolderPath + "logs//");
     paths.push_back(resourceFolderPath + "audio//");
     return paths;
 }
