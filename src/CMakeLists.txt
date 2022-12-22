@@ -77,15 +77,15 @@ list(APPEND LIB_DIRS "Drawables")
 list(APPEND INCLUDE_DIRS "Drawables")
 list(APPEND LINK_LIBS drawables)
 
-add_subdirectory(Engine)
-list(APPEND LIB_DIRS "Engine")
-list(APPEND INCLUDE_DIRS "Engine")
-list(APPEND LINK_LIBS engine)
-
 add_subdirectory(UI)
 list(APPEND LIB_DIRS "UI")
 list(APPEND INCLUDE_DIRS "UI")
 list(APPEND LINK_LIBS ui)
+
+add_subdirectory(Engine)
+list(APPEND LIB_DIRS "Engine")
+list(APPEND INCLUDE_DIRS "Engine")
+list(APPEND LINK_LIBS engine)
 
 add_subdirectory(Game)
 list(APPEND LIB_DIRS "Game")
