@@ -38,11 +38,7 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
     ioContainer.ioFonts.loadFonts(fontFilePaths, fontFileNames);
     ioContainer.ioFonts.print();
 
-    auto shaderFilePaths = filePathContainer.getFilePaths(FileType::SHADER);
-    auto shaderFileNames = filePathContainer.getFileNames(FileType::SHADER);
-    auto shaderFileExtensions = filePathContainer.getFileExtensions(FileType::SHADER);
-    ioContainer.ioShader.loadShaderCode(shaderFilePaths, shaderFileNames, shaderFileExtensions);
-
+    loadShaderResourceFiles();
     setIconImage();
 
     auto textureFilePaths = filePathContainer.getFilePaths(FileType::PNG);
@@ -50,6 +46,14 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
     ioContainer.ioTexture.loadTextures(textureFilePaths, textureFileNames);
 
     loadAudioResourceFiles();
+}
+
+void Engine::loadShaderResourceFiles() {
+    auto shaderFilePaths = ioContainer.filePathContainer.getFilePaths(FileType::SHADER);
+    auto shaderFileNames = ioContainer.filePathContainer.getFileNames(FileType::SHADER);
+    auto shaderFileExtensions = ioContainer.filePathContainer.getFileExtensions(FileType::SHADER);
+    ioContainer.ioShader.loadShaderCode(shaderFilePaths, shaderFileNames, shaderFileExtensions);
+    ioContainer.ioShader.loadPrograms();
 }
 
 void Engine::loadAudioResourceFiles() {

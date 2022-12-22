@@ -81,9 +81,9 @@ std::vector<GLuint> ShaderCompiler::compileShaders(std::vector<ShaderCode>& shad
     return shaders;
 }
 
-GLuint ShaderCompiler::loadShaderProgram(std::vector<ShaderCode>& shaderInfos)
+GLuint ShaderCompiler::loadShaderProgram(std::vector<ShaderCode>& shaderCodes)
 {
-    std::vector<GLuint> shaders = compileShaders(shaderInfos);
+    std::vector<GLuint> shaders = compileShaders(shaderCodes);
     if (shaders.empty())
         return 0;
     return linkProgram(shaders);

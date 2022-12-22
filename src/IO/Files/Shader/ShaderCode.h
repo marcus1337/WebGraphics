@@ -9,7 +9,6 @@
 struct ShaderCode {
     std::string glslCode;
     uint32_t shaderType;
-    std::string name;
 };
 
 struct ShaderCodeSet {

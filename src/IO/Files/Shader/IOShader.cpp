@@ -52,57 +52,40 @@ ShaderCode IOShader::getShaderCode(std::string shaderFilePath, std::string shade
 }
 
 void IOShader::loadShaderCode(std::vector<std::string> shaderFilePaths, std::vector<std::string> shaderNames, std::vector<std::string> shaderFileExtensions) {
-    shaderCodes.clear();
     for (int i = 0; i < shaderNames.size(); i++) {
         std::string shaderFilePath = shaderFilePaths[i];
         std::string shaderName = shaderNames[i];
         std::string shaderFileExtension = shaderFileExtensions[i];
         ShaderCode shaderCode = getShaderCode(shaderFilePath, shaderFileExtension);
-        shaderCode.name = shaderName;
-        shaderCodes.push_back(shaderCode);
+        addShaderCode(shaderCode, shaderName);
     }
-    std::cout << "Num shader code files: " << shaderCodes.size() << "\n";
-    loadShaderCodeSets();
 }
 
-std::set<std::string> IOShader::getShaderCodeNames() {
-    std::set<std::string> shaderNames;
-    for (auto& shaderCode : shaderCodes) {
-        shaderNames.insert(shaderCode.name);
+void IOShader::addShaderCode(ShaderCode shaderCode, std::string shaderName) {
+    ShaderCodeSet* shaderCodeSetPtr = nullptr;
+    for (auto& shaderCodeSet : shaderCodeSets) {
+        if (shaderName == shaderCodeSet.name)
+            shaderCodeSetPtr = &shaderCodeSet;
     }
-    return shaderNames;
-}
-
-ShaderCodeSet IOShader::getShaderCodeSet(std::string shaderName){
-    ShaderCodeSet shaderCodeSet;
-    shaderCodeSet.name = shaderName;
-    for (ShaderCode shaderCode : shaderCodes) {
-        if (shaderCode.name == shaderName) {
-            shaderCodeSet.shaders.push_back(shaderCode);
-        }
+    if (shaderCodeSetPtr == nullptr) {
+        shaderCodeSets.push_back(ShaderCodeSet{ {}, shaderName });
+        shaderCodeSetPtr = &shaderCodeSets[shaderCodeSets.size() - 1];
     }
-    return shaderCodeSet;
-}
-
-void IOShader::loadShaderCodeSets() {
-    shaderCodeSets.clear();
-    for (std::string shaderName : getShaderCodeNames()) {
-        shaderCodeSets.push_back(getShaderCodeSet(shaderName));
-    }
-    loadPrograms();
+    shaderCodeSetPtr->shaders.push_back(shaderCode);
 }
 
 void IOShader::loadPrograms() {
     deletePrograms();
     for (ShaderCodeSet& shaderCodeSet : shaderCodeSets) {
-        makeProgram(shaderCodeSet);
+        makeProgram(shaderCodeSet.shaders, shaderCodeSet.name);
     }
 }
 
-void IOShader::makeProgram(ShaderCodeSet& shaderCodeSet) {
-    GLuint programID = shaderCompiler.loadShaderProgram(shaderCodeSet.shaders);
-    if (programID != 0)
-        programs[shaderCodeSet.name] = programID;
+void IOShader::makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName) {
+    GLuint programID = shaderCompiler.loadShaderProgram(shaderCode);
+    if (programID != 0) {
+        programs[shaderName] = programID;
+    }
 }
 
 void IOShader::deletePrograms() {

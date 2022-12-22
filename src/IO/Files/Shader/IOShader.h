@@ -18,7 +18,7 @@ private:
 
     ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
-    void makeProgram(ShaderCodeSet& shaderCodeSet);
+    void makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName);
     void deletePrograms();
     std::vector<ShaderCodeSet> shaderCodeSets;
 
@@ -30,12 +30,6 @@ private:
     bool isVertexShaderExtension(const std::string& extension);
     uint32_t getShaderValue(const std::string& extension);
 
-    std::vector<ShaderCode> shaderCodes;
-    void loadShaderCodeSets();
-    std::set<std::string> getShaderCodeNames();
-    ShaderCodeSet getShaderCodeSet(std::string shaderName);
-    void loadPrograms();
-
 public:
     IOShader();
     ~IOShader();
@@ -43,6 +37,8 @@ public:
     void loadShaderCode(std::vector<std::string> shaderFilePaths, std::vector<std::string> shaderNames, std::vector<std::string> shaderFileExtensions);    
     GLuint getProgram(std::string name);
     int getNumPrograms();
+    void addShaderCode(ShaderCode shaderCode, std::string shaderName);
+    void loadPrograms();
 
 };
 

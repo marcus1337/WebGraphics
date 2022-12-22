@@ -21,7 +21,7 @@ class ShaderCompiler {
     std::vector<GLuint> compileShaders(std::vector<ShaderCode>& shaderInfos);
 
 public:
-    GLuint loadShaderProgram(std::vector<ShaderCode>& shaders);
+    GLuint loadShaderProgram(std::vector<ShaderCode>& shaderCodes);
 
 };
 
