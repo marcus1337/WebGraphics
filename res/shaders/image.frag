@@ -16,11 +16,21 @@ uniform vec3 defaultColor;
 uniform float grayscale;
 uniform float darken;
 
+uniform float effect;
+
 out vec4 frag_color;
 
 vec3 greyscaleify(vec3 color, float str) {
     float g = dot(color, vec3(0.299, 0.587, 0.114));
     return mix(color, vec3(g), str);
+}
+
+void applyButtonEffect(){
+    if(effect == 0.0)
+    {
+        return;
+    }
+    frag_color.xyz = frag_color.xyz * min(effect*effect, 0.7) + frag_color.xyz;
 }
 
 void main(){
@@ -39,5 +49,6 @@ void main(){
         vec3 gray = greyscaleify(frag_color.xyz, 1.0);
         frag_color = vec4(gray, alpha);
     }
+    applyButtonEffect();
 
 }

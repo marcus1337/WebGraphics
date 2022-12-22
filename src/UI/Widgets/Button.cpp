@@ -7,7 +7,6 @@ Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_en
     text.setPixelHeight(40);
     text.setColor({ 0.9,0.9,0.9 });
     setText(text);
-    view.setShaderProgram("button");
     width = pixelWidth;
     height = pixelHeight;
 }
