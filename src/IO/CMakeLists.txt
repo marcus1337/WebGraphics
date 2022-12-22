@@ -10,7 +10,7 @@ Files/IOFonts.h Files/IOFonts.cpp
 "Files/Path/FilePathContainer.cpp" "Files/Path/FilePath.h" "Files/Path/FilePath.cpp" 
 "Files/IOContainer.h" "Files/Shader/ShaderCode.h"
 "Files/Shader/ShaderCompiler.h" "Files/Shader/ShaderCompiler.cpp" 
-)
+ "Files/Shader/DefaultShaderCode.h" "Files/Shader/DefaultShaderCode.cpp")
 
 include_directories("${PROJECT_SOURCE_DIR}/IO/Bitsery")
 add_subdirectory(Bitsery)

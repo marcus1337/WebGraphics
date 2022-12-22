@@ -22,7 +22,6 @@ std::vector<std::string> App::getResourceFolderPaths() {
 #else
     resourceFolderPath = "./res/";
 #endif 
-    paths.push_back(resourceFolderPath + "shaders//");
     paths.push_back(resourceFolderPath + "textures//");
     paths.push_back(resourceFolderPath + "textures//icons//");
     paths.push_back(resourceFolderPath + "fonts//");

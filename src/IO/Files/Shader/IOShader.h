@@ -16,12 +16,13 @@ class IOShader
 {
 private:
 
+    void addDefaultShaderCode();
+
     ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
     void makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName);
     void deletePrograms();
     std::vector<ShaderCodeSet> shaderCodeSets;
-
 
     ShaderCode getShaderCode(std::string shaderFilePath, std::string shaderFileExtension);
     std::string readShaderSource(const std::string& shaderFilePath);

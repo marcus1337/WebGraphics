@@ -5,9 +5,13 @@ void ShaderCompiler::printCompileError(GLuint shader)
 {
     std::cerr << "Shader compilation failed, " << shader << std::endl;
     GLint infoLogLength = 0;
+
+    std::cout << "A\n";
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
     std::vector<char> infoLog(infoLogLength);
+    std::cout << "B\n";
     glGetShaderInfoLog(shader, infoLogLength, &infoLogLength, &infoLog[0]);
+    std::cout << "C\n";
     std::string infoLogStr(infoLog.begin(), infoLog.end());
     std::cerr << infoLogStr << std::endl;
 }

@@ -9,14 +9,27 @@
 #include <algorithm>
 #include <map>
 #include <GL/glew.h>
+#include "DefaultShaderCode.h"
 
 IOShader::IOShader()
 {
-
+    addDefaultShaderCode();
 }
 
 IOShader::~IOShader() {
     deletePrograms();
+}
+
+void IOShader::addDefaultShaderCode() {
+    DefaultShaderCode defaultCode;
+    for (ShaderCode shaderCode : defaultCode.getCircleCode())
+        addShaderCode(shaderCode, "circle");
+    for (ShaderCode shaderCode : defaultCode.getRectangleCode())
+        addShaderCode(shaderCode, "rectangle");
+    for (ShaderCode shaderCode : defaultCode.getImageCode())
+        addShaderCode(shaderCode, "image");
+    for (ShaderCode shaderCode : defaultCode.getTextCode())
+        addShaderCode(shaderCode, "text");
 }
 
 bool IOShader::isFragmentShaderExtension(const std::string &extension)
