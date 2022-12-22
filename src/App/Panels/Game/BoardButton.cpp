@@ -63,7 +63,7 @@ void BoardButton::setCrossVisuals() {
 void BoardButton::makeButton() {
     const int buttonWidth = 200;
     const int buttonHeight = 200;
-    button = std::make_unique<Button>(engine, buttonWidth, buttonHeight);
+    button = std::make_unique<Button>(*engine.graphics, engine.window.mouse, engine.ioContainer, buttonWidth, buttonHeight);
     button->onPressCallback = std::bind(&BoardButton::onPress, this);
 }
 

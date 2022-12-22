@@ -2,29 +2,29 @@
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
 
-Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(*_engine.graphics, _engine.ioContainer, pixelWidth, pixelHeight) {
+Slider::Slider(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, int pixelWidth, int pixelHeight) : UIElement(_graphics, _mouse), view(graphics, _ioContainer, pixelWidth, pixelHeight), ioContainer(_ioContainer) {
     width = pixelWidth;
     height = pixelHeight;
 }
 void Slider::render() {
     view.clear();
-    Rect background(*engine.graphics, engine.ioContainer);
+    Rect background(graphics, ioContainer);
     background.setColor(backgroundColor);
     background.setSize(view.getWidth(), view.getHeight());
     background.setAlpha(backgroundAlpha);
     int padding = std::max<int>(view.getWidth() / 100, 5);
 
-    Rect valueBox(*engine.graphics, engine.ioContainer);
+    Rect valueBox(graphics, ioContainer);
     valueBox.setSize(padding, view.getHeight());
     valueBox.setPosition((int)(padding + getValue() * (view.getWidth()-padding*2) - valueBox.getWidth() / 2), 0);
     valueBox.setColor(boxColor);
     valueBox.setThickness(1.0f);
     valueBox.setRadius(0.1f);
 
-    Line line(*engine.graphics, engine.ioContainer, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
+    Line line(graphics, ioContainer, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
     line.setColor(lineColor);
 
-    Line markedLine(*engine.graphics, engine.ioContainer, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
+    Line markedLine(graphics, ioContainer, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
     markedLine.setLineWidth(8);
     markedLine.setColor(markedLineColor);
 
@@ -39,15 +39,15 @@ void Slider::update() {
         return;
 
     if (onValueChangeCallback && pressed && mouse.deltaX != 0.0) {
-        auto mousePos = engine.graphics->mainView.getMousePosition();
+        auto mousePos = graphics.mainView.getMousePosition();
         value = ((float)std::get<0>(mousePos) - (float)view.getX())/(float)view.getWidth();
         value = std::clamp<float>(value, 0.0f, 1.0f);
         onValueChangeCallback(value);
     }
 
-    if (isPointerInside() && engine.window.mouse.isLeftPress)
+    if (isPointerInside() && mouse.isLeftPress)
         pressed = true;
-    if (engine.window.mouse.isLeftReleased)
+    if (mouse.isLeftReleased)
         pressed = false;
 }
 

@@ -1,4 +1,4 @@
-#include <Engine/Engine.h>
+#include "Window/InputDevices/Mouse.h"
 #include <Graphics/Graphics.h>
 #include <Drawables/View.h>
 #include <Drawables/Image.h>
@@ -18,14 +18,13 @@ protected:
     int y = 0;
     int width = 0;
     int height = 0;
-    Engine& engine;
     Graphics& graphics;
     Mouse& mouse;
     ShaderTimer shaderTimer;
 
 public:
 
-    UIElement(Engine& _engine);
+    UIElement(Graphics& _graphics, Mouse& _mouse);
     virtual ~UIElement() = default;
 
     int getX();

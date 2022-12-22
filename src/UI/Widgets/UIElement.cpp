@@ -1,6 +1,6 @@
 #include "UIElement.h"
 
-UIElement::UIElement(Engine& _engine) : engine(_engine), graphics(*_engine.graphics), mouse(_engine.window.mouse) {
+UIElement::UIElement(Graphics& _graphics, Mouse& _mouse) : graphics(_graphics), mouse(_mouse) {
 
 }
 

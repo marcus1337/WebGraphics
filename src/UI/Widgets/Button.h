@@ -5,6 +5,7 @@
 #include <Drawables/Text.h>
 #include <functional>
 #include "UIElement.h"
+#include "IO/Files/IOContainer.h"
 
 #ifndef BUTTON_H
 #define BUTTON_H
@@ -14,10 +15,11 @@ class Button : public UIElement {
     void onRelease();
     std::string imageName = "";
     void paintImage();
+    IOContainer& ioContainer;
 
 public:
 
-    Button(Engine& _engine, int pixelWidth, int pixelHeight);
+    Button(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, int pixelWidth, int pixelHeight);
     virtual void render() override;
     virtual void update() override;
     void setText(Text& _text);

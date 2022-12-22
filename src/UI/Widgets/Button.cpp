@@ -1,8 +1,8 @@
 #include "Button.h"
 #include <utility>
 
-Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(*_engine.graphics, _engine.ioContainer, pixelWidth, pixelHeight) {
-    Text text(*engine.graphics, engine.ioContainer);
+Button::Button(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, int pixelWidth, int pixelHeight) : UIElement(_graphics, _mouse), view(_graphics, _ioContainer, pixelWidth, pixelHeight), ioContainer(_ioContainer) {
+    Text text(_graphics, _ioContainer);
     text.setText("Button");
     text.setPixelHeight(40);
     text.setColor({ 0.9,0.9,0.9 });
@@ -17,9 +17,9 @@ void Button::render() {
 }
 
 void Button::update() {
-    if (isHovered() && engine.window.mouse.isLeftPress)
+    if (isHovered() && mouse.isLeftPress)
         pressed = true;
-    if (engine.window.mouse.isLeftReleased)
+    if (mouse.isLeftReleased)
         onRelease();
     if (isHovered())
         shaderTimer.setAnimationForward();
@@ -56,7 +56,7 @@ void Button::paintImage() {
     if (imageName.empty())
         return;
 
-    Image img(*engine.graphics, engine.ioContainer, imageName);
+    Image img(graphics, ioContainer, imageName);
     img.setSize(view.getWidth(), view.getHeight());
     view.paint(img);
 }
