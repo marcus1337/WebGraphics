@@ -1,9 +1,9 @@
 
-#include "FilePathContainer.h"
+#include "Path/FilePathContainer.h"
 #include "IOFonts.h"
 #include "IOLogs.h"
-#include "IOShader.h"
-#include "IOTexture.h"
+#include "Shader/IOShader.h"
+#include "Texture/IOTexture.h"
 
 #ifndef IOCONTAINER_H
 #define IOCONTAINER_H

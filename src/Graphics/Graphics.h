@@ -1,6 +1,6 @@
 
-#include "IO/Files/IOTexture.h"
-#include "IO/Files/IOShader.h"
+#include "IO/Files/Texture/IOTexture.h"
+#include "IO/Files/Shader/IOShader.h"
 #include "Window/Canvas.h"
 
 #include "Graphics/Objects/ImageObject.h"

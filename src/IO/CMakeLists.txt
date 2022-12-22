@@ -1,15 +1,15 @@
 
 
 add_library(io
-Files/IOShader.cpp Files/IOShader.h 
-Files/IOTexture.h Files/IOTexture.cpp 
+"Files/Shader/IOShader.cpp" "Files/Shader/IOShader.h" 
+"Files/Texture/IOTexture.h" "Files/Texture/IOTexture.cpp" 
 Files/IOFonts.h Files/IOFonts.cpp 
-Files/lodepng.cpp Files/lodepng.h  
+"Files/Texture/lodepng.cpp" "Files/Texture/lodepng.h"  
   
-"Files/IOLogs.h" "Files/IOLogs.cpp"     "Files/FilePathContainer.h" 
-"Files/FilePathContainer.cpp" "Files/FilePath.h" "Files/FilePath.cpp" 
-"Files/IOContainer.h" "Files/ShaderCode.h"
-"Files/ShaderCompiler.h" "Files/ShaderCompiler.cpp" 
+"Files/IOLogs.h" "Files/IOLogs.cpp"     "Files/Path/FilePathContainer.h" 
+"Files/Path/FilePathContainer.cpp" "Files/Path/FilePath.h" "Files/Path/FilePath.cpp" 
+"Files/IOContainer.h" "Files/Shader/ShaderCode.h"
+"Files/Shader/ShaderCompiler.h" "Files/Shader/ShaderCompiler.cpp" 
 )
 
 include_directories("${PROJECT_SOURCE_DIR}/IO/Bitsery")

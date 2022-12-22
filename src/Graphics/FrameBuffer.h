@@ -2,8 +2,8 @@
 #include <functional>
 #include "Shaders/Shader.h"
 #include "Shaders/ImageShader.h"
-#include "IO/Files/IOShader.h"
-#include "IO/Files/IOTexture.h"
+#include "IO/Files/Shader/IOShader.h"
+#include "IO/Files/Texture/IOTexture.h"
 
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H

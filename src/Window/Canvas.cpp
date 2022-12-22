@@ -8,7 +8,7 @@
 #include <GL/glxew.h>
 #include <GL/glx.h>
 #endif
-#include "IO/Files/IOTexture.h"
+#include "IO/Files/Texture/IOTexture.h"
 
 Canvas::Canvas() {
     if (!initGLFW())

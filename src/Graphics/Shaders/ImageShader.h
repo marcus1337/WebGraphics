@@ -1,5 +1,5 @@
 #include "Shader.h"
-#include "IO/Files/IOTexture.h"
+#include "IO/Files/Texture/IOTexture.h"
 
 #ifndef IMAGESHADER_H
 #define IMAGESHADER_H

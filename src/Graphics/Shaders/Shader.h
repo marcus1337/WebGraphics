@@ -7,7 +7,7 @@
 #include <glm/common.hpp>
 #include "glm/glm.hpp"
 #include <string>
-#include "IO/Files/IOShader.h"
+#include "IO/Files/Shader/IOShader.h"
 #include <map>
 
 #ifndef SHADER_H
