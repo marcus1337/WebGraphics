@@ -10,6 +10,7 @@
 #include <map>
 #include <GL/glew.h>
 #include "DefaultShaderCode.h"
+#include "ShaderCompiler.h"
 
 IOShader::IOShader()
 {
@@ -95,7 +96,7 @@ void IOShader::loadPrograms() {
 }
 
 void IOShader::makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName) {
-    GLuint programID = shaderCompiler.loadShaderProgram(shaderCode);
+    GLuint programID = ShaderCompiler().loadShaderProgram(shaderCode);
     if (programID != 0) {
         programs[shaderName] = programID;
     }

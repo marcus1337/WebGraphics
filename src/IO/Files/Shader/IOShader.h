@@ -1,3 +1,6 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <string>
 #include <map>
 #include <iostream>
@@ -6,7 +9,6 @@
 #include <tuple>
 #include <set>
 #include "ShaderCode.h"
-#include "ShaderCompiler.h"
 
 
 #ifndef IOSHADER_H
@@ -17,8 +19,6 @@ class IOShader
 private:
 
     void addDefaultShaderCode();
-
-    ShaderCompiler shaderCompiler;
     std::map<std::string, GLuint> programs;
     void makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName);
     void deletePrograms();
