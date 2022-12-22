@@ -15,6 +15,10 @@ IOShader::IOShader()
 
 }
 
+IOShader::~IOShader() {
+    deletePrograms();
+}
+
 bool IOShader::isFragmentShaderExtension(const std::string &extension)
 {
     return extension == ".frag";
@@ -85,5 +89,38 @@ void IOShader::loadShaderCodeSets() {
     for (std::string shaderName : getShaderCodeNames()) {
         shaderCodeSets.push_back(getShaderCodeSet(shaderName));
     }
+    loadPrograms();
 }
+
+void IOShader::loadPrograms() {
+    deletePrograms();
+    for (ShaderCodeSet& shaderCodeSet : shaderCodeSets) {
+        makeProgram(shaderCodeSet);
+    }
+}
+
+void IOShader::makeProgram(ShaderCodeSet& shaderCodeSet) {
+    GLuint programID = shaderCompiler.loadShaderProgram(shaderCodeSet.shaders);
+    if (programID != 0)
+        programs[shaderCodeSet.name] = programID;
+}
+
+void IOShader::deletePrograms() {
+    for (auto& programObj : programs)
+        glDeleteProgram(std::get<1>(programObj));
+    programs.clear();
+}
+
+GLuint IOShader::getProgram(std::string name) {
+    if (!programs.contains(name)) {
+        std::cout << "Error: shader program not found (" << name << ")\n";
+        return 0;
+    }
+    return programs[name];
+}
+
+int IOShader::getNumPrograms() {
+    return programs.size();
+}
+
 

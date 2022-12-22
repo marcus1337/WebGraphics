@@ -16,7 +16,7 @@ class ImageShader : public Shader {
 
 public:
 
-    ImageShader(ShaderPrograms& _shaderPrograms, IOTexture& _iotexture);
+    ImageShader(IOShader& _ioShader, IOTexture& _iotexture);
 
     glm::vec3 defaultColor;
     bool image = true;

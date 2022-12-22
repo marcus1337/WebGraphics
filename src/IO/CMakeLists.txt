@@ -6,7 +6,11 @@ Files/IOTexture.h Files/IOTexture.cpp
 Files/IOFonts.h Files/IOFonts.cpp 
 Files/lodepng.cpp Files/lodepng.h  
   
-"Files/IOLogs.h" "Files/IOLogs.cpp"     "Files/FilePathContainer.h" "Files/FilePathContainer.cpp" "Files/FilePath.h" "Files/FilePath.cpp" "Files/IOContainer.h")
+"Files/IOLogs.h" "Files/IOLogs.cpp"     "Files/FilePathContainer.h" 
+"Files/FilePathContainer.cpp" "Files/FilePath.h" "Files/FilePath.cpp" 
+"Files/IOContainer.h" "Files/ShaderCode.h"
+"Files/ShaderCompiler.h" "Files/ShaderCompiler.cpp" 
+)
 
 include_directories("${PROJECT_SOURCE_DIR}/IO/Bitsery")
 add_subdirectory(Bitsery)

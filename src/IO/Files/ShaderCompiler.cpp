@@ -1,4 +1,5 @@
 #include "ShaderCompiler.h"
+#include <iostream>
 
 void ShaderCompiler::printCompileError(GLuint shader)
 {

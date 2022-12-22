@@ -1,5 +1,6 @@
-#include "Graphics/Shaders/ShaderPrograms.h"
+
 #include "IO/Files/IOTexture.h"
+#include "IO/Files/IOShader.h"
 #include "Window/Canvas.h"
 
 #include "Graphics/Objects/ImageObject.h"
@@ -27,7 +28,7 @@
 
 class Graphics {
 public:
-    ShaderPrograms shaderPrograms;
+    IOShader& ioShader;
     IOTexture& ioTexture;
     IOFonts& ioFonts;
 

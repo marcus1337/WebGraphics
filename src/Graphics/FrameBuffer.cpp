@@ -1,7 +1,7 @@
 #include "FrameBuffer.h"
 #include <iostream>
 
-FrameBuffer::FrameBuffer(ShaderPrograms& shaderPrograms, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(shaderPrograms, _iotexture)
+FrameBuffer::FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(_ioShader, _iotexture)
 {
     setBuffers();
     shader.setProgram("postimage");

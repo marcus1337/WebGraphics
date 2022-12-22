@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <functional>
 
-MainView::MainView(Canvas& _window, ImageObject& _imageObject, ShaderPrograms& _shaderPrograms, IOTexture& _iotexture) : imageObject(_imageObject), view(_shaderPrograms, _iotexture, maxWidth, maxHeight), window(_window)
+MainView::MainView(Canvas& _window, ImageObject& _imageObject, IOShader& _ioShader, IOTexture& _iotexture) : imageObject(_imageObject), view(_ioShader, _iotexture, maxWidth, maxHeight), window(_window)
 {
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
     window.setResizeCallbackFunction(std::bind(&MainView::display, this));

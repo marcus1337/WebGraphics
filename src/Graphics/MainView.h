@@ -3,7 +3,7 @@
 #include "Graphics/FrameBuffer.h"
 #include <iostream>
 #include "IO/Files/IOTexture.h"
-#include "Graphics/Shaders/ShaderPrograms.h"
+#include "IO/Files/IOShader.h"
 #include "Graphics/Objects/ImageObject.h"
 
 
@@ -24,7 +24,7 @@ class MainView {
     void render();
 
 public:
-    MainView(Canvas& _window, ImageObject& _imageObject, ShaderPrograms& _shaderPrograms, IOTexture& _iotexture);
+    MainView(Canvas& _window, ImageObject& _imageObject, IOShader& _ioShader, IOTexture& _iotexture);
 
     int getX();
     int getY();

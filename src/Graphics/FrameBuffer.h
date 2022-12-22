@@ -2,7 +2,7 @@
 #include <functional>
 #include "Shaders/Shader.h"
 #include "Shaders/ImageShader.h"
-#include "Graphics/Shaders/ShaderPrograms.h"
+#include "IO/Files/IOShader.h"
 #include "IO/Files/IOTexture.h"
 
 #ifndef FRAMEBUFFER_H
@@ -18,7 +18,7 @@ public:
     GLuint texture, fbo;
     const int width, height;
     ~FrameBuffer();
-    FrameBuffer(ShaderPrograms& shaderPrograms, IOTexture& _iotexture, int _width, int _height);
+    FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height);
     void use();
     void clear(float _alpha = 1.0f);
 

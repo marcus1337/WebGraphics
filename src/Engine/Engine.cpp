@@ -16,13 +16,13 @@ Engine::Engine(std::vector<std::string> resourceFolderPaths) : window(){
 }
 
 bool Engine::areResourcesLoaded() {
-    return ioContainer.ioFonts.fonts.size() > 0 && ioContainer.ioShader.shaderCodeSets.size() > 0;
+    return ioContainer.ioFonts.fonts.size() > 0 && ioContainer.ioShader.getNumPrograms() > 0;
 }
 
 void Engine::printResourceLoadError() {
     std::cerr << "Failed to load one or more crucial resource files.\n";
     std::cerr << "Num fonts: " << ioContainer.ioFonts.fonts.size() << "\n";
-    std::cerr << "Num shaderCodeSets: " << ioContainer.ioShader.shaderCodeSets.size() << "\n";
+    std::cerr << "Num shaderCodeSets: " << ioContainer.ioShader.getNumPrograms() << "\n";
 }
 
 void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
