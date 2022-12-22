@@ -1,6 +1,6 @@
 #include "Drawable.h"
 
-Drawable::Drawable(Engine& _engine, Shader& _shader) : engine(_engine), graphics(*_engine.graphics), shader(&_shader)
+Drawable::Drawable(Graphics& _graphics, IOContainer& _ioContainer, Shader& _shader) : graphics(_graphics), shader(&_shader)
 {};
 
 Drawable::~Drawable() {

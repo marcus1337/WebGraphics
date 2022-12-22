@@ -14,7 +14,7 @@ class View : public Drawable {
 
 public:
 
-    View(Engine& _engine, int _pixelWidth, int _pixelHeight);
+    View(Graphics& _graphics, IOContainer& _ioContainer, int _pixelWidth, int _pixelHeight);
     ~View();
 
     void setRenderPixelPerfect();

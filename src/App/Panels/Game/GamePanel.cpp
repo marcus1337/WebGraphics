@@ -15,7 +15,7 @@ void GamePanel::makeResetButton() {
     resetButton = std::make_unique<Button>(engine, 300, 100);
     resetButton->setImage("button1");
     resetButton->setPosition(1250, 700);
-    Text resetText(engine);
+    Text resetText(*engine.graphics, engine.ioContainer);
     resetText.setText("RESET");
     resetText.setColor({ 0.9,0.9,0.9 });
     resetText.setPixelHeight(50);
@@ -28,7 +28,7 @@ void GamePanel::makeResetButton() {
 }
 
 void GamePanel::makeBackgroundImage() {
-    backgroundImage = std::make_unique<Image>(engine, "background1");
+    backgroundImage = std::make_unique<Image>(*engine.graphics, engine.ioContainer, "background1");
     backgroundImage->setSize(1920, 1080);
 }
 
@@ -84,7 +84,7 @@ void GamePanel::render() {
 }
 
 void GamePanel::renderGameOverText() {
-    Text gameOverText(engine);
+    Text gameOverText(*engine.graphics, engine.ioContainer);
     if (ticTacToe.isDraw())
         gameOverText.setText("Draw!");
     if (ticTacToe.getWinner() == Tile::CIRCLE)

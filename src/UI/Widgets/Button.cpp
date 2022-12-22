@@ -1,8 +1,8 @@
 #include "Button.h"
 #include <utility>
 
-Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
-    Text text(engine);
+Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(*_engine.graphics, _engine.ioContainer, pixelWidth, pixelHeight) {
+    Text text(*engine.graphics, engine.ioContainer);
     text.setText("Button");
     text.setPixelHeight(40);
     text.setColor({ 0.9,0.9,0.9 });
@@ -56,7 +56,7 @@ void Button::paintImage() {
     if (imageName.empty())
         return;
 
-    Image img(engine, imageName);
+    Image img(*engine.graphics, engine.ioContainer, imageName);
     img.setSize(view.getWidth(), view.getHeight());
     view.paint(img);
 }

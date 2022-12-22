@@ -23,11 +23,11 @@ void BoardButton::setDefaultVisuals() {
     button->clearView();
     int width = button->getWidth();
     int height = button->getHeight();
-    Rect innerRect(engine);
+    Rect innerRect(*engine.graphics, engine.ioContainer);
     innerRect.setSize(width, height);
     innerRect.setRadius(0.1f);
     innerRect.setColor({ 0.5,0.5,0.5 });
-    Rect outerRect(engine);
+    Rect outerRect(*engine.graphics, engine.ioContainer);
     outerRect.setSize(width, height);
     outerRect.setRadius(0.1f);
     outerRect.setThickness(0.05f);
@@ -37,7 +37,7 @@ void BoardButton::setDefaultVisuals() {
 }
 
 void BoardButton::setCircleVisuals() {
-    Circle circle(engine);
+    Circle circle(*engine.graphics, engine.ioContainer);
     int width = button->getWidth();
     int height = button->getHeight();
     circle.setSize(width, height);
@@ -50,10 +50,10 @@ void BoardButton::setCrossVisuals() {
     int width = button->getWidth();
     int height = button->getHeight();
 
-    Line line1(engine, 0, 0, width, height);
+    Line line1(*engine.graphics, engine.ioContainer, 0, 0, width, height);
     line1.setColor({ 0,0,0 });
     line1.setLineWidth(14);
-    Line line2(engine, 0, height, width, 0);
+    Line line2(*engine.graphics, engine.ioContainer, 0, height, width, 0);
     line2.setColor({ 0,0,0 });
     line2.setLineWidth(14);
     button->paint(line1);

@@ -2,29 +2,29 @@
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
 
-Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
+Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(*_engine.graphics, _engine.ioContainer, pixelWidth, pixelHeight) {
     width = pixelWidth;
     height = pixelHeight;
 }
 void Slider::render() {
     view.clear();
-    Rect background(engine);
+    Rect background(*engine.graphics, engine.ioContainer);
     background.setColor(backgroundColor);
     background.setSize(view.getWidth(), view.getHeight());
     background.setAlpha(backgroundAlpha);
     int padding = std::max<int>(view.getWidth() / 100, 5);
 
-    Rect valueBox(engine);
+    Rect valueBox(*engine.graphics, engine.ioContainer);
     valueBox.setSize(padding, view.getHeight());
     valueBox.setPosition((int)(padding + getValue() * (view.getWidth()-padding*2) - valueBox.getWidth() / 2), 0);
     valueBox.setColor(boxColor);
     valueBox.setThickness(1.0f);
     valueBox.setRadius(0.1f);
 
-    Line line(engine, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
+    Line line(*engine.graphics, engine.ioContainer, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
     line.setColor(lineColor);
 
-    Line markedLine(engine, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
+    Line markedLine(*engine.graphics, engine.ioContainer, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
     markedLine.setLineWidth(8);
     markedLine.setColor(markedLineColor);
 
