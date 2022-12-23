@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.17.4)
 project(Simple_App)
 set(CMAKE_CXX_STANDARD 20)
 
+if(EMSCRIPTEN)
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind --embed-file res -s ALLOW_MEMORY_GROWTH=1 -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument")
+endif()
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/../../../src" "${CMAKE_CURRENT_BINARY_DIR}/anilib")
 include_directories("${PROJECT_SOURCE_DIR}/../../../src")
 

@@ -4,8 +4,7 @@
 ShaderCode DefaultShaderCode::getDefault2DVertexCode() {
     ShaderCode default2DVertexCode;
     default2DVertexCode.shaderType = GL_VERTEX_SHADER;
-    default2DVertexCode.glslCode = R"(
-        #version 300 es
+    default2DVertexCode.glslCode = R"(#version 300 es
 
         layout (location = 0) in vec3 vertex;
         layout (location = 1) in vec2 uv;
@@ -33,8 +32,7 @@ std::vector<ShaderCode> DefaultShaderCode::getCircleCode() {
     ShaderCode circleFragCode;
     circleFragCode.shaderType = GL_FRAGMENT_SHADER;
 
-    circleFragCode.glslCode = R"(
-        #version 300 es
+    circleFragCode.glslCode = R"(#version 300 es
 
         precision highp float;
 
@@ -82,8 +80,7 @@ std::vector<ShaderCode> DefaultShaderCode::getImageCode() {
     ShaderCode imageFragCode;
     imageFragCode.shaderType = GL_FRAGMENT_SHADER;
 
-    imageFragCode.glslCode = R"(
-        #version 300 es
+    imageFragCode.glslCode = R"(#version 300 es
 
         precision highp float;
 
@@ -146,8 +143,7 @@ std::vector<ShaderCode> DefaultShaderCode::getRectangleCode() {
     ShaderCode rectangleFragCode;
     rectangleFragCode.shaderType = GL_FRAGMENT_SHADER;
 
-    rectangleFragCode.glslCode = R"(
-        #version 300 es
+    rectangleFragCode.glslCode = R"(#version 300 es
 
         precision highp float;
 
@@ -203,8 +199,7 @@ std::vector<ShaderCode> DefaultShaderCode::getTextCode() {
     textFragmentCode.shaderType = GL_FRAGMENT_SHADER;
     textVertexCode.shaderType = GL_VERTEX_SHADER;
 
-    textFragmentCode.glslCode = R"(
-        #version 300 es
+    textFragmentCode.glslCode = R"(#version 300 es
 
         precision highp float;
 
@@ -222,8 +217,7 @@ std::vector<ShaderCode> DefaultShaderCode::getTextCode() {
         }  
     )";
 
-    textVertexCode.glslCode = R"(
-        #version 300 es
+    textVertexCode.glslCode = R"(#version 300 es
 
         layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
         out vec2 TexCoords;
