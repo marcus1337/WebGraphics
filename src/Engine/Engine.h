@@ -11,7 +11,7 @@ class Engine {
     void loadResourceFiles(std::vector<std::string> resourceFolderPaths);
     void loadShaderResourceFiles();
     void loadAudioResourceFiles();
-    bool areResourcesLoaded();
+    bool areShadersLoaded();
     void printResourceLoadError();
     void setIconImage();
 

@@ -87,24 +87,9 @@ list(APPEND LIB_DIRS "Engine")
 list(APPEND INCLUDE_DIRS "Engine")
 list(APPEND LINK_LIBS engine)
 
-add_subdirectory(Game)
-list(APPEND LIB_DIRS "Game")
-list(APPEND INCLUDE_DIRS "Game")
-list(APPEND LINK_LIBS game)
 
-add_subdirectory(App)
-list(APPEND LIB_DIRS "App")
-list(APPEND INCLUDE_DIRS "App")
-list(APPEND LINK_LIBS app)
-
-add_executable(${PROJECT_NAME} "main.cpp")
+add_library(${PROJECT_NAME} STATIC "null.cpp")
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
 target_link_directories(${PROJECT_NAME} PUBLIC ${LIB_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LINK_LIBS})
 
-
-####### vvvv these should be deleted once directory paths are inserted via code or arguments vvvvv
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
-if(WIN32)
-    add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../res $<TARGET_FILE_DIR:${PROJECT_NAME}>/../res)
-endif(WIN32)

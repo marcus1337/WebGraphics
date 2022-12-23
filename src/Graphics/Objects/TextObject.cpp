@@ -24,8 +24,8 @@ TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
 
 void TextObject::setDefaultFont(IOFonts& _ioFonts) {
     if (_ioFonts.fonts.empty()) {
-        std::cerr << "No fonts loaded! Exiting program... \n";
-        exit(EXIT_FAILURE);
+        std::cerr << "No fonts loaded! Not setting a default font... \n";
+        return;
     }
     std::string defaultFont = _ioFonts.fonts.begin()->first;
     std::cout << "Setting default font to: [" << defaultFont << "] \n";

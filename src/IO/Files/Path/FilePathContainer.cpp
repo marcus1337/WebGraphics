@@ -4,6 +4,13 @@
 
 
 void FilePathContainer::addFolderPath(std::string folderPath) {
+    std::filesystem::path filepath = std::string(folderPath);
+    bool filepathExists = std::filesystem::is_directory(filepath.parent_path());
+    if (!filepathExists) {
+        std::cerr << "Error, folder-path [" << folderPath << "] don't exists!\n";
+        exit(EXIT_FAILURE);
+    }
+
     std::filesystem::directory_iterator iterator(folderPath);
     for (const auto& entry : iterator) {
         if (entry.is_regular_file()) {

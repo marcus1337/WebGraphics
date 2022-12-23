@@ -7,7 +7,10 @@
 
 Engine::Engine(std::vector<std::string> resourceFolderPaths) : window(){
     loadResourceFiles(resourceFolderPaths);
-    if (!areResourcesLoaded()) {
+    if (ioContainer.ioFonts.fonts.empty()) {
+        std::cout << "Warning: no fonts loaded.\n";
+    }
+    if (!areShadersLoaded()) {
         printResourceLoadError();
         exit(EXIT_FAILURE);
     }
@@ -15,13 +18,12 @@ Engine::Engine(std::vector<std::string> resourceFolderPaths) : window(){
     graphics = new Graphics(window, ioContainer.ioShader, ioContainer.ioTexture, ioContainer.ioFonts);
 }
 
-bool Engine::areResourcesLoaded() {
-    return ioContainer.ioFonts.fonts.size() > 0 && ioContainer.ioShader.getNumPrograms() > 0;
+bool Engine::areShadersLoaded() {
+    return ioContainer.ioShader.getNumPrograms() > 0;
 }
 
 void Engine::printResourceLoadError() {
     std::cerr << "Failed to load one or more crucial resource files.\n";
-    std::cerr << "Num fonts: " << ioContainer.ioFonts.fonts.size() << "\n";
     std::cerr << "Num shaderCodeSets: " << ioContainer.ioShader.getNumPrograms() << "\n";
 }
 
@@ -36,7 +38,6 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
     auto fontFilePaths = filePathContainer.getFilePaths(FileType::TTF);
     auto fontFileNames = filePathContainer.getFileNames(FileType::TTF);
     ioContainer.ioFonts.loadFonts(fontFilePaths, fontFileNames);
-    ioContainer.ioFonts.print();
 
     loadShaderResourceFiles();
     setIconImage();

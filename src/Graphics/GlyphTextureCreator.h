@@ -32,7 +32,7 @@ class GlyphTextureCreator {
     unsigned int makeGlyphTexture(FT_Face& face);
     void addCharacter(char c, unsigned int textureID, FT_Face& face, std::map<char, Character>& _characterMap);
     std::map<std::pair<std::string,int>, std::map<char, Character>> characterMap;
-    std::map<std::string, std::map<char, Character>> createTextures(unsigned int pixelHeight);
+    std::map<std::string, std::map<char, Character>> createCharacterTextureMap(unsigned int pixelHeight);
     void createAndAddTextures(unsigned int pixelHeight);
 public:
     GlyphTextureCreator(IOFonts& _ioFonts);

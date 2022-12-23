@@ -9,8 +9,8 @@ GlyphTextureCreator::~GlyphTextureCreator() {
 }
 
 void GlyphTextureCreator::createAndAddTextures(unsigned int pixelHeight) {
-    auto textures = createTextures(pixelHeight);
-    for (const auto& [font, value] : textures) {
+    auto characterTextureMap = createCharacterTextureMap(pixelHeight);
+    for (const auto& [font, value] : characterTextureMap) {
         auto key = std::make_pair(font, pixelHeight);
         characterMap[key] = value;
     }
@@ -27,7 +27,7 @@ bool GlyphTextureCreator::fontExists(std::string font) {
     return ioFonts.fonts.contains(font);
 }
 
-std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createTextures(unsigned int pixelHeight) {
+std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createCharacterTextureMap(unsigned int pixelHeight) {
     std::map<std::string, std::map<char, Character>> characterMap;
     for (const auto& [key, value] : ioFonts.fonts)
         characterMap[key] = loadGlyphs(value, pixelHeight);
