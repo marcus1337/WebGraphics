@@ -3,8 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
-#include "IO/Controller/Mouse.h"
-#include "IO/Controller/Keyboard.h"
+#include "InputDevices/Mouse.h"
+#include "InputDevices/Keyboard.h"
 #include <functional>
 #include "CanvasCallbacks.h"
 #include "CanvasSettings.h"
@@ -19,7 +19,6 @@ class Canvas {
 
     bool initGLFW();
     GLFWwindow* window;
-    void setIconImage();
     CanvasCallbacks canvasCallbacks;
     CanvasSettings canvasSettings;
 
@@ -38,6 +37,8 @@ public:
 
     void setFullScreen(bool _fullScreen);
     bool isFullScreen();
+
+    void setIconImage(GLFWimage& image);
 };
 
 #endif

@@ -1,5 +1,4 @@
 #include "SoloudAudio.h"
-#include <IO/Files/FolderPaths.h>
 #include <iostream>
 
 #include <SDL2/SDL.h>
@@ -7,14 +6,13 @@
 SoloudAudio::SoloudAudio() {
 }
 
-SoLoud::Wav* SoloudAudio::getWavPointer(std::string name, std::string path) {
-    std::cout << "Sound: " << name << "\n";
-    if (!soundMap.contains(name)) {
-        SoLoud::Wav* wav = new  SoLoud::Wav();
-        wav->load(path.c_str());
-        soundMap[name] = wav;
+SoLoud::Wav* SoloudAudio::getWavPointer(std::string soundName) {
+    if (!soundMap.contains(soundName))
+    {
+        std::cerr << "Sound error: " << soundName << " not loaded.\n";
+        return nullptr;
     }
-    return soundMap[name];
+    return soundMap[soundName];
 }
 
 void SoloudAudio::init() {
@@ -38,41 +36,46 @@ SoloudAudio::~SoloudAudio() {
     SDL_Quit();
 }
 
-SoLoud::Wav* SoloudAudio::getWavPointer(std::string name, SoundType soundType) {
-    SoLoud::Wav* wavPtr = nullptr;
-    if (soundType == SoundType::MUSIC)
-        wavPtr = getWavPointer(name, getMusicFilePath(name));
-    if (soundType == SoundType::FX)
-        wavPtr = getWavPointer(name, getEffectFilePath(name));
-    return wavPtr;
-}
-
 void SoloudAudio::queueMusic(std::string musicName, int maxQueueSize) {
     if (musicQueue.getQueueCount() < maxQueueSize) {
         musicBus.play(musicQueue);
-        musicQueue.play(*getWavPointer(musicName, SoundType::MUSIC));
+        auto wavPtr = getWavPointer(musicName);
+        if (wavPtr != nullptr)
+            musicQueue.play(*wavPtr);
     }
 }
 void SoloudAudio::queueEffect(std::string effectName, int maxQueueSize) {
     if (effectQueue.getQueueCount() < maxQueueSize) {
         effectBus.play(effectQueue);
-        effectQueue.play(*getWavPointer(effectName, SoundType::FX));
+        auto wavPtr = getWavPointer(effectName);
+        if(wavPtr != nullptr)
+            effectQueue.play(*wavPtr);
     }
 }
 
-std::string SoloudAudio::getMusicFilePath(std::string name) {
-    return FolderPaths::getAudioPath() + "music//" + name + ".wav";
-}
-std::string SoloudAudio::getEffectFilePath(std::string name) {
-    return FolderPaths::getAudioPath() + "fx//" + name + ".wav";
+void SoloudAudio::loadSounds(std::vector<std::string> soundFilePaths, std::vector<std::string> soundNames) {
+    for (int i = 0; i < soundNames.size(); i++) {
+        std::string soundName = soundNames[i];
+        std::string soundFilePath = soundFilePaths[i];
+
+        if (!soundMap.contains(soundName)) {
+            SoLoud::Wav* wav = new SoLoud::Wav();
+            wav->load(soundFilePath.c_str());
+            soundMap[soundName] = wav;
+        }
+    }
 }
 
 void SoloudAudio::playMusic(std::string musicName) {
-    musicBus.play(*getWavPointer(musicName, SoundType::MUSIC));
+    auto wavPtr = getWavPointer(musicName);
+    if(wavPtr != nullptr)
+        musicBus.play(*wavPtr);
 }
 
 void SoloudAudio::playEffect(std::string effectName) {
-    effectBus.play(*getWavPointer(effectName, SoundType::FX));
+    auto wavPtr = getWavPointer(effectName);
+    if (wavPtr != nullptr)
+        effectBus.play(*wavPtr);
 }
 
 float SoloudAudio::getMusicVolume() {

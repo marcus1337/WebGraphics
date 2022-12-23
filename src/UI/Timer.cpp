@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <numbers>
+#include <cmath>
 
 Timer::Timer() {
     objectStartTime = std::chrono::steady_clock::now();
@@ -32,6 +33,6 @@ float Timer::getPassedTimeInterpolation(int durationInMilliseconds) {
 float Timer::getPassedTimeInterpolationCurve(int durationInMilliseconds) {
     float pi = std::numbers::pi_v<float>;
     float x = getPassedTimeInterpolation(durationInMilliseconds);
-    return std::sinf(x * pi);
+    return std::sin(x * pi);
 }
 

@@ -2,7 +2,7 @@
 #include "Graphics/FrameBuffer.h"
 #include <glm/glm.hpp>
 #include <string>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include "Drawable.h"
 
 #ifndef VIEW_H
@@ -14,7 +14,7 @@ class View : public Drawable {
 
 public:
 
-    View(Engine& _engine, int _pixelWidth, int _pixelHeight);
+    View(Graphics& _graphics, IOContainer& _ioContainer, int _pixelWidth, int _pixelHeight);
     ~View();
 
     void setRenderPixelPerfect();

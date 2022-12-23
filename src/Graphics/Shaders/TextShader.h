@@ -7,7 +7,7 @@
 class TextShader : public Shader {
     virtual void setCustomUniforms() override;
 public:
-    TextShader(ShaderPrograms& _shaderPrograms);
+    TextShader(IOShader& _ioShader);
 };
 
 #endif // !TEXTSHADER_H

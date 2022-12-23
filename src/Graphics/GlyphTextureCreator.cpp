@@ -1,7 +1,7 @@
 #include "GlyphTextureCreator.h"
 #include <iostream>
 
-GlyphTextureCreator::GlyphTextureCreator() {
+GlyphTextureCreator::GlyphTextureCreator(IOFonts& _ioFonts) : ioFonts(_ioFonts) {
     createAndAddTextures(60);
 }
 GlyphTextureCreator::~GlyphTextureCreator() {
@@ -9,8 +9,8 @@ GlyphTextureCreator::~GlyphTextureCreator() {
 }
 
 void GlyphTextureCreator::createAndAddTextures(unsigned int pixelHeight) {
-    auto textures = createTextures(pixelHeight);
-    for (const auto& [font, value] : textures) {
+    auto characterTextureMap = createCharacterTextureMap(pixelHeight);
+    for (const auto& [font, value] : characterTextureMap) {
         auto key = std::make_pair(font, pixelHeight);
         characterMap[key] = value;
     }
@@ -24,12 +24,12 @@ const std::map<char, Character>& GlyphTextureCreator::getCharacters(std::string 
 }
 
 bool GlyphTextureCreator::fontExists(std::string font) {
-    return iofonts.fonts.contains(font);
+    return ioFonts.fonts.contains(font);
 }
 
-std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createTextures(unsigned int pixelHeight) {
+std::map<std::string, std::map<char, Character>> GlyphTextureCreator::createCharacterTextureMap(unsigned int pixelHeight) {
     std::map<std::string, std::map<char, Character>> characterMap;
-    for (const auto& [key, value] : iofonts.fonts)
+    for (const auto& [key, value] : ioFonts.fonts)
         characterMap[key] = loadGlyphs(value, pixelHeight);
     return characterMap;
 }

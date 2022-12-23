@@ -1,13 +1,12 @@
 #include "Button.h"
 #include <utility>
 
-Button::Button(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
-    Text text(engine);
+Button::Button(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, int pixelWidth, int pixelHeight) : UIElement(_graphics, _mouse), view(_graphics, _ioContainer, pixelWidth, pixelHeight), ioContainer(_ioContainer) {
+    Text text(_graphics, _ioContainer);
     text.setText("Button");
     text.setPixelHeight(40);
     text.setColor({ 0.9,0.9,0.9 });
     setText(text);
-    view.setShaderProgram("button");
     width = pixelWidth;
     height = pixelHeight;
 }
@@ -18,9 +17,9 @@ void Button::render() {
 }
 
 void Button::update() {
-    if (isHovered() && engine.window.mouse.isLeftPress)
+    if (isHovered() && mouse.isLeftPress)
         pressed = true;
-    if (engine.window.mouse.isLeftReleased)
+    if (mouse.isLeftReleased)
         onRelease();
     if (isHovered())
         shaderTimer.setAnimationForward();
@@ -41,7 +40,7 @@ void Button::setPosition(int _x, int _y) {
 }
 
 void Button::onRelease() {
-    if (pressed && isHovered() && onPressCallback)
+    if (isActive() && pressed && isHovered() && onPressCallback)
         onPressCallback();
     pressed = false;
 }
@@ -54,7 +53,10 @@ void Button::setText(Text& _text){
 
 void Button::paintImage() {
     view.clear();
-    Image img(engine, imageName);
+    if (imageName.empty())
+        return;
+
+    Image img(graphics, ioContainer, imageName);
     img.setSize(view.getWidth(), view.getHeight());
     view.paint(img);
 }

@@ -1,6 +1,6 @@
 
 
-add_library(engine Engine.h Engine.cpp "Graphics.h" "Graphics.cpp" "AspectRatio.h" "AspectRatio.cpp")
+add_library(engine Engine.h Engine.cpp)
 
 if(WIN32)
 	target_link_libraries(engine io window graphics audio)

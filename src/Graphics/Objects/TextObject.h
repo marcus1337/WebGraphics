@@ -27,13 +27,15 @@ private:
     std::array<std::array<float, 4>, 6> getGlyphVertices(float _x, float _y, float _w, float _h);
     std::array<std::array<float, 4>, 6> getGlyphVertices(float& _xOffset, Character ch);
 
+    void setDefaultFont(IOFonts& _ioFonts);
+
 public:
     void setFont(std::string _font);
     void setText(std::string text);
     virtual void draw(Shader& shader) override;
     void setTextPixelHeight(unsigned int _pixelHeight);
     ~TextObject();
-    TextObject();
+    TextObject(IOFonts& _ioFonts);
     int getTextWidth(std::string _text, int _pixelHeight, std::string _font);
 };
 

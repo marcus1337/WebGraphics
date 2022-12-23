@@ -1,7 +1,6 @@
 #include <glm/glm.hpp>
 #include <string>
-#include <Engine/Graphics.h>
-#include <Engine/Engine.h>
+#include <Graphics/Graphics.h>
 #include <Drawables/Drawable.h>
 
 #ifndef TEXT_H
@@ -15,7 +14,7 @@ class Text : public Drawable {
 
 public:
 
-    Text(Engine& _engine);
+    Text(Graphics& _graphics, IOContainer& _ioContainer);
     virtual void render() override;
     unsigned int getPixelHeight();
     unsigned int getPixelWidth();

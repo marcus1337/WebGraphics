@@ -2,26 +2,20 @@
 #include <map>
 #include "soloud/soloud.h"
 #include "soloud/soloud_wav.h"
+#include <vector>
 
 #ifndef SOLOUDAUDIO_H
 #define SOLOUDAUDIO_H
 
 class SoloudAudio {
 
-    enum class SoundType {
-        MUSIC = 0,
-        FX
-    };
     int musicBusHandle, effectBusHandle;
     float prevEffectVolume = 0.0f;
     float prevMusicVolume = 0.0f;
 
-    std::string getMusicFilePath(std::string name);
-    std::string getEffectFilePath(std::string name);
     bool muted = false;
     bool initialized = false;
-    SoLoud::Wav* getWavPointer(std::string name, std::string path);
-    SoLoud::Wav* getWavPointer(std::string name, SoundType soundType);
+    SoLoud::Wav* getWavPointer(std::string soundName);
 
     SoLoud::Soloud soloud;
     SoLoud::Bus musicBus;
@@ -33,6 +27,8 @@ class SoloudAudio {
 public:
 
     void init();
+    void loadSounds(std::vector<std::string> soundFilePaths, std::vector<std::string> soundNames);
+
     SoloudAudio();
     ~SoloudAudio();
     bool isInitialized();

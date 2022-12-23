@@ -2,29 +2,29 @@
 #include <Drawables/Rect.h>
 #include <Drawables/Line.h>
 
-Slider::Slider(Engine& _engine, int pixelWidth, int pixelHeight) : UIElement(_engine), view(_engine, pixelWidth, pixelHeight) {
+Slider::Slider(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, int pixelWidth, int pixelHeight) : UIElement(_graphics, _mouse), view(graphics, _ioContainer, pixelWidth, pixelHeight), ioContainer(_ioContainer) {
     width = pixelWidth;
     height = pixelHeight;
 }
 void Slider::render() {
     view.clear();
-    Rect background(engine);
+    Rect background(graphics, ioContainer);
     background.setColor(backgroundColor);
     background.setSize(view.getWidth(), view.getHeight());
     background.setAlpha(backgroundAlpha);
     int padding = std::max<int>(view.getWidth() / 100, 5);
 
-    Rect valueBox(engine);
+    Rect valueBox(graphics, ioContainer);
     valueBox.setSize(padding, view.getHeight());
     valueBox.setPosition((int)(padding + getValue() * (view.getWidth()-padding*2) - valueBox.getWidth() / 2), 0);
     valueBox.setColor(boxColor);
     valueBox.setThickness(1.0f);
     valueBox.setRadius(0.1f);
 
-    Line line(engine, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
+    Line line(graphics, ioContainer, padding, view.getHeight() / 2, view.getWidth() - padding, view.getHeight() / 2);
     line.setColor(lineColor);
 
-    Line markedLine(engine, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
+    Line markedLine(graphics, ioContainer, padding, view.getHeight() / 2, valueBox.getX(), view.getHeight() / 2);
     markedLine.setLineWidth(8);
     markedLine.setColor(markedLineColor);
 
@@ -39,15 +39,15 @@ void Slider::update() {
         return;
 
     if (onValueChangeCallback && pressed && mouse.deltaX != 0.0) {
-        auto mousePos = engine.graphics.getMousePixelPosition();
+        auto mousePos = graphics.mainView.getMousePosition();
         value = ((float)std::get<0>(mousePos) - (float)view.getX())/(float)view.getWidth();
         value = std::clamp<float>(value, 0.0f, 1.0f);
         onValueChangeCallback(value);
     }
 
-    if (isPointerInside() && engine.window.mouse.isLeftPress)
+    if (isPointerInside() && mouse.isLeftPress)
         pressed = true;
-    if (engine.window.mouse.isLeftReleased)
+    if (mouse.isLeftReleased)
         pressed = false;
 }
 
@@ -60,7 +60,7 @@ float Slider::getValue() {
 }
 
 bool Slider::isPointerInside() {
-    auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+    auto mousePos = graphics.mainView.getMousePosition();
     int mouseX = std::get<0>(mousePos);
     int mouseY = std::get<1>(mousePos);
     return mouseX >= view.getX() && mouseX <= view.getX() + view.getWidth() && mouseY >= view.getY() && mouseY <= view.getY() + view.getHeight();
@@ -87,12 +87,12 @@ void Slider::setBackgroundAlpha(float _alpha) {
     backgroundAlpha = _alpha;
 }
 
-void Slider::setActive() {
-    active = true;
-    view.setAlpha(1.0f);
+void Slider::setActive(bool _active) {
+    active = _active;
+    if(active)
+        view.setAlpha(1.0f);
+    else
+        view.setAlpha(0.7f);
 }
 
-void Slider::setInactive() {
-    active = false;
-    view.setAlpha(0.7f);
-}
+

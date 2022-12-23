@@ -1,5 +1,5 @@
 #include <glm/glm.hpp>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Drawables/Drawable.h>
 
 
@@ -10,7 +10,7 @@ class Circle : public Drawable {
 
     ImageShader imageShader;
 public:
-    Circle(Engine& _engine);
+    Circle(Graphics& _graphics, IOContainer& _ioContainer);
     virtual void render() override;
     void setFade(float _fade);
     void setThickness(float _thickness);

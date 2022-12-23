@@ -1,10 +1,10 @@
-add_library(graphics "Objects/ImageObject.cpp" "Shaders/Shader.cpp" "Objects/TextObject.cpp" 
+add_library(graphics "Graphics.h" "Graphics.cpp"
+"Objects/ImageObject.cpp" "Shaders/Shader.cpp" "Objects/TextObject.cpp" 
 "Objects/ImageObject.h" "Shaders/Shader.h" "Objects/TextObject.h" "FrameBuffer.cpp" "FrameBuffer.h"  
 "GlyphTextureCreator.h" "GlyphTextureCreator.cpp" "Shaders/ImageShader.h" "Shaders/ImageShader.cpp" 
 "Shaders/TextShader.h" "Shaders/TextShader.cpp" "Objects/VertexObject.h" "Objects/VertexObject.cpp"
-"Shaders/ShaderCompiler.h" "Shaders/ShaderCompiler.cpp" 
-"Shaders/ShaderPrograms.h" "Shaders/ShaderPrograms.cpp" 
-)
+  
+ "MainView.h" "MainView.cpp")
 
 set(FREETYPE_LIB "")
 if(UNIX)

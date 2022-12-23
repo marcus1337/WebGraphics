@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "Graphics/Shaders/TextShader.h"
 
-Text::Text(Engine& _engine) : Drawable(_engine, textShader), textShader(_engine.graphics.shaderPrograms) {
+Text::Text(Graphics& _graphics, IOContainer& _ioContainer) : Drawable(_graphics, _ioContainer, textShader), textShader(_ioContainer.ioShader) {
 
 }
 

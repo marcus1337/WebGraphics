@@ -27,7 +27,7 @@ glm::mat4 Shader::getUIViewProjectionMatrix(int windowWidth, int windowHeight) {
     return getOrthographicProjectionMatrix(windowWidth, windowHeight) * getViewMatrix();
 }
 
-Shader::Shader(ShaderPrograms& _shaderPrograms, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), shaderPrograms(_shaderPrograms) {
+Shader::Shader(IOShader& _ioShader, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), ioShader(_ioShader) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
     setProgram(programName);
@@ -72,7 +72,7 @@ void Shader::setRotation(float _rotation) {
 }
 
 void Shader::setUniforms() {
-    GLuint programID = shaderPrograms.get(programName);
+    GLuint programID = ioShader.getProgram(programName);
     glUseProgram(programID);
     setMatrixUniforms();
     setColorUniforms();
@@ -102,7 +102,7 @@ void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _
 }
 
 void Shader::setExtraUniforms() {
-    GLuint programID = shaderPrograms.get(programName);
+    GLuint programID = ioShader.getProgram(programName);
     for (const auto& [key, value] : extraFloatUniforms) {
         glUniform1f(glGetUniformLocation(programID, key.c_str()), value);
     }
@@ -110,14 +110,14 @@ void Shader::setExtraUniforms() {
 
 void Shader::setColorUniforms()
 {
-    GLuint programID = shaderPrograms.get(programName);
+    GLuint programID = ioShader.getProgram(programName);
     glUniform1f(glGetUniformLocation(programID, "alpha"), alpha);
     glUniform3fv(glGetUniformLocation(programID, "color"), 1, &color[0]);
 }
 
 void Shader::setMatrixUniforms()
 {
-    GLuint programID = shaderPrograms.get(programName);
+    GLuint programID = ioShader.getProgram(programName);
     glm::mat4 M = getModel();
     glm::mat4 MVP = VP * M;
     glm::mat4 MV = V * M;

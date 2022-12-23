@@ -1,7 +1,6 @@
 #include <functional>
-#include "IO/Controller/Mouse.h"
-#include <Engine/Graphics.h>
-#include <Engine/Engine.h>
+#include <Graphics/Graphics.h>
+#include <IO/Files/IOContainer.h>
 #include <Graphics/Shaders/Shader.h>
 #include <Graphics/Shaders/ImageShader.h>
 #include <Graphics/Shaders/TextShader.h>
@@ -12,12 +11,10 @@
 class Drawable {
     Shader* shader = nullptr;
 protected:
-    Engine& engine;
     Graphics& graphics;
-    Mouse& mouse;
 
 public:
-    Drawable(Engine& _engine, Shader& _shader);
+    Drawable(Graphics& _graphics, IOContainer& _ioContainer, Shader& _shader);
     Drawable(const Drawable&) = delete;
     virtual ~Drawable();
     virtual void render() = 0;

@@ -1,6 +1,6 @@
 #include "UIElement.h"
 
-UIElement::UIElement(Engine& _engine) : engine(_engine), graphics(_engine.graphics), mouse(_engine.window.mouse) {
+UIElement::UIElement(Graphics& _graphics, Mouse& _mouse) : graphics(_graphics), mouse(_mouse) {
 
 }
 
@@ -17,19 +17,24 @@ int UIElement::getHeight() {
     return height;
 }
 
-void UIElement::setActive() {
-
+void UIElement::setActive(bool _active) {
+    active = _active;
 }
-void UIElement::setInactive() {
 
+bool UIElement::isActive() {
+    return active;
 }
 
 bool UIElement::isPressed() {
+    if (!isActive())
+        return false;
     return pressed;
 }
 
 bool UIElement::isHovered() {
-    auto mousePos = graphics.getPixelPosition(engine.window.mouse.x, engine.window.mouse.y);
+    if (!isActive())
+        return false;
+    auto mousePos = graphics.mainView.getMousePosition();
     int mouseX = std::get<0>(mousePos);
     int mouseY = std::get<1>(mousePos);
     return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();

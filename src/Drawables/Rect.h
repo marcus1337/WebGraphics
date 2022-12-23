@@ -1,5 +1,5 @@
 #include <glm/glm.hpp>
-#include <Engine/Graphics.h>
+#include <Graphics/Graphics.h>
 #include <Drawables/Drawable.h>
 
 #ifndef RECT_H
@@ -9,7 +9,7 @@ class Rect : public Drawable {
 protected:
     ImageShader imageShader;
 public:
-    Rect(Engine& _engine);
+    Rect(Graphics& _graphics, IOContainer& _ioContainer);
     virtual void render() override;
     void setFade(float _fade);
     void setThickness(float _thickness);
