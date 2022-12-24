@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
         engine->graphics->mainView.display();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+    delete engine;
 
     return 0;
 }

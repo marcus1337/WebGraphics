@@ -64,5 +64,7 @@ int main(int argc, char* argv[]) {
     loop();
 #endif
 
+    delete engine;
+
     return 0;
 }
