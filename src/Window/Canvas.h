@@ -18,11 +18,12 @@ class Canvas {
     void setWindowHints();
 
     bool initGLFW();
-    GLFWwindow* window;
     CanvasCallbacks canvasCallbacks;
     CanvasSettings canvasSettings;
+    GLFWwindow* window;
 
 public:
+    void setTitle(std::string _title);
     void setResizeCallbackFunction(std::function<void(void)> _function);
     void resizeWindow(int width, int height);
     Mouse mouse;

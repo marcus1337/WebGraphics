@@ -25,6 +25,8 @@ public:
 
     void clear();
     void paint(Drawable& drawable);
+    void subPaint(Drawable& drawable);
+
     virtual void render() override;
     int getPixelWidth();
     int getPixelHeight();

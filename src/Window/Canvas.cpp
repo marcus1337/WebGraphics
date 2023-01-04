@@ -146,3 +146,7 @@ void Canvas::setFullScreen(bool _fullScreen) {
 bool Canvas::isFullScreen() {
     return canvasSettings.fullScreen;
 }
+
+void Canvas::setTitle(std::string _title) {
+    glfwSetWindowTitle(window, _title.c_str());
+}

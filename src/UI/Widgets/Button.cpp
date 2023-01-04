@@ -73,3 +73,7 @@ void Button::paint(Drawable& drawable) {
 void Button::clearView() {
     view.clear();
 }
+
+void Button::setAlpha(float _alpha) {
+    view.setAlpha(_alpha);
+}
