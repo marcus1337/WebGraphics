@@ -12,7 +12,9 @@ Button::Button(Graphics& _graphics, Mouse& _mouse, IOContainer& _ioContainer, in
 }
 
 void Button::render() {
-    view.setEffect(shaderTimer.getEffect());
+    view.setEffect(std::min<float>(shaderTimer.getEffect(), maxEffect));
+    if (!isActive())
+        view.setEffect(0.0f);
     view.render();
 }
 
@@ -26,7 +28,7 @@ void Button::update() {
     else
         shaderTimer.setAnimationBackward();
     if (pressed) {
-        view.setColor({ 0.1f,0.1f,0.1f }); 
+        view.setColor(pressAddColor);
     }
     else {
         view.setColor({ 0,0,0 });
@@ -59,6 +61,14 @@ void Button::paintImage() {
     Image img(graphics, ioContainer, imageName);
     img.setSize(view.getWidth(), view.getHeight());
     view.paint(img);
+}
+
+void Button::setMaxEffect(float _effect) {
+    maxEffect = _effect;
+}
+
+void Button::setPressAddColor(glm::vec3 _color) {
+    pressAddColor = _color;
 }
 
 void Button::setImage(std::string _imageName) {

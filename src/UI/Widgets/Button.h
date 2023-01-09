@@ -16,6 +16,8 @@ class Button : public UIElement {
     std::string imageName = "";
     void paintImage();
     IOContainer& ioContainer;
+    float maxEffect = 1.0f;
+    glm::vec3 pressAddColor = { 0.1f,0.1f,0.1f };
 
 public:
 
@@ -28,6 +30,8 @@ public:
     void paint(Drawable& drawable);
     void setAlpha(float _alpha);
     void clearView();
+    void setMaxEffect(float _effect);
+    void setPressAddColor(glm::vec3 _color);
     std::function<void(void)> onPressCallback;
 
 };
