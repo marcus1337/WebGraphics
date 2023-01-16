@@ -9,7 +9,6 @@
 class Engine {
 
     void loadResourceFiles(std::vector<std::string> resourceFolderPaths);
-    void loadShaderResourceFiles();
     void loadAudioResourceFiles();
     bool areShadersLoaded();
     void printResourceLoadError();
@@ -23,6 +22,7 @@ public:
 
     Engine(std::vector<std::string> resourceFolderPaths);
     ~Engine();
+    void loadShaderResourceFiles();
 };
 
 #endif // !ENGINE_H

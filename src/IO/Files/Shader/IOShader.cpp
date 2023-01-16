@@ -14,11 +14,15 @@
 
 IOShader::IOShader()
 {
-    addDefaultShaderCode();
+
 }
 
 IOShader::~IOShader() {
     deletePrograms();
+}
+
+void IOShader::clearCodeSets() {
+    shaderCodeSets.clear();
 }
 
 void IOShader::addDefaultShaderCode() {

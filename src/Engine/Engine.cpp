@@ -50,6 +50,8 @@ void Engine::loadResourceFiles(std::vector<std::string> resourceFolderPaths) {
 }
 
 void Engine::loadShaderResourceFiles() {
+    ioContainer.ioShader.clearCodeSets();
+    ioContainer.ioShader.addDefaultShaderCode();
     auto shaderFilePaths = ioContainer.filePathContainer.getFilePaths(FileType::SHADER);
     auto shaderFileNames = ioContainer.filePathContainer.getFileNames(FileType::SHADER);
     auto shaderFileExtensions = ioContainer.filePathContainer.getFileExtensions(FileType::SHADER);

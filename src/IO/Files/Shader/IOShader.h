@@ -18,10 +18,9 @@ class IOShader
 {
 private:
 
-    void addDefaultShaderCode();
+    void deletePrograms();
     std::map<std::string, GLuint> programs;
     void makeProgram(std::vector<ShaderCode> shaderCode, std::string shaderName);
-    void deletePrograms();
     std::vector<ShaderCodeSet> shaderCodeSets;
 
     ShaderCode getShaderCode(std::string shaderFilePath, std::string shaderFileExtension);
@@ -35,6 +34,8 @@ public:
     IOShader();
     ~IOShader();
 
+    void clearCodeSets();
+    void addDefaultShaderCode();
     void loadShaderCode(std::vector<std::string> shaderFilePaths, std::vector<std::string> shaderNames, std::vector<std::string> shaderFileExtensions);    
     GLuint getProgram(std::string name);
     int getNumPrograms();
