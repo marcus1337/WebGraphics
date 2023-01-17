@@ -25,6 +25,7 @@ public:
 
     void clear();
     void paint(Drawable& drawable);
+    void paintMinusAlpha(Drawable& drawable);
     void subPaint(Drawable& drawable);
 
     virtual void render() override;

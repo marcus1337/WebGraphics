@@ -20,6 +20,17 @@ void View::paint(Drawable& drawable) {
     drawable.setViewProjectionMatrix(graphics.mainView.getWidth(), graphics.mainView.getHeight());
 }
 
+void View::paintMinusAlpha(Drawable& drawable) {
+    int blendFuncValues[2];
+    glGetIntegerv(GL_BLEND_SRC, &blendFuncValues[0]);
+    glGetIntegerv(GL_BLEND_DST, &blendFuncValues[1]);
+
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    paint(drawable);
+
+    glBlendFunc(blendFuncValues[0], blendFuncValues[1]);
+}
+
 void View::subPaint(Drawable& drawable) {
     int blendFuncValues[2];
     glGetIntegerv(GL_BLEND_SRC, &blendFuncValues[0]);
