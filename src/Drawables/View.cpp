@@ -10,6 +10,7 @@ View::~View() {
 
 void View::clear() {
     frameBuffer.clear(0.0f);
+    graphics.mainView.use();
 }
 
 void View::paint(Drawable& drawable) {
