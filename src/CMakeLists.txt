@@ -52,11 +52,6 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_subdirectory(Audio)
-list(APPEND LIB_DIRS "Audio")
-list(APPEND INCLUDE_DIRS "Audio")
-list(APPEND LINK_LIBS audio)
-
 add_subdirectory(IO)
 list(APPEND LIB_DIRS "IO")
 list(APPEND INCLUDE_DIRS "IO")

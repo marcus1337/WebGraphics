@@ -6,7 +6,7 @@
 #define FILEPATH_H
 
 enum class FileType {
-    BIN, TTF, PNG, WAV, TXT, SHADER, UNKNOWN
+    BIN, TTF, PNG, TXT, SHADER, UNKNOWN
 };
 
 class FilePath {

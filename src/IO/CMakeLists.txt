@@ -6,7 +6,7 @@ add_library(io
 Files/IOFonts.h Files/IOFonts.cpp 
 "Files/Texture/lodepng.cpp" "Files/Texture/lodepng.h"  
   
-"Files/IOLogs.h" "Files/IOLogs.cpp"     "Files/Path/FilePathContainer.h" 
+"Files/Path/FilePathContainer.h" 
 "Files/Path/FilePathContainer.cpp" "Files/Path/FilePath.h" "Files/Path/FilePath.cpp" 
 "Files/IOContainer.h" "Files/Shader/ShaderCode.h"
 "Files/Shader/ShaderCompiler.h" "Files/Shader/ShaderCompiler.cpp" 

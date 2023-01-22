@@ -1,4 +1,3 @@
-#include "Audio/Audio.h"
 #include "Graphics/Graphics.h"
 #include "IO/Files/IOContainer.h"
 #include <vector>
@@ -9,7 +8,6 @@
 class Engine {
 
     void loadResourceFiles(std::vector<std::string> resourceFolderPaths);
-    void loadAudioResourceFiles();
     bool areShadersLoaded();
     void printResourceLoadError();
     void setIconImage();
@@ -17,7 +15,6 @@ class Engine {
 public:
     Canvas window;
     Graphics* graphics = nullptr;
-    Audio audio;
     IOContainer ioContainer;
 
     Engine(std::vector<std::string> resourceFolderPaths);
