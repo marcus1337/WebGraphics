@@ -50,7 +50,7 @@ void ImageShader::setClippingUniforms()
 {
     GLuint programID = ioShader.getProgram(programName);
     glUniform2fv(glGetUniformLocation(programID, "inTexCoord"), 1, &textureCorner[0]);
-    glUniform2fv(glGetUniformLocation(programID, "textureSize"), 1, &textureSize[0]);
+    glUniform2fv(glGetUniformLocation(programID, "texSize"), 1, &textureSize[0]);
 }
 
 void ImageShader::setTextureUniforms()

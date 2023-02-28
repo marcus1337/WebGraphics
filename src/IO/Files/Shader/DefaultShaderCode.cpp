@@ -90,7 +90,7 @@ std::vector<ShaderCode> DefaultShaderCode::getImageCode() {
         uniform sampler2D tex;
         uniform sampler2D normalMap;
         uniform vec2 inTexCoord;
-        uniform vec2 textureSize;
+        uniform vec2 texSize;
         uniform float alpha;
         uniform float image;
         uniform vec3 color;
@@ -117,7 +117,7 @@ std::vector<ShaderCode> DefaultShaderCode::getImageCode() {
 
         void main(){
 
-            vec2 realTexCoord = inTexCoord + (uv_frag * textureSize);
+            vec2 realTexCoord = inTexCoord + (uv_frag * texSize);
             frag_color = texture(tex, realTexCoord);
             frag_color = vec4(frag_color.xyz + color, frag_color.a);
 
