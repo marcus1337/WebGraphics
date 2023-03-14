@@ -12,7 +12,4 @@ Files/IOFonts.h Files/IOFonts.cpp
 "Files/Shader/ShaderCompiler.h" "Files/Shader/ShaderCompiler.cpp" 
  "Files/Shader/DefaultShaderCode.h" "Files/Shader/DefaultShaderCode.cpp")
 
-include_directories("${PROJECT_SOURCE_DIR}/IO/Bitsery")
-add_subdirectory(Bitsery)
-
-target_link_libraries(io bitsery glm glfw)
+target_link_libraries(io glm glfw)
