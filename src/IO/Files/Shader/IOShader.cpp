@@ -27,8 +27,6 @@ void IOShader::clearCodeSets() {
 
 void IOShader::addDefaultShaderCode() {
     DefaultShaderCode defaultCode;
-    for (ShaderCode shaderCode : defaultCode.getCircleCode())
-        addShaderCode(shaderCode, "circle");
     for (ShaderCode shaderCode : defaultCode.getRectangleCode())
         addShaderCode(shaderCode, "rectangle");
     for (ShaderCode shaderCode : defaultCode.getImageCode())

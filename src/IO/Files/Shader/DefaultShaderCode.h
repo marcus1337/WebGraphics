@@ -11,7 +11,6 @@ class DefaultShaderCode {
 
 public:
 
-    std::vector<ShaderCode> getCircleCode();
     std::vector<ShaderCode> getImageCode();
     std::vector<ShaderCode> getRectangleCode();
     std::vector<ShaderCode> getTextCode();
