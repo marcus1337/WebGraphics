@@ -1,7 +1,8 @@
 #include "Graphics/FrameBuffer.h"
 #include <iostream>
+#include "Engine/Engine.h"
 
-FrameBuffer::FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(_ioShader, _iotexture)
+FrameBuffer::FrameBuffer(int _width, int _height) : width(_width), height(_height)
 {
     setBuffers();
     shader.setTexture(texture);
@@ -46,4 +47,14 @@ void FrameBuffer::clear(float _alpha) {
     use();
     glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, _alpha);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void FrameBuffer::storeState() {
+    glGetIntegerv(GL_VIEWPORT, oldViewport.data());
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&oldFBO);
+}
+
+void FrameBuffer::loadState() {
+    glBindFramebuffer(GL_FRAMEBUFFER, oldFBO);
+    glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
 }

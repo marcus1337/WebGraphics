@@ -7,18 +7,26 @@
 #include "Shaders/ImageShader.h"
 #include "IO/Files/Shader/IOShader.h"
 #include "IO/Files/Texture/IOTexture.h"
+#include <array>
 
 class FrameBuffer
 {
     glm::vec3 backgroundColor;
     void setBuffers();
+
+    GLuint oldFBO;
+    std::array<GLint, 4> oldViewport;
+
 public:
+    void storeState();
+    void loadState();
+
     void setTextureScaleType(unsigned int scaleType);
     ImageShader shader;
     GLuint texture, fbo;
     const int width, height;
     ~FrameBuffer();
-    FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height);
+    FrameBuffer(int _width, int _height);
     void use();
     void clear(float _alpha = 1.0f);
 

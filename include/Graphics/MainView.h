@@ -14,15 +14,14 @@ class MainView {
 
     const int maxWidth = 1920;
     const int maxHeight = 1080;
-    FrameBuffer view;
+    FrameBuffer frame;
     Canvas& window;
-    ImageObject& imageObject;
 
     std::pair<int, int> getPixelPosition(int _x, int _y);
     void render();
 
 public:
-    MainView(Canvas& _window, ImageObject& _imageObject, IOShader& _ioShader, IOTexture& _iotexture);
+    MainView(Canvas& _window);
 
     int getX();
     int getY();

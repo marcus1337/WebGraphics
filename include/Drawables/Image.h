@@ -9,7 +9,7 @@
 class Image : public Drawable {
     ImageShader imageShader;
 public:
-    Image(Graphics& _graphics, IOContainer& _ioContainer, std::string _texture);
+    Image(std::string _texture);
     void setTexture(std::string textureName);
     virtual void render() override;
 

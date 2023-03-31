@@ -1,6 +1,7 @@
 #include "Graphics/Shaders/ImageShader.h"
+#include "IO/Files/IOContainer.h"
 
-ImageShader::ImageShader(IOShader& _ioShader, IOTexture& _iotexture) : Shader(_ioShader, "image"), defaultColor({}), normalID(0), textureID(0), iotexture(_iotexture) {
+ImageShader::ImageShader() : Shader("image"), defaultColor({}), normalID(0), textureID(0), iotexture(IOContainer::getInstance().ioTexture) {
     textureSize = glm::vec2(1.0f, 1.0f);
     textureCorner = glm::vec2(0.0f, 0.0f);
 }

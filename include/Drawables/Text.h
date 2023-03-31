@@ -14,7 +14,7 @@ class Text : public Drawable {
 
 public:
 
-    Text(Graphics& _graphics, IOContainer& _ioContainer);
+    Text();
     virtual void render() override;
     unsigned int getPixelHeight();
     unsigned int getPixelWidth();

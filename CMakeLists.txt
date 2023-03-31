@@ -71,11 +71,13 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/Objects/ImageObject.cpp"
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
+"src/Graphics/Objects/ObjectContainer.cpp"
 "src/Graphics/Shaders/ImageShader.cpp"
 "src/Graphics/Shaders/Shader.cpp"
 "src/Graphics/Shaders/TextShader.cpp"
 
 "src/IO/Files/IOFonts.cpp"
+"src/IO/Files/IOContainer.cpp"
 "src/IO/Files/Path/FilePath.cpp"
 "src/IO/Files/Path/FilePathContainer.cpp"
 "src/IO/Files/Shader/DefaultShaderCode.cpp"

@@ -1,6 +1,7 @@
 
 #include "Engine/Engine.h"
 #include "Drawables/Image.h"
+#include "Drawables/Text.h"
 #include <vector>
 #include <string>
 #include <filesystem>
@@ -17,17 +18,22 @@ std::vector<std::string> getResourceFolderPaths() {
 
 int main(int argc, char* argv[]) {
 
-    Engine& engine = Engine::getInstance();
+    Engine engine;
     engine.resources.loadResourceFiles(getResourceFolderPaths());
     engine.setIconImage();
 
     while (!engine.window.hasQuit()) {
         engine.window.pollEvents();
-        engine.graphics->mainView.clear();
-        Image image(*engine.graphics, engine.resources.ioContainer, "background1");
+        engine.graphics.mainView.clear();
+        Image image("background1");
         image.setSize(1920, 1080);
+        Text text;
+        text.setText("Okay bro");
+        text.setPosition(100, 100);
+
         image.render();
-        engine.graphics->mainView.display();
+        text.render();
+        engine.graphics.mainView.display();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 

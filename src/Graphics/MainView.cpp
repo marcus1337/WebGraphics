@@ -1,8 +1,9 @@
 #include "Graphics/MainView.h"
 #include <algorithm>
 #include <functional>
+#include "Graphics/Objects/ObjectContainer.h"
 
-MainView::MainView(Canvas& _window, ImageObject& _imageObject, IOShader& _ioShader, IOTexture& _iotexture) : imageObject(_imageObject), view(_ioShader, _iotexture, maxWidth, maxHeight), window(_window)
+MainView::MainView(Canvas& _window) : frame(maxWidth, maxHeight), window(_window)
 {
     outerBackgroundColor = glm::vec3(0.05f, 0.05f, 0.05f);
     window.setResizeCallbackFunction(std::bind(&MainView::display, this));
@@ -37,11 +38,11 @@ int MainView::getHeight() {
 }
 
 void MainView::use() {
-    view.use();
+    frame.use();
 }
 
 void MainView::clear() {
-    view.clear();
+    frame.clear();
 }
 
 void MainView::display() {
@@ -65,10 +66,10 @@ std::pair<int, int> MainView::getMousePosition() {
 
 void MainView::render() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    view.shader.setPosition(getX(), getY());
-    view.shader.setScale(getWidth(), getHeight());
+    frame.shader.setPosition(getX(), getY());
+    frame.shader.setScale(getWidth(), getHeight());
     glViewport(0, 0, window.getWidth(), window.getHeight());
-    view.shader.setViewProjectionMatrix(window.getWidth(), window.getHeight());
-    imageObject.draw(view.shader);
+    frame.shader.setViewProjectionMatrix(window.getWidth(), window.getHeight());
+    ObjectContainer::getInstance().imageObj.draw(frame.shader);
 }
 

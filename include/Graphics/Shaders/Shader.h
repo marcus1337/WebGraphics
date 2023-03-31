@@ -45,7 +45,7 @@ public:
     bool mirror = false;
     float effect = 0.0f;
 
-    Shader(IOShader& _ioShader, std::string programName);
+    Shader(std::string programName);
     virtual ~Shader();
 
     void setProgram(std::string _programName);

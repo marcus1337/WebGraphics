@@ -1,7 +1,8 @@
 #include "Graphics/GlyphTextureCreator.h"
 #include <iostream>
+#include "IO/Files/IOContainer.h"
 
-GlyphTextureCreator::GlyphTextureCreator(IOFonts& _ioFonts) : ioFonts(_ioFonts) {
+GlyphTextureCreator::GlyphTextureCreator() : ioFonts(IOContainer::getInstance().ioFonts) {
     createAndAddTextures(60);
 }
 GlyphTextureCreator::~GlyphTextureCreator() {

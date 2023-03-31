@@ -1,5 +1,9 @@
 #include "Engine/Resources.h"
 
+Resources::Resources() : ioContainer(IOContainer::getInstance()) {
+
+}
+
 bool Resources::areShadersLoaded() {
     return ioContainer.ioShader.getNumPrograms() > 0;
 }

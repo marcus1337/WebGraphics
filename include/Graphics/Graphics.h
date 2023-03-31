@@ -25,22 +25,12 @@
 #include "MainView.h"
 
 class Graphics {
-public:
-    IOShader& ioShader;
-    IOTexture& ioTexture;
-    IOFonts& ioFonts;
-
-private:
     Canvas& window;
-    void drawMainView();
     void setGLSettings();
 
 public:
-    ImageObject imageObject;
-    TextObject textObject;
     MainView mainView;
-
-    Graphics(Canvas& _window, IOShader& _ioShader, IOTexture& _ioTexture, IOFonts& _ioFonts);
+    Graphics(Canvas& _window);
     ~Graphics();
 
 };

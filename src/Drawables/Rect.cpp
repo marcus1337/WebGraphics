@@ -1,13 +1,13 @@
 #include "Drawables/Rect.h"
 
-Rect::Rect(Graphics& _graphics, IOContainer& _ioContainer) : Drawable(_graphics, _ioContainer, imageShader), imageShader(_ioContainer.ioShader, _ioContainer.ioTexture) {
+Rect::Rect() : Drawable(imageShader) {
     imageShader.setProgram("rectangle");
     setThickness(1.0f);
     setRadius(0.0f);
 }
 
 void Rect::render() {
-    graphics.imageObject.draw(imageShader);
+    objectContainer.imageObj.draw(imageShader);
 }
 
 void Rect::setFade(float _fade) {

@@ -9,7 +9,7 @@ class Rect : public Drawable {
 protected:
     ImageShader imageShader;
 public:
-    Rect(Graphics& _graphics, IOContainer& _ioContainer);
+    Rect();
     virtual void render() override;
     void setFade(float _fade);
     void setThickness(float _thickness);

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-Graphics::Graphics(Canvas& _window, IOShader& _ioShader, IOTexture& _ioTexture, IOFonts& _ioFonts) : window(_window), mainView(_window, imageObject, _ioShader, _ioTexture), ioTexture(_ioTexture), ioFonts(_ioFonts), textObject(_ioFonts), ioShader(_ioShader)
+Graphics::Graphics(Canvas& _window) : window(_window), mainView(_window)
 {
     setGLSettings();
 }

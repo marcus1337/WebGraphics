@@ -1,7 +1,10 @@
 #include "Drawables/Drawable.h"
+#include "Engine/Engine.h"
 
-Drawable::Drawable(Graphics& _graphics, IOContainer& _ioContainer, Shader& _shader) : graphics(_graphics), shader(&_shader)
-{};
+Drawable::Drawable(Shader& _shader) : shader(&_shader), objectContainer(ObjectContainer::getInstance())
+{
+
+};
 
 Drawable::~Drawable() {
 

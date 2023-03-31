@@ -3,7 +3,7 @@
 #include <math.h> 
 #include <numbers>
 
-Line::Line(Graphics& _graphics, IOContainer& _ioContainer, int _fromX, int _fromY, int _toX, int _toY) : Rect(_graphics, _ioContainer), fromX(_fromX), fromY(_fromY), toX(_toX), toY(_toY) {
+Line::Line(int _fromX, int _fromY, int _toX, int _toY) : fromX(_fromX), fromY(_fromY), toX(_toX), toY(_toY) {
     adjust();
 }
 

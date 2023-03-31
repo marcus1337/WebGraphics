@@ -1,20 +1,20 @@
 #include "Drawables/Text.h"
 #include "Graphics/Shaders/TextShader.h"
 
-Text::Text(Graphics& _graphics, IOContainer& _ioContainer) : Drawable(_graphics, _ioContainer, textShader), textShader(_ioContainer.ioShader) {
+Text::Text() : Drawable(textShader) {
 
 }
 
 void Text::render() {
-    graphics.textObject.setFont(font);
-    graphics.textObject.setText(text);
-    graphics.textObject.setTextPixelHeight(pixelHeight);
-    graphics.textObject.draw(textShader);
+    objectContainer.textObj.setFont(font);
+    objectContainer.textObj.setText(text);
+    objectContainer.textObj.setTextPixelHeight(pixelHeight);
+    objectContainer.textObj.draw(textShader);
 }
 
 unsigned int Text::getPixelWidth() {
-    graphics.textObject.setFont(font);
-    return graphics.textObject.getTextWidth(text, pixelHeight, font);
+    objectContainer.textObj.setFont(font);
+    return objectContainer.textObj.getTextWidth(text, pixelHeight, font);
 }
 
 void Text::setText(std::string _text) {

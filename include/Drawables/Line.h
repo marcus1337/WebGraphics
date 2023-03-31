@@ -8,7 +8,7 @@ class Line : public Rect {
     int fromX, fromY, toX, toY;
 
 public:
-    Line(Graphics& _graphics, IOContainer& _ioContainer, int fromX, int fromY, int toX, int toY);
+    Line(int fromX, int fromY, int toX, int toY);
 
     void adjust();
     void setLineWidth(int _lineWidth);

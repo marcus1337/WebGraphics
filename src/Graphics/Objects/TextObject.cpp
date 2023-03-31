@@ -1,5 +1,6 @@
 
 #include "Graphics/Objects/TextObject.h"
+#include "IO/Files/IOContainer.h"
 
 #include <iostream>
 #include <glm/gtx/quaternion.hpp>
@@ -7,9 +8,9 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
+TextObject::TextObject() : glyphTextureCreator(), ioFonts(IOContainer::getInstance().ioFonts)
 {
-    setDefaultFont(_ioFonts);
+    setDefaultFont();
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -22,12 +23,12 @@ TextObject::TextObject(IOFonts& _ioFonts) : glyphTextureCreator(_ioFonts)
     glBindVertexArray(0);
 }
 
-void TextObject::setDefaultFont(IOFonts& _ioFonts) {
-    if (_ioFonts.fonts.empty()) {
+void TextObject::setDefaultFont() {
+    if (ioFonts.fonts.empty()) {
         std::cerr << "No fonts loaded! Not setting a default font... \n";
         return;
     }
-    std::string defaultFont = _ioFonts.fonts.begin()->first;
+    std::string defaultFont = ioFonts.fonts.begin()->first;
     std::cout << "Setting default font to: [" << defaultFont << "] \n";
     setFont(defaultFont);
 }

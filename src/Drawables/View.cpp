@@ -1,24 +1,25 @@
 #include "Drawables/View.h"
 #include "Drawables/Rect.h"
 
-View::View(Graphics& _graphics, IOContainer& _ioContainer, int _pixelWidth, int _pixelHeight) : Drawable(_graphics, _ioContainer, frameBuffer.shader),
-frameBuffer(_ioContainer.ioShader, _ioContainer.ioTexture, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
+View::View(int _pixelWidth, int _pixelHeight) : Drawable(frameBuffer.shader),
+frameBuffer(_pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
 }
 
 View::~View() {
 }
 
 void View::clear() {
+    frameBuffer.storeState();
     frameBuffer.clear(0.0f);
-    graphics.mainView.use();
+    frameBuffer.loadState();
 }
 
 void View::paint(Drawable& drawable) {
+    frameBuffer.storeState();
     frameBuffer.use();
     drawable.setViewProjectionMatrix(pixelWidth, pixelHeight);
     drawable.render();
-    graphics.mainView.use();
-    drawable.setViewProjectionMatrix(graphics.mainView.getWidth(), graphics.mainView.getHeight());
+    frameBuffer.loadState();
 }
 
 void View::paintMinusAlpha(Drawable& drawable) {
@@ -44,7 +45,7 @@ void View::subPaint(Drawable& drawable) {
 }
 
 void View::render() {
-    graphics.imageObject.draw(frameBuffer.shader);
+    objectContainer.imageObj.draw(frameBuffer.shader);
 }
 
 void View::setPixelColor(int _x, int _y, glm::vec3 _color) {
@@ -58,20 +59,22 @@ void View::setPixelAlpha(int _x, int _y, float _alpha) {
 }
 
 void View::setPixel(int _x, int _y, glm::vec4 _color) {
+    frameBuffer.storeState();
     frameBuffer.use();
     glEnable(GL_SCISSOR_TEST);
     glScissor(_x, _y, 1, 1);
     glClearColor(_color.x, _color.y, _color.z, _color.a);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_SCISSOR_TEST);
-    graphics.mainView.use();
+    frameBuffer.loadState();
 }
 
 glm::vec4 View::getPixel(int _x, int _y) {
+    frameBuffer.storeState();
     frameBuffer.use();
     glm::vec4 _color;
     glReadPixels(_x, _y, 1, 1, GL_RGBA, GL_FLOAT, &_color);
-    graphics.mainView.use();
+    frameBuffer.loadState();
     return _color;
 }
 

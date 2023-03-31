@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "IO/Files/IOContainer.h"
 
 glm::mat4 Shader::getViewMatrix()
 {
@@ -27,7 +28,7 @@ glm::mat4 Shader::getUIViewProjectionMatrix(int windowWidth, int windowHeight) {
     return getOrthographicProjectionMatrix(windowWidth, windowHeight) * getViewMatrix();
 }
 
-Shader::Shader(IOShader& _ioShader, std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), ioShader(_ioShader) {
+Shader::Shader(std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), ioShader(IOContainer::getInstance().ioShader) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
     setProgram(programName);

@@ -7,14 +7,14 @@
 #include <Graphics/Shaders/Shader.h>
 #include <Graphics/Shaders/ImageShader.h>
 #include <Graphics/Shaders/TextShader.h>
+#include "Graphics/Objects/ObjectContainer.h"
 
 class Drawable {
     Shader* shader = nullptr;
 protected:
-    Graphics& graphics;
-
+    ObjectContainer& objectContainer;
 public:
-    Drawable(Graphics& _graphics, IOContainer& _ioContainer, Shader& _shader);
+    Drawable(Shader& _shader);
     Drawable(const Drawable&) = delete;
     virtual ~Drawable();
     virtual void render() = 0;

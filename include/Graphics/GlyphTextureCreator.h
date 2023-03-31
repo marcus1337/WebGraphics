@@ -35,7 +35,7 @@ class GlyphTextureCreator {
     std::map<std::string, std::map<char, Character>> createCharacterTextureMap(unsigned int pixelHeight);
     void createAndAddTextures(unsigned int pixelHeight);
 public:
-    GlyphTextureCreator(IOFonts& _ioFonts);
+    GlyphTextureCreator();
     ~GlyphTextureCreator();
     const std::map<char, Character>& getCharacters(std::string font, unsigned int _pixelHeight);
     bool fontExists(std::string font);
