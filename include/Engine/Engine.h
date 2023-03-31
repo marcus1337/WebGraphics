@@ -12,6 +12,7 @@ public:
     Graphics graphics;
     Resources resources;
     void setIconImage();
+    void clearScreen();
     Engine();
     ~Engine();
 
