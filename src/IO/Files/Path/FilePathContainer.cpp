@@ -14,10 +14,22 @@ void FilePathContainer::addFolderPath(std::string folderPath) {
     std::filesystem::directory_iterator iterator(folderPath);
     for (const auto& entry : iterator) {
         if (entry.is_regular_file()) {
-            std::cout << "Adding path [" << entry.path().string() << "] \n";
-            filePaths.push_back(FilePath(entry.path().string()));
+            auto path = entry.path().string();
+            if (!hasFilePath(path)) {
+                std::cout << "Adding path [" << entry.path().string() << "] \n";
+                filePaths.push_back(FilePath(entry.path().string()));
+            }
         }
     }
+}
+
+bool FilePathContainer::hasFilePath(const std::string& filePath) {
+    for (auto& fp : filePaths) {
+        if (fp.getPath() == filePath) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<std::string> FilePathContainer::getFilePaths(FileType fileType) {

@@ -17,7 +17,7 @@ std::vector<std::string> getResourceFolderPaths() {
 
 int main(int argc, char* argv[]) {
 
-    Engine engine;
+    Engine& engine = Engine::getInstance();
     engine.resources.loadResourceFiles(getResourceFolderPaths());
     engine.setIconImage();
 

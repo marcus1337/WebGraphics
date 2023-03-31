@@ -9,6 +9,7 @@
 class FilePathContainer {
 
     std::vector<FilePath> filePaths;
+    bool hasFilePath(const std::string& filePath);
 
 public:
 

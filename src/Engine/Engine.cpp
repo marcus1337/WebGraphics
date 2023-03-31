@@ -19,3 +19,8 @@ void Engine::setIconImage() {
         window.setIconImage(resources.ioContainer.ioTexture.iconImage);
     }
 }
+
+Engine& Engine::getInstance() {
+    static Engine engine;
+    return engine;
+}

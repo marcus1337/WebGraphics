@@ -8,15 +8,15 @@
 #include "Resources.h"
 
 class Engine {
-
+    Engine();
+    ~Engine();
 public:
     Canvas window;
     std::shared_ptr<Graphics> graphics;
     Resources resources;
-
-    Engine();
-    ~Engine();
     void setIconImage();
+
+    static Engine& getInstance();
 
 };
 
