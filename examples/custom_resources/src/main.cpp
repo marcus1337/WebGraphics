@@ -18,12 +18,13 @@ std::vector<std::string> getResourceFolderPaths() {
 int main(int argc, char* argv[]) {
 
     Engine engine;
-    engine.loadResourceFiles(getResourceFolderPaths());
+    engine.resources.loadResourceFiles(getResourceFolderPaths());
+    engine.setIconImage();
 
     while (!engine.window.hasQuit()) {
         engine.window.pollEvents();
         engine.graphics->mainView.clear();
-        Image image(*engine.graphics, engine.ioContainer, "background1");
+        Image image(*engine.graphics, engine.resources.ioContainer, "background1");
         image.setSize(1920, 1080);
         image.render();
         engine.graphics->mainView.display();

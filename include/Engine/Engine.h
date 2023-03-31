@@ -5,27 +5,19 @@
 #include "IO/Files/IOContainer.h"
 #include <vector>
 #include <memory>
+#include "Resources.h"
 
 class Engine {
-
-    bool areShadersLoaded();
-    void setIconImage();
-
-    void addFilePaths(const std::vector<std::string>& resourceFolderPaths);
-    void printLoadWarnings();
 
 public:
     Canvas window;
     std::shared_ptr<Graphics> graphics;
-    IOContainer ioContainer;
+    Resources resources;
 
     Engine();
-    void loadResourceFiles(const std::vector<std::string>& resourceFolderPaths);
-
     ~Engine();
-    void loadShaders();
-    void loadFonts();
-    void loadTextures();
+    void setIconImage();
+
 };
 
 #endif // !ENGINE_H

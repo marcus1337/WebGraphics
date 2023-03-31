@@ -53,7 +53,6 @@ endif()
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
 add_library(${PROJECT_NAME} STATIC 
-"src/null.cpp"
 
 "src/Drawables/Drawable.cpp"
 "src/Drawables/Image.cpp"
@@ -63,6 +62,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Drawables/View.cpp"
 
 "src/Engine/Engine.cpp"
+"src/Engine/Resources.cpp"
 
 "src/Graphics/MainView.cpp"
 "src/Graphics/Graphics.cpp"
