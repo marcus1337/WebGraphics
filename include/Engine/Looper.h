@@ -2,11 +2,14 @@
 #define LOOPER_H
 #include "Engine.h"
 #include <functional>
+#include <chrono>
 
 class Looper {
 
     int FPS = 60;
     int ticksPS = 30;
+
+    std::chrono::steady_clock::time_point lastRenderTimePoint, lastTickTimePoint;
 
     bool isRenderUpdate();
     bool isTickUpdate();
@@ -15,8 +18,8 @@ class Looper {
 
 public:
     Engine engine;
-    std::functional<void> onRender;
-    std::functional<void> onTick;
+    std::function<void(void)> onRender;
+    std::function<void(void)> onTick;
 
     Looper();
     void setDefaultResourceFolders();

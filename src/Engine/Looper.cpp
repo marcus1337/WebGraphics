@@ -1,6 +1,7 @@
 #include "Engine/Looper.h"
 
 Looper::Looper() {
+    lastRenderTimePoint = lastTickTimePoint = std::chrono::steady_clock::now();
     engine.window.setResizeCallbackFunction([&]() {
         render();
         });
@@ -26,10 +27,14 @@ void Looper::loop() {
 }
 
 void Looper::loopStep() {
-    if (isRenderUpdate())
+    if (isRenderUpdate()) {
+        lastRenderTimePoint = std::chrono::steady_clock::now();
         render();
-    if (isTickUpdate())
+    }
+    if (isTickUpdate()) {
+        lastTickTimePoint = std::chrono::steady_clock::now();
         tick();
+    }
 }
 
 bool Looper::isRenderUpdate() {
@@ -40,15 +45,15 @@ bool Looper::isTickUpdate() {
 }
 
 void Looper::render() {
-    clearScreen();
+    engine.clearScreen();
     engine.graphics.mainView.clear();
-    if(onRender)
-        onRender();
+   // if(onRender)
+   //     onRender();
     engine.graphics.mainView.display();
 }
 
 void Looper::tick() {
     engine.window.pollEvents();
-    if(onTick)
-        onTick();
+    //if(onTick)
+    //    onTick();
 }

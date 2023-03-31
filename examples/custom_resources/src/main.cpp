@@ -1,5 +1,6 @@
 
 #include "Engine/Engine.h"
+#include "Engine/Looper.h"
 #include "Drawables/Image.h"
 #include "Drawables/Text.h"
 #include <vector>
@@ -18,7 +19,8 @@ std::vector<std::string> getResourceFolderPaths() {
 
 int main(int argc, char* argv[]) {
 
-    Engine engine;
+    Looper looper;
+    Engine& engine = looper.engine;
     engine.resources.loadResourceFiles(getResourceFolderPaths());
     engine.setIconImage();
 

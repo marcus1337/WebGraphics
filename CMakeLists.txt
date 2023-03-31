@@ -61,6 +61,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Drawables/Rect.cpp"
 "src/Drawables/View.cpp"
 
+"src/Engine/Looper.cpp"
 "src/Engine/Engine.cpp"
 "src/Engine/Resources.cpp"
 
