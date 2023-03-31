@@ -20,10 +20,27 @@ std::vector<std::string> getResourceFolderPaths() {
 int main(int argc, char* argv[]) {
 
     Looper looper;
-    Engine& engine = looper.engine;
-    engine.resources.loadResourceFiles(getResourceFolderPaths());
-    engine.setIconImage();
+    looper.engine.resources.loadResourceFiles(getResourceFolderPaths());
+    looper.engine.setIconImage();
 
+    Image image("background1");
+    image.setSize(1920, 1080);
+    Text text;
+    text.setText("Okay bro");
+    text.setPosition(100, 100);
+
+    looper.onRender = [&]() {
+        image.render();
+        text.render();
+    };
+
+    looper.loop();
+
+    return 0;
+}
+
+void testLoop() {
+    Engine engine;
     while (!engine.window.hasQuit()) {
         engine.window.pollEvents();
         engine.graphics.mainView.clear();
@@ -38,6 +55,5 @@ int main(int argc, char* argv[]) {
         engine.graphics.mainView.display();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
-    return 0;
 }
+
