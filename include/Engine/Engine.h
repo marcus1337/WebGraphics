@@ -4,22 +4,28 @@
 #include "Graphics/Graphics.h"
 #include "IO/Files/IOContainer.h"
 #include <vector>
+#include <memory>
 
 class Engine {
 
-    void loadResourceFiles(std::vector<std::string> resourceFolderPaths);
     bool areShadersLoaded();
-    void printResourceLoadError();
     void setIconImage();
+
+    void addFilePaths(const std::vector<std::string>& resourceFolderPaths);
+    void printLoadWarnings();
 
 public:
     Canvas window;
-    Graphics* graphics = nullptr;
+    std::shared_ptr<Graphics> graphics;
     IOContainer ioContainer;
 
-    Engine(std::vector<std::string> resourceFolderPaths);
+    Engine();
+    void loadResourceFiles(const std::vector<std::string>& resourceFolderPaths);
+
     ~Engine();
-    void loadShaderResourceFiles();
+    void loadShaders();
+    void loadFonts();
+    void loadTextures();
 };
 
 #endif // !ENGINE_H
