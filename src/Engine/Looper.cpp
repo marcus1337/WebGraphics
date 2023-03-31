@@ -11,12 +11,12 @@ void Looper::setDefaultResourceFolders() {
 
 }
 
-void Looper::setFramesPerSecond(int numFrames) {
-
+void Looper::setFramesPerSecond(int _FPS) {
+    FPS = _FPS;
 }
 
-void Looper::setTicksPerSecond(int numTicks) {
-
+void Looper::setTicksPerSecond(int _ticksPS) {
+    ticksPS = _ticksPS;
 }
 
 void Looper::loop() {
@@ -37,23 +37,33 @@ void Looper::loopStep() {
     }
 }
 
-bool Looper::isRenderUpdate() {
-    return false;
+bool Looper::isTimePassed(std::chrono::steady_clock::time_point& timePoint, int updatesPS) {
+    if (updatesPS <= 0)
+        return false;
+    using namespace std::chrono;
+    double passedMS = (double)duration_cast<milliseconds>(steady_clock::now() - timePoint).count();
+    double updateMS = 1000.0 / updatesPS;
+    return passedMS >= updateMS;
 }
+
+bool Looper::isRenderUpdate() {
+    return isTimePassed(lastRenderTimePoint, FPS);
+}
+
 bool Looper::isTickUpdate() {
-    return false;
+    return isTimePassed(lastTickTimePoint, ticksPS);
 }
 
 void Looper::render() {
     engine.clearScreen();
     engine.graphics.mainView.clear();
-   // if(onRender)
-   //     onRender();
+    if(onRender)
+        onRender();
     engine.graphics.mainView.display();
 }
 
 void Looper::tick() {
     engine.window.pollEvents();
-    //if(onTick)
-    //    onTick();
+    if(onTick)
+        onTick();
 }

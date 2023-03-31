@@ -11,6 +11,7 @@ class Looper {
 
     std::chrono::steady_clock::time_point lastRenderTimePoint, lastTickTimePoint;
 
+    bool isTimePassed(std::chrono::steady_clock::time_point& tp, int updatesPS);
     bool isRenderUpdate();
     bool isTickUpdate();
     void render();
@@ -23,8 +24,8 @@ public:
 
     Looper();
     void setDefaultResourceFolders();
-    void setFramesPerSecond(int numFrames);
-    void setTicksPerSecond(int numTicks);
+    void setFramesPerSecond(int _FPS);
+    void setTicksPerSecond(int _ticksPS);
     void loop();
     void loopStep();
 };
