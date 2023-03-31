@@ -1,4 +1,4 @@
-#include "Canvas.h"
+#include "Window/Canvas.h"
 #include <iostream>
 
 #if defined(_MSC_VER)

@@ -1,4 +1,4 @@
-#include "IOTexture.h"
+#include "IO/Files/Texture/IOTexture.h"
 
 #include <filesystem>
 #include <fstream>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
-#include "lodepng.h"
+#include "IO/Files/Texture/lodepng.h"
 
 IOTexture::IOTexture()
 {

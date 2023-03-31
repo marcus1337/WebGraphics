@@ -1,4 +1,4 @@
-#include "MainView.h"
+#include "Graphics/MainView.h"
 #include <algorithm>
 #include <functional>
 

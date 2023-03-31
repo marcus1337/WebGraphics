@@ -1,5 +1,5 @@
-#include "View.h"
-#include "Rect.h"
+#include "Drawables/View.h"
+#include "Drawables/Rect.h"
 
 View::View(Graphics& _graphics, IOContainer& _ioContainer, int _pixelWidth, int _pixelHeight) : Drawable(_graphics, _ioContainer, frameBuffer.shader),
 frameBuffer(_ioContainer.ioShader, _ioContainer.ioTexture, _pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {

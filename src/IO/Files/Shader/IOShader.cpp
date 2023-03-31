@@ -1,4 +1,4 @@
-#include "IOShader.h"
+#include "IO/Files/Shader/IOShader.h"
 
 #include <filesystem>
 #include <fstream>
@@ -9,8 +9,8 @@
 #include <algorithm>
 #include <map>
 #include <GL/glew.h>
-#include "DefaultShaderCode.h"
-#include "ShaderCompiler.h"
+#include "IO/Files/Shader/DefaultShaderCode.h"
+#include "IO/Files/Shader/ShaderCompiler.h"
 
 IOShader::IOShader()
 {

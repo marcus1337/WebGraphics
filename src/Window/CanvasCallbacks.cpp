@@ -1,4 +1,4 @@
-#include "CanvasCallbacks.h"
+#include "Window/CanvasCallbacks.h"
 
 auto CanvasCallbacks::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     CanvasCallbacks* mw = static_cast<CanvasCallbacks*>(glfwGetWindowUserPointer(window));

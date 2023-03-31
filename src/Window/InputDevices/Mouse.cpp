@@ -1,4 +1,4 @@
-#include "Mouse.h"
+#include "Window/InputDevices/Mouse.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 

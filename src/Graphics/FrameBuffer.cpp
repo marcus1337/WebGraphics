@@ -1,4 +1,4 @@
-#include "FrameBuffer.h"
+#include "Graphics/FrameBuffer.h"
 #include <iostream>
 
 FrameBuffer::FrameBuffer(IOShader& _ioShader, IOTexture& _iotexture, int _width, int _height) : width(_width), height(_height), shader(_ioShader, _iotexture)

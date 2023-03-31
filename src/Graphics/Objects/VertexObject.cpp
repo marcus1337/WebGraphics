@@ -1,4 +1,4 @@
-#include "VertexObject.h"
+#include "Graphics/Objects/VertexObject.h"
 
 VertexObject::VertexObject() : vao(0), vbo(0) {
 

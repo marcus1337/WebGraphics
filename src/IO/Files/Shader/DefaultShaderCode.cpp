@@ -1,4 +1,4 @@
-#include "DefaultShaderCode.h"
+#include "IO/Files/Shader/DefaultShaderCode.h"
 #include <GL/glew.h>
 
 ShaderCode DefaultShaderCode::getDefault2DVertexCode() {

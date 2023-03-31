@@ -1,4 +1,4 @@
-#include "Rect.h"
+#include "Drawables/Rect.h"
 
 Rect::Rect(Graphics& _graphics, IOContainer& _ioContainer) : Drawable(_graphics, _ioContainer, imageShader), imageShader(_ioContainer.ioShader, _ioContainer.ioTexture) {
     imageShader.setProgram("rectangle");

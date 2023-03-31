@@ -1,4 +1,4 @@
-#include "ImageShader.h"
+#include "Graphics/Shaders/ImageShader.h"
 
 ImageShader::ImageShader(IOShader& _ioShader, IOTexture& _iotexture) : Shader(_ioShader, "image"), defaultColor({}), normalID(0), textureID(0), iotexture(_iotexture) {
     textureSize = glm::vec2(1.0f, 1.0f);

@@ -1,4 +1,4 @@
-#include "Keyboard.h"
+#include "Window/InputDevices/Keyboard.h"
 #include <iostream>
 
 void Keyboard::setKeys(GLFWwindow* window, int key, int scancode, int action, int mods)

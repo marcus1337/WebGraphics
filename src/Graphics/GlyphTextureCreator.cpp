@@ -1,4 +1,4 @@
-#include "GlyphTextureCreator.h"
+#include "Graphics/GlyphTextureCreator.h"
 #include <iostream>
 
 GlyphTextureCreator::GlyphTextureCreator(IOFonts& _ioFonts) : ioFonts(_ioFonts) {

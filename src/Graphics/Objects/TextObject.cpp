@@ -1,5 +1,5 @@
 
-#include "TextObject.h"
+#include "Graphics/Objects/TextObject.h"
 
 #include <iostream>
 #include <glm/gtx/quaternion.hpp>

@@ -1,4 +1,4 @@
-#include "CanvasSettings.h"
+#include "Window/CanvasSettings.h"
 
 CanvasSettings::CanvasSettings() {
 

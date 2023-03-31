@@ -1,4 +1,4 @@
-#include "Text.h"
+#include "Drawables/Text.h"
 #include "Graphics/Shaders/TextShader.h"
 
 Text::Text(Graphics& _graphics, IOContainer& _ioContainer) : Drawable(_graphics, _ioContainer, textShader), textShader(_ioContainer.ioShader) {
