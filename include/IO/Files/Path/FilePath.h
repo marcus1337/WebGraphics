@@ -6,7 +6,7 @@
 #include <cstring>
 
 enum class FileType {
-    BIN, TTF, PNG, TXT, SHADER, UNKNOWN
+    BIN, TTF, PNG, TXT, SHADER, UNKNOWN, WAV, LUA
 };
 
 class FilePath {

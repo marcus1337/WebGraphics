@@ -7,14 +7,15 @@
 #include "Resources.h"
 
 class Engine {
+    Engine();
+    ~Engine() = default;
 public:
+    static Engine& getInstance();
     Canvas window;
     Graphics graphics;
     Resources resources;
     void setIconImage();
     void clearScreen();
-    Engine();
-    ~Engine();
 
 };
 

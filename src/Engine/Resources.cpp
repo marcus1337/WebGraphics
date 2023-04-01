@@ -31,6 +31,15 @@ void Resources::addFilePaths(const std::vector<std::string>& resourceFolderPaths
 
 void Resources::loadResourceFiles(const std::vector<std::string>& resourceFolderPaths) {
     addFilePaths(resourceFolderPaths);
+    loadFiles();
+}
+
+void Resources::loadDefaultResourceFiles() {
+    ioContainer.filePathContainer.addDefaultFolderPaths();
+    loadFiles();
+}
+
+void Resources::loadFiles() {
     loadFonts();
     loadShaders();
     loadTextures();

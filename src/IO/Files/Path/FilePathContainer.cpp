@@ -1,8 +1,6 @@
 #include "IO/Files/Path/FilePathContainer.h"
 #include <filesystem>
 
-
-
 void FilePathContainer::addFolderPath(std::string folderPath) {
     std::filesystem::path filepath = std::string(folderPath);
     bool filepathExists = std::filesystem::is_directory(filepath.parent_path());
@@ -71,4 +69,23 @@ std::string FilePathContainer::getFilePath(std::string fileName, FileType fileTy
     return "";
 }
 
+std::vector<std::string> FilePathContainer::getDefaultFolderPaths() {
+    std::string rootFolderPath = std::filesystem::current_path().string() + "//res//";
+#ifdef EMSCRIPTEN
+    rootFolderPath.insert(0, ".");
+#endif
+    std::vector<std::string> folderPaths;
+    folderPaths.push_back(rootFolderPath);
+    for (auto& entry : std::filesystem::recursive_directory_iterator(rootFolderPath)) {
+        if (entry.is_directory()) {
+            folderPaths.push_back(entry.path().string());
+        }
+    }
+    return folderPaths;
+}
 
+void FilePathContainer::addDefaultFolderPaths() {
+    for (const auto& folderPath : getDefaultFolderPaths()) {
+        addFolderPath(folderPath);
+    }
+}

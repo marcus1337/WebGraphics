@@ -9,7 +9,9 @@ Engine::Engine() : graphics(window) {
 
 }
 
-Engine::~Engine() {
+Engine& Engine::getInstance() {
+    static Engine engine;
+    return engine;
 }
 
 void Engine::setIconImage() {

@@ -9,8 +9,10 @@ class Resources {
     void addFilePaths(const std::vector<std::string>& resourceFolderPaths);
     void printLoadWarnings();
     bool areShadersLoaded();
+    void loadFiles();
 public:
     Resources();
+    void loadDefaultResourceFiles();
     void loadResourceFiles(const std::vector<std::string>& resourceFolderPaths);
     void loadShaders();
     void loadFonts();
