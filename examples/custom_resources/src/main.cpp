@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
     engine.setIconImage();
 
     Image image("background1");
+    image.setShaderProgram("background");
     image.setSize(1920, 1080);
     Text text;
     text.setText("Okay bro");
