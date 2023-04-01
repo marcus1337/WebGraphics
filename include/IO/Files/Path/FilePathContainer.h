@@ -11,7 +11,9 @@ class FilePathContainer {
     std::vector<FilePath> filePaths;
     bool hasFilePath(const std::string& filePath);
 
+    std::vector<std::string> getFilePathsInFolder(const std::string& folderPath);
     std::vector<std::string> getDefaultFolderPaths();
+    bool isFolderPath(std::string path);
 
 public:
 
