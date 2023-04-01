@@ -10,7 +10,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/external/glm" "${CMAKE_CURRENT_BINARY_DIR}/external/glm")
 list(APPEND INCLUDE_DIRS "external/glm")
-list(APPEND LINK_LIBS glm)
 
 if(EMSCRIPTEN)
     #--embed-file res

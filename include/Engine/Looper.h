@@ -9,12 +9,14 @@ class Looper {
     Engine& engine;
     int FPS = 60;
     int ticksPS = 30;
-    std::chrono::steady_clock::time_point lastRenderTimePoint, lastTickTimePoint, lastEventPollTimePoint;
+    std::chrono::steady_clock::time_point lastRenderTimePoint, lastTickTimePoint, lastEventPollTimePoint, lastScriptTimePoint;
 
     bool isTimePassed(std::chrono::steady_clock::time_point& tp, int updatesPS);
     bool isRenderUpdate();
     bool isTickUpdate();
     bool isEventPollUpdate();
+    bool isScriptUpdate();
+    void reviseScripts();
     void render();
     void tick();
     void eventPoll();

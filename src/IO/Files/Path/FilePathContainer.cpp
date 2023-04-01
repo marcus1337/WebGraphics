@@ -1,10 +1,12 @@
 #include "IO/Files/Path/FilePathContainer.h"
 #include <filesystem>
+#include <algorithm>
+#include <ranges>
 
 bool FilePathContainer::isFolderPath(std::string path) {
     std::filesystem::path filepath = std::string(path);
     return std::filesystem::is_directory(filepath.parent_path());
-}   
+}
 
 std::vector<std::string> FilePathContainer::getFilePathsInFolder(const std::string& folderPath) {
     std::vector<std::string> paths;
@@ -96,5 +98,16 @@ std::vector<std::string> FilePathContainer::getDefaultFolderPaths() {
 void FilePathContainer::addDefaultFolderPaths() {
     for (const auto& folderPath : getDefaultFolderPaths()) {
         addFolderPath(folderPath);
+    }
+}
+
+bool FilePathContainer::isFileUpdate(FileType fileType) {
+    return std::any_of(filePaths.begin(), filePaths.end(), [fileType](const FilePath& fp) { return fp.getType() == fileType && fp.isFileChanged(); });
+}
+
+void FilePathContainer::setFilesUpdated(FileType fileType) {
+    auto typedPaths = filePaths | std::views::filter([&](const FilePath& fp) { return fp.getType() == fileType; });
+    for (auto& fp : typedPaths) {
+        fp.setFileChangeTime();
     }
 }

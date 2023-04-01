@@ -4,6 +4,7 @@ Looper::Looper() : engine(Engine::getInstance()) {
     lastRenderTimePoint = std::chrono::steady_clock::now();
     lastTickTimePoint = std::chrono::steady_clock::now();
     lastEventPollTimePoint = std::chrono::steady_clock::now();
+    lastScriptTimePoint = std::chrono::steady_clock::now();
     engine.window.setResizeCallbackFunction(std::bind(&Looper::render, this));
 }
 
@@ -35,6 +36,10 @@ void Looper::loopStep() {
         lastEventPollTimePoint = std::chrono::steady_clock::now();
         eventPoll();
     }
+    if (isScriptUpdate()) {
+        lastScriptTimePoint = std::chrono::steady_clock::now();
+        reviseScripts();
+    }
 }
 
 bool Looper::isTimePassed(std::chrono::steady_clock::time_point& timePoint, int updatesPS) {
@@ -57,6 +62,19 @@ bool Looper::isTickUpdate() {
 bool Looper::isEventPollUpdate() {
     const int eventPollsPS = 50;
     return isTimePassed(lastEventPollTimePoint, eventPollsPS);
+}
+
+bool Looper::isScriptUpdate() {
+    const int scriptPollsPS = 10;
+    return isTimePassed(lastScriptTimePoint, scriptPollsPS);
+}
+
+void Looper::reviseScripts() {
+    auto& fpContainer = IOContainer::getInstance().filePathContainer;
+    if (fpContainer.isFileUpdate(FileType::SHADER)) {
+        engine.resources.loadShaders();
+        fpContainer.setFilesUpdated(FileType::SHADER);
+    }
 }
 
 void Looper::render() {

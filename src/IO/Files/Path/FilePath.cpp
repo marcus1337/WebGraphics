@@ -2,10 +2,22 @@
 #include <iostream>
 
 FilePath::FilePath(std::string _path) : path(_path) {
-
+    setFileChangeTime();
 }
 
-FileType FilePath::getType() {
+bool FilePath::isFileChanged() const {
+    return getFileWriteTime() > ftime;
+}
+
+std::filesystem::file_time_type FilePath::getFileWriteTime() const {
+    return std::filesystem::last_write_time(path);
+}
+
+void FilePath::setFileChangeTime() {
+    ftime = getFileWriteTime();
+}
+
+FileType FilePath::getType() const {
     std::string extension = getExtension();
     if (extensionMap.contains(extension))
         return extensionMap[extension];
@@ -13,7 +25,7 @@ FileType FilePath::getType() {
     return FileType::UNKNOWN;
 }
 
-std::string FilePath::getExtension() {
+std::string FilePath::getExtension() const {
     size_t dotIndex = path.find_last_of('.');
     if (dotIndex != std::string::npos) {
         return path.substr(dotIndex);
@@ -21,7 +33,7 @@ std::string FilePath::getExtension() {
     return "";
 }
 
-std::string FilePath::getName() {
+std::string FilePath::getName() const {
     std::string name = path;
     size_t slashIndex = name.find_last_of("/\\");
     if (slashIndex != std::string::npos)
@@ -30,7 +42,7 @@ std::string FilePath::getName() {
     return name;
 }
 
-std::string FilePath::getPath() {
+std::string FilePath::getPath() const {
     return path;
 }
 
