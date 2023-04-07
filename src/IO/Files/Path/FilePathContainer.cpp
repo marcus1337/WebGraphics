@@ -106,8 +106,9 @@ bool FilePathContainer::isFileUpdate(FileType fileType) {
 }
 
 void FilePathContainer::setFilesUpdated(FileType fileType) {
-    auto typedPaths = filePaths | std::views::filter([&](const FilePath& fp) { return fp.getType() == fileType; });
-    for (auto& fp : typedPaths) {
-        fp.setFileChangeTime();
+    for (auto& fp : filePaths) {
+        if (fp.getType() == fileType) {
+            fp.setFileChangeTime();
+        }
     }
 }
