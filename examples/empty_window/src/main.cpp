@@ -1,4 +1,4 @@
-
+#include "Engine/Engine.h"
 #include <vector>
 #include <string>
 #include <filesystem>
@@ -7,16 +7,19 @@
 
 int main(int argc, char* argv[]) {
 
-    std::vector<std::string> paths;
-    Engine* engine = new Engine(paths);
+    auto& engine = Engine::getInstance();
+    while(!engine.window.hasQuit()){
+        engine.window.pollEvents();
+        for(char c : "ABCDEFGHIJKLMNOPQRSTUVWZYZ"){
+            if(engine.window.keyboard.isDownClick[c]){
+                std::string str = "Press: ";
+                str += c;
+                std::cout << str << "\n";
+            }
+        }
 
-    while (!engine->window.hasQuit()) {
-        engine->window.pollEvents();
-        engine->graphics->mainView.clear();
-        engine->graphics->mainView.display();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    delete engine;
 
     return 0;
 }

@@ -65,7 +65,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/MainView.cpp"
 "src/Graphics/Graphics.cpp"
 "src/Graphics/GlyphTextureCreator.cpp"
-"src/Graphics/Framebuffer.cpp"
+"src/Graphics/FrameBuffer.cpp"
 "src/Graphics/Objects/ImageObject.cpp"
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
