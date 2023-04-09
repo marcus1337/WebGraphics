@@ -29,7 +29,9 @@ void Drawable::setRotation(float _rotation) {
     shader->rotation = _rotation;
 }
 void Drawable::setViewProjectionMatrix(int _width, int _height) {
-    shader->setViewProjectionMatrix(_width, _height);
+    Camera camera;
+    camera.setScreenSize(_width, _height);
+    shader->setCamera(camera);
 }
 int Drawable::getX() {
     return shader->getX();

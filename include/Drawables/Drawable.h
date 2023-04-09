@@ -8,6 +8,7 @@
 #include <Graphics/Shaders/ImageShader.h>
 #include <Graphics/Shaders/TextShader.h>
 #include "Graphics/Objects/ObjectContainer.h"
+#include "Graphics/Shaders/Camera.h"
 
 class Drawable {
     Shader* shader = nullptr;

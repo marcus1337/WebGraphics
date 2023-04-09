@@ -12,11 +12,9 @@
 #include <string>
 #include "IO/Files/Shader/IOShader.h"
 #include <map>
+#include "Camera.h"
 
 class Shader{
-
-    glm::mat4 getViewMatrix();
-    glm::mat4 getOrthographicProjectionMatrix(int windowWidth, int windowHeight);
 
 protected:
     IOShader& ioShader;
@@ -24,7 +22,7 @@ protected:
     int screenHeight = 1080;
 
     std::string programName;
-    glm::mat4 VP, V, P;
+    Camera camera;
 
     glm::mat4 getScaleMatrix(glm::vec3 scale, bool mirror);
     glm::mat4 getRotationMatrix(float rotation, glm::vec3 rotationAxis, glm::vec2 rotateOffset);
@@ -50,11 +48,11 @@ public:
     Shader(std::string programName);
     virtual ~Shader();
 
+    void setCamera(Camera _camera);
     void setProgram(std::string _programName);
     void setScale(int _width, int _height);
     void setUniforms();
     void setPosition(int _x, int _y);
-    void setViewProjectionMatrix(int _width, int _height);
     void setRotation(float _rotation);
     
     int getX();

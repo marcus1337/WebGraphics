@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include "Graphics/Objects/ObjectContainer.h"
+#include "Graphics/Shaders/Camera.h"
 
 MainView::MainView(Canvas& _window) : frame(maxWidth, maxHeight), window(_window)
 {
@@ -69,7 +70,7 @@ void MainView::render() {
     frame.shader.setPosition(getX(), getY());
     frame.shader.setScale(getWidth(), getHeight());
     glViewport(0, 0, window.getWidth(), window.getHeight());
-    frame.shader.setViewProjectionMatrix(window.getWidth(), window.getHeight());
+    frame.shader.setCamera(Camera(window.getWidth(), window.getHeight()));
     ObjectContainer::getInstance().imageObj.draw(frame.shader);
 }
 

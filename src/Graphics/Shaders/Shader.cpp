@@ -5,34 +5,20 @@
 #include <glm/gtx/transform.hpp>
 #include "IO/Files/IOContainer.h"
 
-glm::mat4 Shader::getViewMatrix()
-{
-    glm::vec3 Position = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 front;
-    const float Yaw = -90.0f;
-    const float Pitch = 0.0f;
-    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    front.y = sin(glm::radians(Pitch));
-    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    glm::vec3 Front = glm::normalize(front);
-    return glm::lookAt(Position, Position + Front, Up);
-}
 
-glm::mat4 Shader::getOrthographicProjectionMatrix(int windowWidth, int windowHeight)
-{
-    return glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight, 0.01f, 100.0f);
-}
-
-Shader::Shader(std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), ioShader(IOContainer::getInstance().ioShader) {
+Shader::Shader(std::string programName) : color({}), rotateOffset({}), ioShader(IOContainer::getInstance().ioShader) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
     setProgram(programName);
-    setViewProjectionMatrix(screenWidth, screenHeight);
+    camera.setScreenSize(screenWidth, screenHeight);
 }
 
 Shader::~Shader() {
 
+}
+
+void Shader::setCamera(Camera _camera) {
+    camera = _camera;
 }
 
 void Shader::setProgram(std::string _programName) {
@@ -96,12 +82,6 @@ void Shader::setPosition(int _x, int _y)
     position.y = _y;
 }
 
-void Shader::setViewProjectionMatrix(int _width, int _height) {
-    P = getOrthographicProjectionMatrix(_width, _height);
-    V = getViewMatrix();
-    VP = P * V;
-}
-
 void Shader::setExtraUniforms() {
     GLuint programID = ioShader.getProgram(programName);
     for (const auto& [key, value] : extraFloatUniforms) {
@@ -120,6 +100,9 @@ void Shader::setMatrixUniforms()
 {
     GLuint programID = ioShader.getProgram(programName);
     glm::mat4 M = getModel();
+    auto V = camera.getView();
+    auto P = camera.getProjection();
+    auto VP = P * V;
     glm::mat4 MVP = VP * M;
     glm::mat4 MV = V * M;
     glUniformMatrix4fv(glGetUniformLocation(programID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
