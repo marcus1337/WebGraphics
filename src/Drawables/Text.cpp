@@ -17,7 +17,7 @@ unsigned int Text::getPixelWidth() {
     return objectContainer.textObj.getTextWidth(text, pixelHeight, font);
 }
 
-void Text::setText(std::string _text) {
+void Text::setText(std::wstring _text) {
     text = _text;
 }
 void Text::setFont(std::string _font) {

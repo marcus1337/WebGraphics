@@ -41,7 +41,7 @@ TextObject::~TextObject()
 {
 }
 
-void TextObject::setText(std::string _text)
+void TextObject::setText(std::wstring _text)
 {
     text = _text;
 }
@@ -82,19 +82,31 @@ void TextObject::setFont(std::string _font) {
     font = _font;
 }
 
-void TextObject::bindAndDrawTextTextures(std::string& _text)
+void TextObject::bindAndDrawTextTextures(std::wstring& _text)
 {
-    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(font, pixelHeight);
+    const std::map<wchar_t, Character>& characters = glyphTextureCreator.getCharacters(font, pixelHeight);
     float _xOffset = 0;
-    for (std::string::const_iterator c = _text.begin(); c != _text.end(); c++)
-        setCharVertices(_xOffset, characters.at(*c));
+    for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
+        if (!characters.contains(*c)) {
+            std::cerr << "ERROR " << (int)*c << " DOES NOT EXIST IN CHARACTER MAP!\n";
+        }
+        else {
+            setCharVertices(_xOffset, characters.at(*c));
+        }
+    }
 }
 
-int TextObject::getTextWidth(std::string _text, int _pixelHeight, std::string _font) {
-    const std::map<char, Character>& characters = glyphTextureCreator.getCharacters(_font, _pixelHeight);
+int TextObject::getTextWidth(std::wstring _text, int _pixelHeight, std::string _font) {
+    const std::map<wchar_t, Character>& characters = glyphTextureCreator.getCharacters(_font, _pixelHeight);
     float _xOffset = 0;
-    for (std::string::const_iterator c = _text.begin(); c != _text.end(); c++)
-        getGlyphVertices(_xOffset, characters.at(*c));
+    for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
+        if (!characters.contains(*c)) {
+            std::cerr << "ERROR " << (int)*c << " DOES NOT EXIST IN CHARACTER MAP!\n";
+        }
+        else {
+            getGlyphVertices(_xOffset, characters.at(*c));
+        }
+    }
     return (int)_xOffset;
 }
 

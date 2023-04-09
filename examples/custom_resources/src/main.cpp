@@ -1,4 +1,4 @@
-
+﻿
 #include "Engine/Engine.h"
 #include "Engine/Looper.h"
 #include "Drawables/Image.h"
@@ -18,7 +18,8 @@ int main(int argc, char* argv[]) {
     image.setShaderProgram("background");
     image.setSize(1920, 1080);
     Text text;
-    text.setText("Okay bro");
+    text.setText(L"Okay bro こんにちは世界 北島 美奈");
+    text.setFont("Hosohuwafont");
     text.setPosition(100, 100);
 
     looper.onRender = [&]() {

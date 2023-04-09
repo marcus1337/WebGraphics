@@ -20,10 +20,10 @@ class TextObject : public VertexObject
 
 private:
     void setCharVertices(float& _x, Character ch);
-    void bindAndDrawTextTextures(std::string& _text);
+    void bindAndDrawTextTextures(std::wstring& _text);
     std::string font;
     unsigned int pixelHeight = 60;
-    std::string text;
+    std::wstring text;
 
     std::array<std::array<float, 4>, 6> getGlyphVertices(float _x, float _y, float _w, float _h);
     std::array<std::array<float, 4>, 6> getGlyphVertices(float& _xOffset, Character ch);
@@ -32,12 +32,12 @@ private:
 
 public:
     void setFont(std::string _font);
-    void setText(std::string text);
+    void setText(std::wstring text);
     virtual void draw(Shader& shader) override;
     void setTextPixelHeight(unsigned int _pixelHeight);
     ~TextObject();
     TextObject();
-    int getTextWidth(std::string _text, int _pixelHeight, std::string _font);
+    int getTextWidth(std::wstring _text, int _pixelHeight, std::string _font);
 };
 
 #endif
