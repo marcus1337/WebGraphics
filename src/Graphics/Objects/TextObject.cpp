@@ -82,18 +82,25 @@ void TextObject::setFont(std::string _font) {
     font = _font;
 }
 
+std::vector<Character> TextObject::getCharacters(const std::wstring& text) {
+    std::vector<Character> characters;
+    for (std::wstring::const_iterator c = text.begin(); c != text.end(); c++) {
+        auto character = glyphTextureCreator.getCharacter(*c, font, pixelHeight);
+        characters.push_back(character);
+    }
+    return characters;
+}
+
 void TextObject::bindAndDrawTextTextures(std::wstring& _text){
     float _xOffset = 0;
-    for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
-        auto character = glyphTextureCreator.getCharacter(*c, font, pixelHeight);
+    for (const auto& character : getCharacters(_text)) {
         setCharVertices(_xOffset, character);
     }
 }
 
 int TextObject::getTextWidth(std::wstring _text, int _pixelHeight, std::string _font) {
     float _xOffset = 0;
-    for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
-        auto character = glyphTextureCreator.getCharacter(*c, font, pixelHeight);
+    for (const auto& character : getCharacters(_text)) {
         getGlyphVertices(_xOffset, character);
     }
     return (int)_xOffset;
@@ -102,7 +109,6 @@ int TextObject::getTextWidth(std::wstring _text, int _pixelHeight, std::string _
 void TextObject::draw(Shader& shader)
 {
     glBindVertexArray(vao);
-    //shader.rotateOffset = glm::vec2(getTextWidth(text, pixelHeight, font), pixelHeight);
     shader.setUniforms();
     bindAndDrawTextTextures(text);
     glBindTexture(GL_TEXTURE_2D, 0);

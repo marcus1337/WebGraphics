@@ -21,6 +21,7 @@ class TextObject : public VertexObject
 private:
     void setCharVertices(float& _x, Character ch);
     void bindAndDrawTextTextures(std::wstring& _text);
+    std::vector<Character> getCharacters(const std::wstring& text);
     std::string font;
     unsigned int pixelHeight = 60;
     std::wstring text;
