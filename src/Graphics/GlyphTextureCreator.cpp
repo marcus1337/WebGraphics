@@ -2,38 +2,28 @@
 #include <iostream>
 #include "IO/Files/IOContainer.h"
 #include <wchar.h>
+#include <GL/gl.h>
+#include <GL/glew.h>
 
 GlyphTextureCreator::GlyphTextureCreator() : ioFonts(IOContainer::getInstance().ioFonts) {
-    createAndAddTextures(60);
+
 }
 GlyphTextureCreator::~GlyphTextureCreator() {
-
-}
-
-void GlyphTextureCreator::createAndAddTextures(unsigned int pixelHeight) {
-    auto characterTextureMap = createCharacterTextureMap(pixelHeight);
-    for (const auto& [font, value] : characterTextureMap) {
-        auto key = std::make_pair(font, pixelHeight);
-        characterMap[key] = value;
+    for (const auto& [key, character] : characters) {
+        glDeleteTextures(1, &character.TextureID);
     }
 }
 
-const std::map<wchar_t, Character>& GlyphTextureCreator::getCharacters(std::string font, unsigned int _pixelHeight) {
-    auto key = std::make_pair(font, _pixelHeight);
-    if (!characterMap.contains(key))
-        createAndAddTextures(_pixelHeight);
-    return characterMap[key];
+Character GlyphTextureCreator::getCharacter(wchar_t c, std::string font, unsigned int pixelHeight) {
+    std::tuple<wchar_t, std::string, unsigned int> key = std::make_tuple(c, font, pixelHeight);
+    if (!characters.contains(key)) {
+        characters[key] = loadGlyph(c, font, pixelHeight);
+    }
+    return characters[key];
 }
 
 bool GlyphTextureCreator::fontExists(std::string font) {
     return ioFonts.fonts.contains(font);
-}
-
-std::map<std::string, std::map<wchar_t, Character>> GlyphTextureCreator::createCharacterTextureMap(unsigned int pixelHeight) {
-    std::map<std::string, std::map<wchar_t, Character>> characterMap;
-    for (const auto& [key, value] : ioFonts.fonts)
-        characterMap[key] = loadGlyphs(value, pixelHeight);
-    return characterMap;
 }
 
 unsigned int GlyphTextureCreator::makeGlyphTexture(FT_Face& face)
@@ -67,34 +57,26 @@ unsigned int GlyphTextureCreator::makeGlyphTexture(FT_Face& face)
     return texture;
 }
 
-std::map<wchar_t, Character> GlyphTextureCreator::loadGlyphs(FT_Face face, unsigned int pixelHeight)
-{
-    std::map<wchar_t, Character> _characterMap;
+Character GlyphTextureCreator::loadGlyph(wchar_t c, std::string font, unsigned int pixelHeight) {
+    FT_Face face = ioFonts.fonts[font];
+    Character character;
     FT_Set_Pixel_Sizes(face, 0, pixelHeight);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
-    for (wchar_t c = 0; c < WCHAR_MAX; c++)
+    if (!FT_Load_Char(face, c, FT_LOAD_RENDER))
     {
-        if (!FT_Load_Char(face, c, FT_LOAD_RENDER))
-        {
-            unsigned int glyphTexture = makeGlyphTexture(face);
-            addCharacter(c, glyphTexture, face, _characterMap);
-        }
-        else {
-            std::cout << "ERROR::FREETYTPE: Failed to load Glyph. Face: " << face << " char: " << (int)c << std::endl;
-        }
+        unsigned int glyphTexture = makeGlyphTexture(face);
+        character = makeCharacter(c, glyphTexture, face);
     }
-
-    return _characterMap;
+    else {
+        std::cout << "ERROR::FREETYTPE: Failed to load Glyph. Face: " << face << " char: " << (int)c << std::endl;
+    }
+    return character;
 }
 
-void GlyphTextureCreator::addCharacter(wchar_t c, unsigned int textureID, FT_Face& face, std::map<wchar_t, Character>& _characterMap)
-{
-    Character character = {
-        textureID,
+Character GlyphTextureCreator::makeCharacter(wchar_t c, unsigned int textureID, FT_Face& face) {
+    return { textureID,
         glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
         glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
         static_cast<unsigned int>(face->glyph->advance.x) };
-
-    _characterMap.insert(std::pair<wchar_t, Character>(c, character));
 }

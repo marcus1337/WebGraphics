@@ -27,17 +27,15 @@ struct Character
 #ifndef GLYPH_TEXTURE_CREATOR_H
 #define GLYPH_TEXTURE_CREATOR_H
 class GlyphTextureCreator {
-    IOFonts& ioFonts;
-    std::map<wchar_t, Character> loadGlyphs(FT_Face face, unsigned int pixelHeight);
-    unsigned int makeGlyphTexture(FT_Face& face);
-    void addCharacter(wchar_t c, unsigned int textureID, FT_Face& face, std::map<wchar_t, Character>& _characterMap);
-    std::map<std::pair<std::string,int>, std::map<wchar_t, Character>> characterMap;
-    std::map<std::string, std::map<wchar_t, Character>> createCharacterTextureMap(unsigned int pixelHeight);
-    void createAndAddTextures(unsigned int pixelHeight);
+   IOFonts& ioFonts;
+   std::map<std::tuple<wchar_t, std::string, unsigned int>, Character> characters; //character, textureID, pixelHeight
+   Character loadGlyph(wchar_t c, std::string font, unsigned int pixelHeight);
+   Character makeCharacter(wchar_t c, unsigned int textureID, FT_Face& face);
+   unsigned int makeGlyphTexture(FT_Face& face);
 public:
     GlyphTextureCreator();
     ~GlyphTextureCreator();
-    const std::map<wchar_t, Character>& getCharacters(std::string font, unsigned int _pixelHeight);
+    Character getCharacter(wchar_t c, std::string font, unsigned int pixelHeight);
     bool fontExists(std::string font);
 };
 

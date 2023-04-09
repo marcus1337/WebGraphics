@@ -8,7 +8,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-TextObject::TextObject() : glyphTextureCreator(), ioFonts(IOContainer::getInstance().ioFonts)
+TextObject::TextObject() : ioFonts(IOContainer::getInstance().ioFonts)
 {
     setDefaultFont();
 
@@ -16,7 +16,7 @@ TextObject::TextObject() : glyphTextureCreator(), ioFonts(IOContainer::getInstan
     glBindVertexArray(vao);
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -82,30 +82,19 @@ void TextObject::setFont(std::string _font) {
     font = _font;
 }
 
-void TextObject::bindAndDrawTextTextures(std::wstring& _text)
-{
-    const std::map<wchar_t, Character>& characters = glyphTextureCreator.getCharacters(font, pixelHeight);
+void TextObject::bindAndDrawTextTextures(std::wstring& _text){
     float _xOffset = 0;
     for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
-        if (!characters.contains(*c)) {
-            std::cerr << "ERROR " << (int)*c << " DOES NOT EXIST IN CHARACTER MAP!\n";
-        }
-        else {
-            setCharVertices(_xOffset, characters.at(*c));
-        }
+        auto character = glyphTextureCreator.getCharacter(*c, font, pixelHeight);
+        setCharVertices(_xOffset, character);
     }
 }
 
 int TextObject::getTextWidth(std::wstring _text, int _pixelHeight, std::string _font) {
-    const std::map<wchar_t, Character>& characters = glyphTextureCreator.getCharacters(_font, _pixelHeight);
     float _xOffset = 0;
     for (std::wstring::const_iterator c = _text.begin(); c != _text.end(); c++) {
-        if (!characters.contains(*c)) {
-            std::cerr << "ERROR " << (int)*c << " DOES NOT EXIST IN CHARACTER MAP!\n";
-        }
-        else {
-            getGlyphVertices(_xOffset, characters.at(*c));
-        }
+        auto character = glyphTextureCreator.getCharacter(*c, font, pixelHeight);
+        getGlyphVertices(_xOffset, character);
     }
     return (int)_xOffset;
 }

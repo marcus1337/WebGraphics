@@ -22,7 +22,16 @@ int main(int argc, char* argv[]) {
     text.setFont("Hosohuwafont");
     text.setPosition(100, 100);
 
+    bool tmp = true;
+
     looper.onRender = [&]() {
+        if (tmp) {
+            text.setPixelHeight(30);
+        }
+        else {
+            text.setPixelHeight(60);
+        }
+        tmp = !tmp;
         image.render();
         text.render();
     };
