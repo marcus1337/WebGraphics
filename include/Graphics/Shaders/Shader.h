@@ -19,9 +19,6 @@ class Shader{
 
 protected:
     IOShader& ioShader;
-    int screenWidth = 1920;
-    int screenHeight = 1080;
-
     std::string programName;
     Camera camera;
     void setMatrixUniforms();

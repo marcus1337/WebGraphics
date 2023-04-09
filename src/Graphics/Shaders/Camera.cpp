@@ -29,18 +29,16 @@ void Camera::setScreenSize(int width, int height) {
 glm::mat4 Camera::getView() {
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
     glm::vec3 front;
-    const float Yaw = -90.0f;
-    const float Pitch = 0.0f;
-    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    front.y = sin(glm::radians(Pitch));
-    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.y = sin(glm::radians(pitch));
+    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     front = glm::normalize(front);
     return glm::lookAt(position, position + front, up);
 }
 
 glm::mat4 Camera::getProjection() {
-    const float nearPlane = 0.01f;
-    const float farPlane = 100.0f;
+    const float nearPlane = 0.001f;
+    const float farPlane = 10000.0f;
     if (isOrthographic()) {
         return glm::ortho(0.0f, (float)screenWidth, 0.0f, (float)screenHeight, nearPlane, farPlane);
     }
@@ -57,5 +55,18 @@ int Camera::getScreenWidth() {
 
 int Camera::getScreenHeight() {
     return screenHeight;
+}
+
+void Camera::setYaw(float _yaw) {
+    yaw = _yaw;
+}
+void Camera::setPitch(float _pitch) {
+    pitch = _pitch;
+}
+float Camera::getYaw() {
+    return yaw;
+}
+float Camera::getPitch() {
+    return pitch;
 }
 

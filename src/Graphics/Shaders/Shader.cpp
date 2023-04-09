@@ -8,7 +8,7 @@
 
 Shader::Shader(std::string programName) : color({}), ioShader(IOContainer::getInstance().ioShader) {
     setProgram(programName);
-    camera.setScreenSize(screenWidth, screenHeight);
+    camera.setScreenSize(1920, 1080);
 }
 
 Shader::~Shader() {

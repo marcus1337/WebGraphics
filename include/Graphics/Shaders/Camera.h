@@ -11,6 +11,8 @@ class Camera {
     int screenWidth, screenHeight;
     bool orthographic = true;
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
+    float yaw = -90.f;
+    float pitch = 0.f;
     bool isOrthographic();
 public:
     Camera();
@@ -22,6 +24,10 @@ public:
     glm::mat4 getProjection();
     int getScreenWidth();
     int getScreenHeight();
+    void setYaw(float _yaw);
+    void setPitch(float _pitch);
+    float getYaw();
+    float getPitch();
 
 };
 
