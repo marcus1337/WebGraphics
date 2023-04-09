@@ -8,12 +8,20 @@ endif()
 project(AniLib)
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(glm REQUIRED)
-list(APPEND INCLUDE_DIRS ${GLM_INCLUDE_DIRS})
+if(NOT EMSCRIPTEN)
+    find_package(glm REQUIRED)
+    list(APPEND INCLUDE_DIRS ${GLM_INCLUDE_DIRS})
+endif(NOT EMSCRIPTEN)
+if(EMSCRIPTEN)
+    set(GLM_PATH "/home/zzz/code/tmp/test") #<--- download glm with a package manager and put it on a custom include path like this example
+    message("GLM PATH [${GLM_PATH}]")
+    list(APPEND INCLUDE_DIRS ${GLM_PATH})
+endif(EMSCRIPTEN)
 
 if(EMSCRIPTEN)
-    #--embed-file res
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --bind -s ALLOW_MEMORY_GROWTH=1 -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument") #Debug-flags (causes problems for external users): -g -s SAFE_HEAP=1 -s STACK_OVERFLOW_CHECK=1
+    #(OPTIONAL) --embed-file res
+    #(OPTIONAL - causes problems for external users): -g -s SAFE_HEAP=1 -s STACK_OVERFLOW_CHECK=1
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++20 --embed-file res --bind -s ALLOW_MEMORY_GROWTH=1 -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s FULL_ES3=1 -Wno-unused-command-line-argument") 
 endif(EMSCRIPTEN)
 
 if(NOT EMSCRIPTEN)
@@ -65,7 +73,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/MainView.cpp"
 "src/Graphics/Graphics.cpp"
 "src/Graphics/GlyphTextureCreator.cpp"
-"src/Graphics/Framebuffer.cpp"
+"src/Graphics/FrameBuffer.cpp"
 "src/Graphics/Objects/ImageObject.cpp"
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
