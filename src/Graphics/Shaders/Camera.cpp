@@ -50,3 +50,12 @@ glm::mat4 Camera::getProjection() {
         return glm::perspective(fov, aspectRatio, nearPlane, farPlane);
     }
 }
+
+int Camera::getScreenWidth() {
+    return screenWidth;
+}
+
+int Camera::getScreenHeight() {
+    return screenHeight;
+}
+

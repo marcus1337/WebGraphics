@@ -39,12 +39,12 @@ int MainView::getHeight() {
     return (int)((getWidth() / 16.0f) * 9.0f);
 }
 
-void MainView::use() {
-    frame.use();
-}
-
 void MainView::clear() {
     frame.clear();
+}
+
+void MainView::use() {
+    frame.use();
 }
 
 void MainView::display() {
@@ -68,11 +68,11 @@ std::pair<int, int> MainView::getMousePosition() {
 
 void MainView::render() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, window.getWidth(), window.getHeight());
     Model model;
     model.setPosition({ getX(), getY(), 0 });
-    model.setScale({ getWidth(), getHeight(), 1 });
+    model.setScale({ getWidth(), getHeight(), 1.0f });
     frame.shader.setModel(model);
-    glViewport(0, 0, window.getWidth(), window.getHeight());
     frame.shader.setCamera(Camera(window.getWidth(), window.getHeight()));
     ObjectContainer::getInstance().imageObj.draw(frame.shader);
 }

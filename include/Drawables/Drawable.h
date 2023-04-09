@@ -21,6 +21,7 @@ public:
     Drawable(const Drawable&) = delete;
     virtual ~Drawable();
     virtual void render() = 0;
+    void render(const Camera& camera);
 
     void setEffect(float _effect);
     void setCenterPosition(int _x, int _y);
@@ -29,11 +30,11 @@ public:
     void setColor(glm::vec3 _color);
     void setAlpha(float _alpha);
     void setRotation(float _rotation);
-    void setViewProjectionMatrix(int _width, int _height);
     int getX();
     int getY();
     int getWidth();
     int getHeight();
+    void setCamera(Camera camera);
     void setShaderProgram(std::string shaderProgramName);
     void setUniform(std::string key, float value);
 

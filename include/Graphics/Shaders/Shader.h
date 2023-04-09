@@ -41,6 +41,7 @@ public:
 
     void setModel(Model _model);
     void setCamera(Camera _camera);
+    Camera getCamera();
     void setProgram(std::string _programName);
     void setUniforms();
     void setFloatUniform(std::string name, float value);

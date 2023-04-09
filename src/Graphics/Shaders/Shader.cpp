@@ -23,6 +23,10 @@ void Shader::setCamera(Camera _camera) {
     camera = _camera;
 }
 
+Camera Shader::getCamera() {
+    return camera;
+}
+
 void Shader::setProgram(std::string _programName) {
     programName = _programName;
 }

@@ -17,23 +17,23 @@ void Drawable::setCenterPosition(int _x, int _y) {
 void Drawable::setPosition(int _x, int _y) {
     model.setPosition({ _x, _y, 0 });
 }
+
 void Drawable::setSize(int _width, int _height) {
     model.setScale({ _width, _height, 1 });
 }
+
 void Drawable::setColor(glm::vec3 _color) {
     shader->color = _color;
 }
+
 void Drawable::setAlpha(float _alpha) {
     shader->alpha = _alpha;
 }
+
 void Drawable::setRotation(float _rotation) {
     model.setRotation(_rotation);
 }
-void Drawable::setViewProjectionMatrix(int _width, int _height) {
-    Camera camera;
-    camera.setScreenSize(_width, _height);
-    shader->setCamera(camera);
-}
+
 int Drawable::getX() {
     return model.getX();
 }
@@ -46,6 +46,11 @@ int Drawable::getWidth() {
 int Drawable::getHeight() {
     return model.getHeight();
 }
+
+void Drawable::setCamera(Camera camera) {
+    shader->setCamera(camera);
+}
+
 void Drawable::setShaderProgram(std::string shaderProgramName) {
     shader->setProgram(shaderProgramName);
 }
@@ -56,3 +61,11 @@ void Drawable::setEffect(float _effect) {
 void Drawable::setUniform(std::string key, float value) {
     shader->setFloatUniform(key, value);
 }
+
+void Drawable::render(const Camera& camera) {
+    auto oldCamera = shader->getCamera();
+    shader->setCamera(camera);
+    render();
+    shader->setCamera(oldCamera);
+}
+

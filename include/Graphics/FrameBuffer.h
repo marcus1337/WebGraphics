@@ -29,6 +29,7 @@ public:
     FrameBuffer(int _width, int _height);
     void use();
     void clear(float _alpha = 1.0f);
+    void useViewPort();
 
 };
 

@@ -20,6 +20,8 @@ public:
     void setScreenSize(int width, int height);
     glm::mat4 getView();
     glm::mat4 getProjection();
+    int getScreenWidth();
+    int getScreenHeight();
 
 };
 

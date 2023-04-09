@@ -7,6 +7,7 @@ Rect::Rect() : Drawable(imageShader) {
 }
 
 void Rect::render() {
+    imageShader.setModel(model);
     objectContainer.imageObj.draw(imageShader);
 }
 
