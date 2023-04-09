@@ -24,10 +24,6 @@ glm::mat4 Shader::getOrthographicProjectionMatrix(int windowWidth, int windowHei
     return glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight, 0.01f, 100.0f);
 }
 
-glm::mat4 Shader::getUIViewProjectionMatrix(int windowWidth, int windowHeight) {
-    return getOrthographicProjectionMatrix(windowWidth, windowHeight) * getViewMatrix();
-}
-
 Shader::Shader(std::string programName) : P(glm::mat4()), V(glm::mat4()), VP(glm::mat4()), color({}), rotateOffset({}), ioShader(IOContainer::getInstance().ioShader) {
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     position = glm::vec3(0.f, 0.f, 0.f);
@@ -47,24 +43,36 @@ void Shader::setScale(int _width, int _height) {
     scale = glm::vec3((float)_width, (float)_height, 1.0f);
 }
 
-glm::mat4 Shader::getModel()
-{
-    glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), scale);
-    if (mirror)
-        scaleMat = glm::scale(glm::mat4(1.0f), { -scale.x, scale.y, scale.z });
-
-    glm::vec3 rotationAxis(0, 0, 1.0f);
+glm::mat4 Shader::getScaleMatrix(glm::vec3 scale, bool mirror) {
+    if (mirror) {
+        scale.x = -scale.x;
+    }
+    return glm::scale(glm::mat4(1.0f), scale);
+}
+glm::mat4 Shader::getRotationMatrix(float rotation, glm::vec3 rotationAxis, glm::vec2 rotateOffset) {
     glm::quat rotationQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
     glm::mat4 rotateMat = glm::toMat4(rotationQuat);
-
-    glm::vec3 adjustedPosition = glm::vec3(position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z);
-    glm::mat4 translateMat = glm::translate(glm::mat4(1.0f), adjustedPosition);
 
     glm::mat4 offsetToMiddle = glm::translate(glm::mat4(1.0f),
         glm::vec3(-rotateOffset.x / 2.0f, -rotateOffset.y / 2.0f, 0.0f));
     glm::mat4 revertOffsetToMiddle = glm::translate(glm::mat4(1.0f),
         glm::vec3(rotateOffset.x / 2.0f, rotateOffset.y / 2.0f, 0.0f));
-    glm::mat4 modModel = translateMat * revertOffsetToMiddle * rotateMat * offsetToMiddle * scaleMat;
+
+    return revertOffsetToMiddle * rotateMat * offsetToMiddle;
+}
+
+glm::mat4 Shader::getTranslationMatrix(glm::vec3 position, glm::vec3 scale) {
+    glm::vec3 adjustedPosition = glm::vec3(position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z);
+    return glm::translate(glm::mat4(1.0f), adjustedPosition);
+}
+
+glm::mat4 Shader::getModel()
+{
+    glm::vec3 rotationAxis(0, 0, 1.0f);
+    glm::mat4 scaleMat = getScaleMatrix(scale, mirror);
+    glm::mat4 rotateMat = getRotationMatrix(rotation, rotationAxis, rotateOffset);
+    glm::mat4 translateMat = getTranslationMatrix(position, scale);
+    glm::mat4 modModel = translateMat * rotateMat * scaleMat;
     return modModel;
 }
 
@@ -89,17 +97,9 @@ void Shader::setPosition(int _x, int _y)
 }
 
 void Shader::setViewProjectionMatrix(int _width, int _height) {
-    glm::mat4 _VP = getUIViewProjectionMatrix(_width, _height);
-    glm::mat4 _P = getOrthographicProjectionMatrix(_width, _height);
-    glm::mat4 _V = getViewMatrix();
-    setViewProjectionMatrix(_VP, _V, _P);
-}
-
-void Shader::setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P)
-{
-    VP = _VP;
-    V = _V;
-    P = _P;
+    P = getOrthographicProjectionMatrix(_width, _height);
+    V = getViewMatrix();
+    VP = P * V;
 }
 
 void Shader::setExtraUniforms() {

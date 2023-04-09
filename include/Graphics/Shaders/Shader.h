@@ -17,7 +17,6 @@ class Shader{
 
     glm::mat4 getViewMatrix();
     glm::mat4 getOrthographicProjectionMatrix(int windowWidth, int windowHeight);
-    glm::mat4 getUIViewProjectionMatrix(int windowWidth, int windowHeight);
 
 protected:
     IOShader& ioShader;
@@ -27,13 +26,16 @@ protected:
     std::string programName;
     glm::mat4 VP, V, P;
 
+    glm::mat4 getScaleMatrix(glm::vec3 scale, bool mirror);
+    glm::mat4 getRotationMatrix(float rotation, glm::vec3 rotationAxis, glm::vec2 rotateOffset);
+    glm::mat4 getTranslationMatrix(glm::vec3 position, glm::vec3 scale);
+
     glm::mat4 getModel();
     void setMatrixUniforms();
     void setColorUniforms();
     void setExtraUniforms();
     virtual void setCustomUniforms() = 0;
     glm::vec3 position, scale;
-    void setViewProjectionMatrix(glm::mat4& _VP, glm::mat4& _V, glm::mat4& _P);
 
     std::map<std::string, float> extraFloatUniforms;
 
