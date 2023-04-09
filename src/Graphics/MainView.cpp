@@ -3,6 +3,7 @@
 #include <functional>
 #include "Graphics/Objects/ObjectContainer.h"
 #include "Graphics/Shaders/Camera.h"
+#include "Graphics/Shaders/Model.h"
 
 MainView::MainView(Canvas& _window) : frame(maxWidth, maxHeight), window(_window)
 {
@@ -67,8 +68,10 @@ std::pair<int, int> MainView::getMousePosition() {
 
 void MainView::render() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    frame.shader.setPosition(getX(), getY());
-    frame.shader.setScale(getWidth(), getHeight());
+    Model model;
+    model.setPosition({ getX(), getY(), 0 });
+    model.setScale({ getWidth(), getHeight(), 1 });
+    frame.shader.setModel(model);
     glViewport(0, 0, window.getWidth(), window.getHeight());
     frame.shader.setCamera(Camera(window.getWidth(), window.getHeight()));
     ObjectContainer::getInstance().imageObj.draw(frame.shader);

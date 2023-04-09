@@ -3,6 +3,7 @@
 
 View::View(int _pixelWidth, int _pixelHeight) : Drawable(frameBuffer.shader),
 frameBuffer(_pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
+    model.setScale({ (float)_pixelWidth, (float)_pixelHeight, 1.0f });
 }
 
 View::~View() {

@@ -82,6 +82,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/Shaders/Shader.cpp"
 "src/Graphics/Shaders/TextShader.cpp"
 "src/Graphics/Shaders/Camera.cpp"
+"src/Graphics/Shaders/Model.cpp"
 
 "src/IO/Files/IOFonts.cpp"
 "src/IO/Files/IOContainer.cpp"

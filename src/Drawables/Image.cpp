@@ -1,12 +1,13 @@
 #include "Drawables/Image.h"
 
 Image::Image(std::string _texture) : Drawable(imageShader) {
-    imageShader.rotation = 180.0f;
+    setRotation(180.0f);
     imageShader.setTexture(_texture);
-    imageShader.mirror = true;
+    model.setMirror(true);
 }
 
 void Image::render() {
+    imageShader.setModel(model);
     objectContainer.imageObj.draw(imageShader);
 }
 

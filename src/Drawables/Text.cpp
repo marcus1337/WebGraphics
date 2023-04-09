@@ -6,10 +6,14 @@ Text::Text() : Drawable(textShader) {
 }
 
 void Text::render() {
-    objectContainer.textObj.setFont(font);
-    objectContainer.textObj.setText(text);
-    objectContainer.textObj.setTextPixelHeight(pixelHeight);
-    objectContainer.textObj.draw(textShader);
+    auto& textObj = objectContainer.textObj;
+    auto textWidth = glm::vec2(textObj.getTextWidth(text, pixelHeight, font), pixelHeight);
+    model.setRotateOffset(textWidth);
+    textObj.setFont(font);
+    textObj.setText(text);
+    textObj.setTextPixelHeight(pixelHeight);
+    textShader.setModel(model);
+    textObj.draw(textShader);
 }
 
 unsigned int Text::getPixelWidth() {

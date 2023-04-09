@@ -9,10 +9,12 @@
 #include <Graphics/Shaders/TextShader.h>
 #include "Graphics/Objects/ObjectContainer.h"
 #include "Graphics/Shaders/Camera.h"
+#include "Graphics/Shaders/Model.h"
 
 class Drawable {
     Shader* shader = nullptr;
 protected:
+    Model model;
     ObjectContainer& objectContainer;
 public:
     Drawable(Shader& _shader);

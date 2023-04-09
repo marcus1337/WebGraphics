@@ -102,7 +102,7 @@ int TextObject::getTextWidth(std::wstring _text, int _pixelHeight, std::string _
 void TextObject::draw(Shader& shader)
 {
     glBindVertexArray(vao);
-    shader.rotateOffset = glm::vec2(getTextWidth(text, pixelHeight, font), pixelHeight);
+    //shader.rotateOffset = glm::vec2(getTextWidth(text, pixelHeight, font), pixelHeight);
     shader.setUniforms();
     bindAndDrawTextTextures(text);
     glBindTexture(GL_TEXTURE_2D, 0);

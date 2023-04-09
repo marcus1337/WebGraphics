@@ -1,12 +1,12 @@
 #include "Graphics/FrameBuffer.h"
 #include <iostream>
 #include "Engine/Engine.h"
+#include "Graphics/Shaders/Model.h"
 
 FrameBuffer::FrameBuffer(int _width, int _height) : width(_width), height(_height)
 {
     setBuffers();
     shader.setTexture(texture);
-    shader.setScale(width, height);
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
 }
 

@@ -11,13 +11,14 @@ Drawable::~Drawable() {
 }
 
 void Drawable::setCenterPosition(int _x, int _y) {
-    shader->setPosition(_x - getWidth()/2, _y - getHeight() / 2);
+    setPosition(_x - getWidth() / 2, _y - getHeight() / 2);
 }
+
 void Drawable::setPosition(int _x, int _y) {
-    shader->setPosition(_x, _y);
+    model.setPosition({ _x, _y, 0 });
 }
 void Drawable::setSize(int _width, int _height) {
-    shader->setScale(_width, _height);
+    model.setScale({ _width, _height, 1 });
 }
 void Drawable::setColor(glm::vec3 _color) {
     shader->color = _color;
@@ -26,7 +27,7 @@ void Drawable::setAlpha(float _alpha) {
     shader->alpha = _alpha;
 }
 void Drawable::setRotation(float _rotation) {
-    shader->rotation = _rotation;
+    model.setRotation(_rotation);
 }
 void Drawable::setViewProjectionMatrix(int _width, int _height) {
     Camera camera;
@@ -34,16 +35,16 @@ void Drawable::setViewProjectionMatrix(int _width, int _height) {
     shader->setCamera(camera);
 }
 int Drawable::getX() {
-    return shader->getX();
+    return model.getX();
 }
 int Drawable::getY() {
-    return shader->getY();
+    return model.getY();
 }
 int Drawable::getWidth() {
-    return shader->getWidth();
+    return model.getWidth();
 }
 int Drawable::getHeight() {
-    return shader->getHeight();
+    return model.getHeight();
 }
 void Drawable::setShaderProgram(std::string shaderProgramName) {
     shader->setProgram(shaderProgramName);
