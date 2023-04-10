@@ -4,7 +4,7 @@
 View::View(int _pixelWidth, int _pixelHeight) : Drawable(frameBuffer.shader),
 frameBuffer(_pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
     model.setScale({ (float)_pixelWidth, (float)_pixelHeight, 1.0f });
-    camera.setScreenSize(_pixelWidth, _pixelHeight);
+
 }
 
 View::~View() {
@@ -47,9 +47,6 @@ void View::subPaint(Drawable& drawable) {
 
 void View::render() {
     frameBuffer.storeState();
-    glViewport(getX(), getY(), frameBuffer.width, frameBuffer.height);
-    camera.setPosition({ getX(),getY(),3});
-    frameBuffer.shader.setCamera(camera);
     frameBuffer.shader.setModel(model);
     objectContainer.imageObj.draw(frameBuffer.shader);
     frameBuffer.loadState();

@@ -62,10 +62,4 @@ void Drawable::setUniform(std::string key, float value) {
     shader->setFloatUniform(key, value);
 }
 
-void Drawable::render(const Camera& camera) {
-    auto oldCamera = shader->getCamera();
-    shader->setCamera(camera);
-    render();
-    shader->setCamera(oldCamera);
-}
 

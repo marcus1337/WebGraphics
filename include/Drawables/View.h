@@ -13,7 +13,6 @@ class View : public Drawable {
     int pixelWidth, pixelHeight;
 
 public:
-    Camera camera;
     View(int _pixelWidth, int _pixelHeight);
     ~View();
 

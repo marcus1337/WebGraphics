@@ -35,18 +35,17 @@ int main(int argc, char* argv[]) {
     float r = 1.0f;
     looper.onRender = [&]() {
         camera.setProjectionType(false);
-        camera.setPosition({ 1920/2, 1080/2, 1500 });
-        camera.setYaw(-90.0f);
-        //camera.setPitch(5.0f);
-        image.setCamera(camera);
-        image.setRotation(r);
-        r = r + 1.0f;
-
+        camera.setPosition({ 1920/2, 100, 500 });
+        camera.setYaw(-110.0f);
+        camera.setPitch(5.0f);
 
         view.clear();
-        view.setPosition(300, 0);
+        view.setPosition(300+r, 0);
+        view.setCamera(camera);
         view.paint(image);
         view.paint(text);
+        view.setRotation(r);
+        r = r + 1.0f;
         view.render();
 
     };

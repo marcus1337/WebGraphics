@@ -21,7 +21,6 @@ public:
     Drawable(const Drawable&) = delete;
     virtual ~Drawable();
     virtual void render() = 0;
-    void render(const Camera& camera);
 
     void setEffect(float _effect);
     void setCenterPosition(int _x, int _y);
