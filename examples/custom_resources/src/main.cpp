@@ -24,27 +24,47 @@ int main(int argc, char* argv[]) {
     text.setFont("Hosohuwafont");
     text.setPosition(100, 100);
 
-    View view(500, 500);
+    View view(200, 200);
     view.clear();
-    view.setPosition(300, 0);
+    view.setPosition(-100, -100);
     view.paint(image);
     view.paint(text);
 
     auto camera = view.getCamera();
+    camera->setProjectionType(false);
+    camera->setPosition({ 0.f, 0, -50.0f });
+    camera->setYaw(90.0f);
+
+    camera->setOrbitTarget({ 0, 0, 0 });
+    camera->setOrbitDistance(700.0f);
+
     float r = 1.0f;
     looper.onRender = [&]() {
-        camera->setProjectionType(false);
-        camera->setPosition({ 1920/2, 100, 500 });
-        camera->setYaw(-110.0f);
-        camera->setPitch(5.0f);
+
+        auto& mouse = engine.window.mouse;
+        float scroll = mouse.scrollDelta;
+
+        float zoom = 0.f;
+        bool zoomIn = mouse.isLeftPressed;
+        bool zoomOut = mouse.isRightPressed;
+        if (zoomIn)
+            zoom = 10.0f;
+        if (zoomOut)
+            zoom = -10.0f;
+        camera->orbit(scroll * 10.0f, 0.f, zoom);
+    
 
         view.clear();
-        view.setPosition(300+r, 0);
         view.paint(image);
         view.paint(text);
         view.setRotation(r);
         r = r + 1.0f;
         view.render();
+
+
+    };
+
+    looper.onTick = [&]() {
 
     };
 

@@ -1,5 +1,7 @@
 #include "Graphics/Shaders/Camera.h"
 #include <iostream>
+#include "glm/ext.hpp"
+#include "glm/gtx/string_cast.hpp"
 
 Camera::Camera() {
 
@@ -70,3 +72,31 @@ float Camera::getPitch() {
     return pitch;
 }
 
+void Camera::setOrbitTarget(glm::vec3 _orbitTarget) {
+    orbitTarget = _orbitTarget;
+    orbit(0.f, 0.f, 0.f);
+}
+
+void Camera::setOrbitDistance(float _distance) {
+    orbitDistance = _distance;
+    orbit(0.f, 0.f, 0.f);
+}
+
+void Camera::setOrbitPosition() {
+    glm::vec3 direction(
+        cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
+        sin(glm::radians(pitch)),
+        sin(glm::radians(yaw)) * cos(glm::radians(pitch)));
+    glm::vec3 moveDirection = orbitTarget - direction;
+    moveDirection = glm::normalize(moveDirection);
+    position = orbitDistance * moveDirection;
+}
+
+void Camera::orbit(float deltaX, float deltaY, float zoomDelta) {
+    yaw += deltaX;
+    pitch += deltaY;
+    pitch = glm::clamp(pitch, -80.0f, 80.0f);
+    yaw = fmod(yaw, 360.0f);
+    orbitDistance = glm::clamp(orbitDistance + minOrbitDistance*zoomDelta, minOrbitDistance, maxOrbitDistance);
+    setOrbitPosition();
+}
