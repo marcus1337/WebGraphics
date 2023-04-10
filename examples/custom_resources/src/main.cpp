@@ -57,14 +57,10 @@ int main(int argc, char* argv[]) {
         view.clear();
         view.paint(image);
         view.paint(text);
-        view.setRotation(r);
+        view.setRotation({r,r,r});
         r = r + 1.0f;
         view.render();
 
-
-    };
-
-    looper.onTick = [&]() {
 
     };
 

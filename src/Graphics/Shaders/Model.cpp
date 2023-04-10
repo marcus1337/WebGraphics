@@ -1,4 +1,6 @@
 #include "Graphics/Shaders/Model.h"
+#include "glm/gtx/string_cast.hpp"
+#include <iostream>
 
 void Model::setPosition(glm::vec3 _position) {
     position = _position;
@@ -12,7 +14,7 @@ void Model::setMirror(bool _mirror) {
     mirror = _mirror;
 }
 
-void Model::setRotation(float _rotation) {
+void Model::setRotation(glm::vec3 _rotation) {
     rotation = _rotation;
 }
 
@@ -29,9 +31,10 @@ glm::mat4 Model::getScaleMatrix() {
 }
 
 glm::mat4 Model::getRotationMatrix() {
-    glm::vec3 rotationAxis(0, 0, 1.0f);
-    glm::quat rotationQuat = glm::angleAxis(glm::radians(rotation), rotationAxis);
-    glm::mat4 rotateMat = glm::toMat4(rotationQuat);
+    glm::mat4 rotateMat(1.0f);
+    rotateMat = glm::rotate(rotateMat, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    rotateMat = glm::rotate(rotateMat, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    rotateMat = glm::rotate(rotateMat, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
     glm::mat4 offsetToMiddle = glm::translate(glm::mat4(1.0f),
         glm::vec3(-rotateOffset.x / 2.0f, -rotateOffset.y / 2.0f, 0.0f));

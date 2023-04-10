@@ -16,7 +16,7 @@ void Line::adjust() {
     double rotationRadians = atan2(deltaY, deltaX);
     double pi = std::numbers::pi_v<double>;
     double degrees = rotationRadians * (180.0 / pi);
-    setRotation(degrees);
+    setRotation({0,0, degrees });
 
     setPosition(-length / 2 + deltaX / 2 + fromX, -lineWidth / 2 + deltaY / 2 + fromY);
 }

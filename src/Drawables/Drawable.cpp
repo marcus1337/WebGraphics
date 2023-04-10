@@ -30,7 +30,7 @@ void Drawable::setAlpha(float _alpha) {
     shader->alpha = _alpha;
 }
 
-void Drawable::setRotation(float _rotation) {
+void Drawable::setRotation(glm::vec3 _rotation) {
     model.setRotation(_rotation);
 }
 

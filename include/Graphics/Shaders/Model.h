@@ -13,14 +13,14 @@ class Model {
     glm::vec3 scale = {1.f,1.f,1.f};
     bool mirror = false;
     glm::vec2 rotateOffset = {0.f,0.f};
-    float rotation = 0;
+    glm::vec3 rotation = {};
 
 public:
 
     void setPosition(glm::vec3 _position);
     void setScale(glm::vec3 _scale);
     void setMirror(bool _mirror);
-    void setRotation(float _roation);
+    void setRotation(glm::vec3 _rotation);
     void setRotateOffset(glm::vec2 _rotateOffset);
 
     glm::mat4 getScaleMatrix();
