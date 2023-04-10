@@ -14,13 +14,14 @@
 #include <map>
 #include "Camera.h"
 #include "Model.h"
+#include <memory>
 
 class Shader{
 
 protected:
     IOShader& ioShader;
     std::string programName;
-    Camera camera;
+    std::shared_ptr<Camera> camera;
     void setMatrixUniforms();
     void setColorUniforms();
     void setExtraUniforms();
@@ -37,8 +38,8 @@ public:
     virtual ~Shader();
 
     void setModel(Model _model);
-    void setCamera(Camera _camera);
-    Camera getCamera();
+    void setCamera(std::shared_ptr<Camera> _camera);
+    std::shared_ptr<Camera> getCamera();
     void setProgram(std::string _programName);
     void setUniforms();
     void setFloatUniform(std::string name, float value);

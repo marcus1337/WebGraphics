@@ -23,7 +23,6 @@ int main(int argc, char* argv[]) {
     text.setText(L"Okay bro こんにちは世界 北島 美奈");
     text.setFont("Hosohuwafont");
     text.setPosition(100, 100);
-    text.setCamera(Camera(1920, 1080));
 
     View view(500, 500);
     view.clear();
@@ -31,17 +30,16 @@ int main(int argc, char* argv[]) {
     view.paint(image);
     view.paint(text);
 
-    Camera camera(1920, 1080);
+    auto camera = view.getCamera();
     float r = 1.0f;
     looper.onRender = [&]() {
-        camera.setProjectionType(false);
-        camera.setPosition({ 1920/2, 100, 500 });
-        camera.setYaw(-110.0f);
-        camera.setPitch(5.0f);
+        camera->setProjectionType(false);
+        camera->setPosition({ 1920/2, 100, 500 });
+        camera->setYaw(-110.0f);
+        camera->setPitch(5.0f);
 
         view.clear();
         view.setPosition(300+r, 0);
-        view.setCamera(camera);
         view.paint(image);
         view.paint(text);
         view.setRotation(r);

@@ -8,7 +8,7 @@
 
 Shader::Shader(std::string programName) : color({}), ioShader(IOContainer::getInstance().ioShader) {
     setProgram(programName);
-    camera.setScreenSize(1920, 1080);
+    camera = std::make_shared<Camera>(1920, 1080);
 }
 
 Shader::~Shader() {
@@ -19,11 +19,11 @@ void Shader::setModel(Model _model) {
     model = _model;
 }
 
-void Shader::setCamera(Camera _camera) {
+void Shader::setCamera(std::shared_ptr<Camera> _camera) {
     camera = _camera;
 }
 
-Camera Shader::getCamera() {
+std::shared_ptr<Camera> Shader::getCamera() {
     return camera;
 }
 
@@ -59,8 +59,8 @@ void Shader::setMatrixUniforms()
 {
     GLuint programID = ioShader.getProgram(programName);
     glm::mat4 M = model.getModel();
-    auto V = camera.getView();
-    auto P = camera.getProjection();
+    auto V = camera->getView();
+    auto P = camera->getProjection();
     auto VP = P * V;
     glm::mat4 MVP = VP * M;
     glm::mat4 MV = V * M;

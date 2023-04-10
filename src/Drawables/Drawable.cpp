@@ -47,8 +47,12 @@ int Drawable::getHeight() {
     return model.getHeight();
 }
 
-void Drawable::setCamera(Camera camera) {
+void Drawable::setCamera(std::shared_ptr<Camera> camera) {
     shader->setCamera(camera);
+}
+
+std::shared_ptr<Camera> Drawable::getCamera() {
+    return shader->getCamera();
 }
 
 void Drawable::setShaderProgram(std::string shaderProgramName) {

@@ -73,7 +73,7 @@ void MainView::render() {
     model.setPosition({ getX(), getY(), 0 });
     model.setScale({ getWidth(), getHeight(), 1.0f });
     frame.shader.setModel(model);
-    frame.shader.setCamera(Camera(window.getWidth(), window.getHeight()));
+    auto camera = frame.shader.getCamera();
+    camera->setScreenSize(window.getWidth(), window.getHeight());
     ObjectContainer::getInstance().imageObj.draw(frame.shader);
 }
-
