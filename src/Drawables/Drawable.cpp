@@ -58,9 +58,6 @@ std::shared_ptr<Camera> Drawable::getCamera() {
 void Drawable::setShaderProgram(std::string shaderProgramName) {
     shader->setProgram(shaderProgramName);
 }
-void Drawable::setEffect(float _effect) {
-    shader->effect = _effect;
-}
 
 void Drawable::setUniform(std::string key, float value) {
     shader->setFloatUniform(key, value);

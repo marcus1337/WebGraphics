@@ -32,7 +32,6 @@ protected:
 public:
     glm::vec3 color;
     float alpha = 1.0f;
-    float effect = 0.0f;
 
     Shader(std::string programName);
     virtual ~Shader();

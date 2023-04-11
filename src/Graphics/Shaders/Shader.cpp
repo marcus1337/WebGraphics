@@ -38,7 +38,6 @@ void Shader::setUniforms() {
     setColorUniforms();
     setCustomUniforms();
     setExtraUniforms();
-    glUniform1f(glGetUniformLocation(programID, "effect"), effect);
 }
 
 void Shader::setExtraUniforms() {

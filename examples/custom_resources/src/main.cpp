@@ -52,7 +52,6 @@ int main(int argc, char* argv[]) {
         if (zoomOut)
             zoom = -10.0f;
         camera->orbit(scroll * 10.0f, 0.f, zoom);
-    
 
         view.clear();
         view.paint(image);
@@ -60,7 +59,6 @@ int main(int argc, char* argv[]) {
         view.setRotation({r,r,r});
         r = r + 1.0f;
         view.render();
-
 
     };
 
