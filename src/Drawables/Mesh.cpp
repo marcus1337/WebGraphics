@@ -11,6 +11,7 @@ void Mesh::setTexture(std::string textureName) {
 
 void Mesh::render() {
     imageShader.setModel(model);
+    imageShader.setProgram("model");
     imageShader.setFloatUniform("useTexture", 1.0f);
     objectContainer.getModelObject(modelName)->draw(imageShader);
 }

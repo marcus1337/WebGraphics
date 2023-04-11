@@ -2,6 +2,7 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
 #include "IO/Files/OBJ/tiny_obj_loader.h"
+#include "glm/gtx/string_cast.hpp"
 
 void IOOBJ::loadModels(std::vector<std::string> modelFilePaths, std::vector<std::string> modelNames) {
     if (modelFilePaths.size() != modelNames.size()) {
@@ -40,23 +41,30 @@ void IOOBJ::loadModel(std::string path, std::string name) {
             for (size_t v = 0; v < fv; v++) {
                 tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
                 ////////////////////////////////// addMeshIndex --
+                auto vi = idx.vertex_index;
+                auto ni = idx.normal_index;
+                auto ti = idx.texcoord_index;
+                auto& vertices = attrib.vertices;
+                auto& normals = attrib.normals;
+                auto& texCoords = attrib.texcoords;
              
-                glm::vec3 position = glm::vec3(attrib.vertices[3 * size_t(idx.vertex_index)],
-                    attrib.vertices[3 * size_t(idx.vertex_index) + 1],
-                    attrib.vertices[3 * size_t(idx.vertex_index) + 2]);
+                glm::vec3 position = glm::vec3(vertices[3 * vi],
+                    vertices[3 * vi + 1],
+                    vertices[3 * vi + 2]);
+
                 data.positions.push_back(position);
                 data.vertexIndices.push_back(idx.vertex_index);
 
                 if (idx.normal_index >= 0) {
-                    glm::vec3 normal = glm::vec3(attrib.normals[3 * size_t(idx.normal_index)],
-                        attrib.normals[3 * size_t(idx.normal_index) + 1],
-                        attrib.normals[3 * size_t(idx.normal_index) + 2]);
+                    glm::vec3 normal = glm::vec3(normals[3 * ni],
+                        normals[3 * ni + 1],
+                        normals[3 * ni + 2]);
                     data.normals.push_back(normal);
                     data.normalIndices.push_back(idx.normal_index);
                 }
                 if (idx.texcoord_index >= 0) {
-                    glm::vec2 texCoord = glm::vec2(attrib.texcoords[2 * size_t(idx.texcoord_index)],
-                        attrib.texcoords[2 * size_t(idx.texcoord_index) + 1]);
+                    glm::vec2 texCoord = glm::vec2(texCoords[2 * ti],
+                        texCoords[2 * ti + 1]);
                     data.texCoords.push_back(texCoord);
                     data.texCoordIndices.push_back(idx.texcoord_index);
                 }

@@ -16,8 +16,14 @@ void ModelData::setInterleavedData() {
         if ( i < texCoords.size()) {
             texCoord = texCoords[texCoordIndices[i]];
         }
+        else {
+            std::cout << "WARNING i > texCoords.size()\n";
+        }
         if (i < normals.size()) {
             normal = normals[normalIndices[i]];
+        }
+        else {
+            std::cout << "WARNING i > normals.size()\n";
         }
 
         interleavedData.push_back(vertice.x);

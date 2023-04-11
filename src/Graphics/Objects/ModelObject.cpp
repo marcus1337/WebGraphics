@@ -26,12 +26,18 @@ void ModelObject::setEBO() {
 }
 
 void ModelObject::setShaderBufferPointers() {
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 5));
-    glEnableVertexAttribArray(2);
+    GLuint vertLoc = 0;
+    GLuint normalLoc = 1;
+    GLuint uvLoc = 2;
+
+    glVertexAttribPointer(vertLoc, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
+    glEnableVertexAttribArray(vertLoc);
+
+    glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3)); 
+    glEnableVertexAttribArray(normalLoc);
+
+    glVertexAttribPointer(uvLoc, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 6)); 
+    glEnableVertexAttribArray(uvLoc);
 }
 
 void ModelObject::setBufferObjects() {
@@ -41,7 +47,7 @@ void ModelObject::setBufferObjects() {
 }
 
 ModelObject::~ModelObject() {
-    for (auto value : { ebo, vbo }) {
+    for (auto value : { ebo }) {
         if (value != 0)
             glDeleteBuffers(1, &value);
     }

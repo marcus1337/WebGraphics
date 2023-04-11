@@ -15,7 +15,7 @@
 
 class ModelObject : public VertexObject {
 
-    GLuint vbo, ebo;
+    GLuint ebo;
     ModelData modelData;
 
     void setVBO();

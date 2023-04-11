@@ -33,6 +33,8 @@ void IOShader::addDefaultShaderCode() {
         addShaderCode(shaderCode, "image");
     for (ShaderCode shaderCode : defaultCode.getTextCode())
         addShaderCode(shaderCode, "text");
+    for (ShaderCode shaderCode : defaultCode.getModelCode())
+        addShaderCode(shaderCode, "model");
 }
 
 bool IOShader::isFragmentShaderExtension(const std::string &extension)
