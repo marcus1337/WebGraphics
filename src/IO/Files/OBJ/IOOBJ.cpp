@@ -45,23 +45,25 @@ void IOOBJ::loadModel(std::string path, std::string name) {
                     attrib.vertices[3 * size_t(idx.vertex_index) + 1],
                     attrib.vertices[3 * size_t(idx.vertex_index) + 2]);
                 data.positions.push_back(position);
+                data.vertexIndices.push_back(idx.vertex_index);
 
                 if (idx.normal_index >= 0) {
                     glm::vec3 normal = glm::vec3(attrib.normals[3 * size_t(idx.normal_index)],
                         attrib.normals[3 * size_t(idx.normal_index) + 1],
                         attrib.normals[3 * size_t(idx.normal_index) + 2]);
                     data.normals.push_back(normal);
+                    data.normalIndices.push_back(idx.normal_index);
                 }
                 if (idx.texcoord_index >= 0) {
                     glm::vec2 texCoord = glm::vec2(attrib.texcoords[2 * size_t(idx.texcoord_index)],
                         attrib.texcoords[2 * size_t(idx.texcoord_index) + 1]);
                     data.texCoords.push_back(texCoord);
+                    data.texCoordIndices.push_back(idx.texcoord_index);
                 }
-                data.vertexIndices.push_back(idx.vertex_index);
-                data.normalIndices.push_back(idx.normal_index);
-                data.texCoordIndices.push_back(idx.texcoord_index);
+              
                 ////////////////////////////////// --
             }
+
             index_offset += fv;
         }
     }
@@ -78,4 +80,12 @@ ModelData IOOBJ::getModelData(std::string name) {
         return ModelData();
     }
     return modelDataMap[name];
+}
+
+std::vector<std::string> IOOBJ::getModelNames() {
+    std::vector<std::string> names;
+    for (const auto& [key, value] : modelDataMap) {
+        names.push_back(key);
+    }
+    return names;
 }

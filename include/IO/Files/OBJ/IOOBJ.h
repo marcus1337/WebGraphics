@@ -24,6 +24,7 @@ class IOOBJ {
 public:
     void loadModels(std::vector<std::string> modelFilePaths, std::vector<std::string> modelNames);
     ModelData getModelData(std::string name);
+    std::vector<std::string> getModelNames();
 };
 
 #endif // !IO_OBJ_H

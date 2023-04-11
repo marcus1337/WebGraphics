@@ -3,14 +3,20 @@
 #include "ImageObject.h"
 #include "TextObject.h"
 #include "VertexObject.h"
+#include "ModelObject.h"
+#include <map>
+#include <memory>
+#include "IO/Files/IOContainer.h"
 
 class ObjectContainer {
 
     ObjectContainer();
+    std::map<std::string, std::shared_ptr<ModelObject>> modelObjects;
 
 public:
     ImageObject imageObj;
     TextObject textObj;
+    ModelObject* getModelObject(std::string model);
     static ObjectContainer& getInstance();
 
 };

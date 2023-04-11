@@ -24,6 +24,7 @@ public:
     void setCenterPosition(int _x, int _y);
     void setPosition(int _x, int _y);
     void setSize(int _width, int _height);
+    void setSize(glm::vec3 _size);
     void setColor(glm::vec3 _color);
     void setAlpha(float _alpha);
     void setRotation(glm::vec3 rotation);

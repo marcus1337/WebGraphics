@@ -4,6 +4,7 @@
 #include "Drawables/Image.h"
 #include "Drawables/Text.h"
 #include "Drawables/View.h"
+#include "Drawables/Mesh.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -38,6 +39,10 @@ int main(int argc, char* argv[]) {
     camera->setOrbitTarget({ 0, 0, 0 });
     camera->setOrbitDistance(700.0f);
 
+    Mesh stallMesh("arrow", "stall");
+    stallMesh.setSize({ 20, 20, 20 });
+    stallMesh.setCamera(camera);
+
     float r = 1.0f;
     looper.onRender = [&]() {
 
@@ -59,6 +64,8 @@ int main(int argc, char* argv[]) {
         view.setRotation({r,r,r});
         r = r + 1.0f;
         view.render();
+
+        stallMesh.render();
 
     };
 
