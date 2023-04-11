@@ -5,6 +5,9 @@
 #include <glm/gtx/transform.hpp>
 #include "IO/Files/IOContainer.h"
 
+std::string Shader::getDefaultShaderTextureName() {
+    return "tex";
+}
 
 Shader::Shader(std::string programName) : color({}), ioShader(IOContainer::getInstance().ioShader) {
     setProgram(programName);

@@ -16,6 +16,7 @@
 #include "Model.h"
 #include <memory>
 #include <tuple>
+#include <array>
 
 class Shader{
 
@@ -34,6 +35,7 @@ protected:
     std::vector<std::pair<GLuint, std::string>> textures;
 
 public:
+    static std::string getDefaultShaderTextureName();
     glm::vec3 color;
     float alpha = 1.0f;
 
@@ -50,7 +52,6 @@ public:
     void setTexture(std::string textureName, std::string shaderName);
     void setTexture(GLuint _texture, std::string shaderName);
     void setTextures(std::vector<std::pair<std::string, std::string>> _textures);
-
 };
 
 #endif
