@@ -5,6 +5,7 @@
 #include "IOFonts.h"
 #include "Shader/IOShader.h"
 #include "Texture/IOTexture.h"
+#include "IO/Files/OBJ/IOOBJ.h"
 
 class IOContainer {
     IOContainer();
@@ -13,6 +14,7 @@ public:
     IOFonts ioFonts;
     IOShader ioShader;
     IOTexture ioTexture;
+    IOOBJ ioOBJ;
     static IOContainer& getInstance();
 };
 

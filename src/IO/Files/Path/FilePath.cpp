@@ -54,5 +54,6 @@ std::map<std::string, FileType> FilePath::extensionMap = {
     {".vert", FileType::SHADER},
     {".frag", FileType::SHADER},
     {".wav", FileType::WAV},
-    {".lua", FileType::LUA}
+    {".lua", FileType::LUA},
+    {".obj", FileType::OBJ}
 };

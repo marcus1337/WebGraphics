@@ -43,7 +43,14 @@ void Resources::loadFiles() {
     loadFonts();
     loadShaders();
     loadTextures();
+    loadOBJs();
     printLoadWarnings();
+}
+
+void Resources::loadOBJs() {
+    auto objFilePaths = ioContainer.filePathContainer.getFilePaths(FileType::OBJ);
+    auto objFileNames = ioContainer.filePathContainer.getFileNames(FileType::OBJ);
+    ioContainer.ioOBJ.loadModels(objFilePaths, objFileNames);
 }
 
 void Resources::printLoadWarnings() {

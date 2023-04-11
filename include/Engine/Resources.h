@@ -17,6 +17,7 @@ public:
     void loadShaders();
     void loadFonts();
     void loadTextures();
+    void loadOBJs();
 };
 
 #endif // !RESOURCES_H

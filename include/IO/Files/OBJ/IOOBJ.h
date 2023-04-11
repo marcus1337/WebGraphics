@@ -16,7 +16,6 @@
 #include <fstream>
 #include <tuple>
 
-#include "IO/Files/OBJ/tiny_obj_loader.h"
 
 struct ModelData {
     std::vector<glm::vec3> positions;
@@ -28,8 +27,6 @@ struct ModelData {
 class IOOBJ {
     std::map<std::string, ModelData> modelDataMap;
     void loadModel(std::string path, std::string name);
-    ModelData readModelData(tinyobj::ObjReader& reader);
-    void addMeshIndex(tinyobj::ObjReader& reader, tinyobj::index_t& idx, ModelData& data);
 public:
     void loadModels(std::vector<std::string> modelFilePaths, std::vector<std::string> modelNames);
     ModelData getModelData(std::string name);
