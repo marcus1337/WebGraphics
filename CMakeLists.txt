@@ -77,6 +77,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/Objects/ImageObject.cpp"
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
+"src/Graphics/Objects/ModelObject.cpp"
 "src/Graphics/Objects/ObjectContainer.cpp"
 "src/Graphics/Shaders/ImageShader.cpp"
 "src/Graphics/Shaders/Shader.cpp"
@@ -91,6 +92,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/IO/Files/Shader/DefaultShaderCode.cpp"
 "src/IO/Files/Shader/IOShader.cpp"
 "src/IO/Files/Shader/ShaderCompiler.cpp"
+"src/IO/Files/OBJ/IOOBJ.cpp"
 
 "src/IO/Files/Texture/IOTexture.cpp"
 "src/IO/Files/Texture/lodepng.cpp"

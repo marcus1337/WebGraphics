@@ -14,8 +14,6 @@
 #include <fstream>
 #include <tuple>
 
-#include "GLFW/glfw3.h"
-
 struct TextureData {
     std::vector<unsigned char> data;
     unsigned width, height;
