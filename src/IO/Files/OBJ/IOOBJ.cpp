@@ -40,6 +40,7 @@ void IOOBJ::loadModel(std::string path, std::string name) {
             for (size_t v = 0; v < fv; v++) {
                 tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
                 ////////////////////////////////// addMeshIndex --
+             
                 glm::vec3 position = glm::vec3(attrib.vertices[3 * size_t(idx.vertex_index)],
                     attrib.vertices[3 * size_t(idx.vertex_index) + 1],
                     attrib.vertices[3 * size_t(idx.vertex_index) + 2]);
@@ -66,6 +67,7 @@ void IOOBJ::loadModel(std::string path, std::string name) {
     }
     //////////////// --
 
+    data.setInterleavedData();
     modelDataMap[name] = data;
 }
 

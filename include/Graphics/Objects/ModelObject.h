@@ -11,17 +11,17 @@
 #include <vector>
 #include "Graphics/Shaders/Shader.h"
 #include "VertexObject.h"
+#include "IO/Files/OBJ/ModelData.h"
 
 class ModelObject : public VertexObject {
 
-    GLuint positionVbo, texCoordVbo, normalVbo, indexBuffer;
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec2> texCoords;
-    std::vector<glm::vec3> normals;
-    std::vector<unsigned int> vertexIndices, texCoordIndices, normalIndices;
+    GLuint vbo, ebo;
+    ModelData modelData;
 
-    void setModelData();
+    void setVBO();
+    void setEBO();
     void setBufferObjects();
+    void setShaderBufferPointers();
 
 public:
     ModelObject(std::string objName);

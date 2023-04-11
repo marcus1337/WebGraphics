@@ -93,6 +93,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/IO/Files/Shader/IOShader.cpp"
 "src/IO/Files/Shader/ShaderCompiler.cpp"
 "src/IO/Files/OBJ/IOOBJ.cpp"
+"src/IO/Files/OBJ/ModelData.cpp"
 
 "src/IO/Files/Texture/IOTexture.cpp"
 "src/IO/Files/Texture/lodepng.cpp"

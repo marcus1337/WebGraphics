@@ -13,6 +13,7 @@ public:
     std::vector<ShaderCode> getImageCode();
     std::vector<ShaderCode> getRectangleCode();
     std::vector<ShaderCode> getTextCode();
+    std::vector<ShaderCode> getModelCode();
 
 };
 

@@ -1,53 +1,55 @@
 #include "Graphics/Objects/ModelObject.h"
-
+#include "IO/Files/IOContainer.h"
 
 ModelObject::ModelObject(std::string objName) {
-    positionVbo = 0;
-    texCoordVbo = 0;
-    normalVbo = 0;
-    indexBuffer = 0;
+    vbo = 0;
+    ebo = 0;
+    modelData = IOContainer::getInstance().ioOBJ.getModelData(objName);
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    setModelData();
-    //setBufferObjects();
+    setBufferObjects();
 }
 
-void ModelObject::setModelData() {
-    //ioOBJ.getPositions(objName);
+void ModelObject::setVBO() {
+    auto& interleavedData = modelData.interleavedData;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, interleavedData.size() * sizeof(interleavedData[0]), interleavedData.data(), GL_STATIC_DRAW);
+}
+
+void ModelObject::setEBO() {
+    auto& vertexIndices = modelData.vertexIndices;
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(vertexIndices[0]), vertexIndices.data(), GL_STATIC_DRAW);
+}
+
+void ModelObject::setShaderBufferPointers() {
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 5));
+    glEnableVertexAttribArray(2);
 }
 
 void ModelObject::setBufferObjects() {
-    glGenBuffers(1, &positionVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, positionVbo);
-    glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(glm::vec3), &positions[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &texCoordVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, texCoordVbo);
-    glBufferData(GL_ARRAY_BUFFER, texCoords.size() * sizeof(glm::vec2), &texCoords[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(1);
-
-    glGenBuffers(1, &normalVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, normalVbo);
-    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(2);
-
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(unsigned int), &vertexIndices[0], GL_STATIC_DRAW);
+    setVBO();
+    setEBO();
+    setShaderBufferPointers();
 }
 
 ModelObject::~ModelObject() {
-    for (auto value : { positionVbo, texCoordVbo, normalVbo, indexBuffer }) {
+    for (auto value : { ebo, vbo }) {
         if (value != 0)
             glDeleteBuffers(1, &value);
     }
 }
 
 void ModelObject::draw(Shader& shader) {
-
+    glBindVertexArray(vao);
+    shader.setUniforms();
+    glDrawElements(GL_TRIANGLES, modelData.vertexIndices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }

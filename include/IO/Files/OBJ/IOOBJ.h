@@ -16,13 +16,7 @@
 #include <fstream>
 #include <tuple>
 
-
-struct ModelData {
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec2> texCoords;
-    std::vector<glm::vec3> normals;
-    std::vector<unsigned int> vertexIndices, texCoordIndices, normalIndices;
-};
+#include "ModelData.h"
 
 class IOOBJ {
     std::map<std::string, ModelData> modelDataMap;
