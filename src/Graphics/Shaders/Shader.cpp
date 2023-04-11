@@ -36,8 +36,23 @@ void Shader::setUniforms() {
     glUseProgram(programID);
     setMatrixUniforms();
     setColorUniforms();
+    setTextureUniforms();
     setCustomUniforms();
     setExtraUniforms();
+}
+
+void Shader::setTextureUniforms() {
+    for (int i = 0; i < textures.size(); i++) {
+        GLuint textureEnum = GL_TEXTURE0 + i;
+        GLuint texture = textures[i].first;
+        const char* shaderName = textures[i].second.c_str();
+
+        GLuint program = ioShader.getProgram(programName);
+        GLuint shaderTextureHandle = glGetUniformLocation(program, shaderName);
+        glUniform1i(shaderTextureHandle, i);
+        glActiveTexture(textureEnum);
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
 }
 
 void Shader::setExtraUniforms() {
@@ -69,5 +84,21 @@ void Shader::setMatrixUniforms()
 
 void Shader::setFloatUniform(std::string name, float value) {
     extraFloatUniforms[name] = value;
+}
+
+void Shader::setTexture(std::string textureName, std::string shaderName) {
+    GLuint texture = IOContainer::getInstance().ioTexture.getTexture(textureName);
+    textures = { {texture, shaderName} };
+}
+
+void Shader::setTexture(GLuint _texture, std::string shaderName) {
+    textures = { {_texture, shaderName} };
+}
+
+void Shader::setTextures(std::vector<std::pair<std::string, std::string>> _textures) {
+    for (const auto& [textureName, shaderName] : _textures) {
+        GLuint texture = IOContainer::getInstance().ioTexture.getTexture(textureName);
+        textures.push_back({ texture , shaderName });
+    }
 }
 

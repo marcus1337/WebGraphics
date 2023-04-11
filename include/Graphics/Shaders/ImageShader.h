@@ -9,14 +9,11 @@ class ImageShader : public Shader {
     IOTexture& iotexture;
     virtual void setCustomUniforms() override;
     GLuint texture;
-    void setTextureUniforms();
 
 public:
 
     ImageShader();
     bool grayscale = false;
-    void setTexture(std::string textureName);
-    void setTexture(GLuint _texture);
 
 };
 

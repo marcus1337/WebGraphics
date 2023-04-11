@@ -6,7 +6,7 @@
 FrameBuffer::FrameBuffer(int _width, int _height) : width(_width), height(_height)
 {
     setBuffers();
-    shader.setTexture(texture);
+    shader.setTexture(texture, "tex");
     backgroundColor = glm::vec3(0.2f, 0.2f, 0.2f);
 }
 

@@ -2,7 +2,7 @@
 
 Image::Image(std::string _texture) : Drawable(imageShader) {
     setRotation({0.f,0.f, 180.0f });
-    imageShader.setTexture(_texture);
+    imageShader.setTexture(_texture, "tex");
 }
 
 void Image::render() {
@@ -11,6 +11,6 @@ void Image::render() {
 }
 
 void Image::setTexture(std::string textureName) {
-    imageShader.setTexture(textureName);
+    imageShader.setTexture(textureName, "tex");
 }
 

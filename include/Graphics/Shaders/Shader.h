@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include <memory>
+#include <tuple>
 
 class Shader{
 
@@ -25,9 +26,12 @@ protected:
     void setMatrixUniforms();
     void setColorUniforms();
     void setExtraUniforms();
+    void setTextureUniforms();
     virtual void setCustomUniforms() = 0;
     std::map<std::string, float> extraFloatUniforms;
     Model model;
+
+    std::vector<std::pair<GLuint, std::string>> textures;
 
 public:
     glm::vec3 color;
@@ -42,6 +46,10 @@ public:
     void setProgram(std::string _programName);
     void setUniforms();
     void setFloatUniform(std::string name, float value);
+
+    void setTexture(std::string textureName, std::string shaderName);
+    void setTexture(GLuint _texture, std::string shaderName);
+    void setTextures(std::vector<std::pair<std::string, std::string>> _textures);
 
 };
 
