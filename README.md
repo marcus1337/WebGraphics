@@ -13,6 +13,7 @@ apt-get install freeglut3-dev
 apt-get install libglew-dev
 apt-get install libfreetype6-dev
 apt-get install libglfw3-dev
+apt-get install libglm-dev
 apt-get install libxinerama-dev
 apt-get install libxcursor-dev 
 apt-get install libxi-dev 
