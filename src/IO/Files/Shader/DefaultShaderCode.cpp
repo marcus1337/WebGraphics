@@ -158,9 +158,10 @@ std::vector<ShaderCode> DefaultShaderCode::getModelCode() {
 	    vec4 N_color = vec4(0.5 * N + 0.5, 1.0);
 	    frag_color = N_color;
 	    if(useTexture == 1.0){
-		    frag_color = texture(tex, frag_uv_coord);
+            vec2 uv_coord = vec2(frag_uv_coord.x, 1.0 - frag_uv_coord.y);
+		    frag_color = texture(tex, uv_coord);
 	    }
-	
+	    //gl_FragDepth = gl_FragCoord.z;
     }
     )";
 
@@ -177,7 +178,7 @@ std::vector<ShaderCode> DefaultShaderCode::getModelCode() {
     {
 	    v_normal = a_normal;
 	    frag_uv_coord = uv_coord;
-	    gl_Position = vec4(position.x, position.y, position.z, 1.0);
+	    gl_Position = vec4(position, 1.0);
 	    gl_Position = MVP * gl_Position;
     }
     )";

@@ -16,7 +16,6 @@ class MainView {
     const int maxHeight = 1080;
     FrameBuffer frame;
     Canvas& window;
-
     std::pair<int, int> getPixelPosition(int _x, int _y);
     void render();
 

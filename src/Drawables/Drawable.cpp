@@ -18,6 +18,10 @@ void Drawable::setPosition(int _x, int _y) {
     model.setPosition({ _x, _y, 0 });
 }
 
+void Drawable::setPosition(glm::vec3 _position) {
+    model.setPosition(_position);
+}
+
 void Drawable::setSize(glm::vec3 _size) {
     model.setScale(_size);
 }

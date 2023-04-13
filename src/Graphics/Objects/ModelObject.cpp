@@ -30,7 +30,7 @@ void ModelObject::setShaderBufferPointers() {
     GLuint normalLoc = 1;
     GLuint uvLoc = 2;
 
-    glVertexAttribPointer(vertLoc, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
+    glVertexAttribPointer(vertLoc, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, 0);
     glEnableVertexAttribArray(vertLoc);
 
     glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3)); 
@@ -54,8 +54,15 @@ ModelObject::~ModelObject() {
 }
 
 void ModelObject::draw(Shader& shader) {
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+
     glBindVertexArray(vao);
     shader.setUniforms();
+    
     glDrawElements(GL_TRIANGLES, modelData.vertexIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
+    glDisable(GL_CULL_FACE);
 }

@@ -67,10 +67,11 @@ std::pair<int, int> MainView::getMousePosition() {
 }
 
 void MainView::render() {
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, window.getWidth(), window.getHeight());
     Model model;
-    model.setPosition({ getX(), getY(), 0 });
+    model.setPosition({ getX(), getY(), -10 });
     model.setScale({ getWidth(), getHeight(), 1.0f });
     frame.shader.setModel(model);
     auto camera = frame.shader.getCamera();

@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
     Mesh stallMesh("stall", "stall");
     stallMesh.setSize({ 20, 20, 20 });
     stallMesh.setCamera(camera);
+    stallMesh.setPosition({ -10.f, -10.f, -10.f });
 
     float r = 1.0f;
     looper.onRender = [&]() {
@@ -56,14 +57,22 @@ int main(int argc, char* argv[]) {
             zoom = 10.0f;
         if (zoomOut)
             zoom = -10.0f;
-        camera->orbit(scroll * 10.0f, 0.f, zoom);
+        float pitchDelta = 0.f;
+        bool pitchUp = engine.window.keyboard.isPressed['D'];
+        bool pitchDown = engine.window.keyboard.isPressed['C'];
+        if (pitchUp)
+            pitchDelta = 1.f;
+        if (pitchDown)
+            pitchDelta = -1.f;
+
+        camera->orbit(scroll * 10.0f, pitchDelta*10.0f, zoom);
 
         view.clear();
         view.paint(image);
         view.paint(text);
         view.setRotation({r,r,r});
         r = r + 1.0f;
-        view.render();
+        //view.render();
 
         stallMesh.render();
 

@@ -16,7 +16,7 @@ void FrameBuffer::setTextureScaleType(unsigned int scaleType) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, scaleType);
 }
 
-void FrameBuffer::setBuffers() {
+void FrameBuffer::setFBO() {
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -28,13 +28,36 @@ void FrameBuffer::setBuffers() {
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+}
+
+void FrameBuffer::setDepthBuffer() {
+    glGenRenderbuffers(1, &depthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+    glEnable(GL_DEPTH_TEST);
+    glClearDepth(1.0f);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+}
+
+void FrameBuffer::setBuffers() {
+    setFBO();
+    setDepthBuffer();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 FrameBuffer::~FrameBuffer()
 {
-    glDeleteFramebuffers(1, &fbo);
-    glDeleteTextures(1, &texture);
+    if(fbo != 0)
+        glDeleteFramebuffers(1, &fbo);
+    if(texture != 0)
+        glDeleteTextures(1, &texture);
+    if (depthBuffer != 0) {
+        glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+        glDeleteRenderbuffers(1, &depthBuffer);
+    }
 }
 
 void FrameBuffer::use()

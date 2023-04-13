@@ -12,19 +12,23 @@
 class FrameBuffer
 {
     glm::vec3 backgroundColor;
-    void setBuffers();
-
     GLuint oldFBO;
     std::array<GLint, 4> oldViewport;
+    GLuint depthBuffer = 0;
+    GLuint texture = 0;
+    GLuint fbo = 0;
+    void setBuffers();
+    void setFBO();
+    void setDepthBuffer();
 
 public:
+    const int width, height;
+    ImageShader shader;
+
     void storeState();
     void loadState();
 
     void setTextureScaleType(unsigned int scaleType);
-    ImageShader shader;
-    GLuint texture, fbo;
-    const int width, height;
     ~FrameBuffer();
     FrameBuffer(int _width, int _height);
     void use();

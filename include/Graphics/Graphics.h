@@ -27,6 +27,7 @@
 class Graphics {
     Canvas& window;
     void setGLSettings();
+    GLuint depthBuffer = 0;
 
 public:
     MainView mainView;
