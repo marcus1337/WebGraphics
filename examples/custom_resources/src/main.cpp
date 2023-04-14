@@ -13,6 +13,9 @@ int main(int argc, char* argv[]) {
 
     Looper looper;
     auto& engine = Engine::getInstance();
+    //engine.graphics.mainView.setSize(1000, 1000);
+    engine.graphics.mainView.setSize(1280, 720);
+    //engine.graphics.mainView.setSize(1920, 1080);
     engine.resources.loadDefaultResourceFiles();
     engine.setIconImage();
 
@@ -65,7 +68,7 @@ int main(int argc, char* argv[]) {
         if (pitchDown)
             pitchDelta = -1.f;
 
-        camera->orbit(scroll * 10.0f, pitchDelta*10.0f, zoom);
+        camera->orbit(scroll * 10.0f, pitchDelta*3.0f, zoom);
 
         view.clear();
         view.paint(image);

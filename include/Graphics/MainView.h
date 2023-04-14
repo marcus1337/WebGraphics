@@ -7,17 +7,20 @@
 #include "IO/Files/Texture/IOTexture.h"
 #include "IO/Files/Shader/IOShader.h"
 #include "Graphics/Objects/ImageObject.h"
+#include <memory>
+#include <tuple>
 
 class MainView {
 
     glm::vec3 outerBackgroundColor;
-
-    const int maxWidth = 1920;
-    const int maxHeight = 1080;
-    FrameBuffer frame;
+    std::shared_ptr<FrameBuffer> frame;
     Canvas& window;
     std::pair<int, int> getPixelPosition(int _x, int _y);
     void render();
+    void useDefaultFramebuffer();
+    void setFrameModel();
+    void setFrameCamera();
+    std::pair<int, int> getAspectRatio();
 
 public:
     MainView(Canvas& _window);
@@ -26,6 +29,7 @@ public:
     int getY();
     int getWidth();
     int getHeight();
+    void setSize(int width, int height);
     void use();
     void clear();
     void display();
