@@ -32,9 +32,9 @@ std::pair<int, int> MainView::getAspectRatio() {
 }
 
 int MainView::getWidth() {
-    if (window.getWidth() >= frame->width && window.getHeight() >= frame->height)
-        return frame->width;
-    const int minSize = 50;
+   // if (window.getWidth() >= frame->width && window.getHeight() >= frame->height) //uncomment to have limited window area
+   //     return frame->width;
+    const int minSize = 25;
     if (window.getWidth() < minSize || window.getHeight() < minSize)
         return minSize;
 
@@ -49,9 +49,9 @@ int MainView::getWidth() {
 }
 
 int MainView::getHeight() {
-    if (window.getWidth() >= frame->width && window.getHeight() >= frame->height)
-        return frame->height;
-    const int minSize = 50;
+ //   if (window.getWidth() >= frame->width && window.getHeight() >= frame->height) //uncomment to have limited window area
+ //       return frame->height;
+    const int minSize = 25;
     if (window.getWidth() < minSize || window.getHeight() < minSize)
         return minSize;
 
