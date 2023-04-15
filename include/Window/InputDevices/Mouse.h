@@ -2,30 +2,49 @@
 #define MOUSE_H
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include <map>
+
+enum class MouseButton {
+    LEFT, RIGHT
+};
+
+struct ButtonState {
+    bool pressed = false;
+    bool pressEvent = false;
+    bool unPressEvent = false;
+    void clearEvents() {
+        pressEvent = false;
+        unPressEvent = false;
+    }
+};
 
 class Mouse
 {
 
-public:
-
-    bool isLeftPressed = false;
-    bool isRightPressed = false;
-    bool isLeftReleased = false;
-    bool isRightReleased = false;
-    bool isRightPress = false;
-    bool isLeftPress = false;
-    
-    double deltaX = 0;
-    double deltaY = 0;
+    double xDragDelta = 0;
+    double yDragDelta = 0;
     double scrollDelta = 0;
     double x = 0.0f;
     double y = 0.0f;
-    bool hasInitPos = false;
-    
-    void drag(int toPosX, int toPosY);
-    void click(int button, int action, int mods);
+    std::map<MouseButton, ButtonState> buttons;
 
-    void clearDeltas();
+public:    
+    
+    Mouse();
+    double getX();
+    double getY();
+    double getDragDeltaX();
+    double getDragDeltaY();
+    double getScrollDelta();
+    bool isPressed(MouseButton btn);
+    bool isPressEvent(MouseButton btn);
+    bool isUnPressEvent(MouseButton btn);
+
+    //Update methods
+    void addScroll(double _scrollDelta);
+    void addDrag(int _x, int _y);
+    void onButtonPress(MouseButton btn);
+    void onButtonLift(MouseButton btn);
     void reset();
 
 };

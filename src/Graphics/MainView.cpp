@@ -32,8 +32,6 @@ std::pair<int, int> MainView::getAspectRatio() {
 }
 
 int MainView::getWidth() {
-   // if (window.getWidth() >= frame->width && window.getHeight() >= frame->height) //uncomment to have limited window area
-   //     return frame->width;
     const int minSize = 25;
     if (window.getWidth() < minSize || window.getHeight() < minSize)
         return minSize;
@@ -49,8 +47,6 @@ int MainView::getWidth() {
 }
 
 int MainView::getHeight() {
- //   if (window.getWidth() >= frame->width && window.getHeight() >= frame->height) //uncomment to have limited window area
- //       return frame->height;
     const int minSize = 25;
     if (window.getWidth() < minSize || window.getHeight() < minSize)
         return minSize;
@@ -93,7 +89,7 @@ std::pair<int, int> MainView::getPixelPosition(int _x, int _y) {
 }
 
 std::pair<int, int> MainView::getMousePosition() {
-    return getPixelPosition(window.mouse.x, window.mouse.y);
+    return getPixelPosition(window.mouse.getX(), window.mouse.getY());
 }
 
 void MainView::useDefaultFramebuffer() {

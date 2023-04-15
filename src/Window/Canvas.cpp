@@ -118,6 +118,9 @@ void Canvas::display() {
 }
 
 void Canvas::pollEvents() {
+    double mouseX, mouseY;
+    glfwGetCursorPos(window, &mouseX, &mouseY);
+    mouse.addDrag((int)mouseX, (int)mouseY);
     mouse.reset();
     keyboard.reset();
     glfwPollEvents();

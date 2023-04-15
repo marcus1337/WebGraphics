@@ -51,11 +51,12 @@ int main(int argc, char* argv[]) {
     looper.onRender = [&]() {
 
         auto& mouse = engine.window.mouse;
-        float scroll = mouse.scrollDelta;
+
+        float scroll = mouse.getScrollDelta();
 
         float zoom = 0.f;
-        bool zoomIn = mouse.isLeftPressed;
-        bool zoomOut = mouse.isRightPressed;
+        bool zoomIn = mouse.isPressed(MouseButton::LEFT);
+        bool zoomOut = mouse.isPressed(MouseButton::RIGHT);
         if (zoomIn)
             zoom = 10.0f;
         if (zoomOut)
