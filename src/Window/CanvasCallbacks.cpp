@@ -9,6 +9,8 @@ auto CanvasCallbacks::mouse_button_callback(GLFWwindow* window, int button, int 
         mouseBtn = MouseButton::LEFT;
     else if (button == GLFW_MOUSE_BUTTON_RIGHT)
         mouseBtn = MouseButton::RIGHT;
+    else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
+        mouseBtn = MouseButton::MIDDLE;
 
     if (action == GLFW_RELEASE) {
         mw->mouse->onButtonLift(mouseBtn);
