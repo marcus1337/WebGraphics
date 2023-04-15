@@ -62,8 +62,8 @@ int main(int argc, char* argv[]) {
         if (zoomOut)
             zoom = -10.0f;
         float pitchDelta = 0.f;
-        bool pitchUp = engine.window.keyboard.isPressed['D'];
-        bool pitchDown = engine.window.keyboard.isPressed['C'];
+        bool pitchUp = engine.window.keyboard.isPressed('D');
+        bool pitchDown = engine.window.keyboard.isPressed('C');
         if (pitchUp)
             pitchDelta = 1.f;
         if (pitchDown)

@@ -3,19 +3,10 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <map>
+#include "ButtonState.h"
 
 enum class MouseButton {
-    LEFT, RIGHT
-};
-
-struct ButtonState {
-    bool pressed = false;
-    bool pressEvent = false;
-    bool unPressEvent = false;
-    void clearEvents() {
-        pressEvent = false;
-        unPressEvent = false;
-    }
+    LEFT, RIGHT, MIDDLE
 };
 
 class Mouse

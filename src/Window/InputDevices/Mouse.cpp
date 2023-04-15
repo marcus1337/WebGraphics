@@ -4,8 +4,10 @@
 
 
 Mouse::Mouse() {
-    buttons[MouseButton::LEFT] = ButtonState();
-    buttons[MouseButton::RIGHT] = ButtonState();
+    using enum MouseButton;
+    for (MouseButton btn : {LEFT, RIGHT, MIDDLE}) {
+        buttons[btn] = ButtonState();
+    }
 }
 
 

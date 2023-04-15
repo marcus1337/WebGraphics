@@ -1,23 +1,40 @@
 #include "Window/InputDevices/Keyboard.h"
 #include <iostream>
 
-void Keyboard::setKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (action == GLFW_PRESS)
-        isDownClick[key] = true;
-
-    for (std::size_t i = 0; i < numKeys; i++)
-        isPressed[i] = glfwGetKey(window, i) == GLFW_PRESS;
-
-    if (action == GLFW_RELEASE)
-        isUpClick[key] = true;
-
-    if (isDownClick[GLFW_KEY_ESCAPE])
-        quitProgram = true;
+void Keyboard::clearEvents() {
+    for (std::size_t i = 0; i < NUM_KEYS; i++) {
+        buttons->clearEvents();
+    }
 }
 
-void Keyboard::reset() {
-    for (std::size_t i = 0; i < numKeys; i++) {
-        isDownClick[i] = isUpClick[i] = false;
+bool Keyboard::isPressed(int key) {
+    return buttons[key].pressed;
+}
+
+bool Keyboard::isPressEvent(int key) {
+    return buttons[key].pressEvent;
+}
+
+bool Keyboard::isUnPressEvent(int key) {
+    return buttons[key].unPressEvent;
+}
+
+void Keyboard::onButtonPress(int key) {
+    buttons[key].pressEvent = true;
+    buttons[key].pressed = true;
+}
+
+void Keyboard::onButtonLift(int key) {
+    buttons[key].pressed = false;
+    buttons[key].unPressEvent = true;
+}
+
+void Keyboard::bindKey(int key, std::function<void(ButtonState)> func) {
+    keyBindings[key] = func;
+}
+
+void Keyboard::handleBindings() {
+    for (auto& [key, func] : keyBindings) {
+        func(buttons[key]);
     }
 }

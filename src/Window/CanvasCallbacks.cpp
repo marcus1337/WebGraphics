@@ -32,7 +32,12 @@ auto CanvasCallbacks::scroll_callback(GLFWwindow* window, double xoffset, double
 auto CanvasCallbacks::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     CanvasCallbacks* mw = static_cast<CanvasCallbacks*>(glfwGetWindowUserPointer(window));
-    mw->keyboard->setKeys(window, key, scancode, action, mods);
+    if (action == GLFW_PRESS) {
+        mw->keyboard->onButtonPress(key);
+    }
+    else if (action == GLFW_RELEASE) {
+        mw->keyboard->onButtonLift(key);
+    }
 }
 
 auto CanvasCallbacks::window_size_callback(GLFWwindow* window, int width, int height)

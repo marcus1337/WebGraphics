@@ -122,8 +122,9 @@ void Canvas::pollEvents() {
     glfwGetCursorPos(window, &mouseX, &mouseY);
     mouse.addDrag((int)mouseX, (int)mouseY);
     mouse.reset();
-    keyboard.reset();
+    keyboard.clearEvents();
     glfwPollEvents();
+    keyboard.handleBindings();
 }
 
 void Canvas::setIconImage(GLFWimage& image) {
