@@ -28,6 +28,15 @@ class Mouse
     double y = 0.0f;
     std::map<MouseButton, ButtonState> buttons;
 
+    //Update methods
+    void addScroll(double _scrollDelta);
+    void addDrag(int _x, int _y);
+    void onButtonPress(MouseButton btn);
+    void onButtonLift(MouseButton btn);
+    void reset();
+    friend class CanvasCallbacks;
+    friend class Canvas;
+
 public:    
     
     Mouse();
@@ -39,13 +48,6 @@ public:
     bool isPressed(MouseButton btn);
     bool isPressEvent(MouseButton btn);
     bool isUnPressEvent(MouseButton btn);
-
-    //Update methods
-    void addScroll(double _scrollDelta);
-    void addDrag(int _x, int _y);
-    void onButtonPress(MouseButton btn);
-    void onButtonLift(MouseButton btn);
-    void reset();
 
 };
 
