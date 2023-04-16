@@ -6,7 +6,7 @@ echo "Downloading and installing emscripten..."
 git clone https://github.com/emscripten-core/emsdk.git build/emsdk
 ./build/emsdk/emsdk install latest
 ./build/emsdk/emsdk activate latest
-source ./emsdk/emsdk_env.sh
+source ./build/emsdk/emsdk_env.sh
 
 echo "Building WebAssembly files..."
 emcmake cmake -B./build -S./src
