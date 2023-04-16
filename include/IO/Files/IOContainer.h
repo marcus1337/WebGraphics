@@ -6,6 +6,7 @@
 #include "Shader/IOShader.h"
 #include "Texture/IOTexture.h"
 #include "IO/Files/OBJ/IOOBJ.h"
+#include "IO/Files/Pose/IOPose.h"
 
 class IOContainer {
     IOContainer();
@@ -15,6 +16,7 @@ public:
     IOShader ioShader;
     IOTexture ioTexture;
     IOOBJ ioOBJ;
+    IOPose ioPose;
     static IOContainer& getInstance();
 };
 

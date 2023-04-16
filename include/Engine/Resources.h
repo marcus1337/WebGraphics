@@ -18,6 +18,7 @@ public:
     void loadFonts();
     void loadTextures();
     void loadOBJs();
+    void loadAnimations();
 };
 
 #endif // !RESOURCES_H

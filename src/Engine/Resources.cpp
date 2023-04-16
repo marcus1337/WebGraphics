@@ -44,6 +44,7 @@ void Resources::loadFiles() {
     loadShaders();
     loadTextures();
     loadOBJs();
+    loadAnimations();
     printLoadWarnings();
 }
 
@@ -51,6 +52,12 @@ void Resources::loadOBJs() {
     auto objFilePaths = ioContainer.filePathContainer.getFilePaths(FileType::OBJ);
     auto objFileNames = ioContainer.filePathContainer.getFileNames(FileType::OBJ);
     ioContainer.ioOBJ.loadModels(objFilePaths, objFileNames);
+}
+
+void Resources::loadAnimations() {
+    auto daePaths = ioContainer.filePathContainer.getFilePaths(FileType::COLLADA);
+    auto daeNames = ioContainer.filePathContainer.getFileNames(FileType::COLLADA);
+    ioContainer.ioPose.loadAnimations(daePaths, daeNames);
 }
 
 void Resources::printLoadWarnings() {

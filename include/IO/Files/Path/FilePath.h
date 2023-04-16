@@ -7,7 +7,7 @@
 #include <filesystem>
 
 enum class FileType {
-    BIN, TTF, PNG, TXT, SHADER, UNKNOWN, WAV, LUA, OBJ
+    BIN, TTF, PNG, TXT, SHADER, UNKNOWN, WAV, LUA, OBJ, COLLADA
 };
 
 class FilePath {
