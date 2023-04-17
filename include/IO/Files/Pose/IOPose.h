@@ -21,6 +21,12 @@ class IOPose {
     tinyxml2::XMLElement* getNodeElement(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* jointElement, const std::string& parentJointName);
     std::vector<std::string> getChildJointNames(tinyxml2::XMLDocument& doc, const std::string& parentJointName);
 
+    std::vector<tinyxml2::XMLElement*> getAnimationElements(tinyxml2::XMLDocument& doc);
+    tinyxml2::XMLElement* getAnimationElement(tinyxml2::XMLDocument& doc, const std::string jointName);
+
+    std::vector<float> getKeyframeTimes(tinyxml2::XMLDocument& doc, const std::string jointName);
+    std::vector<glm::mat4> getKeyframeBoneTransforms(tinyxml2::XMLDocument& doc, const std::string jointName);
+
     void loadAnimation(std::string path, std::string name);
 public:
     void loadAnimations(std::vector<std::string> colladaFilePaths, std::vector<std::string> colladaNames);

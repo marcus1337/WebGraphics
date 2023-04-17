@@ -150,7 +150,52 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     auto vData = parseIntArray(vertWeights->FirstChildElement("v")->GetText());
     std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);    
     std::vector<std::string> jointNames = parseStrArray(getElementValues(vertWeights, "JOINT", "Name_array").c_str());
-
     std::vector<float> weights = parseFloatArray(getElementValues(vertWeights, "WEIGHT", "float_array").c_str());
 
+}
+
+std::vector<tinyxml2::XMLElement*> IOPose::getAnimationElements(tinyxml2::XMLDocument& doc) {
+    std::vector<tinyxml2::XMLElement*> elements;
+    tinyxml2::XMLElement* element = doc.FirstChildElement("COLLADA")->FirstChildElement("library_animations")->FirstChildElement("animation");
+    while (element != nullptr) {
+        elements.push_back(element);
+        element = element->NextSiblingElement("animation");
+    }
+    return elements;
+}
+
+tinyxml2::XMLElement* IOPose::getAnimationElement(tinyxml2::XMLDocument& doc, const std::string jointName) {
+    std::string targetName = jointName + "/transform";
+    for (tinyxml2::XMLElement* element : getAnimationElements(doc)) {
+        const char* target = element->FirstChildElement("channel")->Attribute("target");
+        if (target == targetName)
+            return element;
+    }
+    return nullptr;
+}
+
+std::vector<float> IOPose::getKeyframeTimes(tinyxml2::XMLDocument& doc, const std::string jointName) {
+    std::vector<float> times;
+    tinyxml2::XMLElement* animElement = getAnimationElement(doc, jointName);
+    if (animElement != nullptr) {
+        tinyxml2::XMLElement* inputElement = animElement->FirstChildElement("source")->FirstChildElement("float_array");
+        if (inputElement != nullptr) {
+            const char* inputStr = inputElement->GetText();
+            times = parseFloatArray(inputStr);
+        }
+    }
+    return times;
+}
+
+std::vector<glm::mat4> IOPose::getKeyframeBoneTransforms(tinyxml2::XMLDocument& doc, const std::string jointName) {
+    std::vector<glm::mat4> transforms;
+    tinyxml2::XMLElement* animElement = getAnimationElement(doc, jointName);
+    if (animElement != nullptr) {
+        tinyxml2::XMLElement* outputElement = animElement->FirstChildElement("source")->NextSiblingElement("source")->FirstChildElement("float_array");
+        if (outputElement != nullptr) {
+            const char* outputStr = outputElement->GetText();
+            return parseMatrixArray(outputStr);
+        }
+    }
+    return transforms;
 }
