@@ -89,17 +89,68 @@ std::string IOPose::getElementValues(tinyxml2::XMLElement* parent, const std::st
     return getSource(getInput(parent, semantic.c_str()))->FirstChildElement(element.c_str())->GetText();
 }
 
+tinyxml2::XMLElement* IOPose::getVertexWeightsElement(tinyxml2::XMLDocument& doc) {
+    return doc.FirstChildElement("COLLADA")->FirstChildElement("library_controllers")->FirstChildElement("controller")->FirstChildElement("skin")->FirstChildElement("vertex_weights");
+}
+
+tinyxml2::XMLElement* IOPose::getRootNodeElement(tinyxml2::XMLDocument& doc) {
+    tinyxml2::XMLElement* node = doc.FirstChildElement("COLLADA")->FirstChildElement("library_visual_scenes")->FirstChildElement("visual_scene")->FirstChildElement("node");
+    while (node != nullptr) {
+        tinyxml2::XMLElement* childNode = node->FirstChildElement("node");
+        if (childNode != nullptr) {
+            const char* type = childNode->Attribute("type");
+            if (type != nullptr && std::strcmp(type, "JOINT") == 0) {
+                return childNode;
+            }
+        }
+        node = node->NextSiblingElement("node");
+    }
+    return nullptr;
+}
+
+tinyxml2::XMLElement* IOPose::getNodeElement(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* jointElement, const std::string& parentJointName) {
+    if (jointElement == nullptr)
+        return nullptr;
+    const char* jointName = jointElement->Attribute("name");
+    if (jointName != nullptr && parentJointName == jointName)
+        return jointElement;
+    tinyxml2::XMLElement* child = jointElement->FirstChildElement();
+    while (child != nullptr) {
+        tinyxml2::XMLElement* result = getNodeElement(doc, child, parentJointName);
+        if (result != nullptr)
+            return result;
+        child = child->NextSiblingElement();
+    }
+    return nullptr;
+}
+
+std::vector<std::string> IOPose::getChildJointNames(tinyxml2::XMLDocument& doc, const std::string& parentJointName) {
+    std::vector<std::string> children;
+    tinyxml2::XMLElement* root = getRootNodeElement(doc);
+    tinyxml2::XMLElement* parent = getNodeElement(doc, root, parentJointName);
+    if (parent == nullptr)
+        return children;
+    tinyxml2::XMLElement* child = parent->FirstChildElement();
+    while (child != nullptr) {
+        const char* childName = child->Attribute("name");
+        if (childName != nullptr)
+            children.push_back(childName);
+        child = child->NextSiblingElement();
+    }
+    return children;
+}
+
 void IOPose::loadAnimation(std::string path, std::string name) {
     tinyxml2::XMLDocument doc;
     doc.LoadFile(path.c_str());
-    tinyxml2::XMLElement* vertex_weights = doc.FirstChildElement("COLLADA")->FirstChildElement("library_controllers")->FirstChildElement("controller")->FirstChildElement("skin")->FirstChildElement("vertex_weights");
     
-    int count = vertex_weights->IntAttribute("count");
-    auto vcountData = parseIntArray(vertex_weights->FirstChildElement("vcount")->GetText());
-    auto vData = parseIntArray(vertex_weights->FirstChildElement("v")->GetText());
+    auto vertWeights = getVertexWeightsElement(doc);
+    int count = vertWeights->IntAttribute("count");
+    auto vcountData = parseIntArray(vertWeights->FirstChildElement("vcount")->GetText());
+    auto vData = parseIntArray(vertWeights->FirstChildElement("v")->GetText());
     std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);    
-    std::vector<std::string> jointNames = parseStrArray(getElementValues(vertex_weights, "JOINT", "Name_array").c_str());
-    std::vector<float> weights = parseFloatArray(getElementValues(vertex_weights, "WEIGHT", "float_array").c_str());
+    std::vector<std::string> jointNames = parseStrArray(getElementValues(vertWeights, "JOINT", "Name_array").c_str());
 
+    std::vector<float> weights = parseFloatArray(getElementValues(vertWeights, "WEIGHT", "float_array").c_str());
 
 }
