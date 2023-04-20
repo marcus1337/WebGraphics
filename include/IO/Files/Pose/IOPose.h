@@ -2,8 +2,10 @@
 #define IO_POSE_H
 #include <string>
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include "IO/Files/Pose/tinyxml2.h"
+#include "Animation.h"
 
 class IOPose {
 
@@ -27,9 +29,13 @@ class IOPose {
     std::vector<float> getKeyframeTimes(tinyxml2::XMLDocument& doc, const std::string jointName);
     std::vector<glm::mat4> getKeyframeBoneTransforms(tinyxml2::XMLDocument& doc, const std::string jointName);
 
+
+
     void loadAnimation(std::string path, std::string name);
 public:
     void loadAnimations(std::vector<std::string> colladaFilePaths, std::vector<std::string> colladaNames);
+
+    std::vector<KeyFrame> getKeyFrames(std::string animationName);
 
 };
 
