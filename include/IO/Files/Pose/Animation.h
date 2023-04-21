@@ -8,25 +8,32 @@
 
 struct KeyFrame {
     float timeStamp;
-    std::vector<glm::mat4> jointTransforms;
+    glm::mat4 jointTransform;
 };
 
 struct Joint {
-    std::vector<Joint> children;
     int id;
-    glm::mat4 transform;
+    std::vector<KeyFrame> frames;
+    std::vector<Joint> children;
+    glm::mat4 interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& matrix2, float t);
+    glm::mat4 getJointTransformInterpolation(float timeStamp);
+};
+
+struct VertexJointWeights {
+    std::vector<int> jointIndices;
+    std::vector<float> weights;
 };
 
 class Animation {
-    std::vector<KeyFrame> keyFrames;
     Joint rootJoint;
-
-    float getWrappedTime(float animationTime);
-    std::pair<KeyFrame,KeyFrame> getInterpolatedFrames(float animationTime);
-    glm::mat4 interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& matrix2, float t);
+    VertexJointWeights vertexJointWeights;
+    void addJointsToArray(Joint& joint, float timeStamp, std::map<int, glm::mat4>& jointTransforms);
+    void reorderVertexJointWeights(VertexJointWeights& data, const std::vector<int>& vertexIndices);
 public:
-    Animation(std::vector<KeyFrame> keyFrames, Joint rootJoint);
-    std::vector<glm::mat4> getJointTransforms(float animationTime);
+    Animation(Joint rootJoint);
+    void setVertexJointWeights(const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
+    VertexJointWeights getVertexJointWeights(const std::vector<int>& vertexIndices);
+    std::vector<glm::mat4> getJointTransforms(float timeStamp);
 };
 
 #endif // !IO_ANIMATION_H

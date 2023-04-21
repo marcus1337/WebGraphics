@@ -140,20 +140,6 @@ std::vector<std::string> IOPose::getChildJointNames(tinyxml2::XMLDocument& doc, 
     return children;
 }
 
-void IOPose::loadAnimation(std::string path, std::string name) {
-    tinyxml2::XMLDocument doc;
-    doc.LoadFile(path.c_str());
-    
-    auto vertWeights = getVertexWeightsElement(doc);
-    int count = vertWeights->IntAttribute("count");
-    auto vcountData = parseIntArray(vertWeights->FirstChildElement("vcount")->GetText());
-    auto vData = parseIntArray(vertWeights->FirstChildElement("v")->GetText());
-    std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);    
-    std::vector<std::string> jointNames = parseStrArray(getElementValues(vertWeights, "JOINT", "Name_array").c_str());
-    std::vector<float> weights = parseFloatArray(getElementValues(vertWeights, "WEIGHT", "float_array").c_str());
-
-}
-
 std::vector<tinyxml2::XMLElement*> IOPose::getAnimationElements(tinyxml2::XMLDocument& doc) {
     std::vector<tinyxml2::XMLElement*> elements;
     tinyxml2::XMLElement* element = doc.FirstChildElement("COLLADA")->FirstChildElement("library_animations")->FirstChildElement("animation");
@@ -198,4 +184,25 @@ std::vector<glm::mat4> IOPose::getKeyframeBoneTransforms(tinyxml2::XMLDocument& 
         }
     }
     return transforms;
+}
+
+void IOPose::loadAnimation(std::string path, std::string name) {
+    tinyxml2::XMLDocument doc;
+    doc.LoadFile(path.c_str());
+
+    auto vDataXML = getVertexWeightsElement(doc);
+    auto vCountData = parseIntArray(vDataXML->FirstChildElement("vcount")->GetText());
+    auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
+    std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);
+    std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
+    std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
+
+    Joint rootJoint;
+    Animation animation(rootJoint);
+    animation.setVertexJointWeights(vCountData, vData, weights);
+    animations.emplace(name, animation);
+}
+
+Animation IOPose::getAnimation(std::string animationName) {
+    return animations.at(animationName);
 }
