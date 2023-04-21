@@ -13,6 +13,7 @@ struct KeyFrame {
 
 struct Joint {
     int id;
+    std::string name;
     std::vector<KeyFrame> frames;
     std::vector<Joint> children;
     glm::mat4 interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& matrix2, float t);

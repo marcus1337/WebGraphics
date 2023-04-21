@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <glm/gtx/string_cast.hpp>
+#include <functional>
 
 void IOPose::loadAnimations(std::vector<std::string> colladaFilePaths, std::vector<std::string> colladaNames) {
     std::cout << "Loading animations. Num Collada files: " << colladaFilePaths.size() << "\n";
@@ -108,36 +109,42 @@ tinyxml2::XMLElement* IOPose::getRootNodeElement(tinyxml2::XMLDocument& doc) {
     return nullptr;
 }
 
+std::vector<tinyxml2::XMLElement*> IOPose::getChildElements(tinyxml2::XMLElement* parentElement) {
+    std::vector<tinyxml2::XMLElement*> elements;
+    tinyxml2::XMLElement* child = parentElement->FirstChildElement();
+    while (child != nullptr) {
+        elements.push_back(child);
+        child = child->NextSiblingElement();
+    }
+    return elements;
+}
+
 tinyxml2::XMLElement* IOPose::getNodeElement(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* jointElement, const std::string& parentJointName) {
     if (jointElement == nullptr)
         return nullptr;
     const char* jointName = jointElement->Attribute("name");
     if (jointName != nullptr && parentJointName == jointName)
         return jointElement;
-    tinyxml2::XMLElement* child = jointElement->FirstChildElement();
-    while (child != nullptr) {
+    for (tinyxml2::XMLElement* child : getChildElements(jointElement)) {
         tinyxml2::XMLElement* result = getNodeElement(doc, child, parentJointName);
         if (result != nullptr)
             return result;
-        child = child->NextSiblingElement();
     }
     return nullptr;
 }
 
 std::vector<std::string> IOPose::getChildJointNames(tinyxml2::XMLDocument& doc, const std::string& parentJointName) {
-    std::vector<std::string> children;
+    std::vector<std::string> names;
     tinyxml2::XMLElement* root = getRootNodeElement(doc);
     tinyxml2::XMLElement* parent = getNodeElement(doc, root, parentJointName);
     if (parent == nullptr)
-        return children;
-    tinyxml2::XMLElement* child = parent->FirstChildElement();
-    while (child != nullptr) {
+        return names;
+    for (tinyxml2::XMLElement* child : getChildElements(parent)) {
         const char* childName = child->Attribute("name");
         if (childName != nullptr)
-            children.push_back(childName);
-        child = child->NextSiblingElement();
+            names.push_back(childName);
     }
-    return children;
+    return names;
 }
 
 std::vector<tinyxml2::XMLElement*> IOPose::getAnimationElements(tinyxml2::XMLDocument& doc) {
@@ -194,15 +201,52 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     auto vCountData = parseIntArray(vDataXML->FirstChildElement("vcount")->GetText());
     auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
     std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);
-    std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
     std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
 
-    Joint rootJoint;
-    Animation animation(rootJoint);
+    Animation animation(loadRootJoint(doc, vDataXML));
     animation.setVertexJointWeights(vCountData, vData, weights);
     animations.emplace(name, animation);
 }
 
 Animation IOPose::getAnimation(std::string animationName) {
     return animations.at(animationName);
+}
+
+bool IOPose::isChildJoint(tinyxml2::XMLDocument& doc, const std::string& parentName, const std::string& childName) {
+    for (const auto& name : getChildJointNames(doc, parentName))
+        if (name == childName)
+            return true;
+    return false;
+}
+
+Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vDataXML) {
+    Joint rootJoint;
+    std::vector<Joint> joints;
+    std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
+    for (int i = 0; i < jointNames.size(); i++) {
+        Joint joint;
+        joint.id = i;
+        joint.name = jointNames[i];
+        auto frameTimes = getKeyframeTimes(doc, jointNames[i]);
+        auto frameTransforms = getKeyframeBoneTransforms(doc, jointNames[i]);
+        for (int j = 0; j < frameTimes.size(); j++) {
+            joint.frames.push_back(KeyFrame{ frameTimes[j], frameTransforms[j] });
+        }
+        joints.push_back(joint);
+    }
+
+    std::function<void(Joint&)> addChildJointsRecursive = [&](Joint& parentJoint) {
+        for (auto& childJoint : joints) {
+            if (childJoint.id == parentJoint.id || childJoint.id == 0)
+                continue;
+            if (isChildJoint(doc, parentJoint.name, childJoint.name)) {
+                parentJoint.children.push_back(childJoint);
+                addChildJointsRecursive(parentJoint.children.back());
+            }
+        }
+    };
+
+    addChildJointsRecursive(rootJoint);
+
+    return rootJoint;
 }
