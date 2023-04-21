@@ -200,10 +200,9 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     auto vDataXML = getVertexWeightsElement(doc);
     auto vCountData = parseIntArray(vDataXML->FirstChildElement("vcount")->GetText());
     auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
-    std::vector<glm::mat4> jointInvMatrices = getJointInvMatrices(doc);
     std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
 
-    Animation animation(loadRootJoint(doc, vDataXML));
+    Animation animation(loadRootJoint(doc, vDataXML), getJointInvMatrices(doc));
     animation.setVertexJointWeights(vCountData, vData, weights);
     animations.emplace(name, animation);
 }
@@ -240,6 +239,7 @@ Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vD
             if (childJoint.id == parentJoint.id || childJoint.id == 0)
                 continue;
             if (isChildJoint(doc, parentJoint.name, childJoint.name)) {
+                childJoint.parentID = parentJoint.id;
                 parentJoint.children.push_back(childJoint);
                 addChildJointsRecursive(parentJoint.children.back());
             }

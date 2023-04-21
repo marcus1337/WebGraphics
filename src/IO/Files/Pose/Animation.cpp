@@ -36,7 +36,7 @@ void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::v
     data.weights = newWeights;
 }
 
-Animation::Animation(Joint rootJoint) : rootJoint(rootJoint), vertexJointWeights{} {
+Animation::Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices) : rootJoint(rootJoint), jointInvMatrices(jointInvMatrices), vertexJointWeights{} {
 
 }
 
@@ -56,7 +56,9 @@ std::vector<glm::mat4> Animation::getJointTransforms(float timeStamp) {
 }
 
 void Animation::addJointsToArray(Joint& joint, float timeStamp, std::map<int, glm::mat4>& jointTransforms) {
-    jointTransforms[joint.id] = joint.getJointTransformInterpolation(timeStamp);
+    jointTransforms[joint.id] = jointInvMatrices[joint.id] * joint.getJointTransformInterpolation(timeStamp);
+    if (joint.parentID != -1)
+        jointTransforms[joint.id] = jointTransforms[joint.parentID] * jointTransforms[joint.id];
     for (auto& child : joint.children)
         addJointsToArray(child, timeStamp, jointTransforms);
 }
@@ -65,4 +67,8 @@ void Animation::setVertexJointWeights(const std::vector<int>& vCountData, const 
     vertexJointWeights.weights.clear();
     vertexJointWeights.jointIndices.clear();
 
+}
+
+std::vector<glm::mat4> Animation::getDefaultJointTransforms() {
+    return jointInvMatrices;
 }

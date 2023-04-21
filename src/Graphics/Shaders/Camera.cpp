@@ -39,7 +39,7 @@ glm::mat4 Camera::getView() {
 }
 
 glm::mat4 Camera::getProjection() {
-    const float nearPlane = 0.01f;
+    const float nearPlane = 1.1f;
     const float farPlane = 10000.0f;
     if (isOrthographic()) {
         return glm::ortho(0.0f, (float)screenWidth, 0.0f, (float)screenHeight, nearPlane, farPlane);

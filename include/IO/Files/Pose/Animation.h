@@ -13,6 +13,7 @@ struct KeyFrame {
 
 struct Joint {
     int id;
+    int parentID = -1;
     std::string name;
     std::vector<KeyFrame> frames;
     std::vector<Joint> children;
@@ -27,14 +28,16 @@ struct VertexJointWeights {
 
 class Animation {
     Joint rootJoint;
+    std::vector<glm::mat4> jointInvMatrices;
     VertexJointWeights vertexJointWeights;
     void addJointsToArray(Joint& joint, float timeStamp, std::map<int, glm::mat4>& jointTransforms);
     void reorderVertexJointWeights(VertexJointWeights& data, const std::vector<int>& vertexIndices);
 public:
-    Animation(Joint rootJoint);
+    Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices);
     void setVertexJointWeights(const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
     VertexJointWeights getVertexJointWeights(const std::vector<int>& vertexIndices);
     std::vector<glm::mat4> getJointTransforms(float timeStamp);
+    std::vector<glm::mat4> getDefaultJointTransforms();
 };
 
 #endif // !IO_ANIMATION_H
