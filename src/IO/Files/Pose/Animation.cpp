@@ -66,13 +66,12 @@ void Animation::addJointsToArray(Joint& joint, float timeStamp, std::map<int, gl
 
 void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) {
     const int batchSize = 3;
-    vertexJointWeights.weights = std::vector<float>(vertexJointCount.size() * batchSize, 0);
-    vertexJointWeights.jointIndices = std::vector<int>(vertexJointCount.size() * batchSize);
-    int traversedWeightIndices = 0;
-    for (int vi = 0; vi < vertexJointCount.size(); vi++) {
-        int numJoints = vertexJointCount[vi];
+    vertexJointWeights.weights.clear();
+    vertexJointWeights.jointIndices.clear();
 
-        std::vector<std::pair<float, int>> weightIndexPairs(numJoints);
+    int traversedWeightIndices = 0;
+    for (const int numJoints : vertexJointCount) {
+        std::vector<std::pair<float, int>> weightIndexPairs(std::max(numJoints, batchSize));
         for (int ji = 0; ji < numJoints; ji++) {
             int weightIndex = vertexJointWeightIndices[traversedWeightIndices + ji];
             float weight = weights[weightIndex];
@@ -80,11 +79,10 @@ void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, 
         }
         std::sort(weightIndexPairs.begin(), weightIndexPairs.end(), std::greater<>());
 
-        for (int ji = 0; ji < numJoints && ji < batchSize; ji++) {
-            vertexJointWeights.weights[vi * batchSize + ji] = weightIndexPairs[ji].first;
-            vertexJointWeights.jointIndices[vi * batchSize + ji] = weightIndexPairs[ji].second;
+        for (int ji = 0; ji < batchSize; ji++) {
+            vertexJointWeights.weights.push_back(weightIndexPairs[ji].first);
+            vertexJointWeights.jointIndices.push_back(weightIndexPairs[ji].second);
         }
-
         traversedWeightIndices += numJoints;
     }
 }
