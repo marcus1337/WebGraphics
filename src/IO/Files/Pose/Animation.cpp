@@ -2,6 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/compatibility.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <algorithm>
 
 glm::mat4 Joint::getJointTransformInterpolation(float timeStamp) {
     for (int i = 0; i < frames.size() - 1; i++) {
@@ -63,10 +64,29 @@ void Animation::addJointsToArray(Joint& joint, float timeStamp, std::map<int, gl
         addJointsToArray(child, timeStamp, jointTransforms);
 }
 
-void Animation::setVertexJointWeights(const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights) {
-    vertexJointWeights.weights.clear();
-    vertexJointWeights.jointIndices.clear();
+void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) {
+    const int batchSize = 3;
+    vertexJointWeights.weights = std::vector<float>(vertexJointCount.size() * batchSize, 0);
+    vertexJointWeights.jointIndices = std::vector<int>(vertexJointCount.size() * batchSize);
+    int traversedWeightIndices = 0;
+    for (int vi = 0; vi < vertexJointCount.size(); vi++) {
+        int numJoints = vertexJointCount[vi];
 
+        std::vector<std::pair<float, int>> weightIndexPairs(numJoints);
+        for (int ji = 0; ji < numJoints; ji++) {
+            int weightIndex = vertexJointWeightIndices[traversedWeightIndices + ji];
+            float weight = weights[weightIndex];
+            weightIndexPairs[ji] = std::make_pair(weight, weightIndex);
+        }
+        std::sort(weightIndexPairs.begin(), weightIndexPairs.end(), std::greater<>());
+
+        for (int ji = 0; ji < numJoints && ji < batchSize; ji++) {
+            vertexJointWeights.weights[vi * batchSize + ji] = weightIndexPairs[ji].first;
+            vertexJointWeights.jointIndices[vi * batchSize + ji] = weightIndexPairs[ji].second;
+        }
+
+        traversedWeightIndices += numJoints;
+    }
 }
 
 std::vector<glm::mat4> Animation::getDefaultJointTransforms() {
