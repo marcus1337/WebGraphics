@@ -48,6 +48,7 @@ public:
     void setProgram(std::string _programName);
     void setUniforms();
     void setFloatUniform(std::string name, float value);
+    void setMatricesUniform(const std::string& name, const std::vector<glm::mat4>& arr);
 
     void setTexture(std::string textureName, std::string shaderName);
     void setTexture(GLuint _texture, std::string shaderName);

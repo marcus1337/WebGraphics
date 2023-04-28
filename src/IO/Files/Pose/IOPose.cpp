@@ -202,12 +202,15 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
     std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
 
-    Animation animation(loadRootJoint(doc, vDataXML), getJointInvMatrices(doc));
-    animation.setVertexJointWeights(vCountData, vData, weights);
+    std::shared_ptr<Animation> animation = std::make_shared<Animation>(loadRootJoint(doc, vDataXML), getJointInvMatrices(doc), vCountData, vData, weights);
     animations.emplace(name, animation);
 }
 
-Animation IOPose::getAnimation(std::string animationName) {
+std::shared_ptr<Animation> IOPose::getAnimation(std::string animationName) {
+    if (!animations.contains(animationName)) {
+        std::cerr << "ERROR: " << animationName << " not loaded!\n";
+        return nullptr;
+    }
     return animations.at(animationName);
 }
 
@@ -220,6 +223,7 @@ bool IOPose::isChildJoint(tinyxml2::XMLDocument& doc, const std::string& parentN
 
 Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vDataXML) {
     Joint rootJoint;
+    rootJoint.id = 0;
     std::vector<Joint> joints;
     std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
     for (int i = 0; i < jointNames.size(); i++) {

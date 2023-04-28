@@ -89,6 +89,12 @@ void Shader::setFloatUniform(std::string name, float value) {
     extraFloatUniforms[name] = value;
 }
 
+void Shader::setMatricesUniform(const std::string& name, const std::vector<glm::mat4>& arr) {
+    GLuint programID = ioShader.getProgram(programName);
+    GLint matrixArrayLoc = glGetUniformLocation(programID, name.c_str());
+    glUniformMatrix4fv(matrixArrayLoc, arr.size(), GL_FALSE, glm::value_ptr(arr[0]));
+}
+
 void Shader::setTexture(std::string textureName, std::string shaderName) {
     GLuint texture = IOContainer::getInstance().ioTexture.getTexture(textureName);
     textures = { {texture, shaderName} };

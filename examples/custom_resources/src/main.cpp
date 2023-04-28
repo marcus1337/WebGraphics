@@ -5,6 +5,7 @@
 #include "Drawables/Text.h"
 #include "Drawables/View.h"
 #include "Drawables/Mesh.h"
+#include "Drawables/PoseMesh.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -47,6 +48,12 @@ int main(int argc, char* argv[]) {
     stallMesh.setCamera(camera);
     stallMesh.setPosition({ -10.f, -10.f, -10.f });
 
+
+    PoseMesh poseMesh("model", "stall", "model");
+    poseMesh.setSize({ 20,20,20 });
+    poseMesh.setCamera(camera);
+    poseMesh.setPosition({ -10.f, -10.f, -10.f });
+
     float r = 1.0f;
     looper.onRender = [&]() {
 
@@ -79,7 +86,7 @@ int main(int argc, char* argv[]) {
         //view.render();
 
         stallMesh.render();
-
+        //poseMesh.render();
     };
 
     looper.loop();

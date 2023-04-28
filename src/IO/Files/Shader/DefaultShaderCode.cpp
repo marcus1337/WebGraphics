@@ -185,3 +185,74 @@ std::vector<ShaderCode> DefaultShaderCode::getModelCode() {
 
     return { vertexCode, fragmentCode };
 }
+
+std::vector<ShaderCode> DefaultShaderCode::getAnimatedModelCode() {
+    ShaderCode vertexCode, fragmentCode;
+    fragmentCode.shaderType = GL_FRAGMENT_SHADER;
+    vertexCode.shaderType = GL_VERTEX_SHADER;
+
+    fragmentCode.glslCode = R"(#version 300 es
+
+    precision highp float;
+
+    uniform sampler2D tex;
+    uniform float useTexture;
+
+    out vec4 frag_color;
+    in vec3 v_normal;
+    in vec2 frag_uv_coord;
+
+    void main()
+    {
+	    frag_color = vec4(0.5,0.5,0.0,1.0);
+	    vec3 N = normalize(v_normal);
+	    vec4 N_color = vec4(0.5 * N + 0.5, 1.0);
+	    frag_color = N_color;
+	    if(useTexture == 1.0){
+            vec2 uv_coord = vec2(frag_uv_coord.x, 1.0 - frag_uv_coord.y);
+		    frag_color = texture(tex, uv_coord);
+	    }
+	    //gl_FragDepth = gl_FragCoord.z;
+    }
+    )";
+
+    vertexCode.glslCode = R"(#version 300 es
+    layout (location = 0) in vec3 position;
+    layout (location = 1) in vec3 a_normal;
+    layout (location = 2) in vec2 uv_coord;
+    layout (location = 3) in ivec3 jointIndices;
+    layout (location = 4) in vec3 weights;
+
+
+    const int MAX_JOINTS = 50;
+    const int MAX_WEIGHTS = 3;
+    uniform mat4 MVP;
+    uniform mat4 jointTransforms[MAX_JOINTS];
+    uniform mat4 projectionViewMatrix;
+
+
+    out vec3 v_normal;
+    out vec2 frag_uv_coord;
+
+    void main()
+    {
+        vec4 totalLocalPos = vec4(0.0);
+	    vec4 totalNormal = vec4(0.0);
+
+	    for(int i=0;i<MAX_WEIGHTS;i++){
+		    mat4 jointTransform = jointTransforms[jointIndices[i]];
+		    vec4 posePosition = jointTransform * vec4(position, 1.0);
+		    totalLocalPos += posePosition * weights[i];
+		
+		    vec4 worldNormal = jointTransform * vec4(a_normal, 0.0);
+		    totalNormal += worldNormal * weights[i];
+	    }
+
+        v_normal = totalNormal.xyz;
+	    gl_Position = MVP * totalLocalPos;
+	    frag_uv_coord = uv_coord;
+    }
+    )";
+
+    return { vertexCode, fragmentCode };
+}

@@ -3,6 +3,7 @@
 #include <glm/gtx/compatibility.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <algorithm>
+#include <iostream>
 
 glm::mat4 Joint::getJointTransformInterpolation(float timeStamp) {
     for (int i = 0; i < frames.size() - 1; i++) {
@@ -26,22 +27,28 @@ glm::mat4 Joint::interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& 
     return interpolatedMatrix;
 }
 
-void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::vector<int>& vertexIndices) {
-    std::vector<int> newJointIndices(vertexIndices.size());
-    std::vector<float> newWeights(vertexIndices.size());
+void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices) {
+    std::vector<int> newJointIndices(vertexIndices.size(), 0);
+    std::vector<float> newWeights(vertexIndices.size(), 0.f);
+    if (vertexIndices.size() != data.jointIndices.size()) {
+        std::cout << "WARNING Animation::reorderVertexJointWeights(): different array sizes, vertexIndices: " << vertexIndices.size() << " data.jointIndices: " << data.jointIndices.size() << "\n";
+    }
+
     for (size_t i = 0; i < vertexIndices.size(); i++) {
-        newJointIndices[i] = data.jointIndices[vertexIndices[i]];
-        newWeights[i] = data.weights[vertexIndices[i]];
+        if (vertexIndices[i] < data.jointIndices.size() && vertexIndices[i] < data.weights.size()) {
+            newJointIndices[i] = data.jointIndices[vertexIndices[i]];
+            newWeights[i] = data.weights[vertexIndices[i]];
+        }
     }
     data.jointIndices = newJointIndices;
     data.weights = newWeights;
 }
 
-Animation::Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices) : rootJoint(rootJoint), jointInvMatrices(jointInvMatrices), vertexJointWeights{} {
-
+Animation::Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices, const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) : rootJoint(rootJoint), jointInvMatrices(jointInvMatrices), vertexJointWeights{} {
+    setVertexJointWeights(vertexJointCount, vertexJointWeightIndices, weights);
 }
 
-VertexJointWeights Animation::getVertexJointWeights(const std::vector<int>& vertexIndices) {
+VertexJointWeights Animation::getVertexJointWeights(const std::vector<unsigned int>& vertexIndices) {
     VertexJointWeights dataCopy = vertexJointWeights;
     reorderVertexJointWeights(dataCopy, vertexIndices);
     return dataCopy;

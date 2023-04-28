@@ -66,6 +66,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Drawables/Rect.cpp"
 "src/Drawables/View.cpp"
 "src/Drawables/Mesh.cpp"
+"src/Drawables/PoseMesh.cpp"
 
 "src/Engine/Looper.cpp"
 "src/Engine/Engine.cpp"
@@ -79,6 +80,7 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
 "src/Graphics/Objects/ModelObject.cpp"
+"src/Graphics/Objects/PoseModelObject.cpp"
 "src/Graphics/Objects/ObjectContainer.cpp"
 "src/Graphics/Shaders/ImageShader.cpp"
 "src/Graphics/Shaders/Shader.cpp"

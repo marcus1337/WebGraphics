@@ -6,8 +6,10 @@
 #include <glm/glm.hpp>
 #include "IO/Files/Pose/tinyxml2.h"
 #include "Animation.h"
+#include <memory>
 
 class IOPose {
+    std::map<std::string, std::shared_ptr<Animation>> animations;
 
     std::vector<float> parseFloatArray(const char* str);
     std::vector<int> parseIntArray(const char* str);
@@ -27,8 +29,6 @@ class IOPose {
     std::vector<tinyxml2::XMLElement*> getAnimationElements(tinyxml2::XMLDocument& doc);
     tinyxml2::XMLElement* getAnimationElement(tinyxml2::XMLDocument& doc, const std::string jointName);
 
-
-    std::map<std::string, Animation> animations;
     Joint loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vDataXML);
     bool isChildJoint(tinyxml2::XMLDocument& doc, const std::string& parentName, const std::string& childName);
     std::vector<float> getKeyframeTimes(tinyxml2::XMLDocument& doc, const std::string jointName);
@@ -37,7 +37,7 @@ class IOPose {
     void loadAnimation(std::string path, std::string name);
 public:
     void loadAnimations(std::vector<std::string> colladaFilePaths, std::vector<std::string> colladaNames);
-    Animation getAnimation(std::string animationName);
+    std::shared_ptr<Animation> getAnimation(std::string animationName);
 
 };
 

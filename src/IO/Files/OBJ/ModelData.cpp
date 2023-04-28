@@ -27,3 +27,4 @@ void ModelData::setInterleavedData() {
         interleavedData.push_back(texCoord.y);
     }
 }
+
