@@ -21,6 +21,7 @@
 class IOOBJ {
     std::map<std::string, ModelData> modelDataMap;
     void loadModel(std::string path, std::string name);
+    bool loadModelData(const std::string& path, ModelData& data);
 public:
     void loadModels(std::vector<std::string> modelFilePaths, std::vector<std::string> modelNames);
     ModelData getModelData(std::string name);

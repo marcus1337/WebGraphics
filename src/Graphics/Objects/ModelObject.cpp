@@ -5,6 +5,8 @@ ModelObject::ModelObject(std::string objName) {
     vbo = 0;
     ebo = 0;
     modelData = IOContainer::getInstance().ioOBJ.getModelData(objName);
+    std::cout << "ModelObject " << objName << " - Indices: " << modelData.vertexIndices.size() << " Positions: " << modelData.positions.size() << "\n";
+
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -19,10 +21,10 @@ void ModelObject::setVBO() {
 }
 
 void ModelObject::setEBO() {
-    auto& vertexIndices = modelData.vertexIndices;
+    auto& interleavedIndices = modelData.interleavedIndices;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(vertexIndices[0]), vertexIndices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, interleavedIndices.size() * sizeof(interleavedIndices[0]), interleavedIndices.data(), GL_STATIC_DRAW);
 }
 
 void ModelObject::setShaderBufferPointers() {
@@ -61,7 +63,7 @@ void ModelObject::draw(Shader& shader) {
     glBindVertexArray(vao);
     shader.setUniforms();
     
-    glDrawElements(GL_TRIANGLES, modelData.vertexIndices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, modelData.interleavedIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     glDisable(GL_CULL_FACE);

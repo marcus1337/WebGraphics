@@ -201,6 +201,7 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     auto vCountData = parseIntArray(vDataXML->FirstChildElement("vcount")->GetText());
     auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
     std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
+    std::cout << "IOPose::loadAnimation() weights: " << weights.size() << "\n";
 
     std::shared_ptr<Animation> animation = std::make_shared<Animation>(loadRootJoint(doc, vDataXML), getJointInvMatrices(doc), vCountData, vData, weights);
     animations.emplace(name, animation);

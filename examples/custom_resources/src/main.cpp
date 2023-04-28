@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     camera->setOrbitTarget({ 0, 0, 0 });
     camera->setOrbitDistance(700.0f);
 
-    Mesh stallMesh("stall", "stall");
+    Mesh stallMesh("model", "stall");
     stallMesh.setSize({ 20, 20, 20 });
     stallMesh.setCamera(camera);
     stallMesh.setPosition({ -10.f, -10.f, -10.f });

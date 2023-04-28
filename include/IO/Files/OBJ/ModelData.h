@@ -24,6 +24,7 @@ public:
     std::vector<glm::vec3> normals;
     std::vector<unsigned int> vertexIndices, texCoordIndices, normalIndices;
     std::vector<float> interleavedData;
+    std::vector<unsigned int> interleavedIndices;
     void setInterleavedData();
 };
 

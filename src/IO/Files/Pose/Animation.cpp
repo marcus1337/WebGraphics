@@ -28,6 +28,7 @@ glm::mat4 Joint::interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& 
 }
 
 void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices) {
+    //TODO: Remove this method or change it fundamentally to map 3 joints/weights per vertice
     std::vector<int> newJointIndices(vertexIndices.size(), 0);
     std::vector<float> newWeights(vertexIndices.size(), 0.f);
     if (vertexIndices.size() != data.jointIndices.size()) {
@@ -73,6 +74,7 @@ void Animation::addJointsToArray(Joint& joint, float timeStamp, std::map<int, gl
 
 void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) {
     const int batchSize = 3;
+    std::cout << "Animation::setVertexJointWeights() vertexJointCount: " << vertexJointCount.size() << " vertexJointWeightIndices: " << vertexJointWeightIndices.size() << " weights: " << weights.size() << "\n";
     vertexJointWeights.weights.clear();
     vertexJointWeights.jointIndices.clear();
 

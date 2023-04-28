@@ -28,10 +28,10 @@ void PoseModelObject::setVBO() {
 }
 
 void PoseModelObject::setEBO() {
-    auto& vertexIndices = modelData.vertexIndices;
+    auto& interleavedIndices = modelData.interleavedIndices;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(vertexIndices[0]), vertexIndices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, interleavedIndices.size() * sizeof(interleavedIndices[0]), interleavedIndices.data(), GL_STATIC_DRAW);
 }
 
 void PoseModelObject::setShaderBufferPointers() {
@@ -85,7 +85,7 @@ void PoseModelObject::draw(Shader& shader) {
     auto matrices = animation->getDefaultJointTransforms();
     shader.setMatricesUniform("jointTransforms", matrices);
 
-    glDrawElements(GL_TRIANGLES, modelData.vertexIndices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, modelData.interleavedIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     glDisable(GL_CULL_FACE);
