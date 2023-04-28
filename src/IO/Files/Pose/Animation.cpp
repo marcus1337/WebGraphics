@@ -28,11 +28,24 @@ glm::mat4 Joint::interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& 
 }
 
 void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices) {
-    std::vector<int> newJointIndices(vertexIndices.size());
-    std::vector<float> newWeights(vertexIndices.size());
+    /*for (int i = 0; i < data.jointIndices.size() / 3; i++) {
+        std::cout << data.jointIndices[i*3] << " " << data.jointIndices[i*3+1] << " " << data.jointIndices[i*3+2] << " - ";
+        std::cout << data.weights[i*3] << " " << data.weights[i*3 + 1] << " " << data.weights[i*3 + 2] << "  (" << (data.weights[i*3] + data.weights[i*3+1] + data.weights[i*3+2]) << ")\n";
+    }
+    std::cout << "joint indices size " << data.jointIndices.size() << "\n";*/
+
+    std::vector<int> newJointIndices(vertexIndices.size() * 3);
+    std::vector<float> newWeights(vertexIndices.size() * 3);
     for (size_t i = 0; i < vertexIndices.size(); i++) {
-        newJointIndices[i] = data.jointIndices[vertexIndices[i]];
-        newWeights[i] = data.weights[vertexIndices[i]];
+        int vi = vertexIndices[i]*3;
+        //float tmp = 0.f;
+        for (int j = 0; j < 3; j++) {
+            newJointIndices[i * 3 + j] = data.jointIndices[vi + j];
+            newWeights[i * 3 + j] = data.weights[vi + j];
+           // std::cout << data.weights[vi + j] << ", ";
+           // tmp += data.weights[vi + j];
+        }
+        //std::cout << " - " << tmp << "\n";
     }
     data.jointIndices = newJointIndices;
     data.weights = newWeights;
@@ -47,9 +60,9 @@ void Animation::normalizeWeights() {
     auto& weights = vertexJointWeights.weights;
     for (int i = 0; i < weights.size() / 3; i++) {
         float totalWeight = weights[i * 3] + weights[i * 3 + 1] + weights[i * 3 + 2];
-        weights[i * 3] /= totalWeight;
-        weights[i * 3 + 1] /= totalWeight;
-        weights[i * 3 + 2] /= totalWeight;
+        // weights[i * 3] /= totalWeight;
+       //  weights[i * 3 + 1] /= totalWeight;
+       //  weights[i * 3 + 2] /= totalWeight;
     }
     /*for (int i = 0; i < weights.size() / 3; i++) {
         std::cout << "{" << weights[i*3] << ", " << weights[i*3+1] << ", " << weights[i*3+2] << "}\n";
@@ -85,21 +98,24 @@ void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, 
     vertexJointWeights.weights.clear();
     vertexJointWeights.jointIndices.clear();
 
-    int traversedWeightIndices = 0;
+    int traversedIndices = 0;
     for (const int numJoints : vertexJointCount) {
         std::vector<std::pair<float, int>> weightIndexPairs(std::max(numJoints, batchSize));
-        for (int ji = 0; ji < numJoints; ji++) {
-            int weightIndex = vertexJointWeightIndices[traversedWeightIndices + ji];
+        for (int i = 0; i < numJoints; i++) {
+            int jointIndex = vertexJointWeightIndices[(traversedIndices*2) + (i*2)];
+            int weightIndex = vertexJointWeightIndices[(traversedIndices*2) + (i*2) + 1];
             float weight = weights[weightIndex];
-            weightIndexPairs[ji] = std::make_pair(weight, weightIndex);
+            weightIndexPairs[i] = std::make_pair(weight, jointIndex);
         }
         std::sort(weightIndexPairs.begin(), weightIndexPairs.end(), std::greater<>());
 
         for (int ji = 0; ji < batchSize; ji++) {
+            //std::cout << weightIndexPairs[ji].second << " ";
             vertexJointWeights.weights.push_back(weightIndexPairs[ji].first);
             vertexJointWeights.jointIndices.push_back(weightIndexPairs[ji].second);
         }
-        traversedWeightIndices += numJoints;
+        //std::cout << "\n";
+        traversedIndices += numJoints;
     }
 }
 
