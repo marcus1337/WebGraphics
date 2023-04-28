@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <map>
 #include <unordered_map>
+#include "glm/gtx/string_cast.hpp"
 
 void ModelData::setInterleavedData() {   
     interleavedData.clear();
@@ -10,7 +11,7 @@ void ModelData::setInterleavedData() {
 
     std::unordered_map<std::string, int> uniqueVertices;
     for (int i = 0; i < vertexIndices.size(); i++) {
-        auto vertice = positions[vertexIndices[i]];
+        auto vertex = positions[vertexIndices[i]];
         glm::vec2 texCoord{};
         glm::vec3 normal{};
         if (!texCoordIndices.empty())
@@ -18,18 +19,23 @@ void ModelData::setInterleavedData() {
         if (!normalIndices.empty())
             normal = normals[normalIndices[i]];
 
-        interleavedData.push_back(vertice.z);
-        interleavedData.push_back(vertice.y);
-        interleavedData.push_back(vertice.x);
+        std::string key = glm::to_string(vertex) + glm::to_string(normal) + glm::to_string(texCoord);
+        if (!uniqueVertices.contains(key)) {
+            interleavedData.push_back(vertex.z);
+            interleavedData.push_back(vertex.y);
+            interleavedData.push_back(vertex.x);
 
-        interleavedData.push_back(normal.x);
-        interleavedData.push_back(normal.y);
-        interleavedData.push_back(normal.z);
+            interleavedData.push_back(normal.x);
+            interleavedData.push_back(normal.y);
+            interleavedData.push_back(normal.z);
 
-        interleavedData.push_back(texCoord.x);
-        interleavedData.push_back(texCoord.y);
+            interleavedData.push_back(texCoord.x);
+            interleavedData.push_back(texCoord.y);
 
-        interleavedIndices.push_back(i);
+            int index = interleavedData.size() / 8 - 1;
+            uniqueVertices[key] = index;
+        }
+        interleavedIndices.push_back(uniqueVertices[key]);
     }
 }
 
