@@ -75,6 +75,8 @@ void PoseModelObject::setBufferObjects() {
     setShaderBufferPointers();
 }
 
+float tmp = 0.0f;
+
 void PoseModelObject::draw(Shader& shader) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -82,8 +84,11 @@ void PoseModelObject::draw(Shader& shader) {
 
     glBindVertexArray(vao);
     shader.setUniforms();
-    auto matrices = animation->getJointTransforms(0.f);
+    tmp = tmp + 0.01f;
+    auto matrices = animation->getJointTransforms(tmp);
     shader.setMatricesUniform("jointTransforms", matrices);
+    if (tmp > 1.0f)
+        tmp = 0.f;
 
     glDrawElements(GL_TRIANGLES, modelData.interleavedIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

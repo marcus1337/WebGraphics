@@ -43,7 +43,7 @@ std::vector<std::string> IOPose::parseStrArray(const char* str) {
     return result;
 }
 
-std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
+/*std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
     std::vector<glm::mat4> result;
     std::vector<float> floats = parseFloatArray(str);
     int numMatrices = floats.size() / 16;
@@ -51,6 +51,22 @@ std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
         glm::mat4 mat;
         for (int j = 0; j < 16; j++) {
             mat[j / 4][j % 4] = floats[i * 16 + j];
+        }
+        result.push_back(mat);
+    }
+    return result;
+}*/
+
+std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
+    std::vector<glm::mat4> result;
+    std::vector<float> floats = parseFloatArray(str);
+    int numMatrices = floats.size() / 16;
+    for (int i = 0; i < numMatrices; i++) {
+        glm::mat4 mat;
+        for (int j = 0; j < 4; j++) {
+            for (int k = 0; k < 4; k++) {
+                mat[k][j] = floats[i * 16 + j * 4 + k];
+            }
         }
         result.push_back(mat);
     }
