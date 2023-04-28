@@ -82,7 +82,7 @@ void PoseModelObject::draw(Shader& shader) {
 
     glBindVertexArray(vao);
     shader.setUniforms();
-    auto matrices = animation->getDefaultJointTransforms();
+    auto matrices = animation->getJointTransforms(0.f);
     shader.setMatricesUniform("jointTransforms", matrices);
 
     glDrawElements(GL_TRIANGLES, modelData.interleavedIndices.size(), GL_UNSIGNED_INT, 0);

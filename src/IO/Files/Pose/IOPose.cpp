@@ -139,10 +139,12 @@ std::vector<std::string> IOPose::getChildJointNames(tinyxml2::XMLDocument& doc, 
     tinyxml2::XMLElement* parent = getNodeElement(doc, root, parentJointName);
     if (parent == nullptr)
         return names;
+
     for (tinyxml2::XMLElement* child : getChildElements(parent)) {
-        const char* childName = child->Attribute("name");
-        if (childName != nullptr)
+        const char* childName = child->Attribute("sid");
+        if (childName != nullptr) {
             names.push_back(childName);
+        }
     }
     return names;
 }
@@ -203,7 +205,8 @@ void IOPose::loadAnimation(std::string path, std::string name) {
     std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
     std::cout << "IOPose::loadAnimation() weights: " << weights.size() << "\n";
 
-    std::shared_ptr<Animation> animation = std::make_shared<Animation>(loadRootJoint(doc, vDataXML), getJointInvMatrices(doc), vCountData, vData, weights);
+    auto rootJoint = loadRootJoint(doc, vDataXML);
+    std::shared_ptr<Animation> animation = std::make_shared<Animation>(rootJoint, getJointInvMatrices(doc), vCountData, vData, weights);
     animations.emplace(name, animation);
 }
 
@@ -216,17 +219,17 @@ std::shared_ptr<Animation> IOPose::getAnimation(std::string animationName) {
 }
 
 bool IOPose::isChildJoint(tinyxml2::XMLDocument& doc, const std::string& parentName, const std::string& childName) {
-    for (const auto& name : getChildJointNames(doc, parentName))
+    for (const auto& name : getChildJointNames(doc, parentName)) {
+        //std::cout << name << " == " << childName << " ? " << (name == childName) << "\n";
         if (name == childName)
             return true;
+    }
     return false;
 }
 
 Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vDataXML) {
-    Joint rootJoint;
-    rootJoint.id = 0;
-    std::vector<Joint> joints;
     std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
+    std::vector<Joint> joints;
     for (int i = 0; i < jointNames.size(); i++) {
         Joint joint;
         joint.id = i;
@@ -238,6 +241,7 @@ Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vD
         }
         joints.push_back(joint);
     }
+    Joint rootJoint = joints.front();
 
     std::function<void(Joint&)> addChildJointsRecursive = [&](Joint& parentJoint) {
         for (auto& childJoint : joints) {
