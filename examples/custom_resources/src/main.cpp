@@ -85,8 +85,8 @@ int main(int argc, char* argv[]) {
         r = r + 1.0f;
         //view.render();
 
-        stallMesh.render();
-        //poseMesh.render();
+        //stallMesh.render();
+        poseMesh.render();
     };
 
     looper.loop();

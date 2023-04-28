@@ -28,18 +28,11 @@ glm::mat4 Joint::interpolateMatrices(const glm::mat4& matrix1, const glm::mat4& 
 }
 
 void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices) {
-    //TODO: Remove this method or change it fundamentally to map 3 joints/weights per vertice
-    std::vector<int> newJointIndices(vertexIndices.size(), 0);
-    std::vector<float> newWeights(vertexIndices.size(), 0.f);
-    if (vertexIndices.size() != data.jointIndices.size()) {
-        std::cout << "WARNING Animation::reorderVertexJointWeights(): different array sizes, vertexIndices: " << vertexIndices.size() << " data.jointIndices: " << data.jointIndices.size() << "\n";
-    }
-
+    std::vector<int> newJointIndices(vertexIndices.size());
+    std::vector<float> newWeights(vertexIndices.size());
     for (size_t i = 0; i < vertexIndices.size(); i++) {
-        if (vertexIndices[i] < data.jointIndices.size() && vertexIndices[i] < data.weights.size()) {
-            newJointIndices[i] = data.jointIndices[vertexIndices[i]];
-            newWeights[i] = data.weights[vertexIndices[i]];
-        }
+        newJointIndices[i] = data.jointIndices[vertexIndices[i]];
+        newWeights[i] = data.weights[vertexIndices[i]];
     }
     data.jointIndices = newJointIndices;
     data.weights = newWeights;
@@ -47,6 +40,20 @@ void Animation::reorderVertexJointWeights(VertexJointWeights& data, const std::v
 
 Animation::Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices, const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) : rootJoint(rootJoint), jointInvMatrices(jointInvMatrices), vertexJointWeights{} {
     setVertexJointWeights(vertexJointCount, vertexJointWeightIndices, weights);
+    normalizeWeights();
+}
+
+void Animation::normalizeWeights() {
+    auto& weights = vertexJointWeights.weights;
+    for (int i = 0; i < weights.size() / 3; i++) {
+        float totalWeight = weights[i * 3] + weights[i * 3 + 1] + weights[i * 3 + 2];
+        weights[i * 3] /= totalWeight;
+        weights[i * 3 + 1] /= totalWeight;
+        weights[i * 3 + 2] /= totalWeight;
+    }
+    /*for (int i = 0; i < weights.size() / 3; i++) {
+        std::cout << "{" << weights[i*3] << ", " << weights[i*3+1] << ", " << weights[i*3+2] << "}\n";
+    }*/
 }
 
 VertexJointWeights Animation::getVertexJointWeights(const std::vector<unsigned int>& vertexIndices) {
@@ -74,7 +81,7 @@ void Animation::addJointsToArray(Joint& joint, float timeStamp, std::map<int, gl
 
 void Animation::setVertexJointWeights(const std::vector<int>& vertexJointCount, const std::vector<int>& vertexJointWeightIndices, const std::vector<float>& weights) {
     const int batchSize = 3;
-    std::cout << "Animation::setVertexJointWeights() vertexJointCount: " << vertexJointCount.size() << " vertexJointWeightIndices: " << vertexJointWeightIndices.size() << " weights: " << weights.size() << "\n";
+    //std::cout << "Animation::setVertexJointWeights() vertexJointCount: " << vertexJointCount.size() << " vertexJointWeightIndices: " << vertexJointWeightIndices.size() << " weights: " << weights.size() << "\n";
     vertexJointWeights.weights.clear();
     vertexJointWeights.jointIndices.clear();
 

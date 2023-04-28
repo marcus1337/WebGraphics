@@ -33,6 +33,7 @@ class Animation {
     void addJointsToArray(Joint& joint, float timeStamp, std::map<int, glm::mat4>& jointTransforms);
     void reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices);
     void setVertexJointWeights(const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
+    void normalizeWeights();
 public:
     Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices, const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
     VertexJointWeights getVertexJointWeights(const std::vector<unsigned int>& vertexIndices);

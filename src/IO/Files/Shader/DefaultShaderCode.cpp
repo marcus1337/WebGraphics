@@ -250,6 +250,7 @@ std::vector<ShaderCode> DefaultShaderCode::getAnimatedModelCode() {
 
         v_normal = totalNormal.xyz;
 	    gl_Position = MVP * totalLocalPos;
+        //gl_Position = MVP * vec4(position, 1.0);
 	    frag_uv_coord = uv_coord;
     }
     )";
