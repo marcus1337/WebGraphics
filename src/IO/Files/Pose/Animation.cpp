@@ -60,9 +60,9 @@ void Animation::normalizeWeights() {
     auto& weights = vertexJointWeights.weights;
     for (int i = 0; i < weights.size() / 3; i++) {
         float totalWeight = weights[i * 3] + weights[i * 3 + 1] + weights[i * 3 + 2];
-        // weights[i * 3] /= totalWeight;
-       //  weights[i * 3 + 1] /= totalWeight;
-       //  weights[i * 3 + 2] /= totalWeight;
+        weights[i * 3] /= totalWeight;
+        weights[i * 3 + 1] /= totalWeight;
+        weights[i * 3 + 2] /= totalWeight;
     }
     /*for (int i = 0; i < weights.size() / 3; i++) {
         std::cout << "{" << weights[i*3] << ", " << weights[i*3+1] << ", " << weights[i*3+2] << "}\n";
