@@ -224,7 +224,7 @@ std::vector<ShaderCode> DefaultShaderCode::getAnimatedModelCode() {
     layout (location = 4) in vec3 weights;
 
 
-    const int MAX_JOINTS = 50;
+    const int MAX_JOINTS = 200;
     const int MAX_WEIGHTS = 3;
     uniform mat4 MVP;
     uniform mat4 jointTransforms[MAX_JOINTS];

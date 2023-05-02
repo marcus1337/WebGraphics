@@ -55,8 +55,8 @@ void Resources::loadOBJs() {
 }
 
 void Resources::loadAnimations() {
-    auto daePaths = ioContainer.filePathContainer.getFilePaths(FileType::COLLADA);
-    auto daeNames = ioContainer.filePathContainer.getFileNames(FileType::COLLADA);
+    auto daePaths = ioContainer.filePathContainer.getFilePaths(FileType::GLTF);
+    auto daeNames = ioContainer.filePathContainer.getFileNames(FileType::GLTF);
     ioContainer.ioPose.loadAnimations(daePaths, daeNames);
 }
 

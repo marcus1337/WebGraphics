@@ -43,16 +43,16 @@ int main(int argc, char* argv[]) {
     camera->setOrbitTarget({ 0, 0, 0 });
     camera->setOrbitDistance(700.0f);
 
-    Mesh stallMesh("model", "stall");
+    Mesh stallMesh("model", "button1");
     stallMesh.setSize({ 20, 20, 20 });
     stallMesh.setCamera(camera);
-    stallMesh.setPosition({ -10.f, -10.f, -10.f });
+    stallMesh.setPosition({ -100.f, -10.f, -10.f });
 
 
-    PoseMesh poseMesh("model", "stall", "model");
+    /*PoseMesh poseMesh("model", "button1", "model");
     poseMesh.setSize({ 20,20,20 });
     poseMesh.setCamera(camera);
-    poseMesh.setPosition({ -10.f, -10.f, -10.f });
+    poseMesh.setPosition({ -10.f, -10.f, -10.f });*/
 
     float r = 1.0f;
     looper.onRender = [&]() {
@@ -85,8 +85,8 @@ int main(int argc, char* argv[]) {
         r = r + 1.0f;
         //view.render();
 
-        //stallMesh.render();
-        poseMesh.render();
+        stallMesh.render();
+        //poseMesh.render();
     };
 
     looper.loop();

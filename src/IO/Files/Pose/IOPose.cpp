@@ -5,6 +5,9 @@
 #include <vector>
 #include <glm/gtx/string_cast.hpp>
 #include <functional>
+#include <string_view>
+#include <cstring>
+
 
 void IOPose::loadAnimations(std::vector<std::string> colladaFilePaths, std::vector<std::string> colladaNames) {
     std::cout << "Loading animations. Num Collada files: " << colladaFilePaths.size() << "\n";
@@ -13,265 +16,73 @@ void IOPose::loadAnimations(std::vector<std::string> colladaFilePaths, std::vect
     }
 }
 
-std::vector<float> IOPose::parseFloatArray(const char* str) {
-    std::vector<float> result;
-    std::stringstream ss(str);
-    float value;
-    while (ss >> value) {
-        result.push_back(value);
+VertexJointWeights IOPose::getVertexJointWeights() {
+    VertexJointWeights data;
+    /*tinygltf::Mesh& mesh = model.meshes.front();
+    for (tinygltf::Primitive& primitive : mesh.primitives) {
+        tinygltf::Accessor& jointsAccessor = model.accessors[primitive.attributes["JOINTS_0"]];
+        tinygltf::Accessor& weightsAccessor = model.accessors[primitive.attributes["WEIGHTS_0"]];
+        const int MAX_WEIGHTS = Animation::MAX_WEIGHTS;
+    }*/
+    return data;
+}
+
+Joint IOPose::getRootJoint() {
+    Joint root;
+
+
+    return root;
+}
+
+void IOPose::populateJoint(Joint& joint, const tinygltf::Node& node, const std::vector<tinygltf::Node>& nodes) {
+
+}
+
+std::vector<glm::mat4> IOPose::getInvBindMatrices() {
+
+    auto& skin = tinyModel.getSkin();
+    auto& model = tinyModel.getModel();
+    tinygltf::Accessor& inverseBindMatricesAccessor = tinyModel.getAccessor(skin.inverseBindMatrices);
+    int bufferViewIndex = inverseBindMatricesAccessor.bufferView;
+    const tinygltf::BufferView& bufferView = model.bufferViews[bufferViewIndex];
+    const tinygltf::Buffer& buffer = model.buffers[bufferView.buffer];
+    const void* bufferData = buffer.data.data() + bufferView.byteOffset;
+
+    std::vector<glm::mat4> inverseBindMatrices;
+    for (int jointIndex : skin.joints) {
+        const int matrixSize = sizeof(float) * 16;
+        const void* matrixData = static_cast<const uint8_t*>(bufferData) + jointIndex * matrixSize;
+        inverseBindMatrices.push_back(*reinterpret_cast<const glm::mat4*>(matrixData));
     }
-    return result;
+    return inverseBindMatrices;
 }
 
-std::vector<int> IOPose::parseIntArray(const char* str) {
-    std::vector<int> result;
-    std::stringstream ss(str);
-    int value;
-    while (ss >> value) {
-        result.push_back(value);
+void IOPose::loadAnimation(const std::string& path, const std::string& name) {
+    if (!tinyModel.load(path))
+        return;
+
+    VertexJointWeights vertexJointWeights = getVertexJointWeights();
+    Joint rootJoint = getRootJoint();
+    auto invBindMatrices = getInvBindMatrices();
+
+    std::cout << "LOADED ANIMATION " << name << "\n\n";
+    std::cout << "vertexJointWeights " << vertexJointWeights.weights.size() << " - " << vertexJointWeights.jointIndices.size() << "\n";
+    for (const auto& mat : invBindMatrices) {
+        std::cout << glm::to_string(mat) << "\n";
     }
-    return result;
-}
+    std::cout << "\n\n";
 
-std::vector<std::string> IOPose::parseStrArray(const char* str) {
-    std::vector<std::string> result;
-    std::stringstream ss(str);
-    std::string value;
-    while (ss >> value) {
-        result.push_back(value);
-    }
-    return result;
-}
-
-/*std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
-    std::vector<glm::mat4> result;
-    std::vector<float> floats = parseFloatArray(str);
-    int numMatrices = floats.size() / 16;
-    for (int i = 0; i < numMatrices; i++) {
-        glm::mat4 mat;
-        for (int j = 0; j < 16; j++) {
-            mat[j / 4][j % 4] = floats[i * 16 + j];
-        }
-        result.push_back(mat);
-    }
-    return result;
-}*/
-
-std::vector<glm::mat4> IOPose::parseMatrixArray(const char* str) {
-    std::vector<glm::mat4> result;
-    std::vector<float> floats = parseFloatArray(str);
-    int numMatrices = floats.size() / 16;
-    for (int i = 0; i < numMatrices; i++) {
-        glm::mat4 mat;
-        for (int j = 0; j < 4; j++) {
-            for (int k = 0; k < 4; k++) {
-                mat[k][j] = floats[i * 16 + j * 4 + k];
-            }
-        }
-        result.push_back(mat);
-    }
-    return result;
-}
-
-std::vector<glm::mat4> IOPose::getJointInvMatrices(tinyxml2::XMLDocument& doc) {
-    tinyxml2::XMLElement* joints = doc.FirstChildElement("COLLADA")->FirstChildElement("library_controllers")->FirstChildElement("controller")->FirstChildElement("skin")->FirstChildElement("joints");
-    std::string matrixValues = getElementValues(joints, "INV_BIND_MATRIX", "float_array");
-    return parseMatrixArray(matrixValues.c_str());
-}
-
-tinyxml2::XMLElement* IOPose::getInput(tinyxml2::XMLElement* parent, const char* semantic) {
-    for (tinyxml2::XMLElement* input = parent->FirstChildElement("input"); input != nullptr; input = input->NextSiblingElement("input")) {
-        const char* inputSemantic = input->Attribute("semantic");
-        if (std::strcmp(semantic, inputSemantic) == 0) {
-            return input;
-        }
-    }
-    return nullptr;
-}
-
-tinyxml2::XMLElement* IOPose::getSource(tinyxml2::XMLElement* input) {
-    const char* sourceId = input->Attribute("source");
-    tinyxml2::XMLElement* source = input->Parent()->Parent()->FirstChildElement("source");
-    while (source != nullptr) {
-        const char* id = source->Attribute("id");
-        if (id != nullptr && std::strcmp(sourceId + 1, id) == 0) {
-            return source;
-        }
-        source = source->NextSiblingElement("source");
-    }
-    return nullptr;
-}
-
-std::string IOPose::getElementValues(tinyxml2::XMLElement* parent, const std::string& semantic, const std::string& element) {
-    return getSource(getInput(parent, semantic.c_str()))->FirstChildElement(element.c_str())->GetText();
-}
-
-tinyxml2::XMLElement* IOPose::getVertexWeightsElement(tinyxml2::XMLDocument& doc) {
-    return doc.FirstChildElement("COLLADA")->FirstChildElement("library_controllers")->FirstChildElement("controller")->FirstChildElement("skin")->FirstChildElement("vertex_weights");
-}
-
-tinyxml2::XMLElement* IOPose::getRootNodeElement(tinyxml2::XMLDocument& doc) {
-    tinyxml2::XMLElement* node = doc.FirstChildElement("COLLADA")->FirstChildElement("library_visual_scenes")->FirstChildElement("visual_scene")->FirstChildElement("node");
-    while (node != nullptr) {
-        tinyxml2::XMLElement* childNode = node->FirstChildElement("node");
-        if (childNode != nullptr) {
-            const char* type = childNode->Attribute("type");
-            if (type != nullptr && std::strcmp(type, "JOINT") == 0) {
-                return childNode;
-            }
-        }
-        node = node->NextSiblingElement("node");
-    }
-    return nullptr;
-}
-
-std::vector<tinyxml2::XMLElement*> IOPose::getChildElements(tinyxml2::XMLElement* parentElement) {
-    std::vector<tinyxml2::XMLElement*> elements;
-    tinyxml2::XMLElement* child = parentElement->FirstChildElement();
-    while (child != nullptr) {
-        elements.push_back(child);
-        child = child->NextSiblingElement();
-    }
-    return elements;
-}
-
-tinyxml2::XMLElement* IOPose::getNodeElement(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* jointElement, const std::string& parentJointName) {
-    if (jointElement == nullptr)
-        return nullptr;
-    const char* jointName = jointElement->Attribute("name");
-    if (jointName != nullptr && parentJointName == jointName)
-        return jointElement;
-    for (tinyxml2::XMLElement* child : getChildElements(jointElement)) {
-        tinyxml2::XMLElement* result = getNodeElement(doc, child, parentJointName);
-        if (result != nullptr)
-            return result;
-    }
-    return nullptr;
-}
-
-std::vector<std::string> IOPose::getChildJointNames(tinyxml2::XMLDocument& doc, const std::string& parentJointName) {
-    std::vector<std::string> names;
-    tinyxml2::XMLElement* root = getRootNodeElement(doc);
-    tinyxml2::XMLElement* parent = getNodeElement(doc, root, parentJointName);
-    if (parent == nullptr)
-        return names;
-
-    for (tinyxml2::XMLElement* child : getChildElements(parent)) {
-        const char* childName = child->Attribute("sid");
-        if (childName != nullptr) {
-            names.push_back(childName);
-        }
-    }
-    return names;
-}
-
-std::vector<tinyxml2::XMLElement*> IOPose::getAnimationElements(tinyxml2::XMLDocument& doc) {
-    std::vector<tinyxml2::XMLElement*> elements;
-    tinyxml2::XMLElement* element = doc.FirstChildElement("COLLADA")->FirstChildElement("library_animations")->FirstChildElement("animation");
-    while (element != nullptr) {
-        elements.push_back(element);
-        element = element->NextSiblingElement("animation");
-    }
-    return elements;
-}
-
-tinyxml2::XMLElement* IOPose::getAnimationElement(tinyxml2::XMLDocument& doc, const std::string jointName) {
-    std::string targetName = jointName + "/transform";
-    for (tinyxml2::XMLElement* element : getAnimationElements(doc)) {
-        const char* target = element->FirstChildElement("channel")->Attribute("target");
-        if (target == targetName)
-            return element;
-    }
-    return nullptr;
-}
-
-std::vector<float> IOPose::getKeyframeTimes(tinyxml2::XMLDocument& doc, const std::string jointName) {
-    std::vector<float> times;
-    tinyxml2::XMLElement* animElement = getAnimationElement(doc, jointName);
-    if (animElement != nullptr) {
-        tinyxml2::XMLElement* inputElement = animElement->FirstChildElement("source")->FirstChildElement("float_array");
-        if (inputElement != nullptr) {
-            const char* inputStr = inputElement->GetText();
-            times = parseFloatArray(inputStr);
-        }
-    }
-    return times;
-}
-
-std::vector<glm::mat4> IOPose::getKeyframeBoneTransforms(tinyxml2::XMLDocument& doc, const std::string jointName) {
-    std::vector<glm::mat4> transforms;
-    tinyxml2::XMLElement* animElement = getAnimationElement(doc, jointName);
-    if (animElement != nullptr) {
-        tinyxml2::XMLElement* outputElement = animElement->FirstChildElement("source")->NextSiblingElement("source")->FirstChildElement("float_array");
-        if (outputElement != nullptr) {
-            const char* outputStr = outputElement->GetText();
-            return parseMatrixArray(outputStr);
-        }
-    }
-    return transforms;
-}
-
-void IOPose::loadAnimation(std::string path, std::string name) {
-    tinyxml2::XMLDocument doc;
-    doc.LoadFile(path.c_str());
-
-    auto vDataXML = getVertexWeightsElement(doc);
-    auto vCountData = parseIntArray(vDataXML->FirstChildElement("vcount")->GetText());
-    auto vData = parseIntArray(vDataXML->FirstChildElement("v")->GetText());
-    std::vector<float> weights = parseFloatArray(getElementValues(vDataXML, "WEIGHT", "float_array").c_str());
-    std::cout << "IOPose::loadAnimation() weights: " << weights.size() << "\n";
-
-    auto rootJoint = loadRootJoint(doc, vDataXML);
-    std::shared_ptr<Animation> animation = std::make_shared<Animation>(rootJoint, getJointInvMatrices(doc), vCountData, vData, weights);
+    std::shared_ptr<Animation> animation = std::make_shared<Animation>(rootJoint, invBindMatrices, vertexJointWeights);
     animations.emplace(name, animation);
 }
 
 std::shared_ptr<Animation> IOPose::getAnimation(std::string animationName) {
     if (!animations.contains(animationName)) {
-        std::cerr << "ERROR: " << animationName << " not loaded!\n";
+        std::cerr << "ERROR: IOPose::getAnimation() '" << animationName << "' not loaded!\n";
+        exit(EXIT_FAILURE);
         return nullptr;
     }
     return animations.at(animationName);
 }
 
-bool IOPose::isChildJoint(tinyxml2::XMLDocument& doc, const std::string& parentName, const std::string& childName) {
-    for (const auto& name : getChildJointNames(doc, parentName)) {
-        //std::cout << name << " == " << childName << " ? " << (name == childName) << "\n";
-        if (name == childName)
-            return true;
-    }
-    return false;
-}
 
-Joint IOPose::loadRootJoint(tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* vDataXML) {
-    std::vector<std::string> jointNames = parseStrArray(getElementValues(vDataXML, "JOINT", "Name_array").c_str());
-    std::vector<Joint> joints;
-    for (int i = 0; i < jointNames.size(); i++) {
-        Joint joint;
-        joint.id = i;
-        joint.name = jointNames[i];
-        auto frameTimes = getKeyframeTimes(doc, jointNames[i]);
-        auto frameTransforms = getKeyframeBoneTransforms(doc, jointNames[i]);
-        for (int j = 0; j < frameTimes.size(); j++) {
-            joint.frames.push_back(KeyFrame{ frameTimes[j], frameTransforms[j] });
-        }
-        joints.push_back(joint);
-    }
-    Joint rootJoint = joints.front();
-
-    std::function<void(Joint&)> addChildJointsRecursive = [&](Joint& parentJoint) {
-        for (auto& childJoint : joints) {
-            if (childJoint.id == parentJoint.id || childJoint.id == 0)
-                continue;
-            if (isChildJoint(doc, parentJoint.name, childJoint.name)) {
-                childJoint.parentID = parentJoint.id;
-                parentJoint.children.push_back(childJoint);
-                addChildJointsRecursive(parentJoint.children.back());
-            }
-        }
-    };
-
-    addChildJointsRecursive(rootJoint);
-
-    return rootJoint;
-}

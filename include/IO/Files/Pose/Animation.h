@@ -4,11 +4,21 @@
 #include <vector>
 #include <map>
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/common.hpp>
 #include <tuple>
 
 struct KeyFrame {
     float timeStamp;
-    glm::mat4 jointTransform;
+    glm::vec3 position, scale;
+    glm::quat rotation;
+    glm::mat4 getJointTransform() {
+        glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), position);
+        glm::mat4 rotationMatrix = glm::toMat4(rotation);
+        glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
+        return translateMatrix * rotationMatrix * scaleMatrix;
+    };
 };
 
 struct Joint {
@@ -32,10 +42,10 @@ class Animation {
     VertexJointWeights vertexJointWeights;
     void addJointsToArray(Joint& joint, float timeStamp, std::map<int, glm::mat4>& jointTransforms);
     void reorderVertexJointWeights(VertexJointWeights& data, const std::vector<unsigned int>& vertexIndices);
-    void setVertexJointWeights(const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
     void normalizeWeights();
 public:
-    Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices, const std::vector<int>& vCountData, const std::vector<int>& vData, const std::vector<float>& weights);
+    static constexpr int MAX_WEIGHTS = 3;
+    Animation(Joint rootJoint, std::vector<glm::mat4> jointInvMatrices, const VertexJointWeights& vertexJointWeights);
     VertexJointWeights getVertexJointWeights(const std::vector<unsigned int>& vertexIndices);
     std::vector<glm::mat4> getJointTransforms(float timeStamp);
     std::vector<glm::mat4> getDefaultJointTransforms();

@@ -99,8 +99,8 @@ add_library(${PROJECT_NAME} STATIC
 "src/IO/Files/OBJ/ModelData.cpp"
 
 "src/IO/Files/Pose/IOPose.cpp"
-"src/IO/Files/Pose/tinyxml2.cpp"
 "src/IO/Files/Pose/Animation.cpp"
+"src/IO/Files/Pose/TinyModel.cpp"
 
 "src/IO/Files/Texture/IOTexture.cpp"
 "src/IO/Files/Texture/lodepng.cpp"
