@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
   
     Text text;
     text.setText(L"Okay bro こんにちは世界 北島 美奈");
-    text.setFont("Hosohuwafont");
+    //text.setFont("Hosohuwafont");
     text.setPosition(100, 100);
 
     View view(200, 200);
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     camera->setOrbitTarget({ 0, 0, 0 });
     camera->setOrbitDistance(700.0f);
 
-    Mesh stallMesh("model", "button1");
+    Mesh stallMesh("stall", "button1");
     stallMesh.setSize({ 20, 20, 20 });
     stallMesh.setCamera(camera);
     stallMesh.setPosition({ -100.f, -10.f, -10.f });
