@@ -11,6 +11,7 @@
 
 class FrameBuffer
 {
+    bool hasDepthBuffer;
     glm::vec3 backgroundColor;
     GLuint oldFBO;
     std::array<GLint, 4> oldViewport;
@@ -30,10 +31,10 @@ public:
 
     void setTextureScaleType(unsigned int scaleType);
     ~FrameBuffer();
-    FrameBuffer(int _width, int _height);
+    FrameBuffer(int _width, int _height, bool hasDepthBuffer = false);
     void use();
     void clear(float _alpha = 1.0f);
-    void useViewPort();
+    void setPixel(int x, int y, glm::vec3 color);
 
 };
 

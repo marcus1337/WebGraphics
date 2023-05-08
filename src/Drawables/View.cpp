@@ -1,8 +1,8 @@
 #include "Drawables/View.h"
 #include "Drawables/Rect.h"
 
-View::View(int _pixelWidth, int _pixelHeight) : Drawable(frameBuffer.shader),
-frameBuffer(_pixelWidth, _pixelHeight), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
+View::View(int _pixelWidth, int _pixelHeight, bool depthBuffer) : Drawable(frameBuffer.shader),
+frameBuffer(_pixelWidth, _pixelHeight, depthBuffer), pixelWidth(_pixelWidth), pixelHeight(_pixelHeight) {
     model.setScale({ (float)_pixelWidth, (float)_pixelHeight, 1.0f });
 
 }
@@ -63,3 +63,8 @@ int View::getPixelWidth() {
 int View::getPixelHeight() {
     return pixelHeight;
 }
+
+void View::setPixel(int x, int y, glm::vec3 color) {
+    frameBuffer.setPixel(x, y, color);
+}
+

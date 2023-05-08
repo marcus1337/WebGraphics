@@ -13,10 +13,11 @@ class View : public Drawable {
     int pixelWidth, pixelHeight;
 
 public:
-    View(int _pixelWidth, int _pixelHeight);
+    View(int _pixelWidth, int _pixelHeight, bool depthBuffer = false);
     ~View();
 
     void setRenderPixelPerfect();
+    void setPixel(int x, int y, glm::vec3 color);
 
     void clear();
     void paint(Drawable& drawable);

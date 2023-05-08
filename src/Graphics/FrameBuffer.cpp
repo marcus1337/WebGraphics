@@ -3,7 +3,7 @@
 #include "Engine/Engine.h"
 #include "Graphics/Shaders/Model.h"
 
-FrameBuffer::FrameBuffer(int _width, int _height) : width(_width), height(_height)
+FrameBuffer::FrameBuffer(int _width, int _height, bool hasDepthBuffer) : width(_width), height(_height), hasDepthBuffer(hasDepthBuffer)
 {
     setBuffers();
     shader.setTexture(texture, Shader::getDefaultShaderTextureName());
@@ -44,7 +44,8 @@ void FrameBuffer::setDepthBuffer() {
 
 void FrameBuffer::setBuffers() {
     setFBO();
-    setDepthBuffer();
+    if(hasDepthBuffer)
+        setDepthBuffer();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -82,4 +83,9 @@ void FrameBuffer::loadState() {
     glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
 }
 
-
+void FrameBuffer::setPixel(int x, int y, glm::vec3 color) {
+    use();
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGB, GL_FLOAT, glm::value_ptr(color));
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
