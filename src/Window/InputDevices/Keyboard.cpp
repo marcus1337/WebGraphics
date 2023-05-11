@@ -3,7 +3,7 @@
 
 void Keyboard::clearEvents() {
     for (std::size_t i = 0; i < NUM_KEYS; i++) {
-        buttons->clearEvents();
+        buttons[i].clearEvents();
     }
 }
 
