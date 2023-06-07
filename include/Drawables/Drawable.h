@@ -33,8 +33,6 @@ public:
     int getY();
     int getWidth();
     int getHeight();
-    void setCamera(std::shared_ptr<Camera> camera);
-    std::shared_ptr<Camera> getCamera();
     void setShaderProgram(std::string shaderProgramName);
     void setUniform(std::string key, float value);
 

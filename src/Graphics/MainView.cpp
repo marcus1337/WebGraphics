@@ -31,34 +31,33 @@ std::pair<int, int> MainView::getAspectRatio() {
     return {widthRatio, heightRatio };
 }
 
-int MainView::getWidth() {
-    const int minSize = 25;
-    if (window.getWidth() < minSize || window.getHeight() < minSize)
-        return minSize;
-
+std::pair<int, int> MainView::getFrameDimension() {
     auto aspectRatio = getAspectRatio();
-    float widthRatio = (float) aspectRatio.first;
-    float heightRatio = (float) aspectRatio.second;
+    float widthRatio = static_cast<float>(aspectRatio.first);
+    float heightRatio = static_cast<float>(aspectRatio.second);
 
-    if ((int)((window.getWidth() / widthRatio) * heightRatio) <= window.getHeight())
-        return window.getWidth();
-    else
-        return (int)((window.getHeight() / heightRatio) * widthRatio);
+    int adjustedWidth = (int)((window.getHeight() / heightRatio) * widthRatio);
+    int adjustedHeight = (int)((window.getWidth() / widthRatio) * heightRatio);
+    int width = adjustedHeight <= window.getHeight() ? window.getWidth() : adjustedWidth;
+    int height = adjustedWidth <= window.getWidth() ? window.getHeight() : adjustedHeight;
+    
+    return { width, height };
+}
+
+bool MainView::isWindowMinimized() {
+    return window.getWidth() < minFrameSize || window.getHeight() < minFrameSize;
+}
+
+int MainView::getWidth() {
+    if (isWindowMinimized())
+        return minFrameSize;
+    return getFrameDimension().first;
 }
 
 int MainView::getHeight() {
-    const int minSize = 25;
-    if (window.getWidth() < minSize || window.getHeight() < minSize)
-        return minSize;
-
-    auto aspectRatio = getAspectRatio();
-    float widthRatio = (float)aspectRatio.first;
-    float heightRatio = (float)aspectRatio.second;
-
-    if ((int)((window.getWidth() / widthRatio) * heightRatio) <= window.getHeight())
-        return (int)((window.getWidth() / widthRatio) * heightRatio);
-    else
-        return window.getHeight();
+    if (isWindowMinimized())
+        return minFrameSize;
+    return getFrameDimension().second;
 }
 
 void MainView::setSize(int width, int height) {
@@ -104,14 +103,9 @@ void MainView::setFrameModel() {
     frame->shader.setModel(model);
 }
 
-void MainView::setFrameCamera() {
-    auto windowCamera = frame->shader.getCamera();
-    windowCamera->setScreenSize(window.getWidth(), window.getHeight());
-}
-
 void MainView::render() {
     useDefaultFramebuffer();
     setFrameModel();
-    setFrameCamera();
+    frame->shader.setViewSize(window.getWidth(), window.getHeight());
     ObjectContainer::getInstance().imageObj.draw(frame->shader);
 }

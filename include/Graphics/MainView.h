@@ -19,8 +19,10 @@ class MainView {
     void render();
     void useDefaultFramebuffer();
     void setFrameModel();
-    void setFrameCamera();
     std::pair<int, int> getAspectRatio();
+    std::pair<int, int> getFrameDimension();
+    bool isWindowMinimized();
+    const int minFrameSize = 10;
 
 public:
     MainView(Canvas& _window);

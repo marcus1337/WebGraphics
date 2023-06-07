@@ -23,7 +23,7 @@ class Shader{
 protected:
     IOShader& ioShader;
     std::string programName;
-    std::shared_ptr<Camera> camera;
+    Camera camera;
     void setMatrixUniforms();
     void setColorUniforms();
     void setExtraUniforms();
@@ -42,9 +42,8 @@ public:
     Shader(std::string programName);
     virtual ~Shader();
 
+    void setViewSize(int width, int height);
     void setModel(Model _model);
-    void setCamera(std::shared_ptr<Camera> _camera);
-    std::shared_ptr<Camera> getCamera();
     void setProgram(std::string _programName);
     void setUniforms();
     void setFloatUniform(std::string name, float value);
