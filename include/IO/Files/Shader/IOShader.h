@@ -24,7 +24,6 @@ private:
 
     ShaderCode getShaderCode(std::string shaderFilePath, std::string shaderFileExtension);
     std::string readShaderSource(const std::string& shaderFilePath);
-    bool isShaderFile(const std::string& fileName);
     bool isFragmentShaderExtension(const std::string& extension);
     bool isVertexShaderExtension(const std::string& extension);
     uint32_t getShaderValue(const std::string& extension);

@@ -21,10 +21,3 @@ ModelObject* ObjectContainer::getModelObject(std::string model) {
     return modelObjects[model].get();
 }
 
-PoseModelObject* ObjectContainer::getPoseModelObject(const std::string& objName, const std::string& daeName) {
-    auto key = std::make_pair(objName, daeName);
-    if (!poseModelObjects.contains(key)) {
-        poseModelObjects[key] = std::shared_ptr<PoseModelObject>(new PoseModelObject(objName, daeName));
-    }
-    return poseModelObjects.at(key).get();
-}

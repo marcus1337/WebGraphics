@@ -66,7 +66,6 @@ add_library(${PROJECT_NAME} STATIC
 "src/Drawables/Rect.cpp"
 "src/Drawables/View.cpp"
 "src/Drawables/Mesh.cpp"
-"src/Drawables/PoseMesh.cpp"
 
 "src/Engine/Looper.cpp"
 "src/Engine/Engine.cpp"
@@ -80,7 +79,6 @@ add_library(${PROJECT_NAME} STATIC
 "src/Graphics/Objects/TextObject.cpp"
 "src/Graphics/Objects/VertexObject.cpp"
 "src/Graphics/Objects/ModelObject.cpp"
-"src/Graphics/Objects/PoseModelObject.cpp"
 "src/Graphics/Objects/ObjectContainer.cpp"
 "src/Graphics/Shaders/ImageShader.cpp"
 "src/Graphics/Shaders/Shader.cpp"
@@ -97,10 +95,6 @@ add_library(${PROJECT_NAME} STATIC
 "src/IO/Files/Shader/ShaderCompiler.cpp"
 "src/IO/Files/OBJ/IOOBJ.cpp"
 "src/IO/Files/OBJ/ModelData.cpp"
-
-"src/IO/Files/Pose/IOPose.cpp"
-"src/IO/Files/Pose/Animation.cpp"
-"src/IO/Files/Pose/TinyModel.cpp"
 
 "src/IO/Files/Texture/IOTexture.cpp"
 "src/IO/Files/Texture/lodepng.cpp"

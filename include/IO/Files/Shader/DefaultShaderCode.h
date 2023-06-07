@@ -14,7 +14,6 @@ public:
     std::vector<ShaderCode> getRectangleCode();
     std::vector<ShaderCode> getTextCode();
     std::vector<ShaderCode> getModelCode();
-    std::vector<ShaderCode> getAnimatedModelCode();
 
 };
 

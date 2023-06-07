@@ -56,5 +56,4 @@ std::map<std::string, FileType> FilePath::extensionMap = {
     {".wav", FileType::WAV},
     {".lua", FileType::LUA},
     {".obj", FileType::OBJ},
-    {".gltf", FileType::GLTF}
 };

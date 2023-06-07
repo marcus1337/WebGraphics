@@ -44,7 +44,7 @@ void FrameBuffer::setDepthBuffer() {
 
 void FrameBuffer::setBuffers() {
     setFBO();
-    setDepthBuffer();
+    //setDepthBuffer();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

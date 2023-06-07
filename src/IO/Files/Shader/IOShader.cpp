@@ -35,8 +35,6 @@ void IOShader::addDefaultShaderCode() {
         addShaderCode(shaderCode, "text");
     for (ShaderCode shaderCode : defaultCode.getModelCode())
         addShaderCode(shaderCode, "model");
-    for (ShaderCode shaderCode : defaultCode.getAnimatedModelCode())
-        addShaderCode(shaderCode, "animated_model");
 }
 
 bool IOShader::isFragmentShaderExtension(const std::string &extension)
